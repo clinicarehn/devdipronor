@@ -225,6 +225,7 @@
 		<p class="nota">N° correlativo de orden de compra excenta __________________</p>
 		<p class="nota">N° correlativo constancia de registro Exonerado __________________</p>
 		<p class="nota">N° identificativo del registro de la SAG __________________</p>	
+		<!--
 		<?php
 			if($consulta_registro["estado"] == 2){
 		?>
@@ -232,6 +233,7 @@
 		<?php
 			}
 		?>
+		-->
 		<p class="nota"><center><b>Original:</b> Cliente</center></p>	
 		<p class="nota"><center><b>Copia:</b> Emisor</center></p>			
 		<h4 class="label_gracias"><?php  echo nl2br($consulta_registro["eslogan"]); ?></h4>
