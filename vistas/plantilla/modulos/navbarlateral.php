@@ -1,4 +1,4 @@
-<nav class="sb-sidenav accordion bg-color-navarlateral" id="sidenavAccordion">
+<nav class="sb-sidenav accordion bg-color-verde" id="sidenavAccordion">
 	<!--sb-sidenav-menu-heading-->
     <!--<div class="sb-sidenav-footer link"> 
         <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="100%" alt="We share" loading="lazy"></center>
