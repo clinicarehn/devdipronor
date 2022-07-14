@@ -20,7 +20,7 @@
 			"productos_id"=>$row['productos_id'],
 			"barCode"=>$row['barCode'],
 			"nombre"=>$row['nombre'],
-			"cantidad"=>$row['cantidad'],
+			"cantidad"=>1,
 			"medida"=>$row['medida'],
 			"tipo_producto_id"=>$row['tipo_producto_id'],
 			"precio_venta"=>$row['precio_venta'],

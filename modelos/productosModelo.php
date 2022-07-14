@@ -26,8 +26,8 @@
 			return $result;			
 		}
 		
-		protected function valid_productos_modelo($nombre){
-			$query = "SELECT productos_id FROM productos WHERE nombre = '$nombre'";
+		protected function valid_productos_modelo($nombre,$bar_code_product){
+			$query = "SELECT productos_id FROM productos WHERE nombre = '$nombre' and barCode = '$bar_code_product'";
 
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			

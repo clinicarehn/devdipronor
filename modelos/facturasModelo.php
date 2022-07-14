@@ -17,7 +17,8 @@
 		protected function agregar_detalle_facturas_modelo($datos){
 			$facturas_detalle_id = mainModel::correlativo("facturas_detalle_id", "facturas_detalles");
 			$insert = "INSERT INTO facturas_detalles 
-				VALUES('$facturas_detalle_id','".$datos['facturas_id']."','".$datos['productos_id']."','".$datos['cantidad']."','".$datos['precio']."','".$datos['isv_valor']."','".$datos['descuento']."')";
+				VALUES('$facturas_detalle_id','".$datos['facturas_id']."','".$datos['productos_id']."',
+				'".$datos['cantidad']."','".$datos['precio']."','".$datos['isv_valor']."','".$datos['descuento']."','".$datos['medida']."')";
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 		
 			return $result;			
@@ -191,6 +192,23 @@
 
 			return $result;			
 		}		
+
+		protected function getMedidaProducto($productos_id){
+			$query = "SELECT
+			productos.productos_id,
+			medida.nombre AS medida,
+			medida.medida_id,
+			medida.estado
+			FROM
+			medida
+			INNER JOIN productos ON medida.medida_id = productos.medida_id	
+			WHERE productos.productos_id = '".$productos_id."'
+			AND medida.estado = 1";
+		
+			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+		
+			return $result;				
+		}
 
 		protected function cantidad_producto_modelo($productos_id){
 			$result = mainModel::getCantidadProductos($productos_id);

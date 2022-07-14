@@ -559,7 +559,7 @@ function getEmpresaProductos(){
      });
 }
 
-function getMedida(){
+function getMedida(count){
     var url = '<?php echo SERVERURL;?>core/getMedida.php';
 
 	$.ajax({
@@ -569,6 +569,8 @@ function getMedida(){
         success: function(data){
 		    $('#formProductos #medida').html("");
 			$('#formProductos #medida').html(data);
+			$('#medidaPurchase_'+count).html(data);
+			$('#medida_'+count).html(data);
 		}
      });
 }

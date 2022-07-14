@@ -119,7 +119,7 @@
 			
 			//EVALUAMOS QUE LA VARIABLE DEL ARCHIVO ESTE EN FALSE PARA ALMACENAR EL REGISTRO
 			if($file_exist == 0){
-				$result = productosModelo::valid_productos_modelo($nombre);
+				$result = productosModelo::valid_productos_modelo($nombre,$bar_code_product);
 				
 				if($result->num_rows==0){
 					$query = productosModelo::agregar_productos_modelo($datos);							

@@ -13,8 +13,7 @@
 			}
 			
 			$usuario = $_SESSION['colaborador_id_sd'];
-			$empresa_id = $_SESSION['empresa_id_sd'];
-			//$cambioBillValor = $_POST['cambioBillValor'];//ESte no va porque solo existe en el codigo de Maxlab		
+			$empresa_id = $_SESSION['empresa_id_sd'];		
 			//ENCABEZADO DE FACTURA
 			$clientes_id = $_POST['cliente_id'];
 			$colaborador_id = $_POST['colaborador_id'];
@@ -105,6 +104,7 @@
 								$productos_id = $_POST['productos_id'][$i];
 								$productName = $_POST['productName'][$i];
 								$quantity = $_POST['quantity'][$i];
+								$medida= $_POST['medida'][$i];
 								$price_anterior = $_POST['precio_real'][$i];
 								$price = $_POST['price'][$i];
 
@@ -128,7 +128,8 @@
 										"cantidad" => $quantity,				
 										"precio" => $price,
 										"isv_valor" => $isv_valor,
-										"descuento" => $discount,				
+										"descuento" => $discount,
+										"medida" => $medida,	
 									];	
 
 									$total_valor += ($price * $quantity);
@@ -158,9 +159,20 @@
 											if($result_productos->num_rows>0){
 												$consulta = $result_productos->fetch_assoc();
 												$cantidad_productos = $consulta['cantidad'];
+												$id_producto_superior = intval($consulta['id_producto_superior']);
 											}	
 
-											$cantidad = $cantidad_productos - $quantity;																			
+												$medidaName = strtolower($medida);
+
+												if($medidaName == "ton"){ // Medida en Toneladas
+													$quantity = $quantity * 2205;
+												}
+											
+											$cantidad = $cantidad_productos - $quantity;	
+
+											if($id_producto_superior != 0 || $id_producto_superior != 'null'){
+												$productos_id = $id_producto_superior;
+											}
 
 											//ACTUALIZAMOS LA NUEVA CANTIDAD EN LA ENTIDAD PRODUCTOS
 											facturasModelo::actualizar_cantidad_productos_modelo($productos_id, $cantidad);

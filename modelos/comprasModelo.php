@@ -19,7 +19,8 @@
 		protected function agregar_detalle_compras($datos){
 			$compras_detalles_id = mainModel::correlativo("compras_detalles_id", "compras_detalles");
 			$insert = "INSERT INTO compras_detalles 
-				VALUES('$compras_detalles_id','".$datos['compras_id']."','".$datos['productos_id']."','".$datos['cantidad']."','".$datos['precio']."','".$datos['isv_valor']."','".$datos['descuento']."')";
+				VALUES('$compras_detalles_id','".$datos['compras_id']."','".$datos['productos_id']."','".$datos['cantidad']."',
+				'".$datos['precio']."','".$datos['isv_valor']."','".$datos['descuento']."','".$datos['medida']."')";
 
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			

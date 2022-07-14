@@ -151,6 +151,7 @@ var listar_movimientos = function(){
     	}
 	});
 	table_movimientos.search('').draw();
+	table_movimientos.order([0,'desc'])
 	$('#buscar').focus();
 
 	//transferencia_producto_dataTable("#dataTablaMovimientos tbody",table_movimientos);

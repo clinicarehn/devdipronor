@@ -2125,7 +2125,7 @@
 
 		public function getCantidadProductos($productos_id){
 
-			$query = "SELECT cantidad
+			$query = "SELECT cantidad,id_producto_superior
 
 				FROM productos
 
@@ -2394,20 +2394,16 @@
 
 		public function getMedida(){
 
-			$query = "SELECT *
-
-				FROM medida
-
-				WHERE estado = 1";
-
-
-
+			$query = "
+			SELECT
+			*
+			FROM
+			medida
+			WHERE estado = 1
+			ORDER BY medida_id ASC
+			";
 			$result = self::connection()->query($query);
-
-
-
 			return $result;
-
 		}
 
 
@@ -3909,7 +3905,7 @@
 				on p.almacen_id = bo.almacen_id
 				WHERE p.tipo_producto_id = '".$datos['tipo_producto_id']."' AND CAST(m.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
 				$bodega
-				ORDER BY m.fecha_registro ASC";
+				ORDER BY m.fecha_registro DESC";
 
 			$result = self::connection()->query($query);
 
