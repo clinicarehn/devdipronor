@@ -8,7 +8,13 @@
 	class productosModelo extends mainModel{
 		protected function agregar_productos_modelo($datos){
 			$productos_id = mainModel::correlativo("productos_id", "productos");
-			$insert = "INSERT INTO productos VALUES('$productos_id','".$datos['bar_code_product']."','".$datos['almacen_id']."','".$datos['medida_id']."','".$datos['categoria_id']."','".$datos['nombre']."','".$datos['descripcion']."','".$datos['tipo_producto']."','".$datos['cantidad']."','".$datos['precio_compra']."','".$datos['porcentaje_venta']."','".$datos['precio_venta']."','".$datos['cantidad_mayoreo']."','".$datos['precio_mayoreo']."','".$datos['cantidad_minima']."','".$datos['cantidad_maxima']."','".$datos['estado']."','".$datos['isv_venta']."','".$datos['isv_compra']."','".$datos['colaborador_id']."','".$datos['file']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO productos VALUES('$productos_id','".$datos['bar_code_product']."','".$datos['almacen_id']."',
+			'".$datos['medida_id']."','".$datos['categoria_id']."','".$datos['nombre']."','".$datos['descripcion']."',
+			'".$datos['tipo_producto']."','".$datos['cantidad']."','".$datos['precio_compra']."','".$datos['porcentaje_venta']."',
+			'".$datos['precio_venta']."','".$datos['cantidad_mayoreo']."','".$datos['precio_mayoreo']."','".$datos['cantidad_minima']."',
+			'".$datos['cantidad_maxima']."','".$datos['estado']."','".$datos['isv_venta']."','".$datos['isv_compra']."',
+			'".$datos['colaborador_id']."','".$datos['file']."','".$datos['empresa']."','".$datos['fecha_registro']."',
+			'".$datos['id_producto_superior']."')";
 			
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			

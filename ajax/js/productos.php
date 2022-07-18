@@ -119,8 +119,8 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#delete_producto').hide();
 				$('#formProductos #proceso_productos').val("Editar");
 				evaluarCategoriaDetalle(datos[13]);
-				$('#formProductos #medida').val(datos[0]);
-				$('#formProductos #almacen').val(datos[1]);
+				$('#formProductos #medida').val(datos[1]);
+				$('#formProductos #almacen').val(datos[0]);
 				$('#formProductos #producto').val(datos[2]);
 				$('#formProductos #descripcion').val(datos[3]);
 				$('#formProductos #cantidad').val(datos[4]);
@@ -134,7 +134,8 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#formProductos #producto_categoria').val(datos[17]);
 				$('#formProductos #precio_mayoreo').val(datos[18]);
 				$('#formProductos #cantidad_mayoreo').val(datos[19]);
-				$('#formProductos #bar_code_product').val(datos[20]);	
+				$('#formProductos #bar_code_product').val(datos[20]);
+				$('#formProductos #producto_superior').val(datos[21]);
 
 				if(datos[8] == 1){
 					$('#formProductos #producto_isv_factura').attr('checked', true);
@@ -171,7 +172,8 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#formProductos #producto_activo').attr("disabled", false);
 
 				//DESHABILITAR OBJETOS
-				$('#formProductos #medida').attr("disabled", true);	
+				$('#formProductos #medida').attr("disabled", true);
+				$('#formProductos #producto_superior').attr("disabled", true);	
 				$('#formProductos #almacen').attr("disabled", true);				
 				$('#formProductos #tipo_producto').attr("disabled", true);
 				$('#formProductos #producto_categoria').attr("disabled", true);

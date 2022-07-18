@@ -19,6 +19,7 @@ $(document).ready(function() {
     getMedida(); 
     getTipoProducto();
     getEmpresaProductos();  
+	getProductos();
     getCategoriaProductos(); 	
 	getEmpresaColaboradores();
 	getPuestoColaboradores();
@@ -622,6 +623,20 @@ function getCategoriaProductos(){
         success: function(data){
 		    $('#formProductos #producto_categoria').html("");
 			$('#formProductos #producto_categoria').html(data);
+		}
+     });
+}
+
+function getProductos(){
+    var url = '<?php echo SERVERURL;?>core/getProductos.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    //$('#formProductos #producto_categoria').html("");
+			$('#producto_superior').html(data);
 		}
      });
 }

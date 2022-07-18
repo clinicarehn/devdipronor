@@ -1763,13 +1763,24 @@
 				</div>
 				
 				<div class="form-row">
-					<div class="col-md-6 mb-3">
+					<div class="col-md-3 mb-3">
 					  <label>Empresa <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
 						  <select id="producto_empresa_id" name="producto_empresa_id" class="custom-select" data-toggle="tooltip" data-placement="top" required>
 							<option value="">Seleccione</option>
 						  </select>
 						  <div class="input-group-append" id="buscar_producto_empresa">				
+							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
+						  </div>
+					   </div>
+					</div>	
+					<div class="col-md-3 mb-3">
+					  <label>Superior</label>
+					  <div class="input-group mb-3">
+						  <select id="producto_superior" name="producto_superior" class="custom-select" data-toggle="tooltip" data-placement="top">
+							<option value="">Seleccione</option>
+						  </select>
+						  <div class="input-group-append" id="buscar_producto_superior">				
 							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
 						  </div>
 					   </div>

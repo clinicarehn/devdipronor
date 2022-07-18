@@ -14,6 +14,7 @@
 			$bar_code_product = mainModel::cleanStringStrtoupper($_POST['bar_code_product']);
 			$almacen_id = mainModel::cleanStringConverterCase($_POST['almacen']);
 			$medida_id = mainModel::cleanStringConverterCase($_POST['medida']);
+			$producto_superior = mainModel::cleanString($_POST['producto_superior']);
 			$categoria_id = mainModel::cleanStringConverterCase($_POST['producto_categoria']);
 			$tipo_producto = mainModel::cleanStringConverterCase($_POST['tipo_producto']);			
 			$nombre = mainModel::cleanString($_POST['producto']);
@@ -96,6 +97,7 @@
 				"bar_code_product" => $bar_code_product,
 				"almacen_id" => $almacen_id,
 				"medida_id" => $medida_id,
+				"id_producto_superior" =>$producto_superior,
 				"categoria_id" => $categoria_id,
 				"tipo_producto" => $tipo_producto,				
 				"nombre" => $nombre,
@@ -156,7 +158,7 @@
 						}
 						
 						$alert = [
-							"alert" => "clear",
+							"alert" => "reload",
 							"title" => "Registro almacenado",
 							"text" => "El registro se ha almacenado correctamente",
 							"type" => "success",
