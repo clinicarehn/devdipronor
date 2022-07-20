@@ -3044,10 +3044,19 @@
 
 		public function getDetalleFactura($noFactura){
 
-			$query = "SELECT p.barCode AS 'barCode', p.nombre AS 'producto', fd.cantidad As 'cantidad', fd.precio AS 'precio', fd.descuento AS 'descuento', fd.productos_id  AS 'productos_id', fd.isv_valor AS 'isv_valor'
-				FROM facturas_detalles AS fd
-				INNER JOIN productos AS p
-				ON fd.productos_id = p.productos_id
+			$query = "SELECT
+			p.barCode AS 'barCode',
+			p.nombre AS 'producto',
+			fd.cantidad AS 'cantidad',
+			fd.precio AS 'precio',
+			fd.descuento AS 'descuento',
+			fd.productos_id AS 'productos_id',
+			fd.isv_valor AS 'isv_valor',
+			med.nombre As 'medida'
+				FROM
+			facturas_detalles AS fd
+				INNER JOIN productos AS p ON fd.productos_id = p.productos_id
+				INNER JOIN medida as med ON P.medida_id = med.medida_id
 				WHERE fd.facturas_id = '$noFactura'
 				GROUP BY fd.productos_id";
 
@@ -3358,13 +3367,18 @@
 
 		public function getDetalleCompras($compras_id){
 
-			$query = "SELECT p.nombre AS 'producto', cd.cantidad As 'cantidad', cd.precio AS 'precio', cd.descuento AS 'descuento', cd.productos_id  AS 'productos_id', cd.isv_valor AS 'isv_valor'
-
-				FROM compras_detalles AS cd
-
-				INNER JOIN productos AS p
-
-				ON cd.productos_id = p.productos_id
+			$query = "SELECT
+			p.nombre AS 'producto',
+			cd.cantidad AS 'cantidad',
+			cd.precio AS 'precio',
+			cd.descuento AS 'descuento',
+			cd.productos_id AS 'productos_id',
+			cd.isv_valor AS 'isv_valor',
+			med.nombre AS 'medida'
+			FROM
+				compras_detalles AS cd
+			INNER JOIN productos AS p ON cd.productos_id = p.productos_id
+			INNER JOIN medida as med ON p.medida_id = med.medida_id
 
 				WHERE cd.compras_id = '$compras_id'
 
