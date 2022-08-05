@@ -360,6 +360,26 @@
 			return $sql;
 		}
 
+		public function abonos_cxc_cliente($facturas_id){
+			$query = "SELECT
+			pagos.facturas_id,
+			pagos.fecha,
+			pagos.importe as abono,
+			pagos_detalles.descripcion1,
+			facturas.importe,
+			clientes.nombre as cliente
+			FROM
+			pagos
+			LEFT JOIN pagos_detalles ON pagos.pagos_id = pagos_detalles.pagos_id
+			INNER JOIN facturas ON facturas.facturas_id = pagos.facturas_id
+			INNER JOIN clientes ON facturas.clientes_id = clientes.clientes_id
+				WHERE pagos.facturas_id = '$facturas_id'";
+
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+
+			return $sql;
+		}
+
 
 		public function valid_pago_compras($compras_id){
 			$query = "SELECT pagoscompras_id
@@ -978,6 +998,7 @@
 
             }elseif($datos['alert'] == "clear_pay"){
 
+				echo $datos['alert'];
                 $alerta = "
 
                     <script>
@@ -4132,7 +4153,10 @@
 
 		public function getDatosFactura($facturas_id){
 
-			$query = "SELECT f.facturas_id AS facturas_id, DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.clientes_id AS 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn', CONCAT(ven.nombre,' ',ven.apellido) AS 'profesional', f.colaboradores_id AS 'colaborador_id', f.estado AS 'estado', f.fecha AS 'fecha_factura', f.notas AS 'notas'
+			$query = "SELECT f.facturas_id AS facturas_id, DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha',
+				 c.clientes_id AS 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn',
+				 CONCAT(ven.nombre,' ',ven.apellido) AS 'profesional', f.colaboradores_id AS 'colaborador_id',
+				  f.estado AS 'estado', f.fecha AS 'fecha_factura', f.notas AS 'notas',tipo_factura AS 'credito'
 
 				FROM facturas AS f
 
@@ -4220,10 +4244,12 @@
 			if($datos['tipo_busqueda'] == 1){
 				$where = "WHERE cc.estado = 1";
 			}else{
-				$where = "WHERE cc.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND cc.estado = 1";
+				$where = "WHERE cc.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND cc.estado = '".$datos['tipo_busqueda']."'";
 			}
 
-			$query = "SELECT cc.cobrar_clientes_id AS 'cobrar_clientes_id', f.facturas_id AS 'facturas_id', c.nombre AS 'cliente', f.fecha AS 'fecha', cc.saldo AS 'saldo', CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero'
+			$query = "SELECT cc.cobrar_clientes_id AS 'cobrar_clientes_id', f.facturas_id AS 'facturas_id', c.nombre AS 'cliente',
+				 f.fecha AS 'fecha', cc.saldo AS 'saldo', CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', cc.estado,
+				 f.importe
 				FROM cobrar_clientes AS cc
 				INNER JOIN clientes AS c
 				ON cc.clientes_id = c.clientes_id

@@ -1459,14 +1459,16 @@ var listar_cuentas_por_cobrar_clientes = function(){
 			}
 		},
 		"columns":[
-			{"defaultContent":"<button class='table_pay pay btn btn-dark ocultar'><span class='fas fa-hand-holding-usd fa-lg'></span></button>"},
-			{"defaultContent":"<button class='table_pay abono btn btn-dark ocultar'><span class='fas fa-cash-register fa-lg'></span></button>"},
+			
 			{"data":"fecha"},
 			{"data":"cliente"},
 			{"data":"numero"},
 			{"data":"credito"},
 			{"data":"abono"},
-			{"data":"saldo"}
+			{"data":"saldo"},
+			{"defaultContent":"<button class='table_abono btn btn-dark'><span class='fas fa-cash-register fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_reportes abono_factura btn btn-dark ocultar'><span class='fa fa-money-bill-wave fa-solid'></span></button>"}
 		],
 		"pageLength": 10,
         "lengthMenu": lengthMenu,
@@ -1482,8 +1484,15 @@ var listar_cuentas_por_cobrar_clientes = function(){
 		  { width: "24.5%", targets: 4 },
 		  { width: "12.5%", targets: 5 },
 		  { width: "12.5%", targets: 6 },
-		  { width: "12.5%", targets: 7 }		  	  
-		],			
+		  { width: "10%", targets: 7 } 	  
+		],		
+		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
+        	$('td', nRow).addClass(aData['color']);
+			$('#credito-cxc').html('L. '+ aData['total_credito'])
+			$('#abono-cxc').html('L. '+ aData['total_abono'])
+			$('#total-footer-cxc').html('L. '+ aData['total_pendiente'])
+		
+		},
 		"buttons":[
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
@@ -1533,6 +1542,18 @@ var listar_cuentas_por_cobrar_clientes = function(){
 	$('#buscar').focus();
 
 	registrar_pago_clientes_dataTable("#dataTableCuentasPorCobrarClientes tbody", table_cuentas_por_cobrar_clientes);
+	registrar_abono_cxc_clientes_dataTable("#dataTableCuentasPorCobrarClientes tbody", table_cuentas_por_cobrar_clientes);
+	ver_abono_cxc_clientes_dataTable("#dataTableCuentasPorCobrarClientes tbody", table_cuentas_por_cobrar_clientes);
+	view_reporte_facturas_dataTable("#dataTableCuentasPorCobrarClientes tbody", table_cuentas_por_cobrar_clientes);
+}
+
+var view_reporte_facturas_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.print_factura");
+	$(tbody).on("click", "button.print_factura", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		printBillReporteVentas(data.facturas_id);
+	});
 }
 
 var registrar_pago_clientes_dataTable = function(tbody, table){
@@ -1540,6 +1561,34 @@ var registrar_pago_clientes_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.table_pay", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 		pago(data.facturas_id);
+	});
+}
+
+var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.table_abono");
+	$(tbody).on("click", "button.table_abono", function(){
+		var data = table.row( $(this).parents("tr") ).data();
+		if(data.estado == 2){//no tiene acceso a la accion si la factura ya fue cancelada
+							
+				swal({
+					title: 'Error', 
+					text: 'No puede realizar esta accion a las facturas canceladas!',
+					type: 'error', 
+					confirmButtonClass: 'btn-danger'
+				});	
+		}else{
+			pago(data.facturas_id,data.saldo);
+		}
+	});
+}
+
+var ver_abono_cxc_clientes_dataTable = function(tbody, table){
+	
+	$(tbody).off("click", "button.abono_factura");
+	$(tbody).on("click", "button.abono_factura", function(){
+		var data = table.row( $(this).parents("tr") ).data();
+		$('#ver_abono_cxc').modal('show');
+		getAbonosCXC(data.facturas_id);
 	});
 }
 
@@ -1910,7 +1959,7 @@ $('#formClientes .switch').change(function(){
 //FIN ACCIONES FROMULARIO CLIENTES
 
 //INICIO MODAL REGSITRAR PAGO FACTURACIÓN CLIENTES
-function pago(facturas_id){
+function pago(facturas_id,saldo){
 	var url = '<?php echo SERVERURL;?>core/editarPagoFacturas.php';
 	
 	$.ajax({
@@ -1923,17 +1972,31 @@ function pago(facturas_id){
 			$("#customer-name-bill").html("<b>Cliente:</b> " + datos[0]);
 		    $("#customer_bill_pay").val(datos[3]);
 			$('#bill-pay').html("L. " + parseFloat(datos[3]).toFixed(2));
+
 			
 			//EFECTIVO
 			$('#formEfectivoBill')[0].reset();			
 			$('#formEfectivoBill #monto_efectivo').val(datos[3]);
 			$('#formEfectivoBill #factura_id_efectivo').val(facturas_id);
+			$('#formEfectivoBill #tipo_factura_efectivo').val(datos[5]);
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
 			
+			if(datos[5] == '2'){
+				$('#bill-pay').html(saldo);
+				$('#monto_efectivo_tarjeta').attr('type','number');
+				$('#tab5').hide();
+				$('#importe_transferencia').attr('type','number');
+				$('#importe_cheque').attr('type','number');
+
+			}
+
+
 			//TARJETA
 			$('#formTarjetaBill')[0].reset();
 			$('#formTarjetaBill #monto_efectivo').val(datos[3]);
+			$('#formTarjetaBill #importe_tarjeta').val(datos[3]);
 			$('#formTarjetaBill #factura_id_tarjeta').val(facturas_id);
+			$('#formTarjetaBill #tipo_factura').val(datos[5]);
 			$('#formTarjetaBill #pago_efectivo').attr('disabled', true);	
 
 			//MIXTO
@@ -1946,13 +2009,15 @@ function pago(facturas_id){
 			$('#formTransferenciaBill')[0].reset();
 			$('#formTransferenciaBill #monto_efectivo').val(datos[3]);
 			$('#formTransferenciaBill #factura_id_transferencia').val(facturas_id);
+			$('#formTransferenciaBill #tipo_factura_transferencia').val(datos[5]);
 			$('#formTransferenciaBill #pago_efectivo').attr('disabled', true);
 			
 			//CHEQUES
 			$('#formChequeBill')[0].reset();
 			$('#formChequeBill #monto_efectivo').val(datos[3]);
 			$('#formChequeBill #factura_id_cheque').val(facturas_id);
-			$('#formChequeBill #pago_efectivo').attr('disabled', true);			
+			$('#formChequeBill #pago_efectivo').attr('disabled', true);	
+			$('#formChequeBill #tipo_factura_cheque').val(datos[5]);		
 			
 			$('#modal_pagos').modal({
 				show:true,
@@ -2026,10 +2091,15 @@ $(document).ready(function(){
 	$("#formEfectivoBill #efectivo_bill").on("keyup", function(){	
 		var efectivo = parseFloat($("#formEfectivoBill #efectivo_bill").val()).toFixed(2);
 		var monto = parseFloat($("#formEfectivoBill #monto_efectivo").val()).toFixed(2);
+		var credito = $("#formEfectivoBill #tipo_factura_efectivo").val();
+		if(credito == 2 ){
+			$("#formEfectivoBill #cambio_efectivo").val(0)
+			$("#formEfectivoBill #cambio_efectivo").hide();
+		}
 		
 		var total = efectivo - monto;				
 		
-		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){			
+		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2){			
 			$('#formEfectivoBill #cambio_efectivo').val(parseFloat(total).toFixed(2));
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', false);				
 		}else{
@@ -2071,10 +2141,46 @@ function getBanco(){
 
 		    $('#formChequeBill #bk_nm_chk').html("");
 			$('#formChequeBill #bk_nm_chk').html(data);
-        }
+			
+        },
+		
      });
 }
 //FIN MODAL REGSITRAR PAGO FACTURACIÓN CLIENTES
+
+//INICIO ABONO CXC
+function getAbonosCXC(factura_id){
+	var url = '<?php echo SERVERURL;?>core/getAbonosCXC.php';
+
+	var table_abonos_cxc = $("#table-modal-abonos").DataTable({
+		"destroy":true,
+		"ajax":{
+			"method":"POST",
+			"url":url,
+			"data":{"factura_id": factura_id},
+		},
+		"columns":[
+			{"data":"fecha"},
+			{"data":"descripcion"},
+			{"data":"abono"},
+		],
+		
+		"columnDefs": [
+		  { width: "25%", targets: 0 },
+		  { width: "25%", targets: 1 },
+		  { width: "25%", targets: 2 },
+		],
+		"fnRowCallback": function( nRow, res, iDisplayIndex, iDisplayIndexFull ) {         
+        	
+			$('#ver_abono_cxcTitle').html(' '+ res['cliente'])
+			$('#importe-cxc').html('L. '+ res['importe'])
+			$('#total-footer-modal-cxc').html('L. '+ res['total'])
+
+		
+		},
+     });
+}
+//FIN ABONO CXC
 
 //INICIO MODAL REGSITRAR PAGO COMPRAS PROVEEDORES
 function pagoCompras(compras_id){
