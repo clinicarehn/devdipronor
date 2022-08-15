@@ -3068,6 +3068,7 @@
 			$query = "SELECT
 			p.barCode AS 'barCode',
 			p.nombre AS 'producto',
+			p.precio_compra AS costo,
 			fd.cantidad AS 'cantidad',
 			fd.precio AS 'precio',
 			fd.descuento AS 'descuento',
@@ -4005,12 +4006,15 @@
 
 		public function consultaVentas($datos){
 			if($datos['tipo_factura_reporte'] == 1){
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado IN(2,3)";
+				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado IN(1,2,3)";
 			}else{
 				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 4";
 			}
 
-			$query = "SELECT f.facturas_id AS 'facturas_id', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.nombre AS 'cliente', CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', FORMAT(f.importe,2) As 'total', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento'
+			$query = "SELECT 
+				f.facturas_id AS 'facturas_id', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.nombre AS 'cliente', 
+				CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', FORMAT(f.importe,2) As 'total', 
+				(CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento'
 				FROM facturas AS f
 				INNER JOIN clientes AS c
 				ON f.clientes_id = c.clientes_id
@@ -4019,7 +4023,6 @@
 				".$where;
 
 			$result = self::connection()->query($query);
-
 			return $result;
 		}
 

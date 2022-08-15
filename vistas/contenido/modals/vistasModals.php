@@ -742,7 +742,7 @@
 																	<label for="monto_efectivo">Efectivo</label>
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
 																	<input type="hidden" name="factura_id_efectivo" id="factura_id_efectivo"> 
-																	<input type="hidden" name="tipo_factura_efectivo" id="tipo_factura_efectivo" value="1"> 
+																	<input type="hidden" name="tipo_factura" id="tipo_factura_efectivo" value="1"> 
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00"> 
 																	<input type="number" name="efectivo_bill" id="efectivo_bill" class="inputfield" placeholder="0.00" step="0.01">																						
 																</div>

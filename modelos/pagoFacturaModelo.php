@@ -37,7 +37,7 @@
 		}
 		
 		protected function cancelar_pago_modelo($pagos_id){
-			$estado = 2;//FACTURA CANCELADA
+			$estado = 2;//Pago CANCELADA
 			$update = "UPDATE pagos
 				SET
 					estado = '$estado'
@@ -73,7 +73,7 @@
 				WHERE facturas_id = '$facturas_id'";
 			
 			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
-			
+		
 			return $result;					
 		}	
 
@@ -91,7 +91,8 @@
 				WHERE facturas_id = '$facturas_id'";
 			
 			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
-
+			
+			
 			return $result;					
 		}		
 		
@@ -316,19 +317,13 @@
 						
 						//ACTUALIZAMOS EL ESTADO DE LA FACTURA
 						pagoFacturaModelo::update_status_factura($res['facturas_id']);
-						
-						//VERIFICAMOS SI ES UNA CUENTA POR COBRAR, DE SERLO ACTUALIZAMOS EL ESTADO DEL PAGO PARA LA CUENTA POR COBRAR
-						$result_cxc_clientes = pagoFacturaModelo::consultar_factura_cuentas_por_cobrar($res['facturas_id']);
-						
-						if($result_cxc_clientes->num_rows>0){
-							pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($res['facturas_id']);
-						}
+						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($res['facturas_id']);
 						
 						//VALIDAMOS EL TIPO DE FACTURA, SI ES AL CONTADO, VERIFICAMOS EL NUMERO DE FACTURA QUE SIGUE, SI ES AL CREDITO, SOLO CONSULTAMOS EL ULTIMO NUMERO ALMACENADO PARA QUE NO PASE AL SIGUIENTE
 						$tipo_factura = pagoFacturaModelo::consultar_tipo_factura($res['facturas_id'])->fetch_assoc();
 	
 						if($tipo_factura['tipo_factura'] == 1){
-							$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($res['empresa_id_sd'])->fetch_assoc();
+							$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($res['empresa'])->fetch_assoc();
 							$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
 							$numero = $secuenciaFacturacion['numero'];
 							$incremento = $secuenciaFacturacion['incremento'];
@@ -342,7 +337,7 @@
 						//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
 						$datos_update_factura = [
 							"facturas_id" => $res['facturas_id'],
-							"estado" => $res['estado_factura'],
+							"estado" => 2,//pagado
 							"number" => $numero,
 						];	
 	

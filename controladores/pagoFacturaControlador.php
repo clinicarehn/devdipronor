@@ -29,8 +29,8 @@
 			$referencia_pago3 = "";
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$fecha_registro = date("Y-m-d H:i:s");
-			$estado = 1;
-			$estado_factura = $_POST['tipo_factura_efectivo'];//PAGADA 1 //credito 2
+			$estado = 2;
+			$estado_factura = $_POST['tipo_factura'];//PAGADA 1 //credito 2
 			$tarjeta = 	0;			
 			
 			$datos = [
@@ -87,7 +87,7 @@
 			
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$fecha_registro = date("Y-m-d H:i:s");
-			$estado = 1;
+			$estado = 2;
 
 			if($estado_factura == 1){
 				$abono = 0;
@@ -147,7 +147,7 @@
 			
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$fecha_registro = date("Y-m-d H:i:s");
-			$estado = 1;
+			$estado = 2;
 
 			$datos = [
 				"facturas_id" => $facturas_id,
@@ -203,7 +203,7 @@
 			
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$fecha_registro = date("Y-m-d H:i:s");
-			$estado = 1;
+			$estado = 2;
 			
 
 			$datos = [
@@ -259,7 +259,7 @@
 			
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$fecha_registro = date("Y-m-d H:i:s");
-			$estado = 1;
+			$estado = 2;
 			$abono = $_POST['importe'];
 			
 			$datos = [
