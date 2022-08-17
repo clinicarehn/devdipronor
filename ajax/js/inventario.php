@@ -11,7 +11,8 @@ function funciones(){
 	getTipoProductosMovimientos();
 	getTipoProductos();
 	getProductoOperacion();
-	getProductosMovimientos(1);
+	getClientes();
+    getProductosMovimientos(1);
 }
 
 $('#form_main_movimientos #categoria_id').on('change',function(){
@@ -27,6 +28,10 @@ $('#form_main_movimientos #fechaf').on('change',function(){
 });
 
 $('#form_main_movimientos #almacen').on('change',function(){
+  listar_movimientos();
+});
+
+$('#producto_movimiento_filtro').on('change',function(){
   listar_movimientos();
 });
 
@@ -48,6 +53,7 @@ var listar_movimientos = function(){
 	var fechai = $("#form_main_movimientos #fechai").val();
 	var fechaf = $("#form_main_movimientos #fechaf").val();
 	var bodega = $("#form_main_movimientos #almacen").val();
+	var producto = $("#producto_movimiento_filtro").val();
 
 
 	var table_movimientos  = $("#dataTablaMovimientos").DataTable({
@@ -59,18 +65,21 @@ var listar_movimientos = function(){
 				"tipo_producto_id":tipo_producto_id,
 				"fechai":fechai,
 				"fechaf":fechaf,
-				"bodega":bodega
+				"bodega":bodega,
+				"producto":producto
 			}
 		},
 		"columns":[
 			{"data":"fecha_registro"},
 			{"data":"barCode"},
+			{"data":"cliente"},
 			{"data":"producto"},
 			{"data":"medida"},
 			{"data":"documento"},
 			{"data":"entrada"},
 			{"data":"salida"},
 			{"data":"saldo"},
+			{"data":"comentario"},
 			{"data":"bodega"},
 			{"defaultContent":"<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"},
 
@@ -91,6 +100,9 @@ var listar_movimientos = function(){
 		  { width: "10.5%", targets: 7 },
 		  { width: "10.5%", targets: 8 },
 		  { width: "10.5%", targets: 9 },
+		  { width: "10.5%", targets: 10 },
+		  { width: "10.5%", targets: 11 },
+
 
 
 		],
@@ -120,7 +132,7 @@ var listar_movimientos = function(){
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-success ocultar',
 				exportOptions: {
-						columns: [0,1,2,3,4,5,6,7,8]
+					columns: [0,1,2,3,4,5,6,7,8,9,10]
 				},
 			},
 			{
@@ -133,7 +145,7 @@ var listar_movimientos = function(){
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-danger ocultar',
 				exportOptions: {
-						columns: [0,1,2,3,4,5,6,7,8]
+						columns: [0,1,2,3,4,5,6,7,8,9,10]
 				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
@@ -394,6 +406,20 @@ function getProductosMovimientos(tipo_producto_id){
         success: function(data){
 		    $('#formMovimientos #movimiento_producto').html("");
 			$('#formMovimientos #movimiento_producto').html(data);
+		}
+     });
+}
+
+function getClientes(){
+    var url = '<?php echo SERVERURL;?>core/getClientesHostProductos.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formMovimientos #cliente_movimientos').html("");
+			$('#formMovimientos #cliente_movimientos').html(data);		
 		}
      });
 }

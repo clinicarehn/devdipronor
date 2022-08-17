@@ -20,7 +20,7 @@
 		
 			if(isset($_POST['facturas_activo'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
 				if($_POST['facturas_activo'] == ""){
-					$tipo_factura = 2;
+					$tipo_factura = 2;//CREDITO 
 				}else{
 					$tipo_factura = $_POST['facturas_activo'];
 				}

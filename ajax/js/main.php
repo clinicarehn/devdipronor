@@ -635,8 +635,9 @@ function getProductos(){
         url: url,
 	    async: true,
         success: function(data){
-		    //$('#formProductos #producto_categoria').html("");
+			$('#formMovimientos #movimiento_producto').html(data);
 			$('#producto_superior').html(data);
+			$('#producto_movimiento_filtro').html(data);
 		}
      });
 }

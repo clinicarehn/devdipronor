@@ -3901,6 +3901,7 @@
 
 
 		public function getMovimientosProductos($datos){
+			$producto = '';
 
 			if($datos['bodega'] != ''){
 				$bodega = "AND bo.almacen_id = '".$datos['bodega']."'";
@@ -3909,11 +3910,17 @@
 			if($datos['bodega'] == '0'){
 				$bodega = '';
 			}
+
+			if($datos['producto'] != ''){
+				$producto =  "AND p.productos_id = '".$datos['producto']."'";
+			}
 			
 
 
 			$query = "
 					SELECT
+					cl.nombre as cliente,
+					m.comentario,
 					m.movimientos_id AS 'movimientos_id',
 					p.barCode AS 'barCode',
 					p.nombre AS 'producto',
@@ -3939,8 +3946,10 @@
 					p.medida_id = me.medida_id
 				INNER JOIN almacen AS bo
 				on p.almacen_id = bo.almacen_id
+				LEFT JOIN clientes AS cl ON cl.clientes_id = m.clientes_id
 				WHERE p.tipo_producto_id = '".$datos['tipo_producto_id']."' AND CAST(m.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
 				$bodega
+				$producto
 				ORDER BY m.fecha_registro DESC";
 
 			$result = self::connection()->query($query);
