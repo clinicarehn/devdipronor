@@ -5,8 +5,14 @@
 	
 	$insMainModel = new mainModel();
 
+	$bodega = '';
+
+	if(isset($_POST['bodega'])){
+		$bodega = $_POST['bodega'];
+	}
+
 	$datos = [
-		"bodega" => $_POST['bodega'],
+		"bodega" => $bodega,
 		"barcode" => '',	
 	];
 	

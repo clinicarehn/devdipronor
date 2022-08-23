@@ -89,7 +89,7 @@
 						];							
 						
 						$query = facturasModelo::agregar_facturas_modelo($datos);
-											
+						
 						if($query){
 							//ALMACENAMOS LOS DETALLES DE LA FACTURA
 							$total_valor = 0;
@@ -147,6 +147,8 @@
 									$tipo_producto = "";
 
 									if($result_tipo_producto->num_rows>0){
+							
+
 										$consulta_tipo_producto = $result_tipo_producto->fetch_assoc();
 										$tipo_producto = $consulta_tipo_producto["tipo_producto"];
 
@@ -200,13 +202,16 @@
 												"cantidad_salida" => $cantidad_salida,
 												"saldo" => $saldo,
 												"fecha_registro" => $fecha_registro,
-												"empresa" => $empresa_id
+												"empresa" => $empresa_id,
+												"clientes_id" => $clientes_id
 											];	
 
+											echo '$tipo_factura';	
 											facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
 										}								
 
 									}
+
 
 									if($referenciaProducto != ""){
 										//ALMACENAMOS LOS DATOS DEL CAMBIO DE PRECIO DEL PRODUCTO EN LA ENTIDAD precio_factura
@@ -241,7 +246,7 @@
 							];
 							
 							facturasModelo::actualizar_factura_importe($datos_factura);							
-
+							
 							$alert = [
 								"alert" => "save_simple",
 								"title" => "Registro almacenado",
@@ -254,7 +259,8 @@
 								"valor" => "Registro",
 								"funcion" => "limpiarTablaFactura();pago(".$facturas_id.");getCajero();getConsumidorFinal();getEstadoFactura();cleanFooterValueBill();",
 								"modal" => "",
-							];														
+							];			
+							
 						}else{
 							$alert = [
 								"alert" => "simple",
@@ -389,7 +395,8 @@
 												"cantidad_salida" => $cantidad_salida,
 												"saldo" => $saldo,
 												"fecha_registro" => $fecha_registro,
-												"empresa" => $empresa_id
+												"empresa" => $empresa_id,
+												"clientes_id" => $clientes_id
 											];	
 
 											facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);

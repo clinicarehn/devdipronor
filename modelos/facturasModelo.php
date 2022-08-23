@@ -36,7 +36,9 @@
 		protected function agregar_movimientos_productos_modelo($datos){
 			$movimientos_id = mainModel::correlativo("movimientos_id", "movimientos");
 			$insert = "INSERT INTO movimientos
-				VALUES('$movimientos_id','".$datos['productos_id']."','".$datos['documento']."','".$datos['cantidad_entrada']."','".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
+				VALUES('$movimientos_id','".$datos['productos_id']."','".$datos['documento']."','".$datos['cantidad_entrada']."',
+				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
+				'".$datos['clientes_id']."','')";
 			
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);	
 

@@ -1716,7 +1716,6 @@
 			$result = self::connection()->query($query);
 
 
-
 			return $result;
 
 		}
@@ -3375,10 +3374,13 @@
 
 
 		public function getDetalleCotizaciones($noCotizacion){
-			$query = "SELECT p.barCode AS 'barCode', p.nombre AS 'producto', cd.cantidad As 'cantidad', cd.precio AS 'precio', cd.descuento AS 'descuento', cd.productos_id  AS 'productos_id', cd.isv_valor AS 'isv_valor'
+			$query = "SELECT p.barCode AS 'barCode', p.nombre AS 'producto',
+				 cd.cantidad As 'cantidad', cd.precio AS 'precio', cd.descuento AS 'descuento',
+				  cd.productos_id  AS 'productos_id', cd.isv_valor AS 'isv_valor',med.nombre AS 'medida'
 				FROM cotizacion_detalles AS cd
 				INNER JOIN productos AS p
 				ON cd.productos_id = p.productos_id
+				INNER JOIN medida as med ON p.medida_id = med.medida_id
 				WHERE cd.cotizacion_id = '$noCotizacion'
 				GROUP BY cd.productos_id";
 

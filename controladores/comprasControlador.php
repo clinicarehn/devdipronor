@@ -337,7 +337,9 @@
 
 													"fecha_registro" => $fecha_registro,
 
-													"empresa" => $empresa_id
+													"empresa" => $empresa_id,
+													
+													"clientes_id" => ''
 
 												];	
 
@@ -653,7 +655,9 @@
 
 													"fecha_registro" => $fecha_registro,
 
-													"empresa" => $empresa_id
+													"empresa" => $empresa_id,
+													
+													"clientes_id" => ''
 
 												];	
 
@@ -859,7 +863,7 @@
 
 			
 
-			$query = comprasModelo::cancelar_facturas_modelo($facturas_id);
+			$query = comprasModelo::cancelar_compra_modelo($facturas_id);
 
 			
 
