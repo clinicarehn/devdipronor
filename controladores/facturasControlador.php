@@ -206,7 +206,6 @@
 												"clientes_id" => $clientes_id
 											];	
 
-											echo '$tipo_factura';	
 											facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
 										}								
 
