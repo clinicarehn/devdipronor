@@ -1991,7 +1991,6 @@ function pago(facturas_id,saldo){
 
 			}
 
-
 			//TARJETA
 			$('#formTarjetaBill')[0].reset();
 			$('#formTarjetaBill #monto_efectivo').val(datos[3]);

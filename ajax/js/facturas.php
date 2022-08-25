@@ -331,26 +331,20 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table){
 			});			
 		}else{
 			getTotalFacturasDisponibles();
-			
-					
+								
 				if($("#invoice-form #cliente_id").val() != "" && $("#invoice-form #cliente").val() != "" && $("#invoice-form #colaborador_id").val() != "" && $("#invoice-form #colaborador").val() != ""){
 				var data = table.row( $(this).parents("tr") ).data();
 				var facturar_cero = facturarEnCeroAlmacen(data.almacen_id);
 
-				if(data.cantidad <= 0){
-					if(facturar_cero == 'false'){
-					swal({
-						title: "Error",
-						text: "No se puede facturar este producto inventario en cero",
-						type: "error",
-						confirmButtonClass: "btn-danger"
-						});	
-						return false
-					}
+				if(facturar_cero == 'false' || facturar_cero == false){
+				swal({
+					title: "Error",
+					text: "No se puede facturar este producto inventario en cero",
+					type: "error",
+					confirmButtonClass: "btn-danger"
+					});	
+					return false
 				}
-				
-
-				
 				
 				$('#invoice-form #invoiceItem #productos_id_'+ row).val(data.productos_id);
 				$('#invoice-form #invoiceItem #bar-code-id_'+ row).val(data.barCode);

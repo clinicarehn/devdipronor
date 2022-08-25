@@ -185,9 +185,7 @@
 
 
 		//funcion para realizar todos lo pagos de factura
-		protected function agregar_pago_factura_base($res){
-
-			
+		protected function agregar_pago_factura_base($res){			
 			if($res['estado_factura'] == 2){ // si es credito esto es un abono a la factura
 				
 				$saldo_credito = 0;
@@ -350,7 +348,7 @@
 						}	
 	
 						$alert = [
-							"alert" => "clear_pay",
+							"alert" => "save_simple",
 							"title" => "Registro almacenado",
 							"text" => "El registro se ha almacenado correctamente",
 							"type" => "success",
