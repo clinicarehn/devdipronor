@@ -339,7 +339,8 @@
 
 													"empresa" => $empresa_id,
 													
-													"clientes_id" => ''
+													"clientes_id" => '',
+													"comentario"  => ''
 
 												];	
 

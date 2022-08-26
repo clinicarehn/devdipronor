@@ -237,7 +237,7 @@
 
 					if($total_despues_isv != 0 || $total_despues_isv != ""){
 						$dolar = cambioDolar($total_despues_isv,$new_fecha_dolar);
-						if($dolar->result != 0 || $dolar->result != null || $dolar->result != ""){
+						if(isset($dolar->success)){
 							echo "Tasa de Cambio L. ". number_format($total_despues_isv/$dolar->result,2)."<br/>";
 							echo 'Total Dolares $ '.round($dolar->result,2);
 						}
@@ -249,7 +249,7 @@
         <p class="nota"><center><?php 
 				if($consulta_registro['fecha_dolar'] != '0000-00-00') { 
 					if($total_despues_isv != 0 || $total_despues_isv != ""){
-						if($dolar->result != 0 || $dolar->result != null || $dolar->result != ""){
+						if(isset($dolar->success)){
 							echo $insMainModel->convertir($dolar->result).' DOLARES';
 						}
 					}			
