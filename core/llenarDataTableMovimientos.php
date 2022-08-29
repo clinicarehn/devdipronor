@@ -10,7 +10,8 @@
 		"fechai" => $_POST['fechai'],
 		"fechaf" => $_POST['fechaf'],
 		"bodega" => $_POST['bodega'],
-		"producto" => $_POST['producto'], 		
+		"producto" => $_POST['producto'],
+		"cliente" =>  $_POST['cliente'],
 
 	];	
 	

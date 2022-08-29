@@ -3904,6 +3904,8 @@
 
 		public function getMovimientosProductos($datos){
 			$producto = '';
+			$cliente = '';
+			$tipo = '';
 
 			if($datos['bodega'] != ''){
 				$bodega = "AND bo.almacen_id = '".$datos['bodega']."'";
@@ -3916,7 +3918,14 @@
 			if($datos['producto'] != ''){
 				$producto =  "AND p.productos_id = '".$datos['producto']."'";
 			}
+
+			if($datos['cliente'] != ''){
+				$cliente =  "AND m.clientes_id = '".$datos['cliente']."'";
+			}
 			
+			if($datos['tipo_producto_id'] != ''){
+				$tipo = "AND p.tipo_producto_id = '".$datos['tipo_producto_id']."'";
+			}
 
 
 			$query = "
@@ -3949,14 +3958,16 @@
 				INNER JOIN almacen AS bo
 				on p.almacen_id = bo.almacen_id
 				LEFT JOIN clientes AS cl ON cl.clientes_id = m.clientes_id
-				WHERE p.tipo_producto_id = '".$datos['tipo_producto_id']."' AND CAST(m.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
+				WHERE CAST(m.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
 				$bodega
 				$producto
+				$cliente
+				$tipo
 				ORDER BY m.fecha_registro DESC";
 
 			$result = self::connection()->query($query);
 
-
+		
 			return $result;
 		}
 

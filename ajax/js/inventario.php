@@ -35,6 +35,14 @@ $('#producto_movimiento_filtro').on('change',function(){
   listar_movimientos();
 });
 
+$('#cliente_movimiento_filtro').on('change',function(){
+  listar_movimientos();
+});
+
+$('#inventario_tipo_productos_id').on('change',function(){
+  listar_movimientos();
+});
+
 $('#form_main_movimientos #search').on("click", function(e){
 	e.preventDefault();
 	listar_movimientos();
@@ -44,16 +52,16 @@ $('#form_main_movimientos #search').on("click", function(e){
 var listar_movimientos = function(){
 	var tipo_producto_id;
 
-	if ($('#form_main_movimientos #inventario_tipo_productos_id').val() == "" || $('#form_main_movimientos #inventario_tipo_productos_id').val() == null){
-	  tipo_producto_id = 1;
-	}else{
+	
 	  tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
-	}
+	
 
 	var fechai = $("#form_main_movimientos #fechai").val();
 	var fechaf = $("#form_main_movimientos #fechaf").val();
 	var bodega = $("#form_main_movimientos #almacen").val();
 	var producto = $("#producto_movimiento_filtro").val();
+	var cliente = $('#cliente_movimiento_filtro').val();
+  
 
 
 	var table_movimientos  = $("#dataTablaMovimientos").DataTable({
@@ -66,7 +74,9 @@ var listar_movimientos = function(){
 				"fechai":fechai,
 				"fechaf":fechaf,
 				"bodega":bodega,
-				"producto":producto
+				"producto":producto,
+				"cliente":cliente,
+				
 			}
 		},
 		"columns":[
@@ -419,7 +429,8 @@ function getClientes(){
 	    async: true,
         success: function(data){
 		    $('#formMovimientos #cliente_movimientos').html("");
-			$('#formMovimientos #cliente_movimientos').html(data);		
+			$('#formMovimientos #cliente_movimientos').html(data);	
+			$('#cliente_movimiento_filtro').html(data);	
 		}
      });
 }
