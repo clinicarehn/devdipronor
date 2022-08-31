@@ -65,7 +65,6 @@
 				almacen_id = '".$datos['bodega']."'			
 			WHERE productos_id = '".$datos['productos_id']."'";
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
-			
 			return $sql;			
 		}
 		
@@ -101,6 +100,15 @@
 				
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
+			return $sql;					
+		}
+
+		protected function consultar_productos_superior($id_producto){
+			$query = "SELECT productos.productos_id
+			FROM productos
+			WHERE id_producto_superior = '$id_producto'";
+				
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			return $sql;					
 		}
 		

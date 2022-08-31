@@ -2,3 +2,6 @@
 tabla movimientos
 clientes_id int
 comentario  char 255
+
+#tabla productos
+->p.id_producto_superior

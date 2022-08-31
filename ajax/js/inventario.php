@@ -91,8 +91,7 @@ var listar_movimientos = function(){
 			{"data":"saldo"},
 			{"data":"comentario"},
 			{"data":"bodega"},
-			{"defaultContent":"<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"},
-
+			
 		],
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -111,7 +110,6 @@ var listar_movimientos = function(){
 		  { width: "10.5%", targets: 8 },
 		  { width: "10.5%", targets: 9 },
 		  { width: "10.5%", targets: 10 },
-		  { width: "10.5%", targets: 11 },
 
 
 

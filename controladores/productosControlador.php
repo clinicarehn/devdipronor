@@ -302,8 +302,23 @@
 				"productos_id" => $productos_id,
 				"bodega" => $bodega						
 			];
-					
+
 			$query = productosModelo::edit_bodega_productos_modelo($datos);
+			
+			$queryS = productosModelo::consultar_productos_superior($productos_id);
+			while($res = mysqli_fetch_assoc($queryS)){
+				if($res['productos_id'] > 0){
+					$datos = [
+						"productos_id" => $res['productos_id'],
+						"bodega" => $bodega						
+					];
+	
+					$query = productosModelo::edit_bodega_productos_modelo($datos);
+				}
+
+			}
+
+
 			
 			if($query){
 				$alert = [

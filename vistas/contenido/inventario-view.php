@@ -112,7 +112,6 @@
 							<th>Saldo</th>
 							<th>Comentario</th>
 							<th>Bodega</th>
-							<th>Transferencia</th>
 							</tr>
 						</thead>
 					</table>  

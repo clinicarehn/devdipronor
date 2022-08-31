@@ -3985,8 +3985,6 @@
 
 			if($datos['tipo_producto_id'] != ''){
 				$tipo_product = "AND p.tipo_producto_id = '".$datos['tipo_producto_id']."'";
-			}else{
-				$tipo_product = "AND p.tipo_producto_id = 1";
 			}
 
 			$query = "
@@ -4004,7 +4002,8 @@
 							p.fecha_registro,
 							'%d/%m/%Y %H:%i:%s'
 						) AS 'fecha_registro',
-						p.productos_id AS 'productos_id'
+						p.productos_id AS 'productos_id',
+						p.id_producto_superior
 					FROM
 						movimientos AS m
 						RIGHT JOIN productos AS p
