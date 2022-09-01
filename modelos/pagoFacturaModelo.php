@@ -357,7 +357,7 @@
 							"form" => "formEfectivoBill",
 							"id" => "proceso_pagos",
 							"valor" => "Registro",	
-							"funcion" => "printBill(".$res['facturas_id'].",".$res['print_comprobante'].");listar_cuentas_por_cobrar_clientes();cleanBill();mailBill(".$res['facturas_id'].");",
+							"funcion" => "printBill(".$res['facturas_id'].",".$res['print_comprobante'].");listar_cuentas_por_cobrar_clientes();mailBill(".$res['facturas_id'].");",
 							"modal" => "modal_pagos",
 													
 						];
