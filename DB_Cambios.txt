@@ -4,4 +4,8 @@ clientes_id int
 comentario  char 255
 
 #tabla productos
-->p.id_producto_superior
+p.id_producto_superior int
+
+####31/8/2022####
+productos
+barCode varchar(256)
