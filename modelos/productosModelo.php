@@ -25,7 +25,7 @@
 			$movimientos_id = mainModel::correlativo("movimientos_id", "movimientos");
 			$documento = "entrada productos ".$movimientos_id;
 			$insert = "INSERT INTO movimientos 
-				VALUES('$movimientos_id','".$datos['productos_id']."','$documento','".$datos['cantidad_entrada']."','".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
+				VALUES('$movimientos_id','".$datos['productos_id']."','$documento','".$datos['cantidad_entrada']."','".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."','0','')";
 
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 		

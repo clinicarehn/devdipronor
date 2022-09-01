@@ -158,7 +158,7 @@
 						}
 						
 						$alert = [
-							"alert" => "reload",
+							"alert" => "save_simple",
 							"title" => "Registro almacenado",
 							"text" => "El registro se ha almacenado correctamente",
 							"type" => "success",
