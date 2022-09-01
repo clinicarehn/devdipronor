@@ -2164,23 +2164,14 @@
 
 
 		public function getSaldoProductosMovimientos($productos_id){
-
 			$query = "SELECT saldo
-
 				FROM movimientos
-
 				WHERE productos_id = '$productos_id'
-
 				ORDER BY movimientos_id DESC LIMIT 1";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 
@@ -3063,7 +3054,6 @@
 
 
 		public function getDetalleFactura($noFactura){
-
 			$query = "SELECT
 			p.barCode AS 'barCode',
 			p.nombre AS 'producto',
@@ -3077,7 +3067,7 @@
 				FROM
 			facturas_detalles AS fd
 				INNER JOIN productos AS p ON fd.productos_id = p.productos_id
-				INNER JOIN medida as med ON P.medida_id = med.medida_id
+				INNER JOIN medida as med ON p.medida_id = med.medida_id
 				WHERE fd.facturas_id = '$noFactura'
 				GROUP BY fd.productos_id";
 
