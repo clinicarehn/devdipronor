@@ -2141,84 +2141,48 @@
 
 		}
 
-
-
 		public function getCantidadProductos($productos_id){
-
 			$query = "SELECT cantidad,id_producto_superior
-
 				FROM productos
-
 				WHERE productos_id = '$productos_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getSaldoProductosMovimientos($productos_id){
 			$query = "SELECT saldo
 				FROM movimientos
 				WHERE productos_id = '$productos_id'
 				ORDER BY movimientos_id DESC LIMIT 1";
-
+				
 			$result = self::connection()->query($query);
 
 			return $result;
 		}
-
-
 
 		public function getProductos(){
-
 			$query = "SELECT p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', FORMAT(p.cantidad,0) AS 'cantidad', FORMAT(p.precio_compra,2) AS 'precio_compra', FORMAT(p.precio_venta,2) AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
-
 			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
-
 			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'categoria', p.isv_venta AS 'impuesto_venta', p.isv_compra AS 'isv_compra', p.file_name AS 'image'
-
 				FROM productos AS p
-
 				INNER JOIN medida AS m
-
 				ON p.medida_id = m.medida_id
-
 				INNER JOIN almacen AS a
-
 				ON p.almacen_id = a.almacen_id
-
 				INNER JOIN ubicacion AS u
-
 				ON a.ubicacion_id = u.ubicacion_id
-
 				INNER JOIN empresa AS e
-
 				ON u.empresa_id = e.empresa_id
-
 				INNER JOIN tipo_producto AS tp
-
 				ON p.tipo_producto_id = tp.tipo_producto_id
-
 				WHERE p.estado = 1";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getProductosFacturas($datos){
 
@@ -3189,121 +3153,140 @@
 
 
 		public function getNumeroFactura($facturas_id){
-
 			$query = "SELECT f.number AS 'numero', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno'
-
 				FROM facturas AS f
-
 				INNER JOIN clientes AS c
-
 				ON f.clientes_id = c.clientes_id
-
 				INNER JOIN secuencia_facturacion AS sf
-
 				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-
 				WHERE f.facturas_id = '$facturas_id'";
-
-
 
 			$result = self::connection()->query($query);
 
 
-
 			return $result;
-
 		}
-
 
 
 		public function getNumeroCompra($compras_id){
-
 			$query = "SELECT c.number AS 'numero'
-
 				FROM compras AS c
-
 				INNER JOIN proveedores AS p
-
 				ON c.proveedores_id = p.proveedores_id
-
 				WHERE c.compras_id = '$compras_id'";
 
+			$result = self::connection()->query($query);
 
+			return $result;
+		}
+
+		public function getNombreCliente($clientes_id){
+			$query = "SELECT nombre
+			FROM clientes
+			WHERE clientes_id = '$clientes_id'";
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
+		public function getRTNCliente($clientes_id, $rtn){
+			$query = "SELECT rtn
+			FROM clientes
+			WHERE rtn = '$rtn'";
+			$result = self::connection()->query($query);
 
+			return $result;
+		}
+
+		public function actualizarRTNCliente($clientes_id, $rtn){
+			$update = " UPDATE clientes
+				SET rtn = '$rtn'
+				WHERE clientes_id = '$clientes_id'";
+
+			$result = self::connection()->query($update);
+			return $result;
+		}
+
+		public function getBarCode($productos_id, $barcode){
+			$query = "SELECT productos_id
+			FROM productos
+			WHERE barCode = '$barcode'";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
+		public function actualizarBarCode($productos_id, $barcode){
+			$update = " UPDATE productos
+				SET barCode = '$barcode'
+				WHERE productos_id = '$productos_id'";
+
+			$result = self::connection()->query($update);
+			return $result;
+		}
+
+		public function getNombreProveedor($proveedores_id){
+			$query = "SELECT nombre
+			FROM proveedores
+			WHERE proveedores_id = '$proveedores_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
+		public function getRTNProveedor($proveedores_id, $rtn){
+			$query = "SELECT rtn
+			FROM proveedores
+			WHERE rtn = '$rtn'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}				
+
+		public function actualizarRTNProveedor($proveedores_id, $rtn){
+			$update = " UPDATE proveedores
+				SET rtn = '$rtn'
+				WHERE proveedores_id = '$proveedores_id'";
+
+			$result = self::connection()->query($update);
+			return $result;
+		}
 
 		public function getNumeroCotizacion($cotizacion_id){
-
 			$query = "SELECT c.number AS 'numero', cl.nombre AS 'cliente'
-
 			FROM cotizacion AS c
-
 			INNER JOIN clientes AS cl
-
 			ON c.clientes_id = cl.clientes_id
-
 			WHERE c.cotizacion_id = '$cotizacion_id'";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
-
 		}
-
-
 
 		function rellenarDigitos($valor, $long){
-
 			$numero = str_pad($valor, $long, '0', STR_PAD_LEFT);
 
-
-
 			return $numero;
-
 		}
 
-
-
 		function getMontoTipoPago($apertura_id){
-
 			$query = "SELECT tp.cuentas_id AS 'cuentas_id', tp.nombre AS 'tipo_pago', SUM(pd.efectivo) AS 'monto'
-
 				FROM facturas AS f
-
 				INNER JOIN pagos AS p
-
 				ON f.facturas_id = p.facturas_id
-
 				INNER JOIN pagos_detalles AS pd
-
 				ON p.pagos_id = pd.pagos_id
-
 				INNER JOIN tipo_pago AS tp
-
 				ON pd.tipo_pago_id = tp.tipo_pago_id
-
 				WHERE f.apertura_id = '$apertura_id'
-
 				GROUP BY tp.cuentas_id";
 
-
-
 			$result = self::connection()->query($query);
-
-
-
+			
 			return $result;
 
 		}
@@ -4659,48 +4642,27 @@
 
 
 		function getCajero($colaborador_id_sd){
-
 			$query = "SELECT colaboradores_id AS 'colaboradores_id', CONCAT(nombre, ' ', apellido) AS 'colaborador'
-
 				FROM colaboradores
-
 				WHERE colaboradores_id = '$colaborador_id_sd'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		function getNombreUsuario($users_id){
-
 			$query = "SELECT CONCAT(c.nombre, ' ', c.apellido) AS 'usuario', c.identidad AS 'identidad'
-
 				FROM users AS u
-
 				INNER JOIN colaboradores AS c
-
 				ON u.colaboradores_id = c.colaboradores_id
-
 				WHERE u.users_id = '$users_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		function getAperturaCajaUsuario($colaborador_id_sd, $fecha){
 

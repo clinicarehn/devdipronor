@@ -1957,6 +1957,106 @@ $('#formClientes .switch').change(function(){
         return false;
     }
 });
+
+//INICIO EDITAR RTN CLIENTE
+//SE LLAMA AL MODAL CUANDO PRESIONAMOS EN EDITAR RTN EN CLIENTES
+$('#formClientes #grupo_editar_rtn').on('click',function(e){
+	e.preventDefault();
+	
+	$('#formEditarRTNClientes')[0].reset();
+	$('#formEditarRTNClientes #pro_clientes').val("Editar");
+	$('#formEditarRTNClientes #clientes_id').val($('#formClientes #clientes_id').val());
+	$('#formEditarRTNClientes #cliente').val($('#formClientes #nombre_clientes').val());
+	$('#modalEditarRTNClientes').modal({
+		show:true,
+		keyboard: false,
+		backdrop:'static'
+	});
+});
+
+$(document).ready(function(){
+    $("#modalEditarRTNClientes").on('shown.bs.modal', function(){
+        $(this).find('#formEditarRTNClientes #rtn_cliente').focus();
+    });
+});
+
+$('#editar_rtn_clientes').on('click',function(e){
+	e.preventDefault();
+	
+	editRTNClient($('#formEditarRTNClientes #clientes_id').val(), $('#formEditarRTNClientes #rtn_cliente').val());
+});
+
+function editRTNClient(clientes_id, rtn){
+	swal({
+		title: "¿Estas seguro?",
+		text: "¿Desea editar el RTN para el cliente: " + getNombreCliente(clientes_id) + "?",
+		type: "info",
+		showCancelButton: true,
+		cancelButtonText: "Cancdelar",
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "¡Si, Deseo Editarlo!",
+		closeOnConfirm: false 
+	},
+	function(){
+		editRTNCliente(clientes_id,rtn);
+	});
+}
+
+function editRTNCliente(clientes_id, rtn){
+    var url = '<?php echo SERVERURL; ?>core/editRTNCliente.php';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'clientes_id='+clientes_id+'&rtn='+rtn,
+       success:function(data){
+          if(data == 1){
+            swal({
+                title: "Success",
+                text: "El RTN ha sido actualizado satisfactoriamente",
+                type: "success",
+				confirmButtonClass: "btn-primary"
+            });
+			listar_clientes();
+			$('#formClientes #identidad_clientes').val(rtn);
+          }else if(data == 2){
+            swal({
+                title: "Error",
+                text: "Error el RTN no se puede actualizar",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });
+          }else if(data == 3){
+            swal({
+                title: "Error",
+                text: "El RTN ya existe",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });
+          }
+      }
+    });
+}
+
+function getNombreCliente(clientes_id){
+	var url = '<?php echo SERVERURL; ?>core/getNombreCliente.php';
+    var nombreCliente = '';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'clientes_id='+clientes_id,
+       success:function(data){
+            var datos = eval(data);
+            nombreCliente = datos[0];
+      }	  
+    });
+
+	return nombreCliente;
+}
+//FIN EDITAR RTN CLIENTE
 //FIN ACCIONES FROMULARIO CLIENTES
 
 //INICIO MODAL REGSITRAR PAGO FACTURACIÓN CLIENTES

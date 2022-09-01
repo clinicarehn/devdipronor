@@ -12,7 +12,7 @@
 	$saldo_productos = 0;
 	
 	while($row = $result->fetch_assoc()){		
-		$result_movimientos = mainModel::getSaldoProductosMovimientos($row['productos_id']);
+		$result_movimientos = $insMainModel->getSaldoProductosMovimientos($row['productos_id']);
 		if($result_movimientos->num_rows>0){
 		$consulta = $result_movimientos->fetch_assoc();
 		$saldo_productos = $consulta['saldo'];

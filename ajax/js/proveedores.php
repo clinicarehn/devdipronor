@@ -1,6 +1,7 @@
 <script>
 $(document).ready(function() {
     listar_proveedores();
+	getDepartamentoProveedores();
 });	
 
 //INICIO ACCIONES FROMULARIO PROVEEDORES
@@ -218,6 +219,107 @@ var eliminar_proveedores_dataTable = function(tbody, table){
 		});
 	});
 }
+
+//INICIO EDITAR RTN PROVEEDORES
+//SE LLAMA AL MODAL CUANDO PRESIONAMOS EN EDITAR RTN EN CLIENTES
+$('#formProveedores #grupo_editar_rtn').on('click',function(e){
+	e.preventDefault();
+	
+	$('#formEditarRTNProveedores')[0].reset();
+	$('#formEditarRTNProveedores #pro_proveedores').val("Editar");
+	$('#formEditarRTNProveedores #proveedores_id').val($('#formProveedores #proveedores_id').val());
+	$('#formEditarRTNProveedores #proveedor').val($('#formProveedores #nombre_proveedores').val());
+	$('#modalEditarRTNProveedores').modal({
+		show:true,
+		keyboard: false,
+		backdrop:'static'
+	});
+});
+
+$(document).ready(function(){
+    $("#modalEditarRTNProveedores").on('shown.bs.modal', function(){
+        $(this).find('#formEditarRTNProveedores #rtn_proveedor').focus();
+    });
+});
+
+$('#editar_rtn_proveedores').on('click',function(e){
+	e.preventDefault();
+	
+	editRTNProvider($('#formEditarRTNProveedores #proveedores_id').val(), $('#formEditarRTNProveedores #rtn_proveedor').val());
+});
+
+function editRTNProvider(proveedores_id, rtn){
+	swal({
+		title: "¿Estas seguro?",
+		text: "¿Desea editar el RTN para el proveedor: " + getNombreProveedor(proveedores_id) + "?",
+		type: "info",
+		showCancelButton: true,
+		cancelButtonText: "Cancdelar",
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "¡Si, Deseo Editarlo!",
+		closeOnConfirm: false 
+	},
+	function(){
+		editRTNProveedor(proveedores_id,rtn);
+	});
+}
+
+function editRTNProveedor(proveedores_id, rtn){
+    var url = '<?php echo SERVERURL; ?>core/editRTNProveedor.php';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'proveedores_id='+proveedores_id+'&rtn='+rtn,
+       success:function(data){
+          if(data == 1){
+            swal({
+                title: "Success",
+                text: "El RTN ha sido actualizado satisfactoriamente",
+                type: "success",
+				confirmButtonClass: "btn-primary"
+            });
+			listar_proveedores();
+			$('#formProveedores #rtn_proveedores').val(rtn);
+          }else if(data == 2){
+            swal({
+                title: "Error",
+                text: "Error el RTN no se puede actualizar",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });
+          }else if(data == 3){
+            swal({
+                title: "Error",
+                text: "El RTN ya existe",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });
+          }
+      }
+    });
+}
+
+function getNombreProveedor(proveedores_id){
+	var url = '<?php echo SERVERURL; ?>core/getNombreProveedor.php';
+    var nombreProveedor = '';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'proveedores_id='+proveedores_id,
+       success:function(data){
+            var datos = eval(data);
+            nombreProveedor = datos[0];
+      }	  
+    });
+
+	return nombreProveedor;
+
+}
+//FIN EDITAR RTN PROVEEDORES
 //FIN ACCIONES FROMULARIO PROVEEDORES
 /*FIN FORMULARIO PROVEEDORES*/
 
