@@ -367,13 +367,15 @@
 			pagos.importe as abono,
 			pagos_detalles.descripcion1,
 			facturas.importe,
-			clientes.nombre as cliente
+			clientes.nombre as cliente,
+            tipo_pago.nombre as tipo_pago
 			FROM
 			pagos
 			LEFT JOIN pagos_detalles ON pagos.pagos_id = pagos_detalles.pagos_id
 			INNER JOIN facturas ON facturas.facturas_id = pagos.facturas_id
 			INNER JOIN clientes ON facturas.clientes_id = clientes.clientes_id
-				WHERE pagos.facturas_id = '$facturas_id'";
+            INNER JOIN tipo_pago ON pagos.tipo_pago = tipo_pago.tipo_pago_id
+			WHERE pagos.facturas_id = '$facturas_id'";
 
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 
@@ -3872,8 +3874,6 @@
 			return $result;
 
 		}
-
-
 
 		public function getMovimientosProductos($datos){
 			$producto = '';

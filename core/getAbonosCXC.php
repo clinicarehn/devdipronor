@@ -8,8 +8,10 @@
 	$factura_id = $_POST['factura_id'];
 
     $result = $insMainModel->abonos_cxc_cliente($factura_id);
-
     $total_abono = 0;
+	$arreglo = array();
+	$data = array();
+		
 	while($row = $result->fetch_assoc()){
 		
         $total_abono += $row['abono'];
@@ -20,6 +22,7 @@
 			"abono"=>number_format($row['abono'],2),						
 			"cliente"=> $row['cliente'],
 			"descripcion"=>$row['descripcion1'],
+			"tipo_pago"=>$row['tipo_pago'],
 			"importe"=>number_format($row['importe'],2),
             "total"=> number_format($total_abono ,2)
 		);		
