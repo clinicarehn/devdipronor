@@ -1569,8 +1569,7 @@ var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.table_abono");
 	$(tbody).on("click", "button.table_abono", function(){
 		var data = table.row( $(this).parents("tr") ).data();
-		if(data.estado == 2){//no tiene acceso a la accion si la factura ya fue cancelada
-							
+		if(data.estado == 2){//no tiene acceso a la accion si la factura ya fue cancelada							
 				swal({
 					title: 'Error', 
 					text: 'No puede realizar esta accion a las facturas canceladas!',
@@ -1584,7 +1583,6 @@ var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
 }
 
 var ver_abono_cxc_clientes_dataTable = function(tbody, table){
-	
 	$(tbody).off("click", "button.abono_factura");
 	$(tbody).on("click", "button.abono_factura", function(){
 		var data = table.row( $(this).parents("tr") ).data();
@@ -2249,6 +2247,12 @@ function getBanco(){
 //FIN MODAL REGSITRAR PAGO FACTURACIÓN CLIENTES
 
 //INICIO ABONO CXC
+$(document).ready(function(){
+	$("#ver_abono_cxc").on('shown.bs.modal', function(){
+		$(this).find('#formulario_ver_abono_cxc #buscar').focus();
+	});
+});	
+
 function getAbonosCXC(factura_id){
 	var url = '<?php echo SERVERURL;?>core/getAbonosCXC.php';
 
@@ -2261,22 +2265,24 @@ function getAbonosCXC(factura_id){
 		},
 		"columns":[
 			{"data":"fecha"},
+			{"data":"tipo_pago"},
 			{"data":"descripcion"},
 			{"data":"abono"},
-		],
-		
+		],	
+        "lengthMenu": lengthMenu,
+		"stateSave": true,
+		"bDestroy": true,
+		"language": idioma_español,		
 		"columnDefs": [
 		  { width: "25%", targets: 0 },
 		  { width: "25%", targets: 1 },
 		  { width: "25%", targets: 2 },
+		  { width: "25%", targets: 3 },
 		],
-		"fnRowCallback": function( nRow, res, iDisplayIndex, iDisplayIndexFull ) {         
-        	
-			$('#ver_abono_cxcTitle').html(' '+ res['cliente'])
-			$('#importe-cxc').html('L. '+ res['importe'])
+		"fnRowCallback": function( nRow, res, iDisplayIndex, iDisplayIndexFull ) {                 	
+			$('#ver_abono_cxcTitle').html('Cliente: '+ res['cliente'])
+			$('#importe-cxc').html('Valor Factura L. '+ res['importe'])
 			$('#total-footer-modal-cxc').html('L. '+ res['total'])
-
-		
 		},
      });
 }

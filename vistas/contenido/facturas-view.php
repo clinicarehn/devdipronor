@@ -117,7 +117,7 @@
 												<input type="hidden" name="cantidad_mayoreo[]" id="cantidad_mayoreo_0" placeholder="Cantidad Mayoreo" class="buscar_cantidad form-control inputfield-details" autocomplete="off" step="0.01">
 											</td>
 											<td>
-												<input type="text" name="medida[]" id="medida_0" readonly class="form-control buscar_medida" autocomplete="off">
+												<input type="text" name="medida[]" id="medida_0" readonly class="form-control buscar_medida" autocomplete="off" placeholder="Medida">
 											</td>
 											<td>
 												<input type="hidden" name="precio_real[]" id="precio_real_0" placeholder="Precio Real" class="form-control inputfield-details" step="0.01" readonly autocomplete="off">

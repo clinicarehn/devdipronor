@@ -183,11 +183,9 @@
 			return $result;					
 		}
 
-
 		//funcion para realizar todos lo pagos de factura
 		protected function agregar_pago_factura_base($res){			
-			if($res['estado_factura'] == 2){ // si es credito esto es un abono a la factura
-				
+			if($res['estado_factura'] == 2){ // si es credito esto es un abono a la factura				
 				$saldo_credito = 0;
 				$nuevo_saldo = 0;
 				//consultamos a la tabla cobrar cliente
@@ -244,10 +242,9 @@
 						$result_valid_pagos_detalles_facturas = pagoFacturaModelo::valid_pagos_detalles_facturas($pagos_id, $res['tipo_pago_id']);
 						
 						pagoFacturaModelo::agregar_pago_detalles_factura_modelo($datos_pago_detalle);
-														
-						
+																				
 						$alert = [
-							"alert" => "clear_pay",
+							"alert" => "save_simple",
 							"title" => "Registro almacenado",
 							"text" => "El registro se ha almacenado correctamente",
 							"type" => "success",
@@ -256,7 +253,7 @@
 							"form" => "formEfectivoBill",
 							"id" => "proceso_pagos",
 							"valor" => "Registro",	
-							"funcion" => "listar_cuentas_por_cobrar_clientes();cleanBill();",
+							"funcion" => "listar_cuentas_por_cobrar_clientes();",
 							"modal" => "modal_pagos",
 													
 						];
@@ -288,12 +285,10 @@
 	
 					if($query){
 						//ACTUALIZAMOS EL DETALLE DEL PAGO
-
 						
 						$consulta_pago = pagoFacturaModelo::getLastInserted()->fetch_assoc();
 
 						$pagos_id = $consulta_pago['id'];
-
 						
 													
 						$datos_pago_detalle = [
