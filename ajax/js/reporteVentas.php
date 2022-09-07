@@ -1,6 +1,7 @@
 <script>
 $(document).ready(function() {
-	getReporteFactura();	
+	getReporteFactura();
+	getFacturador();
     listar_reporte_ventas();
 	total_ingreso_footer();
 });
@@ -22,6 +23,7 @@ var listar_reporte_ventas = function(){
 
 	var fechai = $("#form_main_ventas #fechai").val();
 	var fechaf = $("#form_main_ventas #fechaf").val();
+	var facturador = $("#form_main_ventas #facturador").val();
 
 	var table_reporteVentas  = $("#dataTablaReporteVentas").DataTable({
 		"destroy":true,
@@ -30,6 +32,7 @@ var listar_reporte_ventas = function(){
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableReporteVentas.php",
 			"data":{
 				"tipo_factura_reporte":tipo_factura_reporte,
+				"facturador":facturador,
 				"fechai":fechai,
 				"fechaf":fechaf
 			}
@@ -230,6 +233,20 @@ function getReporteFactura(){
 		}
      });
 }
+
+function getFacturador(){
+    var url = '<?php echo SERVERURL;?>core/getFacturador.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#form_main_ventas #facturador').html("");
+			$('#form_main_ventas #facturador').html(data);		
+		}
+     });
+}
 //FIN REPORTE DE VENTAS
 
 var total_ingreso_footer = function(){	
@@ -261,6 +278,64 @@ var total_ingreso_footer = function(){
 		})
 		.fail(function(data) {
 			console.log( "total ingreso error" );
+	});
+}
+
+
+$('#form_main_ventas .consultar_facturador').on('click',function(e){
+	e.preventDefault();
+	listar_facturadores_factura_buscar();
+	$('#modal_consultar_facturadores').modal({
+		show:true,
+		keyboard: false,
+		backdrop:'static'
+	});	
+});	
+
+var listar_facturadores_factura_buscar = function(){
+	var table_facturadores_factura_buscar = $("#DatatableBusquedaConsultaFacturadores").DataTable({
+		"destroy":true,
+		"ajax":{
+			"method":"POST",
+			"url":"<?php echo SERVERURL;?>core/llenarDataTableFacturador.php"
+		},
+		"columns":[
+			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-copy'></span></button>"},
+			{"data":"nombre"},
+			{"data":"identidad"},
+		],
+        "lengthMenu": lengthMenu,
+		"stateSave": true,
+		"bDestroy": true,
+		"language": idioma_español,
+		"dom": dom,
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Clientes',
+				className: 'table_actualizar btn btn-secondary ocultar',
+				action: 	function(){
+					listar_facturadores_factura_buscar();
+				}
+			}
+		],		
+		"drawCallback": function( settings ) {
+        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+    	}
+	});
+	table_facturadores_factura_buscar.search('').draw();
+	$('#buscar').focus();
+
+	view_facturador_busqueda_factura_dataTable("#DatatableBusquedaConsultaFacturadores tbody", table_facturadores_factura_buscar);
+}
+
+var view_facturador_busqueda_factura_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.table_view");
+	$(tbody).on("click", "button.table_view", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		$('#form_main_ventas #facturador').val(data.colaboradores_id);
+		$('#modal_consultar_facturadores').modal('hide');
 	});
 }
 </script>

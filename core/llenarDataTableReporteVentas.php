@@ -7,6 +7,7 @@
 
 	$datos = [
 		"tipo_factura_reporte" => $_POST['tipo_factura_reporte'],
+		"facturador" => $_POST['facturador'],
 		"fechai" => $_POST['fechai'],
 		"fechaf" => $_POST['fechaf'],		
 	];	

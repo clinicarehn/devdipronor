@@ -1562,79 +1562,52 @@
 
 		}
 
-
-
 		public function getProveedoresConsulta(){
-
 			$query = "SELECT *
-
 				FROM proveedores
-
 				WHERE estado = 1
-
 				ORDER BY nombre";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getClientesConsulta(){
-
 			$query = "SELECT *
-
 				FROM clientes
-
 				WHERE estado = 1
-
 				ORDER BY nombre";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getDepartamentos(){
-
 			$query = "SELECT *
-
 				FROM departamentos";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getMunicipios($departamentos_id){
-
 			$query = "SELECT *
-
 				FROM municipios WHERE departamentos_id  = '$departamentos_id'";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
+		public function getFacturador(){
+			$query = "SELECT c.colaboradores_id AS 'colaboradores_id', CONCAT(c.nombre, ' ', c.apellido) AS 'nombre', c.identidad AS 'identidad'
+			FROM facturas AS f
+			INNER JOIN colaboradores AS c
+			ON f.usuario = c.colaboradores_id
+			GROUP BY f.usuario";
+			$result = self::connection()->query($query);
 
+			return $result;
+		}
 
 		public function getTipoUsuario($datos){
 
@@ -3999,12 +3972,18 @@
 		}
 
 		public function consultaVentas($datos){
+			if($datos['facturador'] == 0){
+				$facturador = "";
+			}else{
+				$facturador = " AND usuario = '".$datos['facturador']."'";
+			}
+
 			if($datos['tipo_factura_reporte'] == 1){//contado
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 2";
+				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 2".$facturador;
 			}elseif($datos['tipo_factura_reporte'] == 2){//credito
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 3";
+				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 3.$facturador";
 			}elseif($datos['tipo_factura_reporte'] == 3){//Anulado
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 4";
+				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 4.$facturador";
 			}
 
 			$query = "SELECT 
