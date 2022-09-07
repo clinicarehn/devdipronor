@@ -3999,9 +3999,11 @@
 		}
 
 		public function consultaVentas($datos){
-			if($datos['tipo_factura_reporte'] == 1){
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado IN(1,2,3)";
-			}else{
+			if($datos['tipo_factura_reporte'] == 1){//contado
+				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 2";
+			}elseif($datos['tipo_factura_reporte'] == 2){//credito
+				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 3";
+			}elseif($datos['tipo_factura_reporte'] == 3){//Anulado
 				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 4";
 			}
 
@@ -4016,6 +4018,7 @@
 				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
 				".$where;
 
+	
 			$result = self::connection()->query($query);
 			return $result;
 		}

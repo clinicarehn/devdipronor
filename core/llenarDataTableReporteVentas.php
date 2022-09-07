@@ -15,6 +15,7 @@
 	
 	$arreglo = array();
 	$data = [];
+	$footer_total = 0;
 	
 	while($row = $result->fetch_assoc()){
 	   $facturas_id = $row['facturas_id'];
@@ -38,8 +39,11 @@
 	   $descuento = number_format($descuento,2);
 	   $total = $row['total'];
 	   $ganancia = $subtotal - $subCosto - $isv - $descuento;
+	   $color = 'bg-warning';
 	   
-	
+	   if($row['tipo_documento'] == 'Contado'){
+			$color = 'bg-c-green';
+	   }
 
 	   $data[] = array( 
 		  "facturas_id"=>$row['facturas_id'],
@@ -51,7 +55,9 @@
 		  "ganancia" =>'L. '.number_format($ganancia,2),
 		  "isv"=>'L. '.$isv,	
 		  "descuento"=>'L. '.$descuento,
-		  "total"=>'L. '.$total	  
+		  "total"=>'L. '.$total,
+		  "color"=> $color,
+		  "footer_total" => $footer_total	  
 	  );		
 	}
 	

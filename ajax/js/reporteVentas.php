@@ -2,11 +2,13 @@
 $(document).ready(function() {
 	getReporteFactura();	
     listar_reporte_ventas();
+	total_ingreso_footer();
 });
 
 $('#form_main_ventas #search').on("click", function(e){
 	e.preventDefault();
 	listar_reporte_ventas();
+	total_ingreso_footer()
 });
 
 //INICIO REPORTE DE VENTAS
@@ -67,6 +69,10 @@ var listar_reporte_ventas = function(){
 		  { width: "2.09%", targets: 11 }		  		  		  
 
 		],
+		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
+        	$('td', nRow).addClass(aData['color']);
+		
+		},
 		"buttons":[
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
@@ -74,6 +80,7 @@ var listar_reporte_ventas = function(){
 				className: 'table_actualizar btn btn-secondary ocultar',
 				action: 	function(){
 					listar_reporte_ventas();
+					total_ingreso_footer();
 				}
 			},
 			{
@@ -198,6 +205,7 @@ function anular(facturas_id){
 				type: "success",
 			});
 			listar_reporte_ventas();
+			total_ingreso_footer();
 		  }else{
 			swal({
 				title: "Error",
@@ -226,12 +234,20 @@ function getReporteFactura(){
 //FIN REPORTE DE VENTAS
 
 var total_ingreso_footer = function(){	
+	var tipo_factura_reporte = 1;
+	if($("#form_main_ventas #tipo_factura_reporte").val() == null || $("#form_main_ventas #tipo_factura_reporte").val() == ""){
+		tipo_factura_reporte = 1;
+	}else{
+		tipo_factura_reporte = $("#form_main_ventas #tipo_factura_reporte").val();
+	}
+
 	var fechai = $("#form_main_ventas #fechai").val();
 	var fechaf = $("#form_main_ventas #fechaf").val();
 	$.ajax({
 		url : '<?php echo SERVERURL;?>core/totalVentasFooter.php',
 		type: "POST",
 		data : {
+			"tipo_factura_reporte":tipo_factura_reporte,
 			"fechai": fechai,
 			"fechaf":fechaf
 			}
