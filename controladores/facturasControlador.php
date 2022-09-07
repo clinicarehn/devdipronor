@@ -41,7 +41,7 @@
 			if($tipo_factura == 1){
 				$estado = 4;//BORRADOR
 			}else{
-				$estado = 1;//CRÉDITO
+				$estado = 2;//CRÉDITO
 			}	
 
 			//CONSULTAMOS LA APERTURA
@@ -311,6 +311,7 @@
 								$productos_id = $_POST['productos_id'][$i];
 								$productName = $_POST['productName'][$i];
 								$quantity = $_POST['quantity'][$i];
+								$medida= $_POST['medida'][$i];
 								$price_anterior = $_POST['precio_real'][$i];
 								$price = $_POST['price'][$i];
 
@@ -334,7 +335,8 @@
 										"cantidad" => $quantity,				
 										"precio" => $price,
 										"isv_valor" => $isv_valor,
-										"descuento" => $discount,				
+										"descuento" => $discount,
+										"medida" => $medida,				
 									];										
 
 									$total_valor += ($price * $quantity);

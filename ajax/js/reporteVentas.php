@@ -70,8 +70,7 @@ var listar_reporte_ventas = function(){
 
 		],
 		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
-        	$('td', nRow).addClass(aData['color']);
-		
+        	$('td', nRow).addClass(aData['color']);		
 		},
 		"buttons":[
 			{

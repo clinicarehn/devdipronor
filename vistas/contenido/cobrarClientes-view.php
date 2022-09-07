@@ -13,7 +13,7 @@
 						</div>
 						<select id="tipo_busqueda" name="tipo_busqueda" class="custom-select" data-toggle="tooltip" data-placement="top" title="Tipo Busqueda">
 							<option value="1">Pendiente</option>
-							<option value="2">Cancelado</option>
+							<option value="2">Pagadas</option>
 					  	</select>
 					</div>
 				</div>				

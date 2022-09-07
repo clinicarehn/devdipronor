@@ -4023,6 +4023,14 @@
 			return $result;
 		}
 
+		public function consultaCXPagoFactura($facturas_id){
+			$query = "SELECT cobrar_clientes_id  FROM cobrar_clientes WHERE facturas_id = '".$facturas_id."' AND estado = 2";
+
+	
+			$result = self::connection()->query($query);
+			return $result;
+		}		
+
 		public function consultaImpresora(){
 			
 			$query = "

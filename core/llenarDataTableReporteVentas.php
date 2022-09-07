@@ -38,11 +38,21 @@
 	   $isv = number_format($isv,2);
 	   $descuento = number_format($descuento,2);
 	   $total = $row['total'];
-	   $ganancia = $subtotal - $subCosto - $isv - $descuento;
-	   $color = 'bg-warning';
+	   $ganancia = $subtotal - $subCosto - $isv - $descuento;	   
 	   
 	   if($row['tipo_documento'] == 'Contado'){
 			$color = 'bg-c-green';
+	   }
+
+	   if($row['tipo_documento'] == 'Crédito'){
+			//CONSULTAMOS LOS PAGOS DEL CLIENTE
+			$result_cxpFacturaPago = $insMainModel->consultaCXPagoFactura($facturas_id);
+
+			if($result_cxpFacturaPago->num_rows>0){
+				$color = 'bg-c-green';
+			}else{
+				$color = 'bg-warning';
+			}			
 	   }
 
 	   $data[] = array( 
