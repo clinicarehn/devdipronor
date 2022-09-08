@@ -3978,11 +3978,9 @@
 				$facturador = " AND usuario = '".$datos['facturador']."'";
 			}
 
-			if($datos['tipo_factura_reporte'] == 1){//contado
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 2".$facturador;
-			}elseif($datos['tipo_factura_reporte'] == 2){//credito
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 3.$facturador";
-			}elseif($datos['tipo_factura_reporte'] == 3){//Anulado
+			if($datos['tipo_factura_reporte'] == 1){//Estado 2. contado y Estado 3.crédito
+				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado IN(2,3)".$facturador;
+			}elseif($datos['tipo_factura_reporte'] == 2){//Estado 4 Anuladas
 				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 4.$facturador";
 			}
 

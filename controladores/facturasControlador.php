@@ -39,9 +39,9 @@
 			$facturas_id = mainModel::correlativo("facturas_id", "facturas");	
 
 			if($tipo_factura == 1){
-				$estado = 4;//BORRADOR
+				$estado = 1;//BORRADOR
 			}else{
-				$estado = 2;//CRÉDITO
+				$estado = 3;//CRÉDITO
 			}	
 
 			//CONSULTAMOS LA APERTURA
