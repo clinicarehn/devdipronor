@@ -114,6 +114,18 @@
 							<th>Bodega</th>
 							</tr>
 						</thead>
+						<tfoot class="bg-info text-white font-weight-bold">
+							<tr>
+								<td colspan='1' class="text-center">Total</td>
+								<td colspan="4"></td>
+								<td></td>
+								<td id="entrada-footer-movimiento"></td>
+								<td id='salida-footer-movimiento'></td>
+								<td id='total-footer-movimiento'></td>
+								<td></td>
+								<td colspan=""></td>
+							</tr>
+						</tfoot>
 					</table>  
 				</div>                   
 			</div>

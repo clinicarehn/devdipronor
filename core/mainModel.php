@@ -3912,7 +3912,6 @@
 				ORDER BY m.fecha_registro DESC";
 
 			$result = self::connection()->query($query);
-
 		
 			return $result;
 		}

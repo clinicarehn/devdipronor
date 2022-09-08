@@ -121,6 +121,7 @@ var listar_movimientos = function(){
 				className: 'table_actualizar btn btn-secondary ocultar',
 				action: 	function(){
 					listar_movimientos();
+
 				}
 			},
 			{
@@ -133,6 +134,7 @@ var listar_movimientos = function(){
 			},
 			{
 				extend:    'excelHtml5',
+				footer: true,
 				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
 				titleAttr: 'Excel',
 				title: 'Reporte Movimientos',
@@ -145,6 +147,7 @@ var listar_movimientos = function(){
 			},
 			{
 				extend:    'pdf',
+				footer: true,
 				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
 				titleAttr: 'PDF',
 				orientation: 'landscape',
@@ -174,8 +177,41 @@ var listar_movimientos = function(){
 	table_movimientos.order([0,'desc'])
 	$('#buscar').focus();
 
+	total_movimiento_footer();
 	//transferencia_producto_dataTable("#dataTablaMovimientos tbody",table_movimientos);
 
+}
+//FOOTER MOVIMIENTOS
+var total_movimiento_footer = function(){	
+	
+	var tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
+	var fechai = $("#form_main_movimientos #fechai").val();
+	var fechaf = $("#form_main_movimientos #fechaf").val();
+	var bodega = $("#form_main_movimientos #almacen").val();
+	var producto = $("#producto_movimiento_filtro").val();
+	var cliente = $('#cliente_movimiento_filtro').val();
+	
+	$.ajax({
+		url : '<?php echo SERVERURL;?>core/totalMovimientosFooter.php',
+		type: "POST",
+		data : {
+				"tipo_producto_id":tipo_producto_id,
+				"fechai":fechai,
+				"fechaf":fechaf,
+				"bodega":bodega,
+				"producto":producto,
+				"cliente":cliente,
+			}
+		})
+		.done(function(data) {
+			data = JSON.parse(data)
+			$("#entrada-footer-movimiento").html("L. " + data.entrada);
+			$("#salida-footer-movimiento").html("L. " + data.salida);
+			$("#total-footer-movimiento").html("L. " + data.saldo);			
+		})
+		.fail(function(data) {
+			console.log( "total ingreso error" );
+	});
 }
 //FIN MOVIMIENTOS
 
