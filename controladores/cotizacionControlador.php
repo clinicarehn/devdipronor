@@ -200,7 +200,7 @@
 
 						$alert = [
 
-							"alert" => "clear_pay",
+							"alert" => "save_simple",
 
 							"title" => "Registro almacenado",
 
