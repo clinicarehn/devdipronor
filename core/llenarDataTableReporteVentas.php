@@ -62,11 +62,11 @@
 		  "tipo_documento"=>$row['tipo_documento'],
 		  "cliente"=>$row['cliente'],
 		  "numero"=>$row['numero'],
-		  "subtotal"=>'L. '.number_format($subtotal,2),	
-		  "ganancia" =>'L. '.number_format($ganancia,2),
-		  "isv"=>'L. '.$isv,	
-		  "descuento"=>'L. '.$descuento,
-		  "total"=>'L. '.$total,
+		  "subtotal"=> $subtotal,	
+		  "ganancia" => $ganancia,
+		  "isv"=>$isv,	
+		  "descuento"=>$descuento,
+		  "total"=>$total,
 		  "color"=> $color,
 		  "footer_total" => $footer_total	  
 	  );		

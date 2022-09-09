@@ -26,8 +26,8 @@
 			"cantidad"=>$saldo_productos,
 			"medida"=>$row['medida'],
 			"categoria"=>$row['categoria'],
-			"precio_compra"=>'L. '.$row['precio_compra'],
-			"precio_venta"=>'L. '.$row['precio_venta']		 			
+			"precio_compra"=> $row['precio_compra'],
+			"precio_venta"=> $row['precio_venta']		 			
 		);			
 	}
 	

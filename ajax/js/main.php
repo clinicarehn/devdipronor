@@ -1464,9 +1464,61 @@ var listar_cuentas_por_cobrar_clientes = function(){
 			{"data":"fecha"},
 			{"data":"cliente"},
 			{"data":"numero"},
-			{"data":"credito"},
-			{"data":"abono"},
-			{"data":"saldo"},
+			{
+                data: 'credito',
+                render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+            },
+			{data: "abono",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{data:"saldo",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
 			{"defaultContent":"<button class='table_abono btn btn-dark'><span class='fas fa-cash-register fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_reportes abono_factura btn btn-dark ocultar'><span class='fa fa-money-bill-wave fa-solid'></span></button>"}
@@ -1481,14 +1533,18 @@ var listar_cuentas_por_cobrar_clientes = function(){
 		  { width: "2.5%", targets: 0 },
 		  { width: "2.5%", targets: 1 },
 		  { width: "12.5%", targets: 2 },
-		  { width: "20.5%", targets: 3 },
-		  { width: "24.5%", targets: 4 },
-		  { width: "12.5%", targets: 5 },
+		  { width: "20.5%", targets: 3, className: "text-center"},
+		  { width: "24.5%", targets: 4, className: "text-center" },
+		  { width: "12.5%", targets: 5, className: "text-center" },
 		  { width: "12.5%", targets: 6 },
 		  { width: "10%", targets: 7 } 	  
 		],		
 		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
         	$('td', nRow).addClass(aData['color']);
+			for (let index = 0; index < aData.length; index++) {
+				console.log(aData[i]["credito"]);
+			}
+			$(row).find('td:eq(2)').css('color', 'red');
 			$('#credito-cxc').html('L. '+ aData['total_credito'])
 			$('#abono-cxc').html('L. '+ aData['total_abono'])
 			$('#total-footer-cxc').html('L. '+ aData['total_pendiente'])

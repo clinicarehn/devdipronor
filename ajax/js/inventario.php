@@ -86,9 +86,60 @@ var listar_movimientos = function(){
 			{"data":"producto"},
 			{"data":"medida"},
 			{"data":"documento"},
-			{"data":"entrada"},
-			{"data":"salida"},
-			{"data":"saldo"},
+			{"data":"entrada",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number('')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"salida",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number('')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"saldo",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number('')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
 			{"data":"comentario"},
 			{"data":"bodega"},
 			
