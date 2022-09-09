@@ -1210,6 +1210,7 @@
 										<th>Categoria</th>
 										<th>Precio Venta</th>							
 										<th>Almacén</th>
+										<th></th>
 									</tr>
 								</thead>
 							</table>

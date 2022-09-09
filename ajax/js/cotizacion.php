@@ -6,6 +6,10 @@ $(document).ready(function() {
 
 //INICIO COTIZACIONES
 
+function resetRow(){
+	row = 0;
+}
+
 $(document).ready(function(){
     $("#quoteForm #QuoteItem").on('keypress', '.product-bar-code', function(event) {	
 		//EVALUAMOS EL ENTER event.which == '13'
@@ -456,54 +460,31 @@ function cleanQuote(){
 $(document).ready(function(){
 
   $('#quoteForm #QuoteItem').on("keydown", '.product-bar-code', function(e) { 
-
 		if (e.which === 112) {//TECLA F1
-
 			//modalLogin();
-
 			modalAyudaCotizacion();
-
 			e.preventDefault();
-
 		}	  
 
   
-
 		//INICIO BUSQUEDA PRODUCTO EN FACTURACION
-
 		if (e.which === 113) {//TECLA F2
-
 			listar_productos_cotizacion_buscar();
-
 			  var row_index = $(this).closest("tr").index();
-
 			  var col_index = $(this).closest("td").index();
-				
-
 
 			  $('#formulario_busqueda_productos_facturacion #row').val(row_index);
-
 			  $('#formulario_busqueda_productos_facturacion #col').val(col_index);	
 
-
-
 			  $('#modal_buscar_productos_facturacion').modal({
-
 				show:true,
-
 				keyboard: false,
-
 				backdrop:'static'
-
 			  });		
-
 			  e.preventDefault();
-
 		}	
 
 		//FIN BUSQUEDA PRODUCTO EN FACTURACION
-
-  
 
 		if (e.which === 114) {//TECLA F3
 
@@ -891,9 +872,10 @@ var listar_productos_cotizacion_buscar = function(){
 			{"data":"nombre"},
 			{"data":"cantidad"},
 			{"data":"medida"},
-			{"data":"tipo_producto"},
+			{"data":"tipo_producto_id"},
 			{"data":"precio_venta"},
-			{"data":"almacen"}
+			{"data":"almacen"},
+			{"data":"almacen_id"}
 		],	
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -909,9 +891,9 @@ var listar_productos_cotizacion_buscar = function(){
 		  { width: "5.5%", targets: 4 },
 		  { width: "12.5%", targets: 5 },
 		  { width: "12.5%", targets: 6 },
-		  { width: "21.5%", targets: 7 }
+		  { width: "21.5%", targets: 7 },
+		  { width: "21.5%", targets: 8 , visible: false,}
 		],
-
 		"buttons":[
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
@@ -2110,58 +2092,32 @@ $(document).ready(function(){
 });
 
 
-
 $(document).ready(function(){
-
     $("#modal_buscar_clientes_facturacion").on('shown.bs.modal', function(){
-
         $(this).find('#formulario_busqueda_clientes_facturacion #buscar').focus();
-
     });
-
 });
-
 
 
 $(document).ready(function(){
-
     $("#modal_buscar_colaboradores_facturacion").on('shown.bs.modal', function(){
-
         $(this).find('#formulario_busqueda_colaboradores_facturacion #buscar').focus();
-
     });
-
 });
-
-
 
 function getVigencia(){
-
     var url = '<?php echo SERVERURL;?>core/getVigencia.php';
 
-
-
 	$.ajax({
-
         type: "POST",
-
         url: url,
-
 	    async: true,
-
         success: function(data){
-
 		    $('#quoteForm #vigencia_quote').html("");
-
 			$('#quoteForm #vigencia_quote').html(data);			
-
 		}
-
      });
-
 }
-
-
 
 $(document).ready(function(){
 

@@ -351,93 +351,96 @@ var view_colaboradores_busqueda_compras_dataTable = function(tbody, table){
 //FIN BUSQUEDA COLABORADORES EN COMPRAS
 
 
+$(document).ready(function(){
+	$("#modal_buscar_productos_facturacion").on('shown.bs.modal', function(){
+		$(this).find('#formulario_busqueda_productos_facturacion #buscar').focus();
+	});
+});	
 
 //INICIO BUSQUEDA PRODUCTOS COMPRAS
-
 $(document).ready(function(){
-
     $("#purchase-form #purchaseItem").on('click', '.buscar_productos_purchase', function(e) {
-
 		  e.preventDefault();
-
 		  listar_productos_compras_buscar();
-
 		  var row_index = $(this).closest("tr").index();
-
 		  var col_index = $(this).closest("td").index();
 
 
-
 		  $('#formulario_busqueda_productos_facturacion #row').val(row_index);
-
 		  $('#formulario_busqueda_productos_facturacion #col').val(col_index);
-
 		  $('#modal_buscar_productos_facturacion').modal({
-
 			show:true,
-
 			keyboard: false,
-
 			backdrop:'static'
-
 		  });
-
 	});
 
 });
 
 
-
 var listar_productos_compras_buscar = function(){
+	var bodega = $("#formulario_busqueda_productos_facturacion #almacen").val();
 
 	var table_productos_compras_buscar = $("#DatatableProductosBusquedaFactura").DataTable({
-
 		"destroy":true,
-
 		"ajax":{
-
 			"method":"POST",
-
-			"url":"<?php echo SERVERURL;?>core/llenarDataTableProductosCompras.php"
-
+			"url":"<?php echo SERVERURL;?>core/llenarDataTableProductosFacturas.php",
+			"data":{
+                "bodega":bodega
+            }			
 		},
-
 		"columns":[
-
 			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus'></span></button>"},
-
-			{"data":"barCode"},
-
+			{"data":"barCode"},			
 			{"data":"nombre"},
-
 			{"data":"cantidad"},
-
 			{"data":"medida"},
-
-			{"data":"tipo_producto"},
-
+			{"data":"tipo_producto_id"},
 			{"data":"precio_venta"},
-
-			{"data":"almacen"}
-
-		],
-
-		"pageLength": 5,
-
+			{"data":"almacen"},
+			{"data":"almacen_id"}
+		],	
         "lengthMenu": lengthMenu,
-
 		"stateSave": true,
-
 		"bDestroy": true,
-
+		"responsive": true,
 		"language": idioma_español,
+		"dom": dom,
+		"columnDefs": [
+		  { width: "5.5%", targets: 0 },
+		  { width: "18.5%", targets: 1 },
+		  { width: "19.5%", targets: 2 },
+		  { width: "12.5%", targets: 3 },
+		  { width: "5.5%", targets: 4 },
+		  { width: "12.5%", targets: 5 },
+		  { width: "12.5%", targets: 6 },
+		  { width: "21.5%", targets: 7 },
+		  { width: "21.5%", targets: 8 , visible: false,}
+		],
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Productos',
+				className: 'table_actualizar btn btn-secondary ocultar',
+				action: 	function(){
 
+					listar_productos_cotizacion_buscar();
+				}
+			},
+
+			{
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				titleAttr: 'Agregar Productos',
+				className: 'table_crear btn btn-primary ocultar',
+				action: 	function(){
+					modal_productos();
+				}
+			}
+		],		
 		"drawCallback": function( settings ) {
-
         	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
-
     	}
-
 	});
 
 	table_productos_compras_buscar.search('').draw();

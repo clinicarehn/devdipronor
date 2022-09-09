@@ -11,6 +11,10 @@ $(document).ready(function() {
 	getReporteFactura();
 });
 
+function resetRow(){
+	row = 0;
+}
+
 $('#formulario_busqueda_productos_facturacion #almacen').on('change',function(){
 	listar_productos_factura_buscar();
 });
@@ -245,7 +249,6 @@ $(document).ready(function(){
 });
 
 var listar_productos_factura_buscar = function(){
-
 	var bodega = $("#formulario_busqueda_productos_facturacion #almacen").val();
 
 	var table_productos_factura_buscar = $("#DatatableProductosBusquedaFactura").DataTable({
@@ -267,7 +270,6 @@ var listar_productos_factura_buscar = function(){
 			{"data":"precio_venta"},
 			{"data":"almacen"},
 			{"data":"almacen_id"}
-
 		],	
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -284,7 +286,7 @@ var listar_productos_factura_buscar = function(){
 		  { width: "12.5%", targets: 5 },
 		  { width: "12.5%", targets: 6 },
 		  { width: "21.5%", targets: 7 },
-		  { width: "21.5%", targets: 8 ,visible: false,}
+		  { width: "21.5%", targets: 8 , visible: false,}
 		],
 		"buttons":[
 			{
@@ -321,7 +323,6 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.table_view", function(e){
         e.preventDefault();
 
-
 		if(getConsultarAperturaCaja() == 2){
 			swal({
 				title: "Error",
@@ -330,7 +331,7 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table){
 				confirmButtonClass: "btn-danger"
 			});			
 		}else{
-			getTotalFacturasDisponibles();
+				getTotalFacturasDisponibles();
 								
 				if($("#invoice-form #cliente_id").val() != "" && $("#invoice-form #cliente").val() != "" && $("#invoice-form #colaborador_id").val() != "" && $("#invoice-form #colaborador").val() != ""){
 				var data = table.row( $(this).parents("tr") ).data();
