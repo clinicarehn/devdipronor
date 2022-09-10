@@ -1472,7 +1472,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -1490,7 +1490,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -1508,7 +1508,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 

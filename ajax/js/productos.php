@@ -15,7 +15,24 @@ var listar_productos = function(){
 			{"data":"image"},
 			{"data":"barCode"},
 			{"data":"nombre"},
-			{"data":"cantidad"},
+			{"data":"cantidad",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
 			{"data":"medida"},
 			{"data":"categoria"},
 			{"data":"precio_compra",

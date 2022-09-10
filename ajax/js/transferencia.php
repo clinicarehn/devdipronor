@@ -63,7 +63,7 @@ var inventario_transferencia = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -81,7 +81,7 @@ var inventario_transferencia = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -99,7 +99,7 @@ var inventario_transferencia = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 

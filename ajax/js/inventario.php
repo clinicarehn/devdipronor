@@ -93,7 +93,7 @@ var listar_movimientos = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -111,7 +111,7 @@ var listar_movimientos = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -129,7 +129,7 @@ var listar_movimientos = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 
