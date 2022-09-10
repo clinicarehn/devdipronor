@@ -17,16 +17,32 @@
 	$arreglo = array();
 	$data = array();
 	
-	while($row = $result->fetch_assoc()){				
+	while($row = $result->fetch_assoc()){	
+		$entrada = 0;
+		$salida = 0;
+		$saldo = 0;
+
+		if(!empty($row['entrada'])){
+			$entrada = $row['entrada'];
+		}	
+
+		if(!empty($row['salida'])){
+			$salida = $row['salida'];
+		}	
+		
+		if(!empty($row['saldo'])){
+			$saldo = $row['saldo'];
+		}			
+
 		$data[] = array( 
 			"fecha_registro"=>$row['fecha_registro'],
 			"barCode"=>$row['barCode'],
 			"producto"=>$row['producto'],
 			"medida"=>$row['medida'],
 			"movimientos_id"=>$row['movimientos_id'],
-			"entrada"=>$row['entrada'],
-			"salida"=>$row['salida'],
-			"saldo"=>$row['saldo'],
+			"entrada"=>$entrada,
+			"salida"=>$salida,
+			"saldo"=>$saldo,
 			"bodega"=>$row['bodega'],
 			"id_bodega"=>$row['almacen_id'],
 			"productos_id"=>$row['productos_id'],
