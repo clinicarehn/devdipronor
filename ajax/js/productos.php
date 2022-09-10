@@ -18,7 +18,7 @@ var listar_productos = function(){
 			{"data":"cantidad",
 				render: function (data, type) {
                     var number = $.fn.dataTable.render
-                        .number(',', '.', 2, 'L ')
+                        .number(',', '.', 2, '')
                         .display(data);
  
                     if (type === 'display') {
