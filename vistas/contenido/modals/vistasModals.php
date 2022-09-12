@@ -99,6 +99,15 @@
 					  <input type="text" required id="cuenta_nombre" name="cuenta_nombre" placeholder="Descripción" class="form-control"  maxlength="30" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
 					</div>					
 				</div>
+
+				<div class="form-row">
+					<div class="col-md-6 mb-3">
+						<label for="tipo_cuenta_id">Tipo de Cuenta <span class="priority">*<span/></label>
+						<select class="form-control" id="tipo_cuenta_id" name="tipo_cuenta_id" required>			  
+						</select>
+					</div>					
+				</div>
+
 				<div class="form-group" id="estado_cuentas_contables">				  
 				  <div class="col-md-12">			
 						<label class="switch">
@@ -653,7 +662,7 @@
       </div>
     </div>
 </div>
-<!--FIN MODAL PAGOS COMPRAS--
+<!--FIN MODAL PAGOS COMPRAS-->
 
 <!--INICIO MODAL PAGOS FACTURACION---->
 <div class="modal fade" id="modal_pagos">
@@ -889,6 +898,16 @@
 																</div>
 															</div>
 														</div>
+														<div class="row">
+															<div class="col-12">
+															    <label>Tipo de Cuenta</label> 
+																<div class="input-group"> 																	
+																	<input type="hidden" name="factura_id_transferencia" id="factura_id_transferencia">
+																	<select required name="tipo_cuenta_id" id="tipo_cuenta_id" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Cuenta donde se recibe el dinero">
+																	</select> 								
+																</div>
+															</div>
+														</div>														
 														<div class="row">
 															<div class="col-12">
 																<div class="input-group"> 	

@@ -12,6 +12,7 @@
 			}
 			$codigo = mainModel::cleanStringStrtoupper($_POST['cuenta_codigo']);
 			$nombre = mainModel::cleanString($_POST['cuenta_nombre']);
+			$tipo_cuenta_id = $_POST['tipo_cuenta_id'];
 			$cuentas_activo = 1;
 			
 			$fecha_registro = date("Y-m-d H:i:s");
@@ -22,6 +23,7 @@
 				"nombre" => $nombre,
 				"estado" => $cuentas_activo,
 				"fecha_registro" => $fecha_registro,
+				"tipo_cuenta_id" => $tipo_cuenta_id,
 			];
 			
 			//VALIDAMOS QUE NO EXISTA LA CUENTA
@@ -70,6 +72,7 @@
 			$cuentas_id = mainModel::cleanString($_POST['cuentas_id']);		
 			$codigo = mainModel::cleanStringStrtoupper($_POST['cuenta_codigo']);
 			$nombre = mainModel::cleanStringConverterCase($_POST['cuenta_nombre']);
+			$tipo_cuenta_id = $_POST['tipo_cuenta_id'];
 
 			if (isset($_POST['cuentas_activo'])){
 				$cuentas_activo = $_POST['cuentas_activo'];
@@ -80,7 +83,8 @@
 			$datos = [
 				"cuentas_id" => $cuentas_id,
 				"nombre" => $nombre,
-				"estado" => $cuentas_activo,				
+				"estado" => $cuentas_activo,
+				"tipo_cuenta_id" => $tipo_cuenta_id,				
 			];
 					
 			$query = cuentaContabilidadModelo::edit_cuentas_contabilidad_modelo($datos);

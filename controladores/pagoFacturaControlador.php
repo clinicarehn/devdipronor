@@ -190,7 +190,7 @@
 			$cambio = 0;
 			$abono = $_POST['importe'];
 			$empresa_id = $_SESSION['empresa_id_sd'];			
-			$tipo_pago_id = 3;//TRANSFERENCIA		
+			$tipo_pago_id = $_POST['tipo_cuenta_id'];//TOMAMOS LA CUENTA ID DEL TIPO DE PAGO SELECCIONADO		
 			$banco_id = $_POST['bk_nm'];
 			$tipo_pago = $_POST['tipo_factura'];//1. CONTADO 2. CRÉDITO			
 			$estado_factura = $_POST['tipo_factura'];//PAGADA 1 //credito 2

@@ -1701,6 +1701,7 @@
 				FROM movimientos_cuentas
 				WHERE YEAR(fecha_registro) = '$año' AND MONTH(fecha_registro) = '$mes' AND cuentas_id = '$cuentas_id'
 				ORDER BY movimientos_cuentas_id DESC LIMIT 1";
+			
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -2369,78 +2370,54 @@
 				FROM almacen AS a
 
 				INNER JOIN ubicacion AS u
-
 				ON a.ubicacion_id = u.ubicacion_id
-
 				INNER JOIN empresa AS e
-
 				ON a.empresa_id = e.empresa_id
-
 				WHERE a.estado = 1
-
 				ORDER BY a.nombre ASC";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getTipoPagoContabilidad(){
-
-			$query = "SELECT tp.nombre AS 'nombre', c.codigo AS 'codigo', c.nombre AS 'cuenta', tp.tipo_pago_id AS 'tipo_pago_id'
-
+			$query = "SELECT tp.nombre AS 'nombre', c.codigo AS 'codigo', c.nombre AS 'cuenta', tc.nombre AS 'tipo_cuenta', tp.tipo_pago_id AS 'tipo_pago_id'
 				FROM tipo_pago AS tp
-
 				INNER JOIN cuentas As c
-
 				ON tp.cuentas_id = c.cuentas_id
-
+				INNER JOIN tipo_cuenta AS tc
+				ON tp.tipo_cuenta_id = tc.tipo_cuenta_id
 				WHERE tp.estado = 1";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
 		}
 
+		public function getConfTipoCuenta(){
+			$query = "SELECT * FROM tipo_cuenta";
 
+			$result = self::connection()->query($query);
+
+			return $result;
+
+		}		
 
 		public function getUbicacion(){
-
 			$query = "SELECT u.ubicacion_id AS 'ubicacion_id', u.nombre AS 'ubicacion', e.nombre AS 'empresa'
-
 				FROM ubicacion AS u
-
 				INNER JOIN empresa AS e
-
 				ON u.empresa_id = e.empresa_id
-
 				WHERE u.estado = 1
-
 				ORDER BY u.nombre ASC";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getTipoProductos(){
 
@@ -2489,7 +2466,8 @@
 		public function getCuentasContabilidad(){
 			$query = "SELECT *
 				FROM cuentas
-				WHERE estado = 1";
+				WHERE estado = 1
+				ORDER BY tipo_cuenta_id";
 
 			$result = self::connection()->query($query);
 
@@ -2685,36 +2663,21 @@
 		}
 
 
-
 		public function getChequesContables($datos){
-
 			$query = "SELECT ck.fecha AS 'fecha', ck.factura AS 'factura', ck.importe AS 'importe', c.codigo AS 'codigo', c.nombre AS 'nombre', ck.observacion AS 'observacion', p.nombre AS 'proveedor'
-
 				FROM cheque AS ck
-
 				INNER JOIN cuentas AS c
-
 				ON ck.cuentas_id = c.cuentas_id
-
 				INNER JOIN proveedores AS p
-
 				ON ck.proveedores_id = p.proveedores_id
-
 				WHERE ck.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
-
 				ORDER BY ck.fecha_registro DESC";
-
 
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		/*INICIO FUNCIONES ACCIONES CONSULTAS EDITAR FORMULARIOS*/
 
@@ -3651,97 +3614,62 @@
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getCorreoEdit($correo_id){
 
 			$query = "SELECT c.correo_id AS 'correo_id', c.correo_tipo_id AS 'correo_tipo_id', ct.nombre AS 'tipo_correo', c.server AS 'server', c.correo AS 'correo', c.port AS 'port', c.smtp_secure AS 'smtp_secure', c.estado AS 'estado', c.password AS 'password'
-
 				FROM correo AS c
-
 				INNER JOIN correo_tipo AS ct
-
 				ON c.correo_tipo_id = ct.correo_tipo_id
-
 				WHERE c.correo_id = '$correo_id'";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getTipoPagoEdit($tipo_pago_id){
-
 			$query = "SELECT *
-
 				FROM tipo_pago
-
 				WHERE tipo_pago_id = '$tipo_pago_id'";
 
+			$result = self::connection()->query($query);
 
+			return $result;
+		}
+
+		public function getTipoCuentaEdit($tipo_cuenta_id){
+			$query = "SELECT *
+				FROM tipo_cuenta
+				WHERE tipo_cuenta_id = '$tipo_cuenta_id'";
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
-		}
-
-
+		}		
 
 		public function getBancosEdit($banco_id){
-
 			$query = "SELECT *
-
 				FROM banco
-
 				WHERE banco_id = '$banco_id'";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
 		}
-
-
 
 		public function getEgresosEdit($egresos_id){
-
 			$query = "SELECT *
-
 				FROM egresos
-
 				WHERE egresos_id = '$egresos_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getIngresosEdit($ingresos_id){
 
@@ -4014,11 +3942,31 @@
 
 		public function getBanco(){
 			$query = "SELECT * FROM banco";
-
+			
 			$result = self::connection()->query($query);
 
 			return $result;
 		}
+
+		public function getTipoCuenta(){
+			$query = "SELECT * FROM tipo_cuenta";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}	
+		
+		public function getTipoCuentaBancos(){
+			$query = "SELECT tp.tipo_pago_id AS 'tipo_pago_id', tp.nombre AS 'nombre'
+				FROM tipo_pago AS tp
+				INNER JOIN tipo_cuenta AS tc
+				ON tp.tipo_cuenta_id = tc.tipo_cuenta_id
+				WHERE tc.nombre = 'Banco'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}			
 
 		public function getImpuestos(){
 			$query = "SELECT isv_id, valor, (CASE WHEN isv_tipo_id = 1 THEN 'Factura' ELSE 'Compra' END) AS 'tipo_isv_nombre'

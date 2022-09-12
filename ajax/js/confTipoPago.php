@@ -2,6 +2,7 @@
 $(document).ready(function() {
     listar_tipo_pago_contabilidad();
     getCuentaTipoPago();
+	getTipoCuenta();
 });
 
 //INICIO TIPO DE PAGO
@@ -15,21 +16,23 @@ var listar_tipo_pago_contabilidad = function(){
 		"columns":[
 			{"data":"nombre"},
 			{"data":"codigo"},
+			{"data":"tipo_cuenta"},
 			{"data":"cuenta"},						
 			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash'></span></button>"}
 		],
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,//esta se encuenta en el archivo main.js
 		"dom": dom,
 		"columnDefs": [
-		  { width: "30%", targets: 0 },
-		  { width: "30%", targets: 1 },
-		  { width: "30%", targets: 2 },
-		  { width: "5%", targets: 3 },
-		  { width: "5%", targets: 4 }			  
+		  { width: "22.66%", targets: 0 },
+		  { width: "16.66%", targets: 1 },
+		  { width: "22.66%", targets: 2 },
+		  { width: "26.66%", targets: 3 },
+		  { width: "5.66%", targets: 4 },
+		  { width: "5.66%", targets: 5 }			  
 		],		
 		"buttons":[
 			{
@@ -112,7 +115,8 @@ var edit_tipo_pago_contabilidad_dataTable = function(tbody, table){
 				$('#delete_formTipoPago').hide();
 				$('#formConfTipoPago #pro_tipoPago').val("Editar");
 				$('#formConfTipoPago #confTipoPago').val(valores[0]);
-				$('#formConfTipoPago #confCuentaTipoPago').val(valores[1]);				
+				$('#formConfTipoPago #confCuentaTipoPago').val(valores[1]);	
+				$('#formConfTipoPago #tipo_cuenta_id').val(valores[3]);				
 
 				if(valores[2] == 1){
 					$('#formConfTipoPago #confTipoPago_activo').attr('checked', true);
@@ -120,7 +124,7 @@ var edit_tipo_pago_contabilidad_dataTable = function(tbody, table){
 					$('#formConfTipoPago #confTipoPago_activo').attr('checked', false);
 				}
 
-				//HABILITAR OBJETOS
+				//HABILITAR OBJETOS				
 				$('#formConfTipoPago #confTipoPago').attr('readonly', false);
 				$('#formConfTipoPago #confCuentaTipoPago').attr('disabled', false);
 				$('#formConfTipoPago #confTipoPago_activo').attr('disabled', false);	
@@ -128,7 +132,8 @@ var edit_tipo_pago_contabilidad_dataTable = function(tbody, table){
 				$('#formConfTipoPago #estado_tipo_pago').show();
 
 				//DESHABILITAR OBJETOS
-
+				$('#formConfTipoPago #tipo_cuenta_id').attr('readonly', true);
+				
 				$('#modalConfTipoPago').modal({
 					show:true,
 					keyboard: false,
@@ -160,7 +165,8 @@ var delete_tipo_pago_contabilidad_dataTable = function(tbody, table){
 				$('#delete_formTipoPago').show();
 				$('#formConfTipoPago #pro_tipoPago').val("Eliminar");
 				$('#formConfTipoPago #confTipoPago').val(valores[0]);
-				$('#formConfTipoPago #confCuentaTipoPago').val(valores[1]);				
+				$('#formConfTipoPago #confCuentaTipoPago').val(valores[1]);
+				$('#formConfTipoPago #tipo_cuenta_id').val(valores[3]);					
 
 				if(valores[2] == 1){
 					$('#formConfTipoPago #confTipoPago_activo').attr('checked', true);
@@ -169,6 +175,7 @@ var delete_tipo_pago_contabilidad_dataTable = function(tbody, table){
 				}
 
 				//DESHABILITAR OBJETOS
+				$('#formConfTipoPago #tipo_cuenta_id').attr('readonly', true);
 				$('#formConfTipoPago #confTipoPago').attr('readonly', true);
 				$('#formConfTipoPago #confCuentaTipoPago').attr('disabled', true);
 				$('#formConfTipoPago #confTipoPago_activo').attr('disabled', true);	
@@ -197,6 +204,7 @@ function modalTipoPago(){
 	$('#delete_formTipoPago').hide();
 
 	//HABILITAR OBJETOS
+	$('#formConfTipoPago #tipo_cuenta_id').attr('readonly', false);
 	$('#formConfTipoPago #confTipoPago').attr('readonly', false);
 	$('#formConfTipoPago #confCuentaTipoPago').attr('disabled', false);
 	$('#formConfTipoPago #confTipoPago_activo').attr('disabled', false);	
@@ -243,4 +251,19 @@ $('#formConfTipoPago .switch').change(function(){
         return false;
     }
 });	
+
+function getTipoCuenta(){
+	var url = '<?php echo SERVERURL;?>core/getTipoCuenta.php';
+
+	$.ajax({
+		type:'POST',
+		url:url,
+		success: function(data){
+		    $('#formConfTipoPago #tipo_cuenta_id').html("");
+			$('#formConfTipoPago #tipo_cuenta_id').html(data);				
+			
+			return false;
+		}
+	});
+}
 </script>

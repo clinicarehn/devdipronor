@@ -1,23 +1,21 @@
 <div class="container-fluid">
     <ol class="breadcrumb mt-2 mb-4">
         <li class="breadcrumb-item"><a class="breadcrumb-link" href="<?php echo SERVERURL; ?>dashboard/">Dashboard</a></li>
-        <li class="breadcrumb-item active">Tipo de Pago</li>
+        <li class="breadcrumb-item active">Tipo de Cuenta</li>
     </ol>
     <div class="card mb-4">
 		<div class="card mb-4">
 			<div class="card-header">
-				<i class="fab fa-bitcoin mr-1"></i>
-				Tipo de Pago
+				<i class="fas fa-layer-group"></i>
+				Tipo de Cuenta
 			</div>
 			<div class="card-body"> 
 				<div class="table-responsive">
-					<table id="dataTableConfTipoPago" class="table table-striped table-condensed table-hover" style="width:100%">
+					<table id="dataTableConfTipoCuenta" class="table table-striped table-condensed table-hover" style="width:100%">
 						<thead>
 							<tr>
-								<th>Nombre</th>
 								<th>Código</th>	
-								<th>Tipo Cuenta</th>	
-								<th>Cuenta</th>							
+								<th>Tipo Cuenta</th>						
 								<th>Editar</th>
 								<th>Eliminar</th>	
 							</tr>
@@ -30,7 +28,7 @@
 				require_once "./core/mainModel.php";
 				
 				$insMainModel = new mainModel();
-				$entidad = "tipo_pago";
+				$entidad = " tipo_cuenta";
 				
 				if($insMainModel->getlastUpdate($entidad)->num_rows > 0){
 					$consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();

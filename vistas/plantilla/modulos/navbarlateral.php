@@ -61,6 +61,7 @@
 					<a class="nav-link link" href="<?php echo SERVERURL; ?>chequesContabilidad/" id="chequesContabilidad"style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-money-check"></i></div>Cheques</a>
 					<a class="nav-link link" href="<?php echo SERVERURL; ?>confCtaContabilidad/" id="confCtaContabilidad"style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-tasks"></i></div>Conf Cuentas</a> 
 					<a class="nav-link link" href="<?php echo SERVERURL; ?>confTipoPago/" id="confTipoPago"style="display:none"><div class="sb-nav-link-icon"><i class="fab fa-bitcoin"></i></div>Tipo de Pago</a>
+                    <a class="nav-link link" href="<?php echo SERVERURL; ?>confTipoCuenta/" id="confTipoCuenta"style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-layer-group"></i></div>Tipo de Cuenta</a>
 					<a class="nav-link link" href="<?php echo SERVERURL; ?>confBancos/" id="confBancos"style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-university"></i></div>Bancos</a>  
 					<a class="nav-link link" href="<?php echo SERVERURL; ?>confImpuestos/" id="confImpuestos"style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-percentage"></i></div>Impuestos</a>                                                                                
                 </nav>

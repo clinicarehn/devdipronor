@@ -13,6 +13,7 @@
 		0 => $valores2['cuentas_id'], 
 		1 => $valores2['codigo'], 
 		2 => $valores2['nombre'],
-		3 => $valores2['estado'],						
+		3 => $valores2['estado'],
+		4 => $valores2['tipo_cuenta_id'],						
 	);
 	echo json_encode($datos);

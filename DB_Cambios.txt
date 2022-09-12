@@ -1,3 +1,28 @@
+####11/9/2022####
+Se creo una nueva tabla
+tipo_cuenta
+tipo_cuenta_id     int
+nombre             char(255)
+estado		 int
+fecha_registro     datetime
+
+Se agrego un nuevo campo en las siguientes tablas
+cuentas
+tipo_cuenta_id     int  despues de cuentas_id 
+
+tipo_pago
+tipo_cuenta_id     int  despues de tipo_pago_id
+
+Se agrego un nuevo registro en las tablas
+submenu
+submenu_id     menu_id     name
+35             5           confTipoCuenta
+
+acceso_submenu
+acceso_submenu_id   submenu_id    privilegio_id   estado   fecha_registro
+133                 35            1               1        fecha actual del registro
+
+
 ####24/8/2022####
 tabla movimientos
 clientes_id int

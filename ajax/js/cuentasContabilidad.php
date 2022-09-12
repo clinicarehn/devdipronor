@@ -1,6 +1,7 @@
 <script>
 $(document).ready(function() {
     listar_cuentas_contabilidad();
+	getTipoCuenta();
 });
 
 $('#formMainCuentasContabilidad #search').on("click", function(e){
@@ -33,7 +34,7 @@ var listar_cuentas_contabilidad = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -51,7 +52,7 @@ var listar_cuentas_contabilidad = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -69,7 +70,7 @@ var listar_cuentas_contabilidad = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -87,7 +88,7 @@ var listar_cuentas_contabilidad = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -105,7 +106,7 @@ var listar_cuentas_contabilidad = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'green';
+                        let color = 'black';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -119,7 +120,7 @@ var listar_cuentas_contabilidad = function(){
 			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}			
 		],			
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu30,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,
@@ -219,7 +220,8 @@ var editar_cuentas_contabilidad_dataTable = function(tbody, table){
 				$('#delete_cuentas').hide();
 				
 				$('#formCuentasContables #cuenta_codigo').val(valores[1]);
-				$('#formCuentasContables #cuenta_nombre').val(valores[2]);				
+				$('#formCuentasContables #cuenta_nombre').val(valores[2]);	
+				$('#formCuentasContables #tipo_cuenta_id').val(valores[4]);							
 
 				if(valores[3] == 1){
 					$('#formCuentasContables #clientes_activo').attr('checked', true);
@@ -229,6 +231,7 @@ var editar_cuentas_contabilidad_dataTable = function(tbody, table){
 
 				//HABILITAR OBJETOS
 				$('#formCuentasContables #cuenta_nombre').attr("readonly", false);
+				$('#formCuentasContables #tipo_cuenta_id').attr("disabled", false);
 				$('#formCuentasContables #estado_cuentas_contables').show();
 
 				//DESHABILITAR
@@ -266,7 +269,8 @@ var eliminar_cuentas_contabilidad_dataTable = function(tbody, table){
 				$('#delete_cuentas').show();
 				
 				$('#formCuentasContables #cuenta_codigo').val(valores[1]);
-				$('#formCuentasContables #cuenta_nombre').val(valores[2]);				
+				$('#formCuentasContables #cuenta_nombre').val(valores[2]);	
+				$('#formCuentasContables #tipo_cuenta_id').val(valores[4]);				
 
 				if(valores[3] == 1){
 					$('#formCuentasContables #clientes_activo').attr('checked', true);
@@ -277,6 +281,7 @@ var eliminar_cuentas_contabilidad_dataTable = function(tbody, table){
 				//DESHABILITAR OBJETOS
 				$('#formCuentasContables #cuenta_codigo').attr("readonly", true);
 				$('#formCuentasContables #cuenta_nombre').attr("readonly", true);
+				$('#formCuentasContables #tipo_cuenta_id').attr("disabled", true);
 				$('#formCuentasContables #estado_cuentas_contables').hide();
 
 				$('#formCuentasContables #pro_cuentas').val("Eliminar");
@@ -304,6 +309,7 @@ function modal_cuentas_contables(){
 	$('#formCuentasContables #cuenta_codigo').attr("readonly", false);
 	$('#formCuentasContables #cuenta_nombre').attr("readonly", false);
 	$('#formCuentasContables #cuentas_activo').attr("disabled", false);
+	$('#formCuentasContables #tipo_cuenta_id').attr("disabled", false);
 	$('#formCuentasContables #estado_cuentas_contables').hide();
 
 	$('#formCuentasContables #pro_cuentas').val("Registro");
@@ -328,4 +334,19 @@ $('#formCuentasContables .switch').change(function(){
         return false;
     }
 });	
+
+function getTipoCuenta(){
+	var url = '<?php echo SERVERURL;?>core/getTipoCuenta.php';
+
+	$.ajax({
+		type:'POST',
+		url:url,
+		success: function(data){
+		    $('#formCuentasContables #tipo_cuenta_id').html("");
+			$('#formCuentasContables #tipo_cuenta_id').html(data);				
+			
+			return false;
+		}
+	});
+}
 </script>

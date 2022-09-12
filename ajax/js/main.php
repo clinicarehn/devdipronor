@@ -402,6 +402,10 @@ function toDataURL(src, callback, outputFormat) {
 //FIN CONVERTIR IMAGEN BASE 64
 
 var lengthMenu = [[5, 10, 20, 30, 50, 100, -1], [5, 10, 20, 30, 50, 100, "Todo"]];
+var lengthMenu10 = [[10, 20, 30, 50, 100, -1], [10, 20, 30, 50, 100, "Todo"]];
+var lengthMenu20 = [[20, 30, 50, 100, -1], [20, 30, 50, 100, "Todo"]];
+var lengthMenu30 = [[30, 50, 100, -1], [30, 50, 100, "Todo"]];
+var lengthMenu50 = [[50, 100, -1], [50, 100, "Todo"]];
 
 var dom = "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
 			"<'row'<'col-sm-12'tr>>" +
@@ -2350,6 +2354,20 @@ function getBanco(){
 			
         },
 		
+     });
+}
+
+function getCuentaTipoPagoPagosBancos(){
+    var url = '<?php echo SERVERURL;?>core/getTipoCuentaBancos.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formTransferenciaBill #tipo_cuenta_id').html("");
+			$('#formTransferenciaBill #tipo_cuenta_id').html(data);			
+		}
      });
 }
 //FIN MODAL REGSITRAR PAGO FACTURACIÓN CLIENTES

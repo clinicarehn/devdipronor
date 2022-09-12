@@ -9,6 +9,7 @@ $(document).ready(function() {
 	getTotalFacturasDisponibles();
 	getReporteCotizacion();
 	getReporteFactura();
+	getCuentaTipoPagoPagosBancos();
 });
 
 function resetRow(){

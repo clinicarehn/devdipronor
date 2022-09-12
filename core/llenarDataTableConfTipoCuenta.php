@@ -5,18 +5,16 @@
 	
 	$insMainModel = new mainModel();
 
-	$result = $insMainModel->getTipoPagoContabilidad();
+	$result = $insMainModel->getConfTipoCuenta();
 	
 	$arreglo = array();
 	$data = array();	
 	
 	while($row = $result->fetch_assoc()){
 		$data[] = array( 
-			"tipo_pago_id"=>$row['tipo_pago_id'],
+			"tipo_cuenta_id"=>$row['tipo_cuenta_id'],
 			"nombre"=>$row['nombre'],
-			"codigo"=>$row['codigo'],
-			"tipo_cuenta"=>$row['tipo_cuenta'],
-			"cuenta"=>$row['cuenta']		  
+			"estado"=>$row['estado'],	  
 		);	
 	}
 	

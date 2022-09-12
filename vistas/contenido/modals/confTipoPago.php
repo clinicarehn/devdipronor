@@ -34,6 +34,13 @@
 				</div>
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
+						<label for="tipo_cuenta_id">Tipo Cuenta<span class="priority">*<span/></label>
+						<select class="form-control" id="tipo_cuenta_id" name="tipo_cuenta_id" required>			  
+						</select>
+					</div>					
+				</div>				
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
 					  <label>Cuenta <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
 						  <select id="confCuentaTipoPago" name="confCuentaTipoPago" class="custom-select" data-toggle="tooltip" data-placement="top" title="Modalidad">

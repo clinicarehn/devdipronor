@@ -7,7 +7,7 @@
 	
 	class tipoPagoControlador extends tipoPagoModelo{
 		public function agregar_tipo_pago_controlador(){
-			$nombre = mainModel::cleanStringConverterCase($_POST['confTipoPago']);
+			$nombre = mainModel::cleanString($_POST['confTipoPago']);
 			
 			if (isset($_POST['confCuentaTipoPago'])){
 				$cuentas_id = $_POST['confCuentaTipoPago'];
@@ -69,7 +69,7 @@
 		
 		public function edit_tipo_pago_controlador(){
 			$tipo_pago_id = $_POST['tipo_pago_id'];
-			$nombre = mainModel::cleanStringConverterCase($_POST['confTipoPago']);
+			$nombre = mainModel::cleanString($_POST['confTipoPago']);
 			
 			if (isset($_POST['confCuentaTipoPago'])){
 				$cuentas_id = $_POST['confCuentaTipoPago'];
