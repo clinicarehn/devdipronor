@@ -3,13 +3,23 @@ $(document).ready(function() {
     listar_secuencia_facturacion();
 });
 
+$('#form_main_secuencia #search').on("click", function(e){
+	e.preventDefault();
+	listar_secuencia_facturacion();
+});
+
 //INICIO ACCIONES FROMULARIO SECUENCIA FACTURACION
 var listar_secuencia_facturacion = function(){
+	var estado = $("#form_main_secuencia #estado").val();
+
 	var table_secuencia_facturacion  = $("#dataTableSecuencia").DataTable({
 		"destroy":true,
 		"ajax":{
 			"method":"POST",
-			"url":"<?php echo SERVERURL;?>core/llenarDataTableSecuenciaFacturacion.php"
+			"url":"<?php echo SERVERURL;?>core/llenarDataTableSecuenciaFacturacion.php",
+			"data":{
+				"estado":estado
+			}			
 		},
 		"columns":[
 			{"data":"empresa"},

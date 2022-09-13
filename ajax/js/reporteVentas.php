@@ -9,7 +9,7 @@ $(document).ready(function() {
 $('#form_main_ventas #search').on("click", function(e){
 	e.preventDefault();
 	listar_reporte_ventas();
-	total_ingreso_footer()
+	total_ingreso_footer();
 });
 
 //INICIO REPORTE DE VENTAS

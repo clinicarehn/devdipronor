@@ -2000,78 +2000,42 @@
 				ON u.colaboradores_id = c.colaboradores_id
 
 				INNER JOIN tipo_user AS tp
-
 				ON u.tipo_user_id = tp.tipo_user_id
-
 				INNER JOIN empresa AS e
-
 				ON u.empresa_id = e.empresa_id
-
 				".$where."
-
 				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 
-
-		public function getSecuenciaFacturacion(){
-
+		public function getSecuenciaFacturacion($datos){
 			$query = "SELECT sf.secuencia_facturacion_id AS 'secuencia_facturacion_id', sf.cai AS 'cai', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno', sf.incremento AS 'incremento', sf.siguiente AS 'siguiente', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', DATE_FORMAT(sf.fecha_activacion, '%d/%m/%Y') AS 'fecha_activacion', DATE_FORMAT(sf.fecha_registro, '%d/%m/%Y') AS 'fecha_registro', e.nombre AS 'empresa', DATE_FORMAT(sf.fecha_limite, '%d/%m/%Y') AS 'fecha_limite'
-
 				FROM secuencia_facturacion AS sf
-
 				INNER JOIN empresa AS e
-
 				ON sf.empresa_id = e.empresa_id
-
-				WHERE sf.activo = 1
-
+				WHERE sf.activo = '".$datos['estado']."'
 				ORDER BY sf.fecha_registro";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getISV($documento){
-
 			$query = "SELECT i.isv_id AS 'isv_id', i.isv_tipo_id AS 'isv_tipo_id', i.valor AS 'valor', it.nombre AS 'tipo_isv'
-
 				FROM isv AS i
-
 				INNER JOIN isv_tipo As it
-
 				ON i.isv_tipo_id = it.isv_tipo_id
-
 				WHERE it.nombre = '$documento'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getISVEstadoProducto($productos_id){
 

@@ -8,6 +8,7 @@
 	class tipoPagoControlador extends tipoPagoModelo{
 		public function agregar_tipo_pago_controlador(){
 			$nombre = mainModel::cleanString($_POST['confTipoPago']);
+			$tipo_cuenta_id = $_POST['tipo_cuenta_id'];
 			
 			if (isset($_POST['confCuentaTipoPago'])){
 				$cuentas_id = $_POST['confCuentaTipoPago'];
@@ -21,6 +22,7 @@
 			
 			$datos = [
 				"cuentas_id" => $cuentas_id,
+				"tipo_cuenta_id" => $tipo_cuenta_id,
 				"nombre" => $nombre,
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,				
@@ -92,6 +94,20 @@
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,				
 			];
+
+			$resultTipoPagoModelo = tipoPagoModelo::valid_tipo_pago_modelo($nombre);
+
+			if($resultTipoPagoModelo->num_rows==0){
+
+			}else{
+				$alert = [
+					"alert" => "simple",
+					"title" => "Resgistro ya existe",
+					"text" => "Lo sentimos este registro ya existe",
+					"type" => "error",	
+					"btn-class" => "btn-danger",						
+				];				
+			}
 
 			$query = tipoPagoModelo::edit_tipo_pago_modelo($datos);
 			

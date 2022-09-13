@@ -5,7 +5,11 @@
 	
 	$insMainModel = new mainModel();
 	
-	$result = $insMainModel->getSecuenciaFacturacion();
+	$datos = [
+		"estado" => $_POST['estado']		
+	];	
+
+	$result = $insMainModel->getSecuenciaFacturacion($datos);
 	
 	$arreglo = array();
 	$data = array();
