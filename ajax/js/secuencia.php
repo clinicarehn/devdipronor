@@ -1,6 +1,7 @@
 <script>
 $(document).ready(function() {
     listar_secuencia_facturacion();
+	getEmpresaSecuencia();
 });
 
 $('#form_main_secuencia #search').on("click", function(e){
@@ -234,7 +235,6 @@ var eliminar_secuencia_facturacion_dataTable = function(tbody, table){
 
 /*INICIO FORMULARIO SECUENCIA DE FACTURACION*/
 function modal_secuencia_facturacion(){
-	getEmpresaSecuencia();
 	$('#formSecuencia').attr({ 'data-form': 'save' });
 	$('#formSecuencia').attr({ 'action': '<?php echo SERVERURL;?>ajax/agregarSecuenciaFacturacionAjax.php' });
 	$('#formSecuencia')[0].reset();

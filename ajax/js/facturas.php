@@ -1616,52 +1616,54 @@ function getTotalFacturasDisponibles(){
 	   success:function(registro){
 			var valores = eval(registro);
 			var mensaje = "";
-			if(valores[0] >=10 && valores[0] <= 30){
-				mensaje = "Total Facturas disponibles: " + valores[0];
-
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");
-
-				$("#mensajeFacturas").attr("disabled", true);
-				$("#invoice-form #reg_factura").attr("disabled", false);
-
-
-			}else if(valores[0] >=1 && valores[0] <= 9){
-				mensaje = "Total Facturas disponibles: " + valores[0];
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
-				$("#mensajeFacturas").attr("disabled", true);
-				$("#invoice-form #reg_factura").attr("disabled", false);
-			}
-			else{
-				mensaje = "";
-
+			if(valores[0] == "Inactivo"){
+				mensaje = "No cuenta con un servicio de Facturación Activo, por favor consulte con su Contador";
 				$("#invoice-form #reg_factura").attr("disabled", false);			
 				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");				
-			}
+				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");	
 
-			if(valores[0] == 0){
-				mensaje = "No puede seguir facturando";
+			}else{
+				if(valores[0] >=10 && valores[0] <= 30){
+					mensaje = "Total Facturas disponibles: " + valores[0];
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");
 
-				$("#invoice-form #reg_factura").attr("disabled", true);			
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
-			}
-			
-			if(valores[1] == 1){
-				mensaje += "<br/>Su fecha límite es: " + valores[2];
-				$("#invoice-form #reg_factura").attr("disabled", false);					
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");			
-			}
+					$("#mensajeFacturas").attr("disabled", true);
+					$("#invoice-form #reg_factura").attr("disabled", false);
+				}else if(valores[0] >=1 && valores[0]<= 9){
+					mensaje = "Total Facturas disponibles: " + valores[0];
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+					$("#mensajeFacturas").attr("disabled", true);
+					$("#invoice-form #reg_factura").attr("disabled", false);
+				}
+				else{
+					mensaje = "No puede seguir facturando ya alcanzo su límite de facturación, por favor contacte a su contador para más detalles";
+					$("#invoice-form #reg_factura").attr("disabled", true);			
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");				
+				}
 
-			if(valores[1] == 0){
-				mensaje += "<br/>Ya alcanzo su fecha límite";
-				$("#invoice-form #reg_factura").attr("disabled", true);					
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");		
-			}			
+				if(valores[0] > 0){
+					if(valores[1] > 5){
+						$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
+						$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");
+
+						$("#mensajeFacturas").attr("disabled", true);
+						$("#invoice-form #reg_factura").attr("disabled", false);
+					}else if(valores[1] == 1 || valores[1] <= 5){
+						mensaje += "<br/>Su fecha límite es: " + valores[2] + ", le quedan " + valores[1] + " días";
+						$("#invoice-form #reg_factura").attr("disabled", false);					
+						$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
+						$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");			
+					}else if(valores[1] < 0){
+						mensaje += "<br/>Ya alcanzo su fecha límite de facturación permitida, por favor contacte a su contador para más detalles";
+						$("#invoice-form #reg_factura").attr("disabled", true);					
+						$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
+						$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");		
+					}	
+				}
+			}		
 	   }
 	});
 }

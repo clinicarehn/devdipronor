@@ -3502,79 +3502,52 @@
 
 		}
 
-
-
 		public function getAlmacenEdit($almacen_id){
-
 			$query = "SELECT *
-
 				FROM almacen
-
 				WHERE almacen_id = '$almacen_id'";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 
+		public function valid_secuencia_facturacionSAR($empresa_id){
+			$query = "SELECT secuencia_facturacion_id
+				FROM secuencia_facturacion
+				WHERE empresa_id = '$empresa_id' AND activo = 1";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
 
 		public function getTotalFacturasDisponiblesDB($empresa_id){
-
-			$query = "SELECT number AS 'numero'
-
-				FROM facturas
-
-				WHERE empresa_id = '$empresa_id'
-
-				ORDER BY number DESC LIMIT 1";
-
-
-
-			$result = self::connection()->query($query);
-
-
-
-			return $result;
-
-		}
-
-
-
-		public function getNumeroMaximoPermitido($empresa_id){
-
-			$query = "SELECT rango_final AS 'numero'
-
+			$query = "SELECT siguiente AS 'numero'
 				FROM secuencia_facturacion
-
 				WHERE activo = 1 AND empresa_id = '$empresa_id'";
 
+			$result = self::connection()->query($query);
 
+			return $result;
+		}
+
+		public function getNumeroMaximoPermitido($empresa_id){
+			$query = "SELECT rango_final AS 'numero'
+				FROM secuencia_facturacion
+				WHERE activo = 1 AND empresa_id = '$empresa_id'";
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getFechaLimiteFactura($empresa_id){
-
 			$query = "SELECT DATEDIFF(fecha_limite, NOW()) AS 'dias_transcurridos', fecha_limite AS 'fecha_limite'
-
 				FROM secuencia_facturacion
-
 				WHERE activo = 1 AND empresa_id = '$empresa_id'";
-
-
 
 			$result = self::connection()->query($query);
 
