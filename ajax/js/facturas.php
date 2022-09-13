@@ -1638,31 +1638,43 @@ function getTotalFacturasDisponibles(){
 					$("#invoice-form #reg_factura").attr("disabled", false);
 				}
 				else{
-					mensaje = "No puede seguir facturando ya alcanzo su límite de facturación, por favor contacte a su contador para más detalles";
-					$("#invoice-form #reg_factura").attr("disabled", true);			
-					$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
+					mensaje = "";
+					$("#invoice-form #reg_factura").attr("disabled", false);			
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");
 					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");				
 				}
 
 				if(valores[0] > 0){
-					if(valores[1] > 5){
+					if(valores[1] < 0){
+						mensaje += "<br/>Ya alcanzo su fecha límite de facturación permitida, por favor contacte a su contador para más detalles";
+						$("#invoice-form #reg_factura").attr("disabled", true);					
+						$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
+						$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");		
+					}else if(valores[1] > 5){
 						$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
 						$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");
 
 						$("#mensajeFacturas").attr("disabled", true);
 						$("#invoice-form #reg_factura").attr("disabled", false);
-					}else if(valores[1] == 1 || valores[1] <= 5){
+					}else if(valores[1] > 0 || valores[1] <= 5){
 						mensaje += "<br/>Su fecha límite es: " + valores[2] + ", le quedan " + valores[1] + " días";
 						$("#invoice-form #reg_factura").attr("disabled", false);					
 						$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
 						$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");			
-					}else if(valores[1] < 0){
-						mensaje += "<br/>Ya alcanzo su fecha límite de facturación permitida, por favor contacte a su contador para más detalles";
-						$("#invoice-form #reg_factura").attr("disabled", true);					
-						$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
-						$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");		
-					}	
+					}
+				}else{
+					mensaje += "<br/>Ya alcanzo límite de facturación permitido, por favor contacte a su contador para más detalles";
+					$("#invoice-form #reg_factura").attr("disabled", true);					
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");					
 				}
+
+				/*if(valores[0] == 0 && valores[1] == 0){
+					mensaje += "<br/>Ya alcanzo su fecha límite y número máximo de facturación permitida, por favor contacte a su contador para más detalles";
+					$("#invoice-form #reg_factura").attr("disabled", true);					
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");	
+				}*/
 			}		
 	   }
 	});
