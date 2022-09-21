@@ -1939,15 +1939,24 @@
 		<form class="" id="formTransferencia" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">
 			<div class="form-group text-center">
 				<input type="hidden" value="" id="productos_id" name="productos_id">
+				<input type="hidden" value="" id="id_bodega_actual" name="id_bodega_actual">
 				<label class="modal-title" id="nameProduct" class="col-form-label"></label>
           	</div>
-			 <div class="form-group mx-sm-3 mb-1">
+			 <div class="form-group mx-sm-3 mb-3">
 				<div class="input-group">				
 					<div class="input-group-append">				
 						<span class="input-group-text"><div class="sb-nav-link-icon"></div>Bodega</span>
 					</div>
 						<select id="id_bodega" name="id_bodega" class="custom-select" data-toggle="tooltip" data-placement="top" >
 			 			</select>
+				</div>
+			  </div>
+			  <div class="form-group mx-sm-3 mb-1">
+				<div class="input-group">				
+					<div class="input-group-append">				
+						<span class="input-group-text"><div class="sb-nav-link-icon"></div>Cantidad</span>
+					</div>
+					<input type="number" name="cantidad_movimiento" id="cantidad_movimiento">
 				</div>
 			  </div>				
 			  <div class="RespuestaAjax"></div>	  

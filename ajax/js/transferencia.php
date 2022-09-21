@@ -154,6 +154,7 @@ var transferencia_producto_dataTable = function(tbody, table){
 		
 		$('#formTransferencia #productos_id').val(data.productos_id);
 		$('#formTransferencia #nameProduct').html(data.producto);
+		$('#formTransferencia #id_bodega_actual').val(data.id_bodega);
 
 		$('#modal_transferencia_producto').modal({
 			show:true,

@@ -9,3 +9,39 @@ p.id_producto_superior int
 ####31/8/2022####
 productos
 barCode varchar(256)
+
+
+#12/09/2022#
+*tabla movimientos
+-almacen_id 
+
+# Nuevo query para la vista INVENTARIO ARCHIVO llenarDataTableInventarioTrasnferencia.php
+SELECT
+	m.almacen_id,
+	m.movimientos_id AS 'movimientos_id',
+	p.barCode AS 'barCode',
+	p.nombre AS 'producto',
+	me.nombre AS 'medida',
+	SUM(m.cantidad_entrada) AS 'entrada',
+	SUM(m.cantidad_salida) AS 'salida',
+	(
+		SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
+	) AS 'saldo',
+	bo.nombre AS 'bodega',
+	DATE_FORMAT(
+		p.fecha_registro,
+		'%d/%m/%Y %H:%i:%s'
+	) AS 'fecha_registro',
+	p.productos_id AS 'productos_id',
+	p.id_producto_superior
+FROM
+	movimientos AS m
+RIGHT JOIN productos AS p ON m.productos_id = p.productos_id
+LEFT JOIN medida AS me ON p.medida_id = me.medida_id
+LEFT JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
+WHERE
+	p.estado = 1
+GROUP BY
+	p.productos_id, m.almacen_id
+ORDER BY
+	p.fecha_registro ASC

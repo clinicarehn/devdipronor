@@ -388,11 +388,13 @@ var transferencia_producto_dataTable = function(tbody, table){
 
 	$(tbody).off("click", "button.table_transferencia");
 	$(tbody).on("click", "button.table_transferencia", function(){
-	
+		
 		var data = table.row( $(this).parents("tr") ).data();
 		
 		$('#formTransferencia #productos_id').val(data.productos_id);
 		$('#formTransferencia #nameProduct').html(data.producto);
+		
+
 
 			
 		$('#modal_transferencia_producto').modal({

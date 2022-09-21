@@ -2137,6 +2137,21 @@
 			return $result;
 		}
 
+		protected function agregar_movimiento_productos_modelo($datos){
+			$movimientos_id = mainModel::correlativo("movimientos_id", "movimientos");
+			$documento = "Entrada Movimientos ".$movimientos_id;
+			isset($datos['almacen_id']) ? $bodega = $datos['almacen_id'] : $bodega = '';
+			$insert = "INSERT INTO movimientos 
+				VALUES('$movimientos_id','".$datos['productos_id']."','$documento','".$datos['cantidad_entrada']."',
+				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
+				'".$datos['cliente']."','".$datos['comentario']."', '$bodega'
+				)";
+
+			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}
+
 		public function getProductos(){
 			$query = "SELECT p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', FORMAT(p.cantidad,0) AS 'cantidad', FORMAT(p.precio_compra,2) AS 'precio_compra', FORMAT(p.precio_venta,2) AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
 			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
@@ -3132,6 +3147,15 @@
 			return $result;
 		}
 
+		public function actualizar_cantidad_productos_modelo($productos_id, $cantidad){
+			$update = " UPDATE productos
+				SET cantidad = '$cantidad'
+				WHERE productos_id = '$productos_id'";
+
+			$result = self::connection()->query($update);
+			return $result;
+		}
+
 		public function getNombreProveedor($proveedores_id){
 			$query = "SELECT nombre
 			FROM proveedores
@@ -3864,37 +3888,33 @@
 			}
 
 			$query = "
-						SELECT
-						m.movimientos_id AS 'movimientos_id',
-						p.barCode AS 'barCode',
-						p.nombre AS 'producto',
-						me.nombre AS 'medida',
-						SUM(m.cantidad_entrada) as 'entrada',
-						SUM(m.cantidad_salida) as 'salida',
-						(SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)) as 'saldo',
-						bo.nombre AS 'bodega',
-						bo.almacen_id,
-						DATE_FORMAT(
-							p.fecha_registro,
-							'%d/%m/%Y %H:%i:%s'
-						) AS 'fecha_registro',
-						p.productos_id AS 'productos_id',
-						p.id_producto_superior
-					FROM
-						movimientos AS m
-						RIGHT JOIN productos AS p
-					ON
-						m.productos_id = p.productos_id
-					INNER JOIN medida AS me
-					ON
-						p.medida_id = me.medida_id
-					LEFT JOIN almacen AS bo
-					ON		
-					p.almacen_id = bo.almacen_id
+			SELECT
+			m.almacen_id AS 'almacen_id',
+			m.movimientos_id AS 'movimientos_id',
+			p.barCode AS 'barCode',
+			p.nombre AS 'producto',
+			me.nombre AS 'medida',
+			SUM(m.cantidad_entrada) AS 'entrada',
+			SUM(m.cantidad_salida) AS 'salida',
+			(
+				SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
+			) AS 'saldo',
+			bo.nombre AS 'bodega',
+			DATE_FORMAT(
+				p.fecha_registro,
+				'%d/%m/%Y %H:%i:%s'
+			) AS 'fecha_registro',
+			p.productos_id AS 'productos_id',
+			p.id_producto_superior
+		FROM
+			movimientos AS m
+		RIGHT JOIN productos AS p ON m.productos_id = p.productos_id
+		LEFT JOIN medida AS me ON p.medida_id = me.medida_id
+		LEFT JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
 					WHERE p.estado = 1
 					$tipo_product
 				    $bodega
-					GROUP BY p.productos_id
+					GROUP BY p.productos_id, m.almacen_id
 				    ORDER BY p.fecha_registro ASC";
 	
 			$result = self::connection()->query($query);
