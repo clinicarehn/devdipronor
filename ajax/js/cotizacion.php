@@ -872,7 +872,7 @@ var listar_productos_cotizacion_buscar = function(){
 			{"data":"nombre"},
 			{"data":"cantidad"},
 			{"data":"medida"},
-			{"data":"tipo_producto_id"},
+			{"data":"tipo_producto"},
 			{"data":"precio_venta"},
 			{"data":"almacen"},
 			{"data":"almacen_id"}

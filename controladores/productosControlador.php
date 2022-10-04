@@ -332,49 +332,40 @@
 				"bodega" => $bodega,
 				"cantidad" => $cantidad			
 			];
-
-			//$query = productosModelo::agregar_movimientos_productos_modelo($datos);
-			//$query = productosModelo::edit_bodega_productos_modelo($datos);
-			//hacer que el insert se haga a la tabla movimientos, y agregar el campo idbodega
-			// se agrega a la bodega y se resta a la otra bodega
 	
 				$empresa_id = $_SESSION['empresa_id_sd'];
 				$fecha_registro = date("Y-m-d H:i:s");
 				$saldo = 0;
-				
-				//CONSULTAMOS LA CANTIDAD DE PRODUCTOS DISPONIBLES
-				$result_productos = mainModel::getCantidadProductos($productos_id);	
 
-				//NO OCUPARIAMOS OBTENER EL SALDO YA QUE EL SALDO DEPENDE DE INGRESOS Y EGRESOS
-				//X-->VAMOS A CAMBIAR ESTA PARTE YA QUE AHORA EL SALDO NO ESTA DADO SOLO POR EL PRODUCTO SINO TAMBIEN POR LA BODEGA
-				//x-->ESTE SALDO TENDRIA QUE VENIR de los movimientos
-	
-				// $cantidad_productos = "";
+
+					//Verificamos producto hijo
+					$result_productos = mainModel::getProductoHijo($productos_id);			  								
+
+					if($result_productos->num_rows>0){
+						while($consulta = $result_productos->fetch_assoc()){
+							$id_producto_hijo = intval($consulta['productos_id']);
+							if($id_producto_hijo != 0 || $id_producto_hijo != 'null'){
+								//agregos el producto hijo a la bodega de transferencia
+								$datosHijo = [
+									"productos_id" => $id_producto_hijo,
+									"cantidad_entrada" => 0,
+									"cantidad_salida" => 0,
+									"saldo" => 0,	
+									"fecha_registro" => $fecha_registro,
+									"empresa" => $empresa_id,
+									"comentario" => '',
+									"cliente" => '',
+									"almacen_id" => $bodega
 				
-				// if($result_productos->num_rows>0){
-				// 	$consulta = $result_productos->fetch_assoc();
-				// 	$cantidad_productos = $consulta['cantidad'];
-				// }
-				
-				//INGRESO cantidad del producto a la nueva bodega
-					///$cantidad = $cantidad_productos + $cantidad;
+								];
+								
+								$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datosHijo);
+							}
+
+						}
+					}	
 					
-					//ACTUALIZAMOS LA NUEVA CANTIDAD EN LA ENTIDAD PRODUCTOS
-					//mainModel::actualizar_cantidad_productos_modelo($productos_id, $cantidad);
 					
-					//CONSULTAMOS EL SALDO DEL PRODUCTO EN LA ENTIDAD MOVIMIENTOS
-					// $result_movimientos = mainModel::getSaldoProductosMovimientos($productos_id);
-					
-					// $saldo_productos = 0;
-					
-					// if($result_movimientos->num_rows>0){
-					// 	$consulta = $result_movimientos->fetch_assoc();
-					// 	$saldo_productos = $consulta['saldo'];
-					// }
-	
-					// $saldo = $saldo_productos + $productos_id;
-					$salida = 0;	
-	
 					//INGRESAMOS EL NUEVO REGISTRO EN LA ENTIDAD MOVIMIENTOS				
 	
 					$datos = [
@@ -447,32 +438,6 @@
 			// 		$query = productosModelo::edit_bodega_productos_modelo($datos);
 			// 	}
 
-			// }
-
-
-			
-			// if($query){
-			// 	$alert = [
-			// 		"alert" => "edit",
-			// 		"title" => "Registro modificado",
-			// 		"text" => "El registro se ha modificado correctamente",
-			// 		"type" => "success",
-			// 		"btn-class" => "btn-primary",
-			// 		"btn-text" => "¡Bien Hecho!",
-			// 		"form" => "formTransferencia",	
-			// 		"id" => "proceso_productos",
-			// 		"valor" => "Editar",
-			// 		"funcion" => "inventario_transferencia();",
-			// 		"modal" => "modal_transferencia_producto",
-			// 	];				
-			// }else{
-			// 	$alert = [
-			// 		"alert" => "simple",
-			// 		"title" => "Ocurrio un error inesperado",
-			// 		"text" => "No hemos podido procesar su solicitud",
-			// 		"type" => "error",
-			// 		"btn-class" => "btn-danger",					
-			// 	];				
 			// }			
 			
 			return mainModel::sweetAlert($alert);
