@@ -870,10 +870,44 @@ var listar_productos_cotizacion_buscar = function(){
 			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus fa-lg'></span></button>"},
 			{"data":"barCode"},			
 			{"data":"nombre"},
-			{"data":"cantidad"},
+			{"data":"cantidad",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number('')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
 			{"data":"medida"},
 			{"data":"tipo_producto_id"},
-			{"data":"precio_venta"},
+			{"data":"precio_venta",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number('')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },			
+			},
 			{"data":"almacen"},
 			{"data":"almacen_id"}
 		],	
