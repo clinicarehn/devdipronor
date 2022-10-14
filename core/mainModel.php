@@ -1000,7 +1000,7 @@
 
             }elseif($datos['alert'] == "clear_pay"){
 
-				echo $datos['alert'];
+				
                 $alerta = "
 
                     <script>
@@ -2161,7 +2161,7 @@
 			$insert = "INSERT INTO movimientos 
 				VALUES('$movimientos_id','".$datos['productos_id']."','$documento','".$datos['cantidad_entrada']."',
 				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
-				'".$datos['cliente']."','".$datos['comentario']."', '$bodega'
+				'".$datos['clientes_id']."','".$datos['comentario']."', '$bodega'
 				)";
 
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);

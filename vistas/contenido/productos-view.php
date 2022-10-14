@@ -17,7 +17,6 @@
 								<th>Imagen</th>
 								<th>Bar Code</th>
 								<th>Producto</th>
-								<th>Cantidad</th>
 								<th>Medida</th>
 								<th>Categoria</th>
 								<th>Precio Compra</th>

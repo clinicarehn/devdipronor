@@ -160,15 +160,20 @@
 								$tipo_productos = $valores2['tipo_producto'];			
 							}		
 	
-							$salida = 0;
 							$datos_movimientos_productos = [
+
 								"productos_id" => $productos_id,
+								"documento" => 'Creacion de Producto',
 								"cantidad_entrada" => $cantidad,				
-								"cantidad_salida" => $salida,
-								"saldo" => $cantidad,
+								"cantidad_salida" => 0,
+								"saldo" => 0,
 								"fecha_registro" => $fecha_registro,
-								"empresa" => $empresa,							
-							];		
+								"empresa" => $empresa,
+								"clientes_id" => '',
+								"comentario"  => '',
+								"almacen_id" => $almacen_id
+
+							];
 								
 							if($cantidad > 0){
 								if ($tipo_productos == "Producto" || $tipo_productos == "Insumos"){

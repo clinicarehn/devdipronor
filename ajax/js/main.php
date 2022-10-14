@@ -527,6 +527,7 @@ function modal_productos(){
 	$('#formProductos #cantidad_mayoreo').attr("readonly", false);	
 	$('#formProductos #producto_isv_compra').attr('checked', false);
 	$('#formProductos #cantidad').attr("disabled", false);
+	$('#formProductos #producto_superior').attr("disabled", false);
 
 	$('#formProductos #buscar_producto_empresa').show();
 	$('#formProductos #buscar_producto_categorias').show();
@@ -595,6 +596,9 @@ function getAlmacen(){
 
 			$('#formTransferencia #id_bodega').html("");
 			$('#formTransferencia #id_bodega').html(data);
+
+			$('#almacen_modal').html("");
+			$('#almacen_modal').html(data);
 		}
      });
 }

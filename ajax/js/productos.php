@@ -15,7 +15,6 @@ var listar_productos = function(){
 			{"data":"image"},
 			{"data":"barCode"},
 			{"data":"nombre"},
-			{"data":"cantidad"},
 			{"data":"medida"},
 			{"data":"categoria"},
 			{"data":"precio_compra",

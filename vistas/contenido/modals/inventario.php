@@ -55,11 +55,25 @@
 					</div>									
 				</div>	
 				<div class="form-row">
-					<div class="col-md-2 mb-3">
+					<div class="col-md-6 mb-3">
 					  <label>Cantidad <span class="priority">*<span/></label>
 					  <input type="number" required id="movimiento_cantidad" name="movimiento_cantidad" class="form-control" required step="0.01">				  
 					</div>
-					<div class="col-md-4 mb-3">
+					<div class="col-12 col-md-6">
+						<label>Bodega <span class="priority">*<span/></label>
+						<div class="form-group">
+							<div class="input-group">				
+								<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Bodega</span>
+							</div>
+							<select id="almacen_modal" name="almacen_modal" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
+							
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-md-6 mb-3">
 						<label for="fecha_clientes">Fecha <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
 							<input type="date" required id="movimiento_fecha" name="movimiento_fecha" value="<?php echo date ("Y-m-d");?>" class="form-control"/>
