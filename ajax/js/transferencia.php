@@ -56,9 +56,60 @@ var inventario_transferencia = function(){
 		{"data":"barCode"},
 		{"data":"producto"},
 		{"data":"medida"},
-		{"data":"entrada"},
-		{"data":"salida"},
-		{"data":"saldo"},
+		{"data":"entrada",
+			render: function (data, type) {
+				var number = $.fn.dataTable.render
+					.number('')
+					.display(data);
+
+				if (type === 'display') {
+					let color = 'green';
+					if (data < 0) {
+						color = 'red';
+					} 
+
+					return '<span style="color:' + color + '">' + number + '</span>';
+				}
+
+				return number;
+			},		
+		},
+		{"data":"salida",
+			render: function (data, type) {
+				var number = $.fn.dataTable.render
+					.number('')
+					.display(data);
+
+				if (type === 'display') {
+					let color = 'green';
+					if (data < 0) {
+						color = 'red';
+					} 
+
+					return '<span style="color:' + color + '">' + number + '</span>';
+				}
+
+				return number;
+			},		
+		},
+		{"data":"saldo",
+			render: function (data, type) {
+				var number = $.fn.dataTable.render
+					.number('')
+					.display(data);
+
+				if (type === 'display') {
+					let color = 'green';
+					if (data < 0) {
+						color = 'red';
+					} 
+
+					return '<span style="color:' + color + '">' + number + '</span>';
+				}
+
+				return number;
+			},		
+		},
 		{"data":"bodega"},
 		{"defaultContent":"<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"},	
 

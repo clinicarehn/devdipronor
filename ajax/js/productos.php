@@ -24,7 +24,7 @@ var listar_productos = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -42,7 +42,7 @@ var listar_productos = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 

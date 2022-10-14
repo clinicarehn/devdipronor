@@ -1956,7 +1956,7 @@
 					<div class="input-group-append">				
 						<span class="input-group-text"><div class="sb-nav-link-icon"></div>Cantidad</span>
 					</div>
-					<input type="number" name="cantidad_movimiento" id="cantidad_movimiento">
+					<input type="number" name="cantidad_movimiento" id="cantidad_movimiento" class="form-control">
 				</div>
 			  </div>				
 			  <div class="RespuestaAjax"></div>	  
