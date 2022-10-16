@@ -3623,13 +3623,13 @@
 
 		public function getTotalFacturasDisponiblesDB($empresa_id){
 
-			$query = "SELECT number AS 'numero'
+			$query = "SELECT siguiente AS 'numero'
 
-				FROM facturas
+				FROM secuencia_facturacion
 
-				WHERE empresa_id = '$empresa_id'
+				WHERE activo = 1 AND empresa_id = '$empresa_id'
 
-				ORDER BY number DESC LIMIT 1";
+				ORDER BY siguiente DESC LIMIT 1";
 
 
 

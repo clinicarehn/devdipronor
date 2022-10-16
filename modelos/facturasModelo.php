@@ -102,6 +102,16 @@
 			return $result;				
 		}
 		
+		protected function actualizar_cantidad_productos_modelo($productos_id, $cantidad){
+			$update = "UPDATE productos
+				SET
+					cantidad = '$cantidad'
+				WHERE productos_id = '$productos_id'";		
+			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
+		
+			return $result;				
+		}
+				
 		protected function actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero){
 			$update = "UPDATE secuencia_facturacion
 				SET

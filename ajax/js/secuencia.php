@@ -1,6 +1,7 @@
 <script>
 $(document).ready(function() {
     listar_secuencia_facturacion();
+	getEmpresaSecuencia();
 });
 
 //INICIO ACCIONES FROMULARIO SECUENCIA FACTURACION

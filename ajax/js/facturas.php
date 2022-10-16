@@ -1659,7 +1659,7 @@ function getTotalFacturasDisponibles(){
 				$("#invoice-form #reg_factura").attr("disabled", false);
 
 
-			}else if(valores[0] >=1 && valores[0] <= 9){
+			}else if(valores[0] >=0 && valores[0] <= 9){
 				mensaje = "Total Facturas disponibles: " + valores[0];
 				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
 				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
@@ -1674,7 +1674,16 @@ function getTotalFacturasDisponibles(){
 				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");				
 			}
 
-			if(valores[0] == 0 || valores[0] < 0 ){
+			if(valores[0] ==0){
+				mensaje = "Total Facturas disponibles: " + valores[0];
+				mensaje += "<br/>Solo esta factura puede realizar";
+				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
+				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+				$("#mensajeFacturas").attr("disabled", true);
+				$("#invoice-form #reg_factura").attr("disabled", false);
+			}
+
+			if(valores[0] < 0 ){
 				mensaje = "No puede seguir facturando";
 
 				$("#invoice-form #reg_factura").attr("disabled", true);			
@@ -1684,17 +1693,24 @@ function getTotalFacturasDisponibles(){
 			
 			if(valores[1] == 1){
 				mensaje += "<br/>Su fecha límite es: " + valores[2];
+				mensaje += "<br/>Le queda un día más, para seguir facturando";	
 				$("#invoice-form #reg_factura").attr("disabled", false);					
 				$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
 				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");			
 			}
 
 			if(valores[1] == 0){
+				mensaje += "<br/>Su fecha limite de facturación es hoy";				
+				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
+				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");		
+			}	
+			
+			if(valores[1] < 0){
 				mensaje += "<br/>Ya alcanzo su fecha límite";
 				$("#invoice-form #reg_factura").attr("disabled", true);					
 				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");		
-			}			
+				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+			}
 	   }
 	});
 }
