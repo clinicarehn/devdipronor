@@ -90,6 +90,7 @@
 										<td><input type="number" name="quantityPurchase[]" id="quantityPurchase_0" class="buscar_cantidad_purchase form-control" autocomplete="off" step="0.01"></td>
 										<td>
 											<input type="text" name="medidaPurchase[]" id="medidaPurchase_0" readonly class="form-control buscar_medida_purchase" autocomplete="off">
+											<input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_0" readonly class="form-control buscar_bodega_purchase" autocomplete="off">
 										</td>
 										<td><input type="number" name="pricePurchase[]" id="pricePurchase_0" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>
 										<td><input type="number" name="discountPurchase[]" id="discountPurchase_0" class="form-control" autocomplete="off" step="0.01"></td>

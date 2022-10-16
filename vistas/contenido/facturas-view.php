@@ -118,6 +118,8 @@
 											</td>
 											<td>
 												<input type="text" name="medida[]" id="medida_0" readonly class="form-control buscar_medida" autocomplete="off" placeholder="Medida">
+												<input type="hidden" name="bodega[]" id="bodega_0" readonly class="form-control buscar_bodega" autocomplete="off">
+
 											</td>
 											<td>
 												<input type="hidden" name="precio_real[]" id="precio_real_0" placeholder="Precio Real" class="form-control inputfield-details" step="0.01" readonly autocomplete="off">

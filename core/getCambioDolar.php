@@ -6,24 +6,19 @@
 	$insMainModel = new mainModel();
 	
 	$fecha = date("Y-m-d");
-	$result = $insMainModel->getCambioDolar($fecha);
-
-	$compra = 0;
-	$venta = 0;
-
-	if($result->num_rows>0){
-		$consulta2 = $result->fetch_assoc();
-		$compra = $consulta2['compra'];
-		$venta = $consulta2['venta'];
+	$data = htmlentities(file_get_contents("https://www.bancopromerica.com/banca-de-empresas/banca-internacional/mesa-de-cambio/"));
+	echo $data;
+	if (preg_match('|<h2 style="margin: 12px 0 0 0;">(.*?)</h2>|is' , $data , $cap )){
+		echo "UF ".$cap[1];
 	}else{
-		$compra = 1;
-		$venta = 1;		
+		echo 'nada';
 	}
 
-	$datos = array(
-		0 => $compra,
-		1 => $venta											
-	);	
-
-	echo json_encode($datos);	
-?>
+	// $profile_data = htmlentities(file_get_contents("https://www.bancopromerica.com/banca-de-empresas/banca-internacional/mesa-de-cambio/"));
+	
+	// $sep1 = explode('string(15899)', $profile_data,2); 
+	// //$set2 = explode('tipoCambioCompra = parseFloat(tipoCambioCompra).toFixed(4); document.getElementById("tipoCambioCompra").textContent = tipoCambioCompra; var tipoCambioVenta = 24.7931; tipoCambioVenta = parseFloat(tipoCambioVenta).toFixed(4); document.getElementById("tipoCambioVenta").textContent = tipoCambioVenta; </script> ', $sep1[1]); 
+	// $rest = substr("tipoCambioCompra=", 10, 12); 
+	// echo '<hr>'.$rest;
+	// //echo $profile_data;
+	

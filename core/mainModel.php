@@ -1000,7 +1000,7 @@
 
             }elseif($datos['alert'] == "clear_pay"){
 
-				echo $datos['alert'];
+				
                 $alerta = "
 
                     <script>
@@ -2126,6 +2126,23 @@
 			return $result;
 		}
 
+		public function getProductoHijo($producto_id){
+			$query = "SELECT
+			productos.productos_id,
+			productos.id_producto_superior,
+			productos.nombre,
+			medida.nombre as medida
+			FROM
+			productos
+			INNER JOIN medida ON productos.medida_id = medida.medida_id
+			WHERE productos.id_producto_superior = '$producto_id'
+			";
+			
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
 		public function getSaldoProductosMovimientos($productos_id){
 			$query = "SELECT saldo
 				FROM movimientos
@@ -2144,7 +2161,7 @@
 			$insert = "INSERT INTO movimientos 
 				VALUES('$movimientos_id','".$datos['productos_id']."','$documento','".$datos['cantidad_entrada']."',
 				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
-				'".$datos['cliente']."','".$datos['comentario']."', '$bodega'
+				'".$datos['clientes_id']."','".$datos['comentario']."', '$bodega'
 				)";
 
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
@@ -2168,6 +2185,84 @@
 				INNER JOIN tipo_producto AS tp
 				ON p.tipo_producto_id = tp.tipo_producto_id
 				WHERE p.estado = 1";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getProductosCantidad($datos){
+			$bodega = '';
+			$barCode = '';
+
+			if($datos['bodega'] != ''){
+				$bodega = "AND m.almacen_id = '".$datos['bodega']."'";
+			}
+			if($datos['bodega'] == '0'){$bodega = '';}
+
+			if($datos['barcode'] != ''){
+				$barCode = "AND p.barCode  = '".$datos['barcode']."'";
+			}
+
+			$query = "SELECT
+			m.almacen_id,
+			m.movimientos_id AS 'movimientos_id',
+			p.barCode AS 'barCode',
+			p.nombre AS 'nombre',
+			me.nombre AS 'medida',
+			SUM(m.cantidad_entrada) AS 'entrada',
+			SUM(m.cantidad_salida) AS 'salida',
+			(
+				SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
+			) AS 'cantidad',
+			bo.nombre AS 'almacen',
+			DATE_FORMAT(
+				m.fecha_registro,
+				'%d/%m/%Y %H:%i:%s'
+			) AS 'fecha_registro',
+			p.productos_id AS 'productos_id',
+			p.id_producto_superior,
+			p.precio_compra AS 'precio_compra',
+			p.precio_venta,
+			p.precio_mayoreo,
+			p.cantidad_mayoreo,
+			p.isv_venta AS 'impuesto_venta',
+			p.isv_compra AS 'isv_compra',
+			p.file_name AS 'image',
+			tp.tipo_producto_id AS 'tipo_producto_id',
+			tp.nombre AS 'tipo_producto',
+		(
+				CASE
+				WHEN p.estado = '1' THEN
+					'Activo'
+				ELSE
+					'Inactivo'
+				END
+			) AS 'estado',
+			(
+				CASE
+				WHEN p.isv_venta = '1' THEN
+					'Sí'
+				ELSE
+					'No'
+				END
+			) AS 'isv'
+		
+		FROM
+			movimientos AS m
+		RIGHT JOIN productos AS p ON m.productos_id = p.productos_id
+		LEFT JOIN medida AS me ON p.medida_id = me.medida_id
+		LEFT JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
+		INNER JOIN tipo_producto AS tp ON p.tipo_producto_id = tp.tipo_producto_id
+		WHERE
+			p.estado = 1
+		AND tp.nombre NOT IN ('Insumos')
+		$bodega
+		$barCode
+		GROUP BY
+			p.productos_id, m.almacen_id
+		ORDER BY
+			p.fecha_registro ASC";
 
 			$result = self::connection()->query($query);
 
@@ -2954,7 +3049,7 @@
 				INNER JOIN productos AS p ON fd.productos_id = p.productos_id
 				INNER JOIN medida as med ON p.medida_id = med.medida_id
 				WHERE fd.facturas_id = '$noFactura'
-				GROUP BY fd.productos_id";
+				";
 
 			$result = self::connection()->query($query);
 
@@ -3285,7 +3380,7 @@
 				ON cd.productos_id = p.productos_id
 				INNER JOIN medida as med ON p.medida_id = med.medida_id
 				WHERE cd.cotizacion_id = '$noCotizacion'
-				GROUP BY cd.productos_id";
+				";
 
 			$result = self::connection()->query($query);
 
@@ -3306,10 +3401,7 @@
 				compras_detalles AS cd
 			INNER JOIN productos AS p ON cd.productos_id = p.productos_id
 			INNER JOIN medida as med ON p.medida_id = med.medida_id
-
-				WHERE cd.compras_id = '$compras_id'
-
-				GROUP BY cd.productos_id";
+			WHERE cd.compras_id = '$compras_id'";
 
 
 
@@ -3874,6 +3966,7 @@
 		public function getTranferenciaProductos($datos){
 			$bodega = '';
 			$tipo_product = '';
+			$id_producto = '';
 			//$fecha = "AND CAST(p.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
 			if($datos['bodega'] != ''){
 				$bodega = "AND bo.almacen_id = '".$datos['bodega']."'";
@@ -3885,6 +3978,10 @@
 
 			if($datos['tipo_producto_id'] != ''){
 				$tipo_product = "AND p.tipo_producto_id = '".$datos['tipo_producto_id']."'";
+			}
+
+			if($datos['productos_id'] != '' || is_null($datos['productos_id'])){
+				$id_producto = "AND p.productos_id = '".$datos['productos_id']."'";
 			}
 
 			$query = "
@@ -3914,10 +4011,12 @@
 					WHERE p.estado = 1
 					$tipo_product
 				    $bodega
+					$id_producto
 					GROUP BY p.productos_id, m.almacen_id
 				    ORDER BY p.fecha_registro ASC";
 	
 			$result = self::connection()->query($query);
+			//echo 'quersdfasd  '.$query;
 			return $result;
 		}
 

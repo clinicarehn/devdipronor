@@ -518,6 +518,8 @@ var view_productos_busqueda_compras_dataTable = function(tbody, table){
 
 			$('#purchase-form #purchaseItem #pricePurchase_'+ row).val(data.precio_compra);
 			$('#purchase-form #purchaseItem #medidaPurchase_'+ row).val(data.medida);
+			$('#purchase-form #purchaseItem #bodegaPurchase_'+ row).val(data.almacen_id);
+
 			$('#purchase-form #purchaseItem #discountPurchase_'+ row).val(0);
 
 			$('#purchase-form #purchaseItem #isvPurchase_'+ row).val(data.isv_compra);
@@ -890,6 +892,8 @@ function limpiarTablaCompras(){
 
 	htmlRows += '<td><input type="number" name="medidaPurchase[]" id="medidaPurchase_'+count+'" placeholder="medida" class="buscar_medida_purchase form-control" autocomplete="off" step="0.01"></td>';
 	
+	htmlRows += '<td><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_'+count+'"  class="buscar_bodega_purchase form-control" ></td>';
+
 	htmlRows += '<td><input type="number" name="pricePurchase[]" id="pricePurchase_'+count+'" placeholder="Precio" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
 
 	htmlRows += '<td><input type="number" name="discountPurchase[]" id="discountPurchase_'+count+'" class="form-control" autocomplete="off" step="0.01"></td>';
@@ -918,10 +922,10 @@ function addRowCompras(){
 
 	htmlRows += '<td><input type="number" name="quantityPurchase[]" id="quantityPurchase_'+count+'" class="buscar_cantidad_purchase form-control" autocomplete="off" step="0.01"></td>';
 
-	htmlRows += '<td><input type="text" name="medidaPurchase[]" id="medidaPurchase_'+count+'" placeholder="medida" class="buscar_medida_purchase form-control" autocomplete="off" step="0.01"></td>';
-	
-	htmlRows +='<td><input type="number" name="pricePurchase[]" id="pricePurchase_'+count+'" placeholder="Precio" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
+	htmlRows += '<td><input type="text" name="medidaPurchase[]" id="medidaPurchase_'+count+'" placeholder="medida" class="buscar_medida_purchase form-control" autocomplete="off" step="0.01"><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_'+count+'"  class="buscar_bodega_purchase form-control" ></td>';
 
+	htmlRows +='<td><input type="number" name="pricePurchase[]" id="pricePurchase_'+count+'" placeholder="Precio" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
+	
 	htmlRows += '<td><input type="number" name="discountPurchase[]" id="discountPurchase_'+count+'" class="form-control" autocomplete="off" step="0.01"></td>';
 
 	htmlRows += '<td><input type="number" name="totalPurchase[]" id="totalPurchase_'+count+'" class="form-control total" readonly autocomplete="off" step="0.01"></td>';
