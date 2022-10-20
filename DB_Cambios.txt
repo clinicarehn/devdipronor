@@ -1,3 +1,6 @@
+####16/10/2022####
+Se elimino de la tabla secuencia_facturacion el campo comentario
+
 ####24/8/2022####
 tabla movimientos
 clientes_id int

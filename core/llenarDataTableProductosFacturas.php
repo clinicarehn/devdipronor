@@ -21,6 +21,9 @@
 	$arreglo = array();
 	$data = array();
 	
+	$entradaH = 0;
+	$salidaH = 0;
+	
 	while($row = $result->fetch_assoc()){	
 		$result_productos = $insMainModel->getCantidadProductos($row['productos_id']);	
 		if($result_productos->num_rows>0){
