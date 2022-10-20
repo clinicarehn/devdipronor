@@ -215,7 +215,11 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#formProductos #cantidad').attr("disabled", true);
 				$('#formProductos #buscar_producto_empresa').hide();
 				$('#formProductos #buscar_producto_categorias').hide();	
-				$('#formProductos #estado_producto').show();				
+				$('#formProductos #estado_producto').show();
+				
+				//OCULTAR
+				$('#formProductos #cantidad').hide();
+				$('#div_cantidad_editar_producto').hide();
 
 				$('#modal_registrar_productos').modal({
 					show:true,

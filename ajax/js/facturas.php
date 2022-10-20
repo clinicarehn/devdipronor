@@ -371,14 +371,17 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table){
 				var data = table.row( $(this).parents("tr") ).data();
 				var facturar_cero = facturarEnCeroAlmacen(data.almacen_id);
 
-				if(facturar_cero == 'false' || facturar_cero == false){
-				swal({
-					title: "Error",
-					text: "No se puede facturar este producto inventario en cero",
-					type: "error",
-					confirmButtonClass: "btn-danger"
-					});	
-					return false
+
+				if(data.cantidad <= 0){
+					if(facturar_cero == 'false' || facturar_cero == false){
+					swal({
+						title: "Error",
+						text: "No se puede facturar este producto inventario en cero",
+						type: "error",
+						confirmButtonClass: "btn-danger"
+						});	
+						return false
+					}
 				}
 				
 				$('#invoice-form #invoiceItem #productos_id_'+ row).val(data.productos_id);
@@ -773,6 +776,7 @@ $(document).ready(function(){
 				if(!cantidad){
 					cantidad = 1;
 				}
+
 				
 				$.ajax({
 					type:'POST',
@@ -780,14 +784,13 @@ $(document).ready(function(){
 					data:'barcode='+barcode,
 					async: false,
 					success:function(registro){		
-
+						
 						getTotalFacturasDisponibles();
 						var valores = eval(registro);
 												
-						if(valores[0]){	
-
+						if(valores[0]){
 							var facturar_cero = facturarEnCeroAlmacen(valores[7]);
-	
+							
 							if(valores[6] <= 0){
 								if(facturar_cero == 'false'){
 								swal({
@@ -800,15 +803,17 @@ $(document).ready(function(){
 								}
 							}
 
+							$("#invoice-form #invoiceItem #bar-code-id_" + row_index).val(barcode);							
 							$("#invoice-form #invoiceItem #productName_" + row_index).val(valores[0]);
 							$("#invoice-form #invoiceItem #price_" + row_index).val(valores[1]);
+							$("#invoice-form #invoiceItem #precio_real_" + row_index).val(valores[1]);
 							$("#invoice-form #invoiceItem #productos_id_" + row_index).val(valores[2]);
 							$("#invoice-form #invoiceItem #isv_" + row_index).val(valores[3]);
-							$("#invoice-form #invoiceItem #quantity_" + row_index).val(cantidad);
-							$("#invoice-form #invoiceItem #bar-code-id_" + row_index).val(barcode);							
 							$("#invoice-form #invoiceItem #cantidad_mayoreo_" + row_index).val(valores[4]);
-							$("#invoice-form #invoiceItem #precio_real_" + row_index).val(valores[1]);
-							$("#invoice-form #invoiceItem #precio_mayoreo_" + row_index).val(valores[5]);							
+							$("#invoice-form #invoiceItem #precio_mayoreo_" + row_index).val(valores[5]);
+							$("#invoice-form #invoiceItem #quantity_" + row_index).val(1);
+							$('#invoice-form #invoiceItem #bodega_'+ row).val(valores[7]);							
+							$('#invoice-form #invoiceItem #medida_'+ row).val(valores[8]);	
 							
 							var impuesto_venta = parseFloat($('#invoice-form #invoiceItem #isv_'+ row_index).val());
 							var cantidad1 = parseFloat($('#invoice-form #invoiceItem #quantity_'+ row_index).val());
@@ -1337,7 +1342,6 @@ function facturarEnCeroAlmacen(almacen_id){
 		async: false,
 		success:function(res){
 			estado = res;
-		   console.log('res',res)
 		}
 	});
 	return estado;	

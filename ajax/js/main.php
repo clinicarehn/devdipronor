@@ -505,6 +505,11 @@ function modal_productos(){
 	$('#edi_producto').hide();
 	$('#delete_producto').hide();
 
+
+	//MOSTRAR OBJETOS
+	$('#formProductos #cantidad').show();
+	$('#div_cantidad_editar_producto').show();
+
 	//HABILITAR OBJETOS
 	$('#formProductos #producto').attr("readonly", false);
 	$('#formProductos #categoria').attr("disabled", false);

@@ -1833,8 +1833,8 @@
 					  <select class="form-control" id="medida" name="medida" required data-toggle="tooltip" data-placement="top">			  
 					  </select>
 					</div>	
-					<div class="col-md-3 mb-3">
-						<label for="cantidad">Cantidad <span class="priority">*<span/></label>
+					<div class="col-md-3 mb-3" id="div_cantidad_editar_producto">
+						<label for="cantidad">Cantidad Ingresada<span class="priority">*<span/></label>
 						<div class="input-group mb-3">
 							<input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="Cantidad" step="0.01" required>
 						</div>	 
