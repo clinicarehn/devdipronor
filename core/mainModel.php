@@ -3242,15 +3242,6 @@
 			return $result;
 		}
 
-		public function actualizar_cantidad_productos_modelo($productos_id, $cantidad){
-			$update = " UPDATE productos
-				SET cantidad = '$cantidad'
-				WHERE productos_id = '$productos_id'";
-
-			$result = self::connection()->query($update);
-			return $result;
-		}
-
 		public function getNombreProveedor($proveedores_id){
 			$query = "SELECT nombre
 			FROM proveedores

@@ -38,10 +38,9 @@
 			$insert = "INSERT INTO movimientos
 				VALUES('$movimientos_id','".$datos['productos_id']."','".$datos['documento']."','".$datos['cantidad_entrada']."',
 				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
-				'".$datos['clientes_id']."','')";
+				'".$datos['clientes_id']."','','".$datos['almacen_id']."')";
 			
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);	
-
 			return $result;				
 
 		}
@@ -92,26 +91,16 @@
 			return $result;				
 		}
 		
-		protected function actualizar_cantidad_productos_modelo($productos_id, $cantidad){
-			$update = "UPDATE productos
-				SET
-					cantidad = '$cantidad'
-				WHERE productos_id = '$productos_id'";		
-			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
+		// protected function actualizar_cantidad_productos_modelo($productos_id, $cantidad){
+		// 	$update = "UPDATE productos
+		// 		SET
+		// 			cantidad = '$cantidad'
+		// 		WHERE productos_id = '$productos_id'";		
+		// 	$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 		
-			return $result;				
-		}
-		
-		protected function actualizar_cantidad_productos_modelo($productos_id, $cantidad){
-			$update = "UPDATE productos
-				SET
-					cantidad = '$cantidad'
-				WHERE productos_id = '$productos_id'";		
-			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
-		
-			return $result;				
-		}
-				
+		// 	return $result;				
+		// }
+						
 		protected function actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero){
 			$update = "UPDATE secuencia_facturacion
 				SET

@@ -42,7 +42,7 @@
 				}
 			}
 
-			if($cantidad == ""){
+			if($cantidad == "" || $cantidad == null){
 				$cantidad = 0;
 			}
 			
@@ -175,11 +175,10 @@
 
 							];
 								
-							if($cantidad > 0){
 								if ($tipo_productos == "Producto" || $tipo_productos == "Insumos"){
 									productosModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
 								}
-							}
+							
 							
 							$alert = [
 								"alert" => "save_simple",

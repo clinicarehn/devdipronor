@@ -186,7 +186,7 @@
 													"clientes_id" => '',
 													"almacen_id" => $bodega,
 												];	
-
+												
 											
 											facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
 										}								
