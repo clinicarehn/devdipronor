@@ -88,10 +88,7 @@
 			$bitacoraYear = $datos['bitacoraYear'];
 
 			$user_id = $datos['user_id'];
-
 			$fecha_registro = date("Y-m-d H:i:s");
-
-
 
 			$insert = "INSERT INTO bitacora
 
@@ -4061,9 +4058,12 @@
 		}
 
 		public function updateImpresora($id,$estado){
-			
+			$fecha_registro = date("Y-m-d H:i:s");	
+
 			$update = " UPDATE impresora
-				SET estado = '$estado'
+				SET 
+					estado = '$estado',
+					fecha_registro = '$fecha_registro'
 				WHERE impresora_id = '$id'";
 
 			$result = self::connection()->query($update);

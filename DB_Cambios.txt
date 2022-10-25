@@ -1,3 +1,6 @@
+####25/10/2022####
+fecha_registro date_time -> despues de tipo
+
 ####16/10/2022####
 Se elimino de la tabla secuencia_facturacion el campo comentario
 

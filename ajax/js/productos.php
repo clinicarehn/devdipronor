@@ -203,6 +203,7 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#formProductos #producto_isv_factura').attr("disabled", false);
 				$('#formProductos #producto_isv_compra').attr("disabled", false);
 				$('#formProductos #producto_activo').attr("disabled", false);
+				$('#formProductos #grupo_editar_bacode').show();
 
 				//DESHABILITAR OBJETOS
 				$('#formProductos #medida').attr("disabled", true);
@@ -313,6 +314,7 @@ var eliminar_producto_dataTable = function(tbody, table){
 				$('#formProductos #buscar_producto_empresa').hide();
 				$('#formProductos #buscar_producto_categorias').hide();
 				$('#formProductos #estado_producto').hide();
+				$('#formProductos #grupo_editar_bacode').hide();
 
 				$('#modal_registrar_productos').modal({
 					show:true,

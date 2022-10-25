@@ -539,7 +539,8 @@ function modal_productos(){
 	
 	$('#formProductos #producto_activo').attr('checked', true);
 	$('#formProductos #producto_isv_factura').attr('checked', true);
-	$('#formProductos #estado_producto').hide();	
+	$('#formProductos #estado_producto').hide();
+	$('#formProductos #grupo_editar_bacode').hide();	
 	
 	$("#formProductos #preview").attr("src", "<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png");
 	
@@ -675,6 +676,7 @@ function modal_clientes(){
 	$('#formClientes #correo_clientes').attr("readonly", false);
 	$('#formClientes #clientes_activo').attr("disabled", false);
 	$('#formClientes #estado_clientes').hide();
+	$('#formClientes #grupo_editar_rtn').hide();
 
 	$('#formClientes #proceso_clientes').val("Registro");
 	$('#modal_registrar_clientes').modal({
@@ -724,6 +726,7 @@ function modal_proveedores(){
 	$('#formProveedores #correo_proveedores').attr("readonly", false);
 	$('#formProveedores #proveedores_activo').attr("disabled", false);
 	$('#formProveedores #estado_proveedores').hide();
+	$('#formProveedores #grupo_editar_rtn').hide();
 
 	$('#formProveedores #proceso_proveedores').val("Registro");
 	$('#modal_registrar_proveedores').modal({
@@ -1932,6 +1935,7 @@ var editar_clientes_dataTable = function(tbody, table){
 				$('#formClientes #telefono_clientes').attr("readonly", false);
 				$('#formClientes #correo_clientes').attr("readonly", false);
 				$('#formClientes #clientes_activo').attr("disabled", false);
+				$('#formClientes #grupo_editar_rtn').show();
 
 				//DESHABILITAR
 				$('#formClientes #identidad_clientes').attr("readonly", true);
@@ -1996,6 +2000,7 @@ var eliminar_clientes_dataTable = function(tbody, table){
 				$('#formClientes #correo_clientes').attr("readonly", true);
 				$('#formClientes #clientes_activo').attr("disabled", true);
 				$('#formClientes #estado_clientes').hide();
+				$('#formClientes #grupo_editar_rtn').hide();
 
 				$('#formClientes #proceso_clientes').val("Eliminar");
 				$('#modal_registrar_clientes').modal({

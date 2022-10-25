@@ -190,7 +190,7 @@
 								"form" => "formProductos",	
 								"id" => "proceso_productos",
 								"valor" => "Registro",
-								"funcion" => "listar_productos();",
+								"funcion" => "listar_productos();getProductos();",
 								"modal" => "",
 							];
 						}else{
@@ -310,7 +310,7 @@
 					"form" => "formProductos",	
 					"id" => "proceso_productos",
 					"valor" => "Editar",
-					"funcion" => "listar_productos();",
+					"funcion" => "listar_productos();getProductos();",
 					"modal" => "",
 				];
 			}else{
@@ -415,7 +415,7 @@
 							"form" => "formMovimientos",
 							"id" => "proceso_movimientos",
 							"valor" => "Registro",	
-							"funcion" => "listar_movimientos();",
+							"funcion" => "listar_movimientos();getProductos();",
 							"modal" => "",
 						];
 					}else{
@@ -467,7 +467,7 @@
 						"form" => "formProductos",	
 						"id" => "proceso_productos",
 						"valor" => "Eliminar",
-						"funcion" => "listar_productos();",
+						"funcion" => "listar_productos();getProductos();",
 						"modal" => "modal_registrar_productos",
 					];
 				}else{

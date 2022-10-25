@@ -146,6 +146,7 @@ var editar_proveedores_dataTable = function(tbody, table){
 				$('#formProveedores #correo_proveedores').attr("readonly", false);
 				$('#formProveedores #proveedores_activo').attr("disabled", false);
 				$('#formProveedores #estado_proveedores').show();
+				$('#formProveedores #grupo_editar_rtn').show();
 
 				//DESHABILITAR OBJETOS
 				$('#formProveedores #rtn_proveedores').attr("readonly", true);
@@ -208,6 +209,7 @@ var eliminar_proveedores_dataTable = function(tbody, table){
 				$('#formProveedores #correo_proveedores').attr("readonly", true);
 				$('#formProveedores #proveedores_activo').attr("disabled", true);
 				$('#formProveedores #estado_proveedores').hide();
+				$('#formProveedores #grupo_editar_rtn').hide();
 
 				$('#formProveedores #proceso_proveedores').val("Eliminar");
 				$('#modal_registrar_proveedores').modal({
