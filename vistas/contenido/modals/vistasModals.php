@@ -442,7 +442,9 @@
 																	<label for="monto_efectivo">Efectivo</label>
 																	<input type="hidden" name="compras_id_efectivo" id="compras_id_efectivo" placeholder="Compra Codigo"> 
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00"> 
-																	<input type="text" name="efectivo_Purchase" id="efectivo_Purchase" class="inputfield" placeholder="0.00" step="0.01">																						
+																	<input type="text" name="efectivo_Purchase" id="efectivo_Purchase" class="inputfield" placeholder="0.00" step="0.01">
+																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
+
 																</div>
 															</div>
 															<div class="col-11">
@@ -476,8 +478,9 @@
 																<input type="hidden" name="compras_id_tarjeta" id="compras_id_tarjeta" placeholder="Compra Codigo">
 																<input type="text" id="cr_Purchase" name="cr_Purchase" class="inputfield"  placeholder="XXXX">
 																<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">
-																																
-																</div>
+																<input type="hidden" name="monto_efectivo" id="monto_efectivo_tarjeta" class="inputfield" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">														
+																<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
+															</div>
 															</div>
 														</div>
 														<div class="row">
@@ -577,7 +580,10 @@
 																	<select required name="bk_nm" id="bk_nm" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
 																		<option value="">Seleccione un Banco</option>
 																	</select> 																	
-																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">								
+																	<input type="hidden" name="importe" id="importe_transferencia" class="inputfield mt-5" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">	
+																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
+
 																</div>
 															</div>
 														</div>
@@ -621,6 +627,8 @@
 																	<select required name="bk_nm_chk" id="bk_nm_chk" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
 																		<option value="">Seleccione un Banco</option>
 																	</select> 																	
+																	<input type="number" name="importe" id="importe_cheque" class="inputfield mt-5"step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">								
 																</div>
 															</div>
@@ -629,7 +637,7 @@
 															<div class="col-12">
 																<div class="input-group"> 	
 																	<label>Número de Cheque</label> 
-																	<input type="text" name="check_num" id="check_num" class="inputfield" placeholder="Número de Cheque">							
+																	<input type="text" name="check_num" id="check_num" class="inputfield" placeholder="Número de Cheque">	
 																</div>
 															</div>
 														</div>
@@ -742,7 +750,7 @@
 																	<label for="monto_efectivo">Efectivo</label>
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
 																	<input type="hidden" name="factura_id_efectivo" id="factura_id_efectivo"> 
-																	<input type="hidden" name="tipo_factura" id="tipo_factura_efectivo" value="1"> 
+																	<input type="hidden" name="tipo_factura" id="tipo_factura_efectivo" value="1">
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" step="0.01" placeholder="0.00"> 
 																	<input type="number" name="efectivo_bill" id="efectivo_bill" class="inputfield" step="0.01" placeholder="0.00" step="0.01">																						
 																</div>
@@ -778,7 +786,7 @@
 																<input type="hidden" name="factura_id_tarjeta" id="factura_id_tarjeta">
 																<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
 																<input type="text" id="cr_bill" name="cr_bill" class="inputfield" placeholder="XXXX">
-																<input type="hidden" name="monto_efectivo" id="monto_efectivo_tarjeta" class="inputfield" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																<input type="number" style="display:none;" name="monto_efectivo" id="monto_efectivo_tarjeta" class="inputfield" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																<input type="hidden" name="importe" id="importe_tarjeta" class="inputfield" step="0.01" placeholder="0.00" >		
 																<input type="hidden" name="tipo_factura" id="tipo_factura" value="1">																	
 																</div>
@@ -884,7 +892,7 @@
 																	</select> 	
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">																
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">		
-																	<input type="hidden" name="importe" id="importe_transferencia" class="inputfield mt-5" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																	<input type="number" name="importe" id="importe_transferencia" class="inputfield mt-5" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																	<input type="hidden" name="tipo_factura" id="tipo_factura_transferencia" value="1" step="0.01" placeholder="0.00"> 								
 																</div>
 															</div>
@@ -931,7 +939,7 @@
 																		<option value="">Seleccione un Banco</option>
 																	</select> 																	
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">		
-																	<input type="hidden" name="importe" id="importe_cheque" class="inputfield mt-5"step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																	<input type="number" name="importe" id="importe_cheque" class="inputfield mt-5"step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																	<input type="hidden" name="tipo_factura" id="tipo_factura_cheque" value="1" step="0.01" placeholder="0.00"> 								
 																</div>
 															</div>

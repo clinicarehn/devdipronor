@@ -379,6 +379,36 @@
 			return $sql;
 		}
 
+		public function abonos_cxp_proveedor($facturas_id){
+			$query = "SELECT
+			pagoscompras.importe AS total,
+			pagoscompras.pagoscompras_id,
+			pagoscompras.compras_id,
+			pagoscompras.tipo_pago,
+			pagoscompras.fecha,
+			pagoscompras.efectivo,
+			pagoscompras.cambio,
+			pagoscompras.tarjeta,
+			pagoscompras.usuario,
+			pagoscompras.estado,
+			pagoscompras.empresa_id,
+			pagoscompras.fecha_registro,
+			proveedores.nombre,
+			compras.importe,
+			tipo_pago.nombre as tipoPago
+			FROM
+			pagoscompras
+			INNER JOIN compras ON pagoscompras.compras_id = compras.compras_id
+			INNER JOIN proveedores ON compras.proveedores_id = proveedores.proveedores_id
+			INNER JOIN tipo_pago ON tipo_pago.tipo_pago_id = pagoscompras.tipo_pago
+			WHERE
+				compras.compras_id ='$facturas_id'";
+
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+
+			return $sql;
+		}
+
 
 		public function valid_pago_compras($compras_id){
 			$query = "SELECT pagoscompras_id
@@ -4235,7 +4265,9 @@
 
 		public function getDatosCompras($compras_id){
 
-			$query = "SELECT c.compras_id AS compras_id, DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', c.proveedores_id AS 'proveedores_id', p.nombre AS 'proveedor', p.rtn AS 'rtn', c.estado AS 'estado', c.fecha AS 'fecha_compra', c.notas AS 'notas'
+			$query = "SELECT c.compras_id AS compras_id, DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha',
+			 c.proveedores_id AS 'proveedores_id', p.nombre AS 'proveedor', p.rtn AS 'rtn',
+			  c.estado AS 'estado', c.fecha AS 'fecha_compra', c.notas AS 'notas',tipo_compra
 
 				FROM compras AS c
 
@@ -4298,6 +4330,26 @@
 			return $result;
 		}
 
+		// public function getCuentasporPagarProveedores($datos){
+		// 	if($datos['tipo_busqueda'] == 1){
+		// 		$where = "WHERE cp.estado = 1";
+		// 	}else{
+		// 		$where = "WHERE cp.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND cp.estado = 1";
+		// 	}
+
+		// 	$query = "SELECT cp.pagar_proveedores_id As 'pagar_proveedores_id', c.compras_id AS 'compras_id', p.nombre AS 'proveedores', cp.fecha AS 'fecha', cp.saldo AS 'saldo', c.number AS 'factura'
+		// 		FROM pagar_proveedores AS cp
+		// 		INNER JOIN proveedores AS p
+		// 		ON cp.proveedores_id = p.proveedores_id
+		// 		INNER JOIN compras AS c
+		// 		ON cp.proveedores_id = c.proveedores_id
+		// 		".$where;
+
+		// 	$result = self::connection()->query($query);
+
+		// 	return $result;
+		// }
+
 		public function getCuentasporPagarProveedores($datos){
 			if($datos['tipo_busqueda'] == 1){
 				$where = "WHERE cp.estado = 1";
@@ -4305,16 +4357,21 @@
 				$where = "WHERE cp.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND cp.estado = 1";
 			}
 
-			$query = "SELECT cp.pagar_proveedores_id As 'pagar_proveedores_id', c.compras_id AS 'compras_id', p.nombre AS 'proveedores', cp.fecha AS 'fecha', cp.saldo AS 'saldo', c.number AS 'factura'
-				FROM pagar_proveedores AS cp
-				INNER JOIN proveedores AS p
-				ON cp.proveedores_id = p.proveedores_id
-				INNER JOIN compras AS c
-				ON cp.proveedores_id = c.proveedores_id
-				".$where;
+			$query = "SELECT
+			proveedores.nombre AS 'proveedores',
+			compras.compras_id,
+			compras.number AS 'factura',
+			compras.importe,
+			compras.estado,
+			compras.fecha
+			FROM
+			proveedores
+			INNER JOIN compras ON proveedores.proveedores_id = compras.proveedores_id
+			WHERE compras.estado = 3 OR compras.estado = 2
+				";
 
 			$result = self::connection()->query($query);
-
+			//estado 2 pagado // estado 3 pendiente credito
 			return $result;
 		}
 

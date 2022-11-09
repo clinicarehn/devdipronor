@@ -30,18 +30,18 @@
 			$abono = 0.00;
 		}
 
-		$credito = $row['saldo'];
-		$saldo = $row['saldo'] - $abono;
+		$credito = $row['importe'];
+		$saldo = $row['importe'] - $abono;
 								
 		$data[] = array( 
-			"pagar_proveedores_id"=>$row['pagar_proveedores_id'],
+			//"pagar_proveedores_id"=>$row['pagar_proveedores_id'],
 			"compras_id"=>$row['compras_id'],
 			"fecha"=>$row['fecha'],
 			"proveedores"=>$row['proveedores'],
 			"factura"=>$row['factura'],
 			"credito"=>'L. '.$credito,
 			"abono"=>'L. '.$abono,			
-			"saldo"=>'L. '.$row['saldo']		  
+			"saldo"=>$saldo		  
 		);		
 	}
 	

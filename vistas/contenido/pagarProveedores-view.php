@@ -65,6 +65,7 @@
                     <thead>
                         <tr>
                             <th>Pagar</th>
+							<th>Abonos</th>
 							<th>Fecha</th>
                             <th>Cliente</th>
                             <th>Factura</th>

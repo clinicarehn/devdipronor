@@ -467,16 +467,12 @@
 										$datos_detalles_facturas = [
 
 											"compras_id" => $compras_id,
-
 											"productos_id" => $productos_id,
-
 											"cantidad" => $quantity,				
-
 											"precio" => $price,
-
 											"isv_valor" => $isv_valor,
-
-											"descuento" => $discount,				
+											"descuento" => $discount,	
+											"medida" => $medida			
 
 										];	
 

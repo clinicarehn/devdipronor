@@ -1659,6 +1659,15 @@ var ver_abono_cxc_clientes_dataTable = function(tbody, table){
 	});
 }
 
+var ver_abono_cxp_proveedor_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.abono_proveedor");
+	$(tbody).on("click", "button.abono_proveedor", function(){
+		var data = table.row( $(this).parents("tr") ).data();
+		$('#ver_abono_cxc').modal('show');
+		getAbonosCXP(data.compras_id);
+	});
+}
+
 //INICIO CUENTAS POR PAGAR PROVEEDORES
 var listar_cuentas_por_pagar_proveedores = function(){
 	var tipo_busqueda = $("#form_main_pagar_proveedores #tipo_busqueda").val();
@@ -1678,12 +1687,30 @@ var listar_cuentas_por_pagar_proveedores = function(){
 		},
 		"columns":[
 			{"defaultContent":"<button class='table_pay btn btn-dark ocultar'><span class='fas fa-hand-holding-usd fa-lg'></span></button>"},
+			{"defaultContent":"<button class='abono_proveedor btn btn-dark'><span class='fa fa-money-bill-wave fa-solid'></span></button>"},
 			{"data":"fecha"},
 			{"data":"proveedores"},
 			{"data":"factura"},
 			{"data":"credito"},
-			{"data":"abono"},			
-			{"data":"saldo"}
+			{"data":"abono"},
+			{data:"saldo",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},		
 		],
 		"pageLength": 10,
         "lengthMenu": lengthMenu,
@@ -1741,13 +1768,27 @@ var listar_cuentas_por_pagar_proveedores = function(){
 	$('#buscar').focus();
 
 	registrar_pago_proveedores_dataTable("#dataTableCuentasPorPagarProveedores tbody", table_cuentas_por_pagar_proveedores);
+	ver_abono_cxp_proveedor_dataTable("#dataTableCuentasPorPagarProveedores tbody", table_cuentas_por_pagar_proveedores);
 }
 
 var registrar_pago_proveedores_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.table_pay");
 	$(tbody).on("click", "button.table_pay", function(){
 		var data = table.row( $(this).parents("tr") ).data();
-		pagoCompras(data.compras_id);
+		console.log('saldo',data.saldo)
+		if(data.saldo <= 0){
+			swal({
+				title: "Alerta",
+				text: "Esta Factura ya fue Cancelada",
+				type: "info",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Aceptar",
+				closeOnConfirm: false 
+			});
+		}else{
+			pagoCompras(data.compras_id,data.saldo);
+		}
 	});
 }
 //FIN LLENAR TABLAS
@@ -2152,10 +2193,11 @@ function pago(facturas_id,saldo){
 			
 			if(datos[5] == '2'){
 				$('#bill-pay').html(saldo);
-				$('#monto_efectivo_tarjeta').attr('type','number');
 				$('#tab5').hide();
-				$('#importe_transferencia').attr('type','number');
-				$('#importe_cheque').attr('type','number');
+
+				$('#formTarjetaBill #monto_efectivo_tarjeta').show();
+				$('#formTransferenciaBill #importe_transferencia').show()
+				$('#formChequeBill #importe_cheque').show()
 
 			}
 
@@ -2269,7 +2311,9 @@ $(document).ready(function(){
 		
 		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2){			
 			$('#formEfectivoBill #cambio_efectivo').val(parseFloat(total).toFixed(2));
-			$('#formEfectivoBill #pago_efectivo').attr('disabled', false);				
+			$('#formEfectivoBill #pago_efectivo').attr('disabled', false);
+			
+			//aqi
 		}else{
 			$('#formEfectivoBill #cambio_efectivo').val(parseFloat(0).toFixed(2));
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
@@ -2358,8 +2402,50 @@ function getAbonosCXC(factura_id){
 }
 //FIN ABONO CXC
 
+//INICIO CXP PROVEEDOR
+$(document).ready(function(){
+	$("#ver_abono_cxc").on('shown.bs.modal', function(){
+		$(this).find('#formulario_ver_abono_cxc #buscar').focus();
+	});
+});	
+
+function getAbonosCXP(factura_id){
+	var url = '<?php echo SERVERURL;?>core/getAbonosCXP.php';
+
+	var table_abonos_cxc = $("#table-modal-abonos").DataTable({
+		"destroy":true,
+		"ajax":{
+			"method":"POST",
+			"url":url,
+			"data":{"factura_id": factura_id},
+		},
+		"columns":[
+			{"data":"fecha"},
+			{"data":"tipo_pago"},
+			{"data":"descripcion"},
+			{"data":"abono"},
+		],	
+        "lengthMenu": lengthMenu,
+		"stateSave": true,
+		"bDestroy": true,
+		"language": idioma_español,		
+		"columnDefs": [
+		  { width: "25%", targets: 0 },
+		  { width: "25%", targets: 1 },
+		  { width: "25%", targets: 2 },
+		  { width: "25%", targets: 3 },
+		],
+		"fnRowCallback": function( nRow, res, iDisplayIndex, iDisplayIndexFull ) {                 	
+			$('#ver_abono_cxcTitle').html('Cliente: '+ res['cliente'])
+			$('#importe-cxc').html('Valor Factura L. '+ res['importe'])
+			$('#total-footer-modal-cxc').html('L. '+ res['total'])
+		},
+     });
+}
+//FIN ABONO CXP PROVEEDOR
+
 //INICIO MODAL REGSITRAR PAGO COMPRAS PROVEEDORES
-function pagoCompras(compras_id){
+function pagoCompras(compras_id,saldo){
 	var url = '<?php echo SERVERURL;?>core/editarPagoCompras.php';
 
 	$.ajax({
@@ -2371,19 +2457,33 @@ function pagoCompras(compras_id){
 			$('#formEfectivoPurchase .border-right a:eq(0) a').tab('show');
 			$("#customer-name-Purchase").html("<b>Proveedor:</b> " + datos[0]);
 		    $("#customer_Purchase_pay").val(datos[3]);
-			$('#Purchase-pay').html("L. " + parseFloat(datos[3]).toFixed(2));
+			$('#Purchase-pay').html("L. " + parseFloat(saldo).toFixed(2));
 			
 			//EFECTIVO
 			$('#formEfectivoPurchase')[0].reset();
 			$('#formEfectivoPurchase #monto_efectivoPurchase').val(datos[3]);
 			$('#formEfectivoPurchase #compras_id_efectivo').val(compras_id);
 			$('#formEfectivoPurchase #pago_efectivo').attr('disabled', true);
+			$('#formEfectivoPurchase #tipo_purchase_efectivo').val(datos[5]);
+
+			if(datos[5] == '2'){
+				//$('#bill-pay').html(saldo);
+				$('#monto_efectivo_tarjeta').attr('type','number');
+				$('#tab5Purchase').hide();
+				$('#importe_transferencia').attr('type','number');
+				$('#importe_cheque').attr('type','number');
+				//
+				$("#formEfectivoBill #cambio_efectivo").val(0)
+				$("#formEfectivoBill #cambio_efectivo").hide();
+
+			}
 			
 			//TARJETA
 			$('#formTarjetaPurchase')[0].reset();
 			$('#formTarjetaPurchase #monto_efectivoPurchase').val(datos[3]);
 			$('#formTarjetaPurchase #compras_id_tarjeta').val(compras_id);
 			$('#formTarjetaPurchase #pago_efectivo').attr('disabled', true);
+			$('#formTarjetaPurchase #tipo_purchase_efectivo').val(datos[5]);
 			
 			//mixto
 			$('#formMixtoPurchaseBill')[0].reset();
@@ -2395,7 +2495,15 @@ function pagoCompras(compras_id){
 			$('#formTransferenciaPurchase')[0].reset();
 			$('#formTransferenciaPurchase #monto_efectivoPurchase').val(datos[3]);
 			$('#formTransferenciaPurchase #compras_id_transferencia').val(compras_id);
-			$('#formTransferenciaPurchase #pago_efectivo').attr('disabled', true);		
+			$('#formTransferenciaPurchase #pago_efectivo').attr('disabled', true);	
+			$('#formTransferenciaPurchase #tipo_purchase_efectivo').val(datos[5]);
+
+			//CHEQUE
+			$('#formChequePurchase #compras_id_cheque').val(compras_id);
+			$('#formChequePurchase #tipo_purchase_efectivo').val(datos[5]);
+			$('#formChequePurchase #monto_efectivoPurchase').val(datos[3]);
+
+
 			
 			$('#modal_pagosPurchase').modal({
 				show:true,
@@ -2457,11 +2565,18 @@ $(document).ready(function(){
 	$("#formEfectivoPurchase #efectivo_Purchase").on("keyup", function(){				
 		var efectivo = parseFloat($("#formEfectivoPurchase #efectivo_Purchase").val()).toFixed(2);
 		var monto = parseFloat($("#formEfectivoPurchase #monto_efectivoPurchase").val()).toFixed(2);
+		var credito = $("#formEfectivoPurchase #tipo_purchase_efectivo").val();
 		
+		console.log('credotp',credito)
+		if(credito == 2 ){
+			$("#formEfectivoPurchase #cambio_efectivoPurchase").val(0)
+			$("#formEfectivoPurchase #cambio_efectivoPurchase").hide();
+		}
+
 		var total = efectivo - monto;				
 		//Math.floor NOS PERMITE COMPARAR UN FLOAT CONVIRTIENDOLO A ENTERO CUANDO SE MULTIPLICA POR 100
 		
-		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){	
+		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2){	
 			$('#formEfectivoPurchase #cambio_efectivoPurchase').val(parseFloat(total).toFixed(2));
 			$('#formEfectivoPurchase #pago_efectivo').attr('disabled', false);				
 		}else{				
