@@ -24,7 +24,6 @@
 		$fecha_compra = $consulta_registro['fecha_compra'];
 		$compras_id = $consulta_registro['compras_id'];	
 		$estado = $consulta_registro['tipo_compra'];		
-
 	}
 
 	$result_compra = $insMainModel->getDetalleProductosCompras($compras_id);

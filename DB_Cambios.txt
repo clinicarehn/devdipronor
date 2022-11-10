@@ -1,3 +1,6 @@
+####10/11/2022####
+cantidad -> se elimino de productos
+
 ####25/10/2022####
 fecha_registro date_time -> despues de tipo
 

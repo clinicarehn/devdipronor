@@ -371,7 +371,7 @@
 			LEFT JOIN pagos_detalles ON pagos.pagos_id = pagos_detalles.pagos_id
 			INNER JOIN facturas ON facturas.facturas_id = pagos.facturas_id
 			INNER JOIN clientes ON facturas.clientes_id = clientes.clientes_id
-            INNER JOIN tipo_pago ON pagos.tipo_pago = tipo_pago.tipo_pago_id
+            INNER JOIN tipo_pago ON pagos_detalles.tipo_pago_id = tipo_pago.tipo_pago_id
 			WHERE pagos.facturas_id = '$facturas_id'";
 
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
@@ -399,8 +399,9 @@
 			FROM
 			pagoscompras
 			INNER JOIN compras ON pagoscompras.compras_id = compras.compras_id
+            INNER JOIN pagoscompras_detalles ON pagoscompras_detalles.pagoscompras_id = pagoscompras.compras_id
 			INNER JOIN proveedores ON compras.proveedores_id = proveedores.proveedores_id
-			INNER JOIN tipo_pago ON tipo_pago.tipo_pago_id = pagoscompras.tipo_pago
+			INNER JOIN tipo_pago ON tipo_pago.tipo_pago_id = pagoscompras_detalles.tipo_pago_id
 			WHERE
 				compras.compras_id ='$facturas_id'";
 
@@ -4264,22 +4265,15 @@
 
 
 		public function getDatosCompras($compras_id){
-
 			$query = "SELECT c.compras_id AS compras_id, DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha',
 			 c.proveedores_id AS 'proveedores_id', p.nombre AS 'proveedor', p.rtn AS 'rtn',
 			  c.estado AS 'estado', c.fecha AS 'fecha_compra', c.notas AS 'notas',tipo_compra
-
 				FROM compras AS c
-
 				INNER JOIN proveedores AS p
-
 				ON c.proveedores_id = p.proveedores_id
-
 				WHERE c.compras_id = '$compras_id'";
 
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 		}

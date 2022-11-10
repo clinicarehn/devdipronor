@@ -2507,7 +2507,7 @@ function pagoCompras(compras_id,saldo){
 			$('#formEfectivoPurchase .border-right a:eq(0) a').tab('show');
 			$("#customer-name-Purchase").html("<b>Proveedor:</b> " + datos[0]);
 		    $("#customer_Purchase_pay").val(datos[3]);
-			$('#Purchase-pay').html("L. " + parseFloat(saldo).toFixed(2));
+			$('#Purchase-pay').html("L. " + parseFloat(datos[3]).toFixed(2));
 			
 			//EFECTIVO
 			$('#formEfectivoPurchase')[0].reset();
