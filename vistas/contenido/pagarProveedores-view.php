@@ -64,16 +64,27 @@
                 <table id="dataTableCuentasPorPagarProveedores" class="table table-striped table-condensed table-hover" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Pagar</th>
-							<th>Abonos</th>
 							<th>Fecha</th>
                             <th>Cliente</th>
                             <th>Factura</th>
                             <th>Crédito</th>
                             <th>Abonos</th>							
                             <th>Saldo</th>							
+                            <th>Abonar</th>
+							<th>Abonos Realizados</th>	
+							<th>Factura</th>						
                         </tr>
                     </thead>
+					<tfoot class="bg-info text-white font-weight-bold">
+						<tr>
+							<td colspan='1'>Total</td>
+							<td colspan="2"></td>
+							<td id="credito-cxp"></td>
+							<td id="abono-cxp"></td>
+							<td colspan='1' id='total-footer-cxp'></td>
+							<td colspan="3"></td>
+						</tr>
+					</tfoot>															
                 </table>  
             </div>                   
             </div>

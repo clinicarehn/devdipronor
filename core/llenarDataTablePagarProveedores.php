@@ -32,7 +32,11 @@
 
 		$credito = $row['importe'];
 		$saldo = $row['importe'] - $abono;
-								
+					
+		if($row['estado'] == 2){
+			$estadoColor = 'bg-c-green';
+		}
+
 		$data[] = array( 
 			//"pagar_proveedores_id"=>$row['pagar_proveedores_id'],
 			"compras_id"=>$row['compras_id'],
@@ -41,7 +45,12 @@
 			"factura"=>$row['factura'],
 			"credito"=>'L. '.$credito,
 			"abono"=>'L. '.$abono,			
-			"saldo"=>$saldo		  
+			"saldo"=>$saldo,
+			"color"=> $estadoColor,
+			"estado"=>$row['estado'],
+			"total_credito"=> number_format($credito,2),
+			"total_abono"=>number_format($abono,2),
+			"total_pendiente"=> number_format($saldo,2)		  
 		);		
 	}
 	

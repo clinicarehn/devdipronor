@@ -5,18 +5,7 @@
     </ol>
     <div class="card mb-4">
         <div class="card-body">		
-			<form class="form-inline" id="form_main_cobrar_clientes">
-				<div class="form-group mx-sm-3 mb-1">
-					<div class="input-group">				
-						<div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
-						</div>
-						<select id="tipo_busqueda" name="tipo_busqueda" class="custom-select" data-toggle="tooltip" data-placement="top" title="Tipo Busqueda">
-							<option value="1">Pendiente</option>
-							<option value="2">Pagadas</option>
-					  	</select>
-					</div>
-				</div>				
+			<form class="form-inline" id="form_main_cobrar_clientes">			
 				<div class="form-group mx-sm-3 mb-1">
 					<div class="input-group">				
 						<div class="input-group-append">				
@@ -71,20 +60,20 @@
                             <th>Abonos</th>
                             <th>Saldo</th>		
                             <th>Abonar</th>
-							<th>Detalle</th>		
-							<th>Abonos Realizados</th>			
+							<th>Abonos Realizados</th>							
+							<th>Factura</th>				
                         </tr>
                     </thead>
 					<tfoot class="bg-info text-white font-weight-bold">
-							<tr>
-								<td colspan='1'>Total</td>
-								<td colspan="3"></td>
-								<td id="credito-cxc"></td>
-								<td id="abono-cxc"></td>
-								<td colspan='1' id='total-footer-cxc'></td>
-								<td colspan="2"></td>
-							</tr>
-						</tfoot>
+						<tr>
+							<td colspan='1'>Total</td>
+							<td colspan="2"></td>
+							<td id="credito-cxc"></td>
+							<td id="abono-cxc"></td>
+							<td colspan='1' id='total-footer-cxc'></td>
+							<td colspan="3"></td>
+						</tr>
+					</tfoot>
                 </table>  
             </div>                   
             </div>

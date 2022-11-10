@@ -23,7 +23,6 @@
 			"image"=>$row['image'],
 			"barCode"=>$row['barCode'],
 			"nombre"=>$row['nombre'],
-			"cantidad"=>$saldo_productos,
 			"medida"=>$row['medida'],
 			"categoria"=>$row['categoria'],
 			"precio_compra"=> $row['precio_compra'],

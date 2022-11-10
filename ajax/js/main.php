@@ -1456,7 +1456,6 @@ function getConsultarAperturaCaja(){
 
 //INICIO CUENTAS POR COBRAR CLIENTES
 var listar_cuentas_por_cobrar_clientes = function(){
-	var tipo_busqueda = $("#form_main_cobrar_clientes #tipo_busqueda").val();
 	var fechai = $("#form_main_cobrar_clientes #fechai").val();
 	var fechaf = $("#form_main_cobrar_clientes #fechaf").val();
 	
@@ -1466,7 +1465,6 @@ var listar_cuentas_por_cobrar_clientes = function(){
 			"method":"POST",
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableCobrarClientes.php",
 			"data":{
-				"tipo_busqueda":tipo_busqueda,
 				"fechai":fechai,
 				"fechaf":fechaf
 			}
@@ -1532,8 +1530,8 @@ var listar_cuentas_por_cobrar_clientes = function(){
                 },
 			},
 			{"defaultContent":"<button class='table_abono btn btn-dark'><span class='fas fa-cash-register fa-lg'></span></button>"},
-			{"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
-			{"defaultContent":"<button class='table_reportes abono_factura btn btn-dark ocultar'><span class='fa fa-money-bill-wave fa-solid'></span></button>"}
+			{"defaultContent":"<button class='table_reportes abono_factura btn btn-dark ocultar'><span class='fa fa-money-bill-wave fa-solid'></span></button>"},
+			{"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"}
 		],
 		"pageLength": 10,
         "lengthMenu": lengthMenu,
@@ -1610,7 +1608,6 @@ var listar_cuentas_por_cobrar_clientes = function(){
 	table_cuentas_por_cobrar_clientes.search('').draw();
 	$('#buscar').focus();
 
-	registrar_pago_clientes_dataTable("#dataTableCuentasPorCobrarClientes tbody", table_cuentas_por_cobrar_clientes);
 	registrar_abono_cxc_clientes_dataTable("#dataTableCuentasPorCobrarClientes tbody", table_cuentas_por_cobrar_clientes);
 	ver_abono_cxc_clientes_dataTable("#dataTableCuentasPorCobrarClientes tbody", table_cuentas_por_cobrar_clientes);
 	view_reporte_facturas_dataTable("#dataTableCuentasPorCobrarClientes tbody", table_cuentas_por_cobrar_clientes);
@@ -1622,14 +1619,6 @@ var view_reporte_facturas_dataTable = function(tbody, table){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
 		printBillReporteVentas(data.facturas_id);
-	});
-}
-
-var registrar_pago_clientes_dataTable = function(tbody, table){
-	$(tbody).off("click", "button.table_pay");
-	$(tbody).on("click", "button.table_pay", function(){
-		var data = table.row( $(this).parents("tr") ).data();
-		pago(data.facturas_id);
 	});
 }
 
@@ -1686,13 +1675,45 @@ var listar_cuentas_por_pagar_proveedores = function(){
 			}
 		},
 		"columns":[
-			{"defaultContent":"<button class='table_pay btn btn-dark ocultar'><span class='fas fa-hand-holding-usd fa-lg'></span></button>"},
-			{"defaultContent":"<button class='abono_proveedor btn btn-dark'><span class='fa fa-money-bill-wave fa-solid'></span></button>"},
 			{"data":"fecha"},
 			{"data":"proveedores"},
 			{"data":"factura"},
-			{"data":"credito"},
-			{"data":"abono"},
+			{"data":"credito",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"abono",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },			
+			},
 			{data:"saldo",
 				render: function (data, type) {
                     var number = $.fn.dataTable.render
@@ -1710,7 +1731,10 @@ var listar_cuentas_por_pagar_proveedores = function(){
  
                     return number;
                 },
-			},		
+			},
+			{"defaultContent":"<button class='table_pay btn btn-dark ocultar'><span class='fas fa-hand-holding-usd fa-lg'></span></button>"},
+			{"defaultContent":"<button class='abono_proveedor btn btn-dark'><span class='fa fa-money-bill-wave fa-solid'></span></button>"},
+			{"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"}	
 		],
 		"pageLength": 10,
         "lengthMenu": lengthMenu,
@@ -1718,6 +1742,26 @@ var listar_cuentas_por_pagar_proveedores = function(){
 		"bDestroy": true,
 		"language": idioma_español,
 		"dom": dom,
+		"columnDefs": [
+		  { width: "12.5%", targets: 0 },
+		  { width: "10.5%", targets: 1 },
+		  { width: "12.5%", targets: 2 },
+		  { width: "20.5%", targets: 3, className: "text-center"},
+		  { width: "24.5%", targets: 4, className: "text-center" },
+		  { width: "12.5%", targets: 5, className: "text-center" },
+		  { width: "2.5%", targets: 6 },
+		  { width: "2.5%", targets: 7 } 	  
+		],		
+		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
+        	$('td', nRow).addClass(aData['color']);
+			for (let index = 0; index < aData.length; index++) {
+				console.log(aData[i]["credito"]);
+			}
+			$(row).find('td:eq(2)').css('color', 'red');
+			$('#credito-cxp').html('L. '+ aData['total_credito']);
+			$('#abono-cxp').html('L. '+ aData['total_abono']);
+			$('#total-footer-cxp').html('L. '+ aData['total_pendiente']);
+		},
 		"buttons":[
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
@@ -1769,6 +1813,16 @@ var listar_cuentas_por_pagar_proveedores = function(){
 
 	registrar_pago_proveedores_dataTable("#dataTableCuentasPorPagarProveedores tbody", table_cuentas_por_pagar_proveedores);
 	ver_abono_cxp_proveedor_dataTable("#dataTableCuentasPorPagarProveedores tbody", table_cuentas_por_pagar_proveedores);
+	ver_reporte_facturas_cxp_proveedor_dataTable("#dataTableCuentasPorPagarProveedores tbody", table_cuentas_por_pagar_proveedores);
+}
+
+var ver_reporte_facturas_cxp_proveedor_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.print_factura");
+	$(tbody).on("click", "button.print_factura", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		printPurchase(data.compras_id);
+	});
 }
 
 var registrar_pago_proveedores_dataTable = function(tbody, table){
@@ -1778,13 +1832,10 @@ var registrar_pago_proveedores_dataTable = function(tbody, table){
 		console.log('saldo',data.saldo)
 		if(data.saldo <= 0){
 			swal({
-				title: "Alerta",
-				text: "Esta Factura ya fue Cancelada",
-				type: "info",
-				showCancelButton: true,
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Aceptar",
-				closeOnConfirm: false 
+                title: "Alerta",
+                text: "Esta Factura ya fue Cancelada",
+                type: "info",
+				confirmButtonClass: "btn-primary"
 			});
 		}else{
 			pagoCompras(data.compras_id,data.saldo);
@@ -2182,7 +2233,6 @@ function pago(facturas_id,saldo){
 			$("#customer-name-bill").html("<b>Cliente:</b> " + datos[0]);
 		    $("#customer_bill_pay").val(datos[3]);
 			$('#bill-pay').html("L. " + parseFloat(datos[3]).toFixed(2));
-
 			
 			//EFECTIVO
 			$('#formEfectivoBill')[0].reset();			
@@ -2192,7 +2242,7 @@ function pago(facturas_id,saldo){
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
 			
 			if(datos[5] == '2'){
-				$('#bill-pay').html(saldo);
+				$('#bill-pay').html("L. " + parseFloat(saldo).toFixed(2));
 				$('#tab5').hide();
 
 				$('#formTarjetaBill #monto_efectivo_tarjeta').show();
@@ -2475,7 +2525,6 @@ function pagoCompras(compras_id,saldo){
 				//
 				$("#formEfectivoBill #cambio_efectivo").val(0)
 				$("#formEfectivoBill #cambio_efectivo").hide();
-
 			}
 			
 			//TARJETA
@@ -2502,9 +2551,7 @@ function pagoCompras(compras_id,saldo){
 			$('#formChequePurchase #compras_id_cheque').val(compras_id);
 			$('#formChequePurchase #tipo_purchase_efectivo').val(datos[5]);
 			$('#formChequePurchase #monto_efectivoPurchase').val(datos[3]);
-
-
-			
+		
 			$('#modal_pagosPurchase').modal({
 				show:true,
 				keyboard: false,

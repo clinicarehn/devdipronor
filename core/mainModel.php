@@ -2144,7 +2144,7 @@
 		}
 
 		public function getCantidadProductos($productos_id){
-			$query = "SELECT cantidad,id_producto_superior
+			$query = "SELECT id_producto_superior
 				FROM productos
 				WHERE productos_id = '$productos_id'";
 
@@ -2197,7 +2197,7 @@
 		}
 
 		public function getProductos(){
-			$query = "SELECT p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', FORMAT(p.cantidad,0) AS 'cantidad', FORMAT(p.precio_compra,2) AS 'precio_compra', FORMAT(p.precio_venta,2) AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
+			$query = "SELECT p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', p.precio_compra AS 'precio_compra', p.precio_venta AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
 			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
 			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'categoria', p.isv_venta AS 'impuesto_venta', p.isv_compra AS 'isv_compra', p.file_name AS 'image'
 				FROM productos AS p
@@ -4298,11 +4298,7 @@
 		}
 
 		public function getCuentasporCobrarClientes($datos){
-			if($datos['tipo_busqueda'] == 1){
-				$where = "WHERE cc.estado = 1";
-			}else{
-				$where = "WHERE cc.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND cc.estado = '".$datos['tipo_busqueda']."'";
-			}
+			$where = "WHERE cc.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
 
 			$query = "SELECT cc.cobrar_clientes_id AS 'cobrar_clientes_id', f.facturas_id AS 'facturas_id', c.nombre AS 'cliente',
 				 f.fecha AS 'fecha', cc.saldo AS 'saldo', CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', cc.estado,

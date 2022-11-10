@@ -116,7 +116,6 @@
 				"tipo_producto" => $tipo_producto,				
 				"nombre" => $nombre,
 				"descripcion" => $descripcion,
-				"cantidad" => $cantidad,
 				"precio_compra" => $precio_compra,
 				"porcentaje_venta" => $porcentaje_venta,
 				"precio_venta" => $precio_venta,
@@ -327,6 +326,10 @@
 		}
 		
 		public function edit_bodega_productos_controlador(){
+			if(!isset($_SESSION['user_sd'])){ 
+				session_start(['name'=>'SD']); 
+			}
+
 			$productos_id = mainModel::cleanString($_POST['productos_id']);	
 			$bodega_actual = mainModel::cleanString($_POST['id_bodega_actual']);
 			$bodega = mainModel::cleanString($_POST['id_bodega']);
@@ -337,117 +340,101 @@
 				"cantidad" => $cantidad			
 			];
 	
-				$empresa_id = $_SESSION['empresa_id_sd'];
-				$fecha_registro = date("Y-m-d H:i:s");
-				$saldo = 0;
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$fecha_registro = date("Y-m-d H:i:s");
+			$saldo = 0;
 
+			//Verificamos producto hijo
+			$result_productos = mainModel::getProductoHijo($productos_id);			  								
 
-					//Verificamos producto hijo
-					$result_productos = mainModel::getProductoHijo($productos_id);			  								
-
-					if($result_productos->num_rows>0){
-						while($consulta = $result_productos->fetch_assoc()){
-							$id_producto_hijo = intval($consulta['productos_id']);
-							if($id_producto_hijo != 0 || $id_producto_hijo != 'null'){
-								//agregos el producto hijo a la bodega de transferencia
-								$datosHijo = [
-									"productos_id" => $id_producto_hijo,
-									"cantidad_entrada" => 0,
-									"cantidad_salida" => 0,
-									"saldo" => 0,	
-									"fecha_registro" => $fecha_registro,
-									"empresa" => $empresa_id,
-									"comentario" => '',
-									"cliente" => '',
-									"almacen_id" => $bodega
-				
-								];
-								
-								$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datosHijo);
-							}
-
-						}
-					}	
-					
-					
-					//INGRESAMOS EL NUEVO REGISTRO EN LA ENTIDAD MOVIMIENTOS				
-	
-					$datos = [
-						"productos_id" => $productos_id,
-						"cantidad_entrada" => $cantidad,
-						"cantidad_salida" => 0,
-						"saldo" => 0,	
-						"fecha_registro" => $fecha_registro,
-						"empresa" => $empresa_id,
-						"comentario" => '',
-						"cliente" => '',
-						"almacen_id" => $bodega
-	
-					];
-					
-					$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datos);
-
-					//EGRESO DEL PRODUCTO DE LA BODEGA ACTUAL
-					$datosEgreso = [
-						"productos_id" => $productos_id,
-						"cantidad_entrada" => 0,
-						"cantidad_salida" => $cantidad,
-						"saldo" => 0,	
-						"fecha_registro" => $fecha_registro,
-						"empresa" => $empresa_id,
-						"comentario" => '',
-						"cliente" => '',
-						"almacen_id" => $bodega_actual
-	
-					];
-
-					$queryEgreso = mainModel::agregar_movimiento_productos_modelo($datosEgreso);
-					
-					
-					if($queryEgreso && $queryIngreso){
-						$alert = [
-							"alert" => "clear",
-							"title" => "Agregar Movimiento Almacen",
-							"text" => "El registro se ha almacenado correctamente",
-							"type" => "success",
-							"btn-class" => "btn-primary",
-							"btn-text" => "¡Bien Hecho!",
-							"form" => "formMovimientos",
-							"id" => "proceso_movimientos",
-							"valor" => "Registro",	
-							"funcion" => "listar_movimientos();getProductos();",
-							"modal" => "",
+			if($result_productos->num_rows>0){
+				while($consulta = $result_productos->fetch_assoc()){
+					$id_producto_hijo = intval($consulta['productos_id']);
+					if($id_producto_hijo != 0 || $id_producto_hijo != 'null'){
+						//agregos el producto hijo a la bodega de transferencia
+						$datosHijo = [
+							"productos_id" => $id_producto_hijo,
+							"cantidad_entrada" => 0,
+							"cantidad_salida" => 0,
+							"saldo" => 0,	
+							"fecha_registro" => $fecha_registro,
+							"empresa" => $empresa_id,
+							"comentario" => '',
+							"clientes_id" => '',
+							"almacen_id" => $bodega
 						];
-					}else{
-						$alert = [
-							"alert" => "simple",
-							"title" => "Ocurrio un error inesperado en almacen",
-							"text" => "No hemos podido procesar su solicitud",
-							"type" => "error",
-							"btn-class" => "btn-danger",					
-						];				
-					}					
+						
+						$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datosHijo);
+					}
+
+				}
+			}				
 				
+			//INGRESAMOS EL NUEVO REGISTRO EN LA ENTIDAD MOVIMIENTOS				
 
-			//fin
+			$datos = [
+				"productos_id" => $productos_id,
+				"cantidad_entrada" => $cantidad,
+				"cantidad_salida" => 0,
+				"saldo" => 0,	
+				"fecha_registro" => $fecha_registro,
+				"empresa" => $empresa_id,
+				"comentario" => '',
+				"clientes_id" => '',
+				"almacen_id" => $bodega
+			];
+				
+			$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datos);
+
+			//EGRESO DEL PRODUCTO DE LA BODEGA ACTUAL
+			$datosEgreso = [
+				"productos_id" => $productos_id,
+				"cantidad_entrada" => 0,
+				"cantidad_salida" => $cantidad,
+				"saldo" => 0,	
+				"fecha_registro" => $fecha_registro,
+				"empresa" => $empresa_id,
+				"comentario" => '',
+				"clientes_id" => '',
+				"almacen_id" => $bodega_actual
+
+			];
+
+			$queryEgreso = mainModel::agregar_movimiento_productos_modelo($datosEgreso);
 			
-			// $queryS = productosModelo::consultar_productos_superior($productos_id);
-			// while($res = mysqli_fetch_assoc($queryS)){
-			// 	if($res['productos_id'] > 0){
-			// 		$datos = [
-			// 			"productos_id" => $res['productos_id'],
-			// 			"bodega" => $bodega						
-			// 		];
-	
-			// 		$query = productosModelo::edit_bodega_productos_modelo($datos);
-			// 	}
-
-			// }			
+			
+			if($queryEgreso && $queryIngreso){
+				$alert = [
+					"alert" => "edit",
+					"title" => "Agregar Movimiento Almacen",
+					"text" => "El registro se ha almacenado correctamente",
+					"type" => "success",
+					"btn-class" => "btn-primary",
+					"btn-text" => "¡Bien Hecho!",
+					"form" => "formMovimientos",	
+					"id" => "proceso_movimientos",
+					"valor" => "Editar",
+					"funcion" => "inventario_transferencia()",
+					"modal" => "",
+				];
+			}else{
+				$alert = [
+					"alert" => "simple",
+					"title" => "Ocurrio un error inesperado en almacen",
+					"text" => "No hemos podido procesar su solicitud",
+					"type" => "error",
+					"btn-class" => "btn-danger",					
+				];				
+			}		
 			
 			return mainModel::sweetAlert($alert);
 		}
 
 		public function delete_productos_controlador(){
+			if(!isset($_SESSION['user_sd'])){ 
+				session_start(['name'=>'SD']); 
+			}
+
 			$productos_id = $_POST['productos_id'];
 			
 			//VALIDAMOS QUE EL PRODCUTO NO TENGA MOVIMIENTOS, PARA PODER ELIMINARSE
