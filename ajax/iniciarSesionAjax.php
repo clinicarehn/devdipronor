@@ -14,6 +14,7 @@
 		$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-01"));
 		$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-10"));
 
+		//SI NOS ESTAMOS CONECTANDO AL SISTEMA PRINCIPAL, SIMPLEMENTE ENTRAMOS SIN PROBLEMA
 		if(DB == "kireds_fayad"){
 			echo $login->iniciar_sesion_controlador();
 		}else{
