@@ -7,9 +7,28 @@
 		require_once "../core/mainModel.php";
 		
 		$login = new loginControlador();
-		
-		echo $login->iniciar_sesion_controlador();
-	
+		$date = date("Y-m-d");
+		$año = date("Y");
+		$mes = date("m");
+
+		$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-01"));
+		$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-10"));
+
+		if(DB == "kireds_fayad"){
+			echo $login->iniciar_sesion_controlador();
+		}else{
+			//SI EL CLIENTE ESTA DENTRO DEL TIEMPO PERMITIDO, INICIA LA SESION CORRECTAMENTE
+			if($date >= $fecha_inicial && $date <= $fecha_final){
+				echo $login->iniciar_sesion_controlador();
+			}else{//CASO CONTRARIO ENTRAMOS EN UNA VALIDACION
+				if($login->validar_facturacion_main_server_controlador() == 1){
+					echo $login->iniciar_sesion_controlador();
+				}else{
+					echo $login->validar_facturacion_main_server_controlador();
+				}
+			}
+		}
+
 		$insMainModel = new mainModel();
 
 		//mainModel::guardar_historial_accesos("Inicio de Sesion");

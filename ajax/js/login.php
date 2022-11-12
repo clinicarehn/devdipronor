@@ -29,14 +29,22 @@ $(document).ready(function() {
                 var datos = eval(resp);
                 if (datos[0] != "") {
                     setTimeout(window.location = datos[0], 1200);
-                } else if (datos[1] == "ErrorS") {
+                }else if (datos[1] == "ErrorS") {
                     swal({
                         title: "Error",
                         text: "Usuario o contraseña son incorrectos por favor corregir",
                         type: "error",
                         confirmButtonClass: 'btn-danger'
                     });
-                } else {
+                }else if (datos[1] == "ErrorP") {
+                    swal({
+                        title: "Error",
+                        text: "No es posible acceder al sistema en este momento, Por favor póngase en contacto con nuestra área de recaudación para el procesamiento y renovación de su servicio, puede llamarnos o escribirnos al +504 3310-9738, donde gustosamente se le atenderá.",
+                        type: "error",
+                        confirmButtonClass: 'btn-danger'
+                    });
+                }                    
+                else {
                     swal({
                         title: "Error",
                         text: "No se enviaron los datos, favor corregir",

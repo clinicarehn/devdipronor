@@ -6,7 +6,6 @@
     }
 
 	class loginModel extends mainModel{
-
 		protected function iniciar_sesion_modelo($datos){
 			$username = $datos['username'];
 			$password = $datos['password'];
@@ -84,4 +83,36 @@
 			
 			return $respuesta;
 		}
+
+		protected function validar_facturacion_main_server_modelo(){
+			$mysqli_main = mainModel::connect_mysqli_main_server();
+			$validar = 1;//SE VALIDARA EL CLIENTE PARA PODER INICIAR SESION
+
+			$query = "SELECT sc.clientes_id AS 'clientes_id'
+				FROM server_customers AS sc
+				INNER JOIN clientes AS c
+				ON sc.clientes_id = c.clientes_id
+				LEFT JOIN facturas AS f
+				on f.clientes_id = sc.clientes_id
+				WHERE f.estado = 2 AND MONTH(curdate()) AND sc.db = '".DB."'";			
+			
+			$sql = $mysqli_main->query($query) or die($mysqli_main->error);
+					
+			return $sql;		
+		}
+
+		//CONSULTAMOS SI ES NECESARIO VALIDAR AL CLIENTE PARA SU INICIO DE SESION
+		protected function validar_cliente_server_modelo(){
+			$mysqli_main = mainModel::connect_mysqli_main_server();
+
+			$query = "SELECT sc.validar AS 'validar'
+				FROM server_customers AS sc
+				INNER JOIN clientes AS c
+				ON sc.clientes_id = c.clientes_id
+				WHERE sc.db = '".DB."'";			
+
+			$sql = $mysqli_main->query($query) or die($mysqli_main->error);
+					
+			return $sql;		
+		}		
 	}

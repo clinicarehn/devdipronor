@@ -1,3 +1,12 @@
+####11/11/2022####
+server_customers_id int pk
+clientes_id         int
+db                  char(40)
+validar             int
+
+data_table: server_customers
+Nota: Esta tabla no va en los clientes solo en el programa principal de la empresa, los clientes se conectan ahí
+
 ####10/11/2022####
 cantidad -> se elimino de productos
 

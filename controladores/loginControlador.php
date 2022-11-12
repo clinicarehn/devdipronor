@@ -138,5 +138,33 @@
 			mainModel::guardar_historial_accesos("Cierre de Sesion Forzado");
 			session_destroy();
 			return header("Location: ".SERVERURL."login/");
-		}		
+		}	
+		
+		public function validar_facturacion_main_server_controlador(){
+			$result = loginModel::validar_facturacion_main_server_modelo();
+			$result_validar_cliente = loginModel::validar_cliente_server_modelo();
+			
+			//CONSULTAMOS SI ES NECESARIO VALIDAR EL CLIENTE, SI NO LO ES LO DEJAMOS INICIAR SESION CORRECTAMENTE
+			$row = $result_validar_cliente->fetch_assoc();
+			if($row['validar'] == "" || $row['validar'] == null){
+				$validar = 0;
+			}else{
+				$validar = $row['validar'];
+			}
+
+			if($validar==0){
+				$datos = 1;
+			}else{//DE LO CONTRARIO COMENZAMOS CON LAS VALIDACIONES NECESARIAS
+				//VALIDAMOS SI EXISTE UN REGISTRO DEL PAGO DEL CLIENTE
+				if($result->num_rows==0){//SI NO EXISTE LANZAMOS UN ERROR
+					$datos = array(
+						0 => "",
+						1 => "ErrorP",
+					);				
+				}else{//SI EL PAGO EXISTE PARA EL MES EN CURSO, HACEMOS QUE VALIDE SU INICIO DE SESION
+					$datos = 1;
+				}
+			}
+			return json_encode($datos);
+		}
     }
