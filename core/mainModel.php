@@ -5830,5 +5830,4 @@
 		
 			return $mysqli_main;
 		}		
-
     }

@@ -39,7 +39,7 @@ $(document).ready(function() {
                 }else if (datos[1] == "ErrorP") {
                     swal({
                         title: "Error",
-                        text: "No es posible acceder al sistema en este momento, Por favor póngase en contacto con nuestra área de recaudación para el procesamiento y renovación de su servicio, puede llamarnos o escribirnos al +504 3310-9738, donde gustosamente se le atenderá.",
+                        text: "No es posible acceder al sistema en este momento, Por favor pongase en contacto con nuestra area de recaudacion para el procesamiento y renovacion de su servicio, puede llamarnos o escribirnos al +504 3310-9738, donde gustosamente se le atendera.",
                         type: "error",
                         confirmButtonClass: 'btn-danger'
                     });

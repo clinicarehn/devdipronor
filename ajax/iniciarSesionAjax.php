@@ -7,27 +7,11 @@
 		require_once "../core/mainModel.php";
 		
 		$login = new loginControlador();
-		$date = date("Y-m-d");
-		$año = date("Y");
-		$mes = date("m");
-
-		$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-01"));
-		$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-10"));
-
-		//SI NOS ESTAMOS CONECTANDO AL SISTEMA PRINCIPAL, SIMPLEMENTE ENTRAMOS SIN PROBLEMA
-		if(DB == "kireds_fayad"){
+		
+		if($login->validar_pago_pendiente_main_server_controlador() == 1){
 			echo $login->iniciar_sesion_controlador();
 		}else{
-			//SI EL CLIENTE ESTA DENTRO DEL TIEMPO PERMITIDO, INICIA LA SESION CORRECTAMENTE
-			if($date >= $fecha_inicial && $date <= $fecha_final){
-				echo $login->iniciar_sesion_controlador();
-			}else{//CASO CONTRARIO ENTRAMOS EN UNA VALIDACION
-				if($login->validar_facturacion_main_server_controlador() == 1){
-					echo $login->iniciar_sesion_controlador();
-				}else{
-					echo $login->validar_facturacion_main_server_controlador();
-				}
-			}
+			echo $login->validar_pago_pendiente_main_server_controlador();
 		}
 
 		$insMainModel = new mainModel();
