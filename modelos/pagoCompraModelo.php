@@ -71,6 +71,8 @@
 						"type" => "error",
 						"btn-class" => "btn-danger",					
 					];
+
+					return $alert;
 				}
 
 				$datos = [

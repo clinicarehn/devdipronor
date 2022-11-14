@@ -274,6 +274,8 @@
 						"type" => "error",
 						"btn-class" => "btn-danger",					
 					];
+
+					return $alert;
 				}
 			}else{
 				//VERIFICAMOS QUE NO SE HA INGRESADO EL PAGO, SI NO SE HA REALIZADO EL INGRESO, PROCEDEMOS A ALMACENAR EL PAGO
