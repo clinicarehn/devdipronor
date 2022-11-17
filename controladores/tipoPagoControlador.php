@@ -15,12 +15,19 @@
 				$cuentas_id = 2;
 			}
 
+			if (isset($_POST['confTipoCuenta'])){
+				$tipo_cuenta = $_POST['confTipoCuenta'];
+			}else{
+				$cuentas_id = 0;
+			}			
+
 			$estado = 1;
 
 			$fecha_registro = date("Y-m-d H:i:s");	
 			
 			$datos = [
 				"cuentas_id" => $cuentas_id,
+				"tipo_cuenta" => $tipo_cuenta,
 				"nombre" => $nombre,
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,				

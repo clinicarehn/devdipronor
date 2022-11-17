@@ -1570,24 +1570,24 @@
 
 		}
 
-
-
 		public function getCuenta(){
-
 			$query = "SELECT *
-
 				FROM cuentas
-
 				WHERE estado = 1
-
 				ORDER BY nombre";
-
 			$result = self::connection()->query($query);
 
+			return $result;
+		}
 
+		public function getTipoCuenta(){
+			$query = "SELECT *
+				FROM tipo_cuenta
+				WHERE estado = 1
+				ORDER BY nombre";
+			$result = self::connection()->query($query);
 
 			return $result;
-
 		}
 
 		public function getProveedoresConsulta(){
@@ -4319,27 +4319,7 @@
 
 			return $result;
 		}
-
-		// public function getCuentasporPagarProveedores($datos){
-		// 	if($datos['tipo_busqueda'] == 1){
-		// 		$where = "WHERE cp.estado = 1";
-		// 	}else{
-		// 		$where = "WHERE cp.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND cp.estado = 1";
-		// 	}
-
-		// 	$query = "SELECT cp.pagar_proveedores_id As 'pagar_proveedores_id', c.compras_id AS 'compras_id', p.nombre AS 'proveedores', cp.fecha AS 'fecha', cp.saldo AS 'saldo', c.number AS 'factura'
-		// 		FROM pagar_proveedores AS cp
-		// 		INNER JOIN proveedores AS p
-		// 		ON cp.proveedores_id = p.proveedores_id
-		// 		INNER JOIN compras AS c
-		// 		ON cp.proveedores_id = c.proveedores_id
-		// 		".$where;
-
-		// 	$result = self::connection()->query($query);
-
-		// 	return $result;
-		// }
-
+		
 		public function getCuentasporPagarProveedores($datos){
 			if($datos['tipo_busqueda'] == 1){
 				$where = "WHERE cp.estado = 1";

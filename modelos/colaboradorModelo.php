@@ -18,7 +18,7 @@
 		
 		protected function valid_colaborador_modelo($identidad){
 			$query = "SELECT colaboradores_id  FROM colaboradores WHERE identidad = '$identidad'";
-			
+
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;
