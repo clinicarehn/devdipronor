@@ -14,14 +14,14 @@
 		
 	while($row = $result->fetch_assoc()){
 		
-        $total_abono += $row['efectivo'];
+        $total_abono += $row['total'];
 
 		$data[] = array( 
 			"facturas_id"=>$row['pagoscompras_id'],
 			"fecha"=>$row['fecha'],
-			"abono"=>number_format($row['efectivo'],2),						
+			"abono"=>number_format($row['total'],2),						
 			"cliente"=> $row['nombre'],
-			"descripcion"=>'',
+			"descripcion"=>$row['descripcion1'],
 			"tipo_pago"=> $row['tipoPago'],
 			"importe"=>number_format($row['importe'],2),
             "total"=> number_format($total_abono ,2)

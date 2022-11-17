@@ -395,13 +395,14 @@
 			pagoscompras.fecha_registro,
 			proveedores.nombre,
 			compras.importe,
-			tipo_pago.nombre as tipoPago
+			tipo_pago.nombre as tipoPago,
+			pagoscompras_detalles.descripcion1
 			FROM
-			pagoscompras
-			INNER JOIN compras ON pagoscompras.compras_id = compras.compras_id
-            INNER JOIN pagoscompras_detalles ON pagoscompras_detalles.pagoscompras_id = pagoscompras.compras_id
-			INNER JOIN proveedores ON compras.proveedores_id = proveedores.proveedores_id
-			INNER JOIN tipo_pago ON tipo_pago.tipo_pago_id = pagoscompras_detalles.tipo_pago_id
+			compras
+			INNER JOIN pagoscompras ON compras.compras_id = pagoscompras.compras_id
+			INNER JOIN pagoscompras_detalles ON pagoscompras_detalles.pagoscompras_id = pagoscompras.pagoscompras_id
+			INNER JOIN tipo_pago ON pagoscompras_detalles.tipo_pago_id = tipo_pago.tipo_pago_id
+			INNER JOIN proveedores ON proveedores.proveedores_id = compras.proveedores_id
 			WHERE
 				compras.compras_id ='$facturas_id'";
 
