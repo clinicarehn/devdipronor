@@ -122,11 +122,14 @@ var edit_tipo_pago_contabilidad_dataTable = function(tbody, table){
 					$('#formConfTipoPago #confTipoPago_activo').attr('checked', false);
 				}
 
+				//DESHABILITAR OBJETOS				
+				$('#formConfTipoPago #confCuentaTipoPago').attr('disabled', true);
+				$('#formConfTipoPago #confTipoPago_activo').attr('disabled', true);	
+				$('#formConfTipoPago #confTipoCuenta').attr('disabled', true);
+
 				//HABILITAR OBJETOS
-				$('#formConfTipoPago #confTipoPago').attr('readonly', false);
-				$('#formConfTipoPago #confCuentaTipoPago').attr('disabled', false);
 				$('#formConfTipoPago #confTipoPago_activo').attr('disabled', false);
-				$('#formConfTipoPago #confTipoCuenta').attr('disabled', false);	
+				$('#formConfTipoPago #confTipoPago').attr('readonly', false);
 				$('#formConfTipoPago #buscar_confCuentaTipoPago').show();
 				$('#formConfTipoPago #estado_tipo_pago').show();
 

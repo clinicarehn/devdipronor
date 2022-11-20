@@ -29,7 +29,8 @@
 			}
 
 			$numero  = 0;
-			$secuenciaFacturacion = facturasModelo::secuencia_facturacion_modelo($empresa_id)->fetch_assoc();
+			$documento_id = "1";//FACTURA ELECTRONICA
+			$secuenciaFacturacion = facturasModelo::secuencia_facturacion_modelo($empresa_id, $documento_id)->fetch_assoc();
 			$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
 
 			$notas = mainModel::cleanString($_POST['notesBill']);

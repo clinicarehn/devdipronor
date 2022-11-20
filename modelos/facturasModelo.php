@@ -90,16 +90,6 @@
 			
 			return $result;				
 		}
-		
-		// protected function actualizar_cantidad_productos_modelo($productos_id, $cantidad){
-		// 	$update = "UPDATE productos
-		// 		SET
-		// 			cantidad = '$cantidad'
-		// 		WHERE productos_id = '$productos_id'";		
-		// 	$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
-		
-		// 	return $result;				
-		// }
 						
 		protected function actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero){
 			$update = "UPDATE secuencia_facturacion
@@ -122,10 +112,10 @@
 			return $result;			
 		}
 	
-		protected function secuencia_facturacion_modelo($empresa_id){
+		protected function secuencia_facturacion_modelo($empresa_id, $documento_id){
 			$query = "SELECT secuencia_facturacion_id, prefijo, siguiente AS 'numero', rango_final, fecha_limite, incremento, relleno
 			   FROM secuencia_facturacion
-			   WHERE activo = '1' AND empresa_id = '$empresa_id'";
+			   WHERE activo = '1' AND empresa_id = '$empresa_id' AND documento_id = '$documento_id'";
 			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $result;

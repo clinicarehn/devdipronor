@@ -48,8 +48,8 @@
 					  </select>					  
 					</div>
 					<div class="col-md-6 mb-3">
-					  <label>Cliente <span class="priority">*<span/></label>
-					  <select id="cliente_movimientos" name="cliente_movimientos" class="form-control" data-toggle="tooltip" data-placement="top" required>
+					  <label>Cliente</label>
+					  <select id="cliente_movimientos" name="cliente_movimientos" class="form-control" data-toggle="tooltip" data-placement="top">
 						 <option value="">Seleccione</option>
 					  </select>					  
 					</div>									
@@ -71,26 +71,26 @@
 							</select>
 						</div>
 					</div>
-				</div>
+					</div>
+				</div>	
+
 				<div class="form-row">
-					<div class="col-md-6 mb-3">
+					<div class="col-md-4 mb-3">
 						<label for="fecha_clientes">Fecha <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
 							<input type="date" required id="movimiento_fecha" name="movimiento_fecha" value="<?php echo date ("Y-m-d");?>" class="form-control"/>
 						</div>	
-					</div> 
-					<div class="col-md-6 mb-3">
-					  <label>Comentario</label>
-					  <input type="text" required id="movimiento_comentario" name="movimiento_comentario" class="form-control">				  
-					</div>										
-				</div>	
-				<div class="form-row">
+					</div>					
+					<div class="col-md-8 mb-3">
+						<label>Comentario</label>
+					  <input type="text" required id="movimiento_comentario" name="movimiento_comentario" class="form-control">	
+					</div>				  														
 				</div>
 				
 
 				<div class="RespuestaAjax"></div> 
 			</form>
-        </div>		
+        	
 		<div class="modal-footer">
 			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="modal_movimientos" form="formMovimientos"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>		
 		</div>			

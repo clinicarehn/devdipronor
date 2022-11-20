@@ -15,6 +15,7 @@
 						<thead>
 							<tr>
 								<th>Empresa</th>
+								<th>Documento</th>
 								<th>CAI</th>
 								<th>Prefijo</th>
 								<th>Siguiente</th>

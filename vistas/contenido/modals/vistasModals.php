@@ -1840,17 +1840,15 @@
 					  <label for="medida">Medida <span class="priority">*<span/></label>
 					  <select class="form-control" id="medida" name="medida" required data-toggle="tooltip" data-placement="top">			  
 					  </select>
-					</div>	
-					<div class="col-md-3 mb-3" id="div_cantidad_editar_producto">
-						<label for="cantidad">Cantidad Ingresada<span class="priority">*<span/></label>
-						<div class="input-group mb-3">
-							<input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="Cantidad" step="0.01" required>
-						</div>	 
 					</div>				  				
 					<div class="col-md-3 mb-3">
 					  <label for="departamento_cliente">Precio Compra <span class="priority">*<span/></label>
 					  <input type="number" class="form-control" id="precio_compra" name="precio_compra" placeholder="Precio Compra" step="0.01" required>
-					</div>						
+					</div>	
+					<div class="col-md-3 mb-3">
+					  <label for="municipio_cliente">Precio Venta</label>
+					  <input type="number" class="form-control" id="precio_venta" name="precio_venta" placeholder="Precio Venta" step="0.01">
+					</div>										
 				</div>
 				
 				<div class="form-row">				  
@@ -1859,23 +1857,19 @@
 					  <input type="number" class="form-control" id="porcentaje_venta" name="porcentaje_venta" placeholder="Precio Venta" step="0.01">
 					</div>	
 					<div class="col-md-3 mb-3">
-					  <label for="municipio_cliente">Precio Venta</label>
-					  <input type="number" class="form-control" id="precio_venta" name="precio_venta" placeholder="Precio Venta" step="0.01">
-					</div>	
-					<div class="col-md-3 mb-3">
 					  <label for="municipio_cliente">Cantidad Mayoreo </label>
 					  <input type="number" class="form-control" id="cantidad_mayoreo" name="cantidad_mayoreo" placeholder="Precio Mayoreo" step="0.01" value="3">
 					</div>	
 					<div class="col-md-3 mb-3">
 					  <label for="municipio_cliente">Precio Mayoreo </label>
 					  <input type="number" class="form-control" id="precio_mayoreo" name="precio_mayoreo" placeholder="Precio Mayoreo" step="0.01">
-					</div>						
-				</div>
-				<div class="form-row">					
+					</div>		
 					<div class="col-md-3 mb-3">
 					  <label>Cantidad Mínima</label>
 					  <input type="number" id="cantidad_minima" name="cantidad_minima" placeholder="Cantidad Mínima" class="form-control" step="0.01">
-					</div>	
+					</div>									
+				</div>
+				<div class="form-row">					
 					<div class="col-md-3 mb-3">
 					  <label>Cantidad Máxima</label>
 					  <input type="number" id="cantidad_maxima" name="cantidad_maxima" placeholder="Cantidad Máxima" class="form-control" step="0.01">

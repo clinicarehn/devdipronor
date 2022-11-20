@@ -22,9 +22,9 @@
 					</div>							
 				</div>				
 				<div class="form-row">
-					<div class="col-md-4 mb-3">
+					<div class="col-md-8 mb-3">
 						<label for="empresa">Empresa <span class="priority">*<span/></label>
-						<div class="input-group mb-3">
+						<div class="input-group mb-8">
 							<select id="empresa_secuencia" name="empresa_secuencia" class="form-control" title="Empresa" required>   							
 							</select>
 							<div class="input-group-append">				
@@ -32,6 +32,18 @@
 							</div>
 						</div>	 
 					</div>	
+					<div class="col-md-4 mb-3">
+						<label for="empresa">Documento <span class="priority">*<span/></label>
+						<div class="input-group mb-4">
+							<select id="documento_secuencia" name="documento_secuencia" class="form-control" title="Documento" required>   							
+							</select>
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-folder fa-lg"></i></span>
+							</div>
+						</div>	 
+					</div>												
+				</div>
+				<div class="form-row">
 					<div class="col-md-8 mb-3">
 						<label for="prefijo">CAI <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
@@ -40,9 +52,7 @@
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="far fa-id-card"></i></span>
 							</div>
 						</div>	 
-					</div>						
-				</div>
-				<div class="form-row">
+					</div>					
 					<div class="col-md-4 mb-3">
 						<label for="prefijo">Prefijo <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
@@ -51,7 +61,9 @@
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fab fa-autoprefixer fa-lg"></i></span>
 							</div>
 						</div>	 
-					</div>	
+					</div>												
+				</div>				
+				<div class="form-row">
 					<div class="col-md-4 mb-3">
 						<label for="relleno">Relleno <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
@@ -69,9 +81,7 @@
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-arrow-right fa-lg"></i></span>
 							</div>
 						</div>	 
-					</div>							
-				</div>				
-				<div class="form-row">
+					</div>						
 					<div class="col-md-4 mb-3">
 						<label for="siguiente">Siguiente <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
@@ -80,7 +90,9 @@
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-caret-right fa-lg"></i></span>
 							</div>
 						</div>	 
-					</div>	
+					</div>				
+				</div>
+				<div class="form-row">
 					<div class="col-md-4 mb-3">
 						<label for="rango_inicial">Rango Inicial <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
@@ -89,7 +101,7 @@
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-list-ol fa-lg"></i></span>
 							</div>
 						</div>	 
-					</div>				
+					</div>						
 					<div class="col-md-4 mb-3">
 						<label for="rango_final">Rango Final <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
@@ -99,14 +111,14 @@
 							</div>
 						</div>	 
 					</div>						
-				</div>
-				<div class="form-row">
 					<div class="col-md-4 mb-3">
 						<label for="fecha_limite">Fecha Activación <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
 							<input type="date" required id="fecha_activacion_secuencia" name="fecha_activacion_secuencia" value="<?php echo date ("Y-m-d");?>" class="form-control"/>
 						</div>	 
-					</div>	
+					</div>					
+				</div>	
+				<div class="form-row">	
 					<div class="col-md-4 mb-3">
 						<label for="fecha_limite">Fecha Límite <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
@@ -114,6 +126,7 @@
 						</div>	 
 					</div>					
 				</div>	
+
 				<div class="form-group" id="estado_secuencia">				  
 				  <div class="col-md-12">			
 						<label class="switch">

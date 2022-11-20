@@ -19,7 +19,7 @@
 			$tipo_producto = mainModel::cleanStringConverterCase($_POST['tipo_producto']);			
 			$nombre = mainModel::cleanString($_POST['producto']);
 			$descripcion = mainModel::cleanString($_POST['descripcion']);			
-			$cantidad = mainModel::cleanString($_POST['cantidad']);
+			$cantidad = 0;
 			$precio_compra = mainModel::cleanString($_POST['precio_compra']);
 			$porcentaje_venta = mainModel::cleanString($_POST['porcentaje_venta']);
 			$precio_venta = mainModel::cleanString($_POST['precio_venta']);
@@ -366,12 +366,10 @@
 						
 						$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datosHijo);
 					}
-
 				}
 			}				
 				
-			//INGRESAMOS EL NUEVO REGISTRO EN LA ENTIDAD MOVIMIENTOS				
-
+			//INGRESAMOS EL NUEVO REGISTRO EN LA ENTIDAD MOVIMIENTOS
 			$datos = [
 				"productos_id" => $productos_id,
 				"cantidad_entrada" => $cantidad,
@@ -385,7 +383,7 @@
 			];
 				
 			$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datos);
-
+			
 			//EGRESO DEL PRODUCTO DE LA BODEGA ACTUAL
 			$datosEgreso = [
 				"productos_id" => $productos_id,
@@ -401,7 +399,6 @@
 			];
 
 			$queryEgreso = mainModel::agregar_movimiento_productos_modelo($datosEgreso);
-			
 			
 			if($queryEgreso && $queryIngreso){
 				$alert = [

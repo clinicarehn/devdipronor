@@ -15,7 +15,7 @@
 	
 	$arreglo = array();
 	$data = array();
-
+	$estadoColor = 'bg-warning';
 	$credito = 0.00;
 	$abono = 0.00;
 	$saldo = 0.00;

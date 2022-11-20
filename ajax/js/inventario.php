@@ -1,10 +1,7 @@
 <script>
 $(document).ready(function() {
-	funciones();   
-	
+	funciones();   	
 		listar_movimientos();
-		
-
 });
 
 function funciones(){
@@ -51,18 +48,12 @@ $('#form_main_movimientos #search').on("click", function(e){
 //INICIO MOVIMIENTOS
 var listar_movimientos = function(){
 	var tipo_producto_id;
-
-	
-	  tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
-	
-
+	tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
 	var fechai = $("#form_main_movimientos #fechai").val();
 	var fechaf = $("#form_main_movimientos #fechaf").val();
 	var bodega = $("#form_main_movimientos #almacen").val();
 	var producto = $("#producto_movimiento_filtro").val();
 	var cliente = $('#cliente_movimiento_filtro').val();
-  
-
 
 	var table_movimientos  = $("#dataTablaMovimientos").DataTable({
 		"destroy":true,
@@ -76,7 +67,6 @@ var listar_movimientos = function(){
 				"bodega":bodega,
 				"producto":producto,
 				"cliente":cliente,
-				
 			}
 		},
 		"columns":[
@@ -161,9 +151,6 @@ var listar_movimientos = function(){
 		  { width: "10.5%", targets: 8 },
 		  { width: "10.5%", targets: 9 },
 		  { width: "10.5%", targets: 10 },
-
-
-
 		],
 		"buttons":[
 			{
@@ -388,21 +375,15 @@ var transferencia_producto_dataTable = function(tbody, table){
 
 	$(tbody).off("click", "button.table_transferencia");
 	$(tbody).on("click", "button.table_transferencia", function(){
-		
-		var data = table.row( $(this).parents("tr") ).data();
-		
+		var data = table.row( $(this).parents("tr") ).data();		
 		$('#formTransferencia #productos_id').val(data.productos_id);
 		$('#formTransferencia #nameProduct').html(data.producto);
-		
-
-
-			
+	
 		$('#modal_transferencia_producto').modal({
 			show:true,
 			keyboard: false,
 			backdrop:'static'
 		});
-	
 	})
 
 };
@@ -547,6 +528,12 @@ $(document).ready(function(){
 $(document).ready(function(){
     $("#modal_movimientos").on('shown.bs.modal', function(){
         $(this).find('#formularioMovimientos #movimiento_categoria').focus();
+    });
+});
+
+$(document).ready(function(){
+    $("#modal_transferencia_producto").on('shown.bs.modal', function(){
+        $(this).find('#formTransferencia #cantidad_movimiento').focus();
     });
 });
 
