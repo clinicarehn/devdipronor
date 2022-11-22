@@ -109,7 +109,6 @@
 							<th>Documento</th>
 							<th>Entrada</th>
 							<th>Salida</th>
-							<th>Saldo</th>
 							<th>Comentario</th>
 							<th>Bodega</th>
 							</tr>
@@ -123,7 +122,6 @@
 								<td id='salida-footer-movimiento'></td>
 								<td id='total-footer-movimiento'></td>
 								<td></td>
-								<td colspan=""></td>
 							</tr>
 						</tfoot>
 					</table>  
