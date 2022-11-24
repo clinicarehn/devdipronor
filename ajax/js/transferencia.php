@@ -58,6 +58,10 @@ var inventario_transferencia = function(){
 		{"data":"medida"},
 		{"data":"entrada",
 			render: function (data, type) {
+				if(data == null){
+					data = 0;
+				}
+								
 				var number = $.fn.dataTable.render
 					.number('')
 					.display(data);
@@ -76,6 +80,10 @@ var inventario_transferencia = function(){
 		},
 		{"data":"salida",
 			render: function (data, type) {
+				if(data == null){
+					data = 0;
+				}
+
 				var number = $.fn.dataTable.render
 					.number('')
 					.display(data);
@@ -94,6 +102,10 @@ var inventario_transferencia = function(){
 		},
 		{"data":"saldo",
 			render: function (data, type) {
+				if(data == null){
+					data = 0;
+				}
+
 				var number = $.fn.dataTable.render
 					.number('')
 					.display(data);

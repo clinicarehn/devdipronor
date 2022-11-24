@@ -28,6 +28,12 @@
 		$result_productos = $insMainModel->getCantidadProductos($row['productos_id']);	
 		if($result_productos->num_rows>0){
 			while($consulta = $result_productos->fetch_assoc()){
+				if($row['almacen_id'] == 0 || $row['almacen_id'] == null){
+					$bodega = "Sin bodega";
+				}else{
+					$bodega = $row['almacen'];
+				}
+
 				$id_producto_superior = intval($consulta['id_producto_superior']);
 				if($id_producto_superior != 0 || $id_producto_superior != 'null'){
 					$datosH = [
@@ -58,7 +64,7 @@
 							"medida"=>$row['medida'],
 							"tipo_producto_id"=>$row['tipo_producto_id'],
 							"precio_venta"=>$row['precio_venta'],
-							"almacen"=>$row['almacen'],
+							"almacen"=>$bodega,
 							"almacen_id"=>$row['almacen_id'],
 							"tipo_producto"=>$row['tipo_producto'],
 							"impuesto_venta"=>$row['impuesto_venta'],
@@ -76,7 +82,7 @@
 						"medida"=>$row['medida'],
 						"tipo_producto_id"=>$row['tipo_producto_id'],
 						"precio_venta"=>$row['precio_venta'],
-						"almacen"=>$row['almacen'],
+						"almacen"=>$bodega,
 						"almacen_id"=>$row['almacen_id'],
 						"tipo_producto"=>$row['tipo_producto'],
 						"impuesto_venta"=>$row['impuesto_venta'],
