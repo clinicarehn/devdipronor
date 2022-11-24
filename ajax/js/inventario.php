@@ -112,24 +112,7 @@ var listar_movimientos = function(){
                     return number;
                 },
 			},
-			{"data":"saldo",
-				render: function (data, type) {
-                    var number = $.fn.dataTable.render
-                        .number('')
-                        .display(data);
- 
-                    if (type === 'display') {
-                        let color = 'green';
-                        if (data < 0) {
-                            color = 'red';
-                        } 
- 
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
- 
-                    return number;
-                },
-			},
+			
 			{"data":"comentario"},
 			{"data":"bodega"},
 			
@@ -150,7 +133,6 @@ var listar_movimientos = function(){
 		  { width: "10.5%", targets: 7 },
 		  { width: "10.5%", targets: 8 },
 		  { width: "10.5%", targets: 9 },
-		  { width: "10.5%", targets: 10 },
 		],
 		"buttons":[
 			{
