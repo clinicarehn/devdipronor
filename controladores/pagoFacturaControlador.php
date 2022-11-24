@@ -19,8 +19,9 @@
 			$importe = $_POST['monto_efectivo'];
 			$abono = $_POST['efectivo_bill'];
 			$efectivo = $_POST['efectivo_bill'];
-			$cambio = $_POST['cambio_efectivo'];
-			$empresa_id = $_SESSION['empresa_id_sd'];			
+			$cambio = ($_POST['cambio_efectivo'])*-1;
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$colaboradores_id = $_SESSION['colaborador_id_sd'];	
 			$tipo_pago_id = 1;//EFECTIVO		
 			$banco_id = 0;//SIN BANCO
 			$tipo_pago = $_POST['tipo_factura'];//1. CONTADO 2. CRÉDITO
@@ -52,7 +53,8 @@
 				"print_comprobante" => $_POST['comprobante_print'],
 				"tipo_pago" => $tipo_pago,
 				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta							
+				"tarjeta" => $tarjeta,
+				"colaboradores_id" => $colaboradores_id						
 			];
 
 			$alert = pagoFacturaModelo::agregar_pago_factura_base($datos);
@@ -72,13 +74,14 @@
 			$fecha = date("Y-m-d");
 			$importe = $_POST['importe'];
 			$cambio = 0;
-			$empresa_id = $_SESSION['empresa_id_sd'];			
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$colaboradores_id = $_SESSION['colaborador_id_sd'];			
 			$tipo_pago_id = 2;//TARJETA	
 			$banco_id = 0;//SIN BANCO	
 			$tipo_pago = $_POST['tipo_factura'];//1. CONTADO 2. CRÉDITO	3.MIXTO	
 			$efectivo = 0;
 			$tarjeta = 	$_POST['monto_efectivo'];
-			$estado_factura = $_POST['tipo_factura'];//PAGADA 1 //credito 2
+			$estado_factura = $_POST['tipo_factura'];//PAGADA 1 //CREDITO 2
 			$abono = $_POST['monto_efectivo'];		
 
 			$referencia_pago1 = mainModel::cleanStringConverterCase($_POST['cr_bill']);//TARJETA DE CREDITO
@@ -113,10 +116,12 @@
 				"print_comprobante" => $_POST['comprobante_print'],
 				"tipo_pago" => $tipo_pago,
 				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta							
+				"tarjeta" => $tarjeta,
+				"colaboradores_id" => $colaboradores_id								
 			];
 
 			$alert = pagoFacturaModelo::agregar_pago_factura_base($datos);
+
 			return mainModel::sweetAlert($alert);
 			
 		}
@@ -134,8 +139,9 @@
 			$importe = $_POST['monto_efectivo'];
 			$efectivo = $_POST['efectivo_bill'];
 			$tarjeta = 	$_POST['monto_tarjeta'];	
-			$cambio = $_POST['cambio_efectivo'];
-			$empresa_id = $_SESSION['empresa_id_sd'];			
+			$cambio = ($_POST['cambio_efectivo'])*-1;
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$colaboradores_id = $_SESSION['colaborador_id_sd'];			
 			$tipo_pago_id = 5;//PAGO MIXTO		
 			$banco_id = 0;//SIN BANCO	
 			$tipo_pago = 3;//1. CONTADO 2. CRÉDITO 3.MIXTO		
@@ -168,7 +174,8 @@
 				"print_comprobante" => $_POST['comprobante_print'],
 				"tipo_pago" => $tipo_pago,
 				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta							
+				"tarjeta" => $tarjeta,
+				"colaboradores_id" => $colaboradores_id								
 			];
 
 			$alert = pagoFacturaModelo::agregar_pago_factura_base($datos);
@@ -189,7 +196,8 @@
 			$importe = $_POST['monto_efectivo'];
 			$cambio = 0;
 			$abono = $_POST['importe'];
-			$empresa_id = $_SESSION['empresa_id_sd'];			
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$colaboradores_id = $_SESSION['colaborador_id_sd'];		
 			$tipo_pago_id = 3;//TRANSFERENCIA		
 			$banco_id = $_POST['bk_nm'];
 			$tipo_pago = $_POST['tipo_factura'];//1. CONTADO 2. CRÉDITO			
@@ -205,7 +213,6 @@
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 2;
 			
-
 			$datos = [
 				"facturas_id" => $facturas_id,
 				"fecha" => $fecha,
@@ -225,7 +232,8 @@
 				"print_comprobante" => $print_comprobante,
 				"tipo_pago" => $tipo_pago,
 				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta							
+				"tarjeta" => $tarjeta,
+				"colaboradores_id" => $colaboradores_id							
 			];
 							
 			$alert = pagoFacturaModelo::agregar_pago_factura_base($datos);
@@ -245,7 +253,8 @@
 			$fecha = date("Y-m-d");
 			$importe = $_POST['monto_efectivo'];
 			$cambio = 0;
-			$empresa_id = $_SESSION['empresa_id_sd'];			
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$colaboradores_id = $_SESSION['colaborador_id_sd'];	
 			$tipo_pago_id = 4;//CHEQUE		
 			$banco_id = $_POST['bk_nm_chk'];
 			$tipo_pago = $_POST['tipo_factura'];//1. CONTADO 2. CRÉDITO			
@@ -281,7 +290,8 @@
 				"print_comprobante" => $print_comprobante,
 				"tipo_pago" => $tipo_pago,
 				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta							
+				"tarjeta" => $tarjeta,
+				"colaboradores_id" => $colaboradores_id							
 			];
 
 			$alert = pagoFacturaModelo::agregar_pago_factura_base($datos);

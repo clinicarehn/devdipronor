@@ -1469,8 +1469,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
 				"fechaf":fechaf
 			}
 		},
-		"columns":[
-			
+		"columns":[			
 			{"data":"fecha"},
 			{"data":"cliente"},
 			{"data":"numero"},
@@ -1540,14 +1539,15 @@ var listar_cuentas_por_cobrar_clientes = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "2.5%", targets: 0 },
-		  { width: "2.5%", targets: 1 },
-		  { width: "12.5%", targets: 2 },
-		  { width: "20.5%", targets: 3, className: "text-center"},
-		  { width: "24.5%", targets: 4, className: "text-center" },
-		  { width: "12.5%", targets: 5, className: "text-center" },
-		  { width: "12.5%", targets: 6 },
-		  { width: "10%", targets: 7 } 	  
+		  { width: "12.11%", targets: 0 },
+		  { width: "21.11%", targets: 1 },
+		  { width: "21.11%", targets: 2 },
+		  { width: "13.11%", targets: 3, className: "text-center"},
+		  { width: "13.11%", targets: 4, className: "text-center" },
+		  { width: "13.11%", targets: 5, className: "text-center" },
+		  { width: "2.11%", targets: 6 },
+		  { width: "2.11%", targets: 7 }, 	  
+		  { width: "2.11%", targets: 8 },
 		],		
 		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
         	$('td', nRow).addClass(aData['color']);
@@ -1624,7 +1624,8 @@ var view_reporte_facturas_dataTable = function(tbody, table){
 
 var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.table_abono");
-	$(tbody).on("click", "button.table_abono", function(){
+	$(tbody).on("click", "button.table_abono", function(e){
+		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
 		if(data.estado == 2){//no tiene acceso a la accion si la factura ya fue cancelada							
 				swal({
@@ -1641,7 +1642,8 @@ var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
 
 var ver_abono_cxc_clientes_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.abono_factura");
-	$(tbody).on("click", "button.abono_factura", function(){
+	$(tbody).on("click", "button.abono_factura", function(e){
+		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
 		$('#ver_abono_cxc').modal('show');
 		getAbonosCXC(data.facturas_id);
@@ -1650,7 +1652,8 @@ var ver_abono_cxc_clientes_dataTable = function(tbody, table){
 
 var ver_abono_cxp_proveedor_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.abono_proveedor");
-	$(tbody).on("click", "button.abono_proveedor", function(){
+	$(tbody).on("click", "button.abono_proveedor", function(e){
+		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
 		$('#ver_abono_cxc').modal('show');
 		getAbonosCXP(data.compras_id);
@@ -2248,7 +2251,6 @@ function pago(facturas_id,saldo){
 				$('#formTarjetaBill #monto_efectivo_tarjeta').show();
 				$('#formTransferenciaBill #importe_transferencia').show()
 				$('#formChequeBill #importe_cheque').show()
-
 			}
 
 			//TARJETA

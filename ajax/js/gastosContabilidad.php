@@ -26,62 +26,53 @@ $('#formMainGastosContabilidad #search').on("click", function(e){
 
 //INICIO ACCIONES FORMULARIO EGRESOS
 var total_gastos_footer = function(){	
-
-var fechai = $("#formMainGastosContabilidad #fechai").val();
-
-var fechaf = $("#formMainGastosContabilidad #fechaf").val();
-
-$.ajax({
-	url : '<?php echo SERVERURL;?>core/totalGastosFooter.php',
-	type: "POST",
-	data : {
-		"fechai": fechai,
-		"fechaf":fechaf
-		}
-	})
-	.done(function(data) {
-		data = JSON.parse(data)
-		$("#total-footer-gastos").html("L. " + data.total);
-		$("#subtotal-g").html("L. " + data.subtotal)
-		$("#impuesto-g").html("L. " + data.impuesto)
-		$("#descuento-g").html("L. " + data.descuento)
-		$("#nc-g").html("L. " + data.nc)
-		
-	})
-	.fail(function(data) {
-		console.log( "total ingreso error" );
-	
-});
-
-
-}
-
-var listar_gastos_contabilidad = function(){	
-
 	var fechai = $("#formMainGastosContabilidad #fechai").val();
 
 	var fechaf = $("#formMainGastosContabilidad #fechaf").val();
 
+	$.ajax({
+		url : '<?php echo SERVERURL;?>core/totalGastosFooter.php',
+		type: "POST",
+		data : {
+			"fechai": fechai,
+			"fechaf":fechaf
+			}
+		})
+		.done(function(data) {
+			data = JSON.parse(data)
+			$("#total-footer-gastos").html("L. " + data.total);
+			$("#subtotal-g").html("L. " + data.subtotal)
+			$("#impuesto-g").html("L. " + data.impuesto)
+			$("#descuento-g").html("L. " + data.descuento)
+			$("#nc-g").html("L. " + data.nc)
+			
+		})
+		.fail(function(data) {
+			console.log( "total ingreso error" );
+	});
+}
+
+var listar_gastos_contabilidad = function(){
+	var estado = 1;
+	if($("#formMainGastosContabilidad #estado_egresos").val() == null || $("#formMainGastosContabilidad #estado_egresos").val() == ""){
+		estado = 1;
+	}else{
+		estado = $("#formMainGastosContabilidad #estado_egresos").val();
+	}
 	
+	var fechai = $("#formMainGastosContabilidad #fechai").val();
+	var fechaf = $("#formMainGastosContabilidad #fechaf").val();
 
 	var table_gastos_contabilidad  = $("#dataTableGastosContabilidad").DataTable({
-
 		"destroy":true,
-
 		"ajax":{
-
 			"method":"POST",
-
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableEgresosContabilidad.php",
-
 			"data":{
-
 				"fechai":fechai,
-
-				"fechaf":fechaf
-
+				"fechaf":fechaf,
+				"estado":estado,
 			}	
-
 		},
 
 		"columns":[

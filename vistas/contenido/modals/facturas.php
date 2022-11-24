@@ -312,14 +312,15 @@
 							<table id="DatatableBusquedaCuentasCobrarClientes" class="table table-striped table-condensed table-hover" style="width:100%">
 								<thead>
 									<tr>
-										<th>Cobrar</th>
-										<th>Abonar</th>
-										<th>Fecha</th>
-										<th>Cliente</th>
-										<th>Factura</th>
-										<th>Crédito</th>
-										<th>Abonos</th>
-										<th>Saldo</th>
+									<th>Fecha</th>
+									<th>Cliente</th>
+									<th>Factura</th>
+									<th>Crédito</th>
+									<th>Abonos</th>
+									<th>Saldo</th>		
+									<th>Abonar</th>
+									<th>Abonos Realizados</th>							
+									<th>Factura</th>
 									</tr>
 								</thead>
 							</table>

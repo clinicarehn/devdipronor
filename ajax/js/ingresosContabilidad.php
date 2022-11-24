@@ -38,6 +38,13 @@ var total_ingreso_footer = function(){
 }
 
 var listar_ingresos_contabilidad = function(){	
+	var estado = 1;
+	if($("#formMainIngresosContabilidad #estado_ingresos").val() == null || $("#formMainIngresosContabilidad #estado_ingresos").val() == ""){
+		estado = 1;
+	}else{
+		estado = $("#formMainIngresosContabilidad #estado_ingresos").val();
+	}
+	
 	var fechai = $("#formMainIngresosContabilidad #fechai").val();
 	var fechaf = $("#formMainIngresosContabilidad #fechaf").val();	
 
@@ -48,7 +55,8 @@ var listar_ingresos_contabilidad = function(){
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableIngresosContabilidad.php",
 			"data":{
 				"fechai":fechai,
-				"fechaf":fechaf
+				"fechaf":fechaf,
+				"estado":estado,
 			}	
 		},
 		"columns":[

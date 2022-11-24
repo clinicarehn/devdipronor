@@ -77,12 +77,10 @@
 			return $result;					
 		}	
 
-		protected function update_status_factura_cuentas_por_cobrar($facturas_id,$estado = 2,$importe = ''){ //DONDE 2 ES PAGO REALIZADO
-			
+		protected function update_status_factura_cuentas_por_cobrar($facturas_id,$estado = 2,$importe = ''){ //DONDE 2 ES PAGO REALIZADO			
 			if($importe != ''){
 				$importe = ', saldo = '.$importe;
 			}
-
 
 			$update = "UPDATE cobrar_clientes
 				SET
@@ -97,7 +95,6 @@
 		}		
 		
 		protected function consultar_factura_cuentas_por_cobrar($facturas_id){
-
 			$query = "SELECT *
 				FROM cobrar_clientes
 				WHERE facturas_id = '$facturas_id'";
@@ -160,6 +157,15 @@
 			
 			return $result;
 		}	
+
+		protected function consulta_cuenta_pago_modelo($tipo_pago_id){
+			$query = "SELECT cuentas_id
+			   FROM tipo_pago
+			   WHERE tipo_pago_id = '$tipo_pago_id'";
+			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $result;
+		}			
 		
 		protected function actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero){
 			$update = "UPDATE secuencia_facturacion
@@ -182,6 +188,36 @@
 
 			return $result;					
 		}
+		
+	    //METODO QUE PERMITE AGREGAR EL INGRESO DEL PAGO DEL CLIENTE
+		protected function agregar_ingresos_contabilidad_pagos_modelo($datos){	
+			$ingresos_id = mainModel::correlativo("ingresos_id", "ingresos");		
+			$insert = "INSERT INTO ingresos VALUES('".$ingresos_id."','".$datos['cuentas_id']."','".$datos['clientes_id']."','".$datos['empresa_id']."','".$datos['tipo_ingreso']."','".$datos['fecha']."','".$datos['factura']."','".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."','".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."')";
+			
+			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}
+
+		protected function agregar_movimientos_contabilidad_pagos_modelo($datos){
+			$movimientos_cuentas_id = mainModel::correlativo("movimientos_cuentas_id", "movimientos_cuentas");
+			$insert = "INSERT INTO movimientos_cuentas VALUES('$movimientos_cuentas_id','".$datos['cuentas_id']."','".$datos['empresa_id']."','".$datos['fecha']."','".$datos['ingreso']."','".$datos['egreso']."','".$datos['saldo']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."')";
+			
+			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}
+
+		protected function consultar_saldo_movimientos_cuentas_pagos_contabilidad($cuentas_id){
+			$query = "SELECT ingreso, egreso, saldo
+				FROM movimientos_cuentas
+				WHERE cuentas_id = '$cuentas_id'
+				ORDER BY movimientos_cuentas_id DESC LIMIT 1";
+			
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $sql;				
+		}
 
 		//funcion para realizar todos lo pagos de factura
 		protected function agregar_pago_factura_base($res){			
@@ -190,8 +226,7 @@
 				$nuevo_saldo = 0;
 				//consultamos a la tabla cobrar cliente
 				$get_cobrar_cliente = pagoFacturaModelo::consultar_factura_cuentas_por_cobrar($res['facturas_id']);
-				
-				
+								
 				if($get_cobrar_cliente->num_rows > 0){
 					$rec = $get_cobrar_cliente->fetch_assoc();
 					$saldo_credito = $rec['saldo'];
@@ -219,8 +254,7 @@
 						$put_cobrar_cliente = pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($res['facturas_id'],1,$nuevo_saldo);
 					}
 	
-					$query = pagoFacturaModelo::agregar_pago_factura_modelo($res);
-					
+					$query = pagoFacturaModelo::agregar_pago_factura_modelo($res);					
 	
 					if($query){
 						//ACTUALIZAMOS EL DETALLE DEL PAGO
@@ -236,13 +270,79 @@
 							"descripcion1" => $res['referencia_pago1'],
 							"descripcion2" => $res['referencia_pago2'],
 							"descripcion3" => $res['referencia_pago3'],
-
 						];	
 						
 						$result_valid_pagos_detalles_facturas = pagoFacturaModelo::valid_pagos_detalles_facturas($pagos_id, $res['tipo_pago_id']);
 						
 						pagoFacturaModelo::agregar_pago_detalles_factura_modelo($datos_pago_detalle);
-																				
+
+						//INGRESAMOS LOS DATOS DEL PAGO EN LA TABLA ingresos
+
+						//CONSULTAMOS LA CUENTA DONDE SE ENLZARA CON EL PAGO
+						$consulta_cuenta_ingreso = self::consulta_cuenta_pago_modelo($res['tipo_pago_id'])->fetch_assoc();
+						$cuentas_id = $consulta_cuenta_ingreso['cuentas_id'];					
+						$empresa_id = $res['empresa'];
+
+						//CONSULTMOS EL NUMERO DE FACTURA QUE ESTAMOS PAGANDO O ABONANDO
+						$consulta_factura = mainModel::getFactura($res['facturas_id'])->fetch_assoc();
+						$no_factura = str_pad($consulta_factura['numero_factura'], $consulta_factura['relleno'], "0", STR_PAD_LEFT);
+						$clientes_id = $consulta_factura['clientes_id'];	
+						$clientes_id = $consulta_factura['clientes_id'];
+
+						$subtotal = $res['abono'];
+						$isv = 0;
+						$descuento = 0;
+						$nc = 0;
+						$total = $res['abono'];
+						$observacion = "Ingresos por venta Cierre de Caja";
+						$tipo_ingreso = 2;//OTROS INGRESOS
+						$fecha = date("Y-m-d");
+						$fecha_registro = date("Y-m-d H:i:s");
+						$estado = 1;
+						
+						$datos_ingresos = [
+							"clientes_id" => $clientes_id,
+							"cuentas_id" => $cuentas_id,
+							"empresa_id" => $empresa_id,
+							"fecha" => $fecha,
+							"factura" => $no_factura,
+							"subtotal" => $subtotal,
+							"isv" => $isv,
+							"descuento" => $descuento,
+							"nc" => $nc,
+							"total" => $total,
+							"observacion" => $observacion,
+							"estado" => $estado,
+							"fecha_registro" => $fecha_registro,
+							"colaboradores_id" => $res['colaboradores_id'],
+							"tipo_ingreso" => $tipo_ingreso								
+						];						
+
+						//ALMACENAMOS EL INGRESO DEL PAGO
+						self::agregar_ingresos_contabilidad_pagos_modelo($datos_ingresos);
+
+						//INGRESAMOS LOS DATOS DEL PAGO EN LA TABLA movimientos_cuentas
+						//CONSULTAMOS EL SALDO DISPONIBLE PARA LA CUENTA
+						$consulta_ingresos_contabilidad = self::consultar_saldo_movimientos_cuentas_pagos_contabilidad($cuentas_id)->fetch_assoc();
+						$saldo_consulta = $consulta_ingresos_contabilidad['saldo'];	
+						$ingreso = $total;
+						$egreso = 0;
+						$saldo = $saldo_consulta + $ingreso;
+
+						$datos_movimientos = [
+							"cuentas_id" => $cuentas_id,
+							"empresa_id" => $empresa_id,
+							"fecha" => $fecha,
+							"ingreso" => $ingreso,
+							"egreso" => $egreso,
+							"saldo" => $saldo,
+							"colaboradores_id" => $res['colaboradores_id'],
+							"fecha_registro" => $fecha_registro,				
+						];
+
+						//ALMACENAMOS EL MOVIMIENTO DE CUENTA DEL PAGO
+						self::agregar_movimientos_contabilidad_pagos_modelo($datos_movimientos);
+																	
 						$alert = [
 							"alert" => "save_simple",
 							"title" => "Registro almacenado",
@@ -277,12 +377,10 @@
 
 					return $alert;
 				}
-			}else{
+			}else{//CUANDO LA FACTURA ES AL CONTADO
 				//VERIFICAMOS QUE NO SE HA INGRESADO EL PAGO, SI NO SE HA REALIZADO EL INGRESO, PROCEDEMOS A ALMACENAR EL PAGO
 				$result_valid_pagos_facturas = pagoFacturaModelo::valid_pagos_factura($res['facturas_id']);
-				if($result_valid_pagos_facturas->num_rows==0){
-	
-	
+				if($result_valid_pagos_facturas->num_rows==0){	
 					$query = pagoFacturaModelo::agregar_pago_factura_modelo($res);
 	
 					if($query){
@@ -378,8 +476,7 @@
 						"btn-class" => "btn-danger",					
 					];					
 				}						
-			}
-			
+			}			
 			
 			return $alert;
 		}

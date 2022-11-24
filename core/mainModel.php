@@ -1726,7 +1726,6 @@
 
 		}
 
-
 		public function getSaldoMovimientosCuentasSaldoAnterior($cuentas_id, $año, $mes){
 			$query = "SELECT saldo
 				FROM movimientos_cuentas
@@ -2656,30 +2655,17 @@
 		}
 
 
-
 		public function getIngresosContables($datos){
-
 			$query = "SELECT i.ingresos_id AS 'ingresos_id', i.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', cli.nombre AS 'cliente', i.factura AS 'factura', i.subtotal as 'subtotal', i.impuesto AS 'impuesto', i.descuento AS 'descuento', i.nc AS 'nc', i.total AS 'total', i.fecha_registro As 'fecha_registro'
-
 				FROM ingresos AS i
-
 				INNER JOIN cuentas AS c
-
 				ON i.cuentas_id = c.cuentas_id
-
 				INNER JOIN clientes AS cli
-
 				ON i.clientes_id = cli.clientes_id
-
-				WHERE CAST(i.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
-
+				WHERE CAST(i.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND i.estado = '".$datos['estado']."'
 				ORDER BY i.fecha_registro DESC";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
@@ -2700,110 +2686,61 @@
 
 
 		public function getEgresosContables($datos){
-
 			$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', e.factura AS 'factura', e.subtotal as 'subtotal', e.impuesto AS 'impuesto', e.descuento AS 'descuento', e.nc AS 'nc', e.total AS 'total', e.fecha_registro As 'fecha_registro'
-
 				FROM egresos AS e
-
 				INNER JOIN cuentas AS c
-
 				ON e.cuentas_id = c.cuentas_id
-
 				INNER JOIN proveedores AS p
-
 				ON e.proveedores_id = p.proveedores_id
-
-				WHERE CAST(e.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND e.tipo_egreso = 2
-
+				WHERE CAST(e.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND e.tipo_egreso = 1 AND e.estado = '".$datos['estado']."'
 				ORDER BY e.fecha_registro DESC";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
 		}
-
-
 
 		public function getEgresosContablesReporte($egresos_id){
-
 			$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', p.rtn AS 'rtn_proveedor', p.localidad AS 'localidad', p.telefono AS 'telefono', e.factura AS 'factura', e.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(e.fecha, '%d/%m/%Y') AS 'fecha', time(e.fecha_registro) AS 'hora', e.observacion AS 'observacion', co.nombre AS 'colaborador_nombre' , co.apellido AS 'colaborador_apellido', e.estado AS 'estado', emp.rtn AS 'rtn_empresa', e.subtotal AS 'subtotal', e.descuento AS 'descuento', e.nc AS 'nc', e.impuesto AS 'impuesto', e.total AS 'total', DATE_FORMAT(e.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta'
-
 				FROM egresos AS e
-
 				INNER JOIN cuentas AS c
-
 				ON e.cuentas_id = c.cuentas_id
-
 				INNER JOIN proveedores AS p
-
 				ON e.proveedores_id = p.proveedores_id
-
 				INNER JOIN empresa AS emp
-
 				ON e.empresa_id = emp.empresa_id
-
 				INNER JOIN colaboradores AS co
-
 				ON e.colaboradores_id = co.colaboradores_id
-
 				WHERE e.egresos_id = '$egresos_id'
-
 				ORDER BY e.fecha_registro DESC";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
 		}
-
 
 
 		public function getIngresosContablesReporte($ingresos_id){
-
 			$query = "SELECT i.ingresos_id AS 'ingresos_id', i.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', cl.nombre AS 'cliente', cl.rtn AS 'rtn_cliente', cl.localidad AS 'localidad', cl.telefono AS 'telefono', i.factura AS 'factura', i.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(i.fecha, '%d/%m/%Y') AS 'fecha', time(i.fecha_registro) AS 'hora', i.observacion AS 'observacion', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', i.estado AS 'estado', emp.rtn AS 'rtn_empresa', i.subtotal AS 'subtotal', i.descuento AS 'descuento', i.nc AS 'nc', i.impuesto AS 'impuesto', i.total AS 'total', DATE_FORMAT(i.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta'
-
 				FROM ingresos AS i
-
 				INNER JOIN cuentas AS c
-
 				ON i.cuentas_id = c.cuentas_id
-
 				INNER JOIN clientes AS cl
-
 				ON i.clientes_id = cl.clientes_id
-
 				INNER JOIN empresa AS emp
-
 				ON i.empresa_id = emp.empresa_id
-
 				INNER JOIN colaboradores AS co
-
 				ON i.colaboradores_id = co.colaboradores_id
-
 				WHERE i.ingresos_id = '$ingresos_id'
-
 				ORDER BY i.fecha_registro DESC";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
 		}
-
-
 
 		public function getChequesContables($datos){
 
@@ -2973,7 +2910,7 @@
 
 
 		public function getFactura($noFactura){
-			$query = "SELECT c.nombre AS 'cliente', c.rtn AS 'rtn_cliente', c.telefono AS 'telefono', c.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn_empresa', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn', f.fecha_dolar AS 'fecha_dolar'
+			$query = "SELECT c.clientes_id As 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn_cliente', c.telefono AS 'telefono', c.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn_empresa', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn', f.fecha_dolar AS 'fecha_dolar'
 				FROM facturas AS f
 				INNER JOIN clientes AS c
 				ON f.clientes_id = c.clientes_id
@@ -4005,16 +3942,10 @@
 		}
 
 		public function consultaVentas($datos){
-			if($datos['facturador'] == 0){
-				$facturador = "";
-			}else{
-				$facturador = " AND usuario = '".$datos['facturador']."'";
-			}
-
 			if($datos['tipo_factura_reporte'] == 1){//Estado 2. contado y Estado 3.crédito
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado IN(2,3)".$facturador;
+				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado IN(2,3)";
 			}elseif($datos['tipo_factura_reporte'] == 2){//Estado 4 Anuladas
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 4.$facturador";
+				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 4";
 			}
 
 			$query = "SELECT 

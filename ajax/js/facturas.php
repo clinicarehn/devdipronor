@@ -1586,22 +1586,97 @@ var listar_busqueda_cuentas_por_cobrar_clientes = function(){
 				"fechaf":fechaf
 			}
 		},
-		"columns":[
-			{"defaultContent":"<button class='table_pay pay btn btn-dark ocultar'><span class='fas fa-hand-holding-usd fa-lg'></span></button>"},
-			{"defaultContent":"<button class='table_pay abono btn btn-dark ocultar'><span class='fas fa-cash-register fa-lg'></span></button>"},
+		"columns":[			
 			{"data":"fecha"},
 			{"data":"cliente"},
 			{"data":"numero"},
-			{"data":"credito"},
-			{"data":"abono"},
-			{"data":"saldo"}
+			{
+                data: 'credito',
+                render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+            },
+			{data: "abono",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{data:"saldo",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"defaultContent":"<button class='table_abono btn btn-dark'><span class='fas fa-cash-register fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_reportes abono_factura btn btn-dark ocultar'><span class='fa fa-money-bill-wave fa-solid'></span></button>"},
+			{"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"}
 		],
-		"pageLength": 5,
+		"pageLength": 10,
         "lengthMenu": lengthMenu,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,
 		"dom": dom,
+		"columnDefs": [
+		  { width: "12.11%", targets: 0 },
+		  { width: "21.11%", targets: 1 },
+		  { width: "21.11%", targets: 2 },
+		  { width: "13.11%", targets: 3, className: "text-center"},
+		  { width: "13.11%", targets: 4, className: "text-center" },
+		  { width: "13.11%", targets: 5, className: "text-center" },
+		  { width: "2.11%", targets: 6 },
+		  { width: "2.11%", targets: 7 }, 	  
+		  { width: "2.11%", targets: 8 },
+		],		
+		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
+        	$('td', nRow).addClass(aData['color']);
+			for (let index = 0; index < aData.length; index++) {
+				console.log(aData[i]["credito"]);
+			}
+			$(row).find('td:eq(2)').css('color', 'red');
+			$('#credito-cxc').html('L. '+ aData['total_credito'])
+			$('#abono-cxc').html('L. '+ aData['total_abono'])
+			$('#total-footer-cxc').html('L. '+ aData['total_pendiente'])
+		
+		},
 		"buttons":[
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
@@ -1619,28 +1694,55 @@ var listar_busqueda_cuentas_por_cobrar_clientes = function(){
 	table_busqueda_cuentas_por_cobrar_clientes.search('').draw();
 	$('#buscar').focus();
 
-	pay_factura_cxc_dataTable("#DatatableBusquedaCuentasCobrarClientes tbody", table_busqueda_cuentas_por_cobrar_clientes);
-	view_factura_cxcdataTable("#DatatableBusquedaCuentasCobrarClientes tbody", table_busqueda_cuentas_por_cobrar_clientes);	
+	registrar_abono_cxc_clientes_dataTable("#DatatableBusquedaCuentasCobrarClientes tbody", table_busqueda_cuentas_por_cobrar_clientes);
+	ver_abono_cxc_clientes_dataTable("#DatatableBusquedaCuentasCobrarClientes tbody", table_busqueda_cuentas_por_cobrar_clientes);
+	view_reporte_facturas_dataTable("#DatatableBusquedaCuentasCobrarClientes tbody", table_busqueda_cuentas_por_cobrar_clientes);
 }
 
-var pay_factura_cxc_dataTable = function(tbody, table){
-	$(tbody).off("click", "button.pay");
-	$(tbody).on("click", "button.pay", function(e){
+var view_reporte_facturas_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.print_factura");
+	$(tbody).on("click", "button.print_factura", function(e){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
-		pago(data.facturas_id);
+		printBillReporteVentas(data.facturas_id);
 	});
 }
 
-var view_factura_cxcdataTable = function(tbody, table){
-	$(tbody).off("click", "button.abono");
-	$(tbody).on("click", "button.abono", function(){
-		swal({
-			title: "Mantenimiento",
-			text: "Opción en desarrollo",
-			type: "warning",
-			confirmButtonClass: "btn-warning"
-		});	
+var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.table_abono");
+	$(tbody).on("click", "button.table_abono", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		if(data.estado == 2){//no tiene acceso a la accion si la factura ya fue cancelada							
+				swal({
+					title: 'Error', 
+					text: 'No puede realizar esta accion a las facturas canceladas!',
+					type: 'error', 
+					confirmButtonClass: 'btn-danger'
+				});	
+		}else{
+			pago(data.facturas_id,data.saldo);
+		}
+	});
+}
+
+var ver_abono_cxc_clientes_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.abono_factura");
+	$(tbody).on("click", "button.abono_factura", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		$('#ver_abono_cxc').modal('show');
+		getAbonosCXC(data.facturas_id);
+	});
+}
+
+var ver_abono_cxp_proveedor_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.abono_proveedor");
+	$(tbody).on("click", "button.abono_proveedor", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		$('#ver_abono_cxc').modal('show');
+		getAbonosCXP(data.compras_id);
 	});
 }
 //FIN CUENTAS POR COBRAR CLIENTES
