@@ -182,5 +182,11 @@
 			$result = mainModel::getCantidadProductos($productos_id);
 			
 			return $result;			
+		}	
+		
+		protected function total_hijos_segun_padre_modelo($productos_id){
+			$result = mainModel::getTotalHijosporPadre($productos_id);
+			
+			return $result;			
 		}			
 	}

@@ -79,7 +79,7 @@ var listar_movimientos = function(){
 			{"data":"entrada",
 				render: function (data, type) {
                     var number = $.fn.dataTable.render
-                        .number('')
+                        .number(',', '.', 2, '')
                         .display(data);
  
                     if (type === 'display') {
@@ -97,7 +97,7 @@ var listar_movimientos = function(){
 			{"data":"salida",
 				render: function (data, type) {
                     var number = $.fn.dataTable.render
-                        .number('')
+                        .number(',', '.', 2, '')
                         .display(data);
  
                     if (type === 'display') {
@@ -268,9 +268,72 @@ var inventario_transferencia = function(){
 			{"data":"producto"},
 			{"data":"medida"},
 			{"data":"documento"},
-			{"data":"entrada"},
-			{"data":"salida"},
-			{"data":"saldo"},
+			{"data":"entrada",
+				render: function (data, type) {
+					if(data == null){
+						data = 0;
+					}
+
+					var number = $.fn.dataTable.render
+						.number(',', '.', 2, '')
+						.display(data);
+
+					if (type === 'display') {
+						let color = 'green';
+						if (data < 0) {
+							color = 'red';
+						} 
+
+						return '<span style="color:' + color + '">' + number + '</span>';
+					}
+
+					return number;
+				},	
+			},
+			{"data":"salida",
+				render: function (data, type) {
+					if(data == null){
+						data = 0;
+					}
+
+					var number = $.fn.dataTable.render
+						.number(',', '.', 2, '')
+						.display(data);
+
+					if (type === 'display') {
+						let color = 'green';
+						if (data < 0) {
+							color = 'red';
+						} 
+
+						return '<span style="color:' + color + '">' + number + '</span>';
+					}
+
+					return number;
+				},
+			},
+			{"data":"saldo",
+				render: function (data, type) {
+					if(data == null){
+						data = 0;
+					}
+
+					var number = $.fn.dataTable.render
+						.number(',', '.', 2, '')
+						.display(data);
+
+					if (type === 'display') {
+						let color = 'green';
+						if (data < 0) {
+							color = 'red';
+						} 
+
+						return '<span style="color:' + color + '">' + number + '</span>';
+					}
+
+					return number;
+				},
+			},
 			{"data":"bodega"},
 			{"defaultContent":"<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"},
 
@@ -551,7 +614,24 @@ var listar_productos_buscar_movimientos = function(){
 		"columns":[
 			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus fa-lg'></span></button>"},
 			{"data":"nombre"},
-			{"data":"cantidad"},
+			{"data":"cantidad",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, '')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
 			{"data":"medida"},
 			{"data":"categoria"},
 			{"data":"precio_venta"},

@@ -11,7 +11,7 @@
 				session_start(['name'=>'SD']); 
 			}
 			
-			$bar_code_product = mainModel::cleanStringStrtoupper($_POST['bar_code_product']);
+			$bar_code_product = mainModel::cleanString($_POST['bar_code_product']);
 			$almacen_id = mainModel::cleanStringConverterCase($_POST['almacen']);
 			$medida_id = mainModel::cleanStringConverterCase($_POST['medida']);
 			$producto_superior = mainModel::cleanString($_POST['producto_superior']);
@@ -28,13 +28,12 @@
 			$cantidad_minima = mainModel::cleanString($_POST['cantidad_minima']);
 			$cantidad_maxima = mainModel::cleanString($_POST['cantidad_maxima']);
 
-			if(empty($bar_code_product)){
+			if(empty($bar_code_product) || $bar_code_product == 0){
 				$flag_barcode = true;
 				while($flag_barcode){
-				   $d=rand(1,99999999);
-					$result_barcode = productosModelo::valid_bar_code_productos_modelo($d);
+					$result_barcode = productosModelo::valid_bar_code_productos_modelo(mainModel::generarCodigoBarra());
 				   if($result_barcode->num_rows==0){
-					  $bar_code_product = $d;
+					  $bar_code_product = mainModel::generarCodigoBarra();
 					  $flag_barcode = false;
 				   }else{
 					  $flag_barcode = true;
@@ -174,9 +173,9 @@
 
 							];
 								
-								if ($tipo_productos == "Producto" || $tipo_productos == "Insumos"){
-									productosModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
-								}
+							if ($tipo_productos == "Producto" || $tipo_productos == "Insumos"){
+								productosModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
+							}
 							
 							
 							$alert = [
@@ -334,6 +333,7 @@
 			$bodega_actual = mainModel::cleanString($_POST['id_bodega_actual']);
 			$bodega = mainModel::cleanString($_POST['id_bodega']);
 			$cantidad = mainModel::cleanString($_POST['cantidad_movimiento']);
+
 			$datos = [
 				"productos_id" => $productos_id,
 				"bodega" => $bodega,
@@ -352,29 +352,52 @@
 					$id_producto_hijo = intval($consulta['productos_id']);
 					if($id_producto_hijo != 0 || $id_producto_hijo != 'null'){
 						//agregos el producto hijo a la bodega de transferencia
-						$datosHijo = [
-							"productos_id" => $id_producto_hijo,
-							"cantidad_entrada" => 0,
-							"cantidad_salida" => 0,
-							"saldo" => 0,	
-							"fecha_registro" => $fecha_registro,
-							"empresa" => $empresa_id,
-							"comentario" => '',
-							"clientes_id" => '',
-							"almacen_id" => $bodega
-						];
-						
-						$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datosHijo);
+
+						//OBTENER LA MEDIDA DEL PRODUCTO PADRE
+						$medidaName = strtolower(mainModel::getMedidaProductoPadre($productos_id)->fetch_assoc());
+
+						if($medidaName == "ton"){ // Medida en Toneladas DEL HIJO
+							$quantity = $quantity * 2240;
+
+							//OTENEMOS EL SALDO DEL PRODCUTO HIJO
+							$consultaSaldoProductoHijo = mainModel::getSaldoProductosMovimientosBodega($productos_id, $bodega_actual)->fetch_assoc();
+							$saldoProductoHijo = doubleval($consultaSaldoProductoHijo['saldo']);
+
+							$saldoNuevoProductoHijo = $saldoProductoHijo + doubleval($quantity);
+
+							$datosHijo = [
+								"productos_id" => $id_producto_hijo,
+								"cantidad_entrada" => $quantity,
+								"cantidad_salida" => 0,
+								"saldo" => $saldoNuevoProductoHijo,	
+								"fecha_registro" => $fecha_registro,
+								"empresa" => $empresa_id,
+								"comentario" => '',
+								"clientes_id" => '',
+								"almacen_id" => $bodega
+							];
+							
+							$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datosHijo);							
+						}
 					}
 				}
 			}				
 				
+			//OTENEMOS EL SALDO DEL PRODCUTO
+			$consultaSaldoBodegaActual = mainModel::getSaldoProductosMovimientosBodega($productos_id, $bodega_actual)->fetch_assoc();
+			$saldoProductoBodegaActual = doubleval($consultaSaldoBodegaActual['saldo']);
+
+			$consultaSaldoBodegaNueva = mainModel::getSaldoProductosMovimientosBodega($productos_id, $bodega)->fetch_assoc();
+			$saldoProductoBodegaNueva = doubleval($consultaSaldoBodegaNueva['saldo']);
+
+			$saldoBodegaNueva = $saldoProductoBodegaNueva + doubleval($cantidad);
+
 			//INGRESAMOS EL NUEVO REGISTRO EN LA ENTIDAD MOVIMIENTOS
 			$datos = [
 				"productos_id" => $productos_id,
 				"cantidad_entrada" => $cantidad,
 				"cantidad_salida" => 0,
-				"saldo" => 0,	
+				"saldo" => $saldoBodegaNueva,	
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
 				"comentario" => '',
@@ -383,13 +406,17 @@
 			];
 				
 			$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datos);
-			
+
+			$saldoNuevo = $saldoProducto + doubleval($cantidad);
+
+			$saldoBodegaActual = $saldoProductoBodegaActual - doubleval($cantidad);
+
 			//EGRESO DEL PRODUCTO DE LA BODEGA ACTUAL
 			$datosEgreso = [
 				"productos_id" => $productos_id,
 				"cantidad_entrada" => 0,
 				"cantidad_salida" => $cantidad,
-				"saldo" => 0,	
+				"saldo" => $saldoBodegaActual,	
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
 				"comentario" => '',

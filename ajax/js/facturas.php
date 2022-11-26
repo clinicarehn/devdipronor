@@ -271,7 +271,7 @@ var listar_productos_factura_buscar = function(){
 					}
 										
                     var number = $.fn.dataTable.render
-                        .number('')
+                        .number(',', '.', 2, '')
                         .display(data);
 
                     if (type === 'display') {
@@ -291,7 +291,7 @@ var listar_productos_factura_buscar = function(){
 			{"data":"precio_venta",
 				render: function (data, type) {
                     var number = $.fn.dataTable.render
-                        .number('')
+                        .number(',', '.', 2, 'L ')
                         .display(data);
  
                     if (type === 'display') {

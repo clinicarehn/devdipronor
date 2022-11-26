@@ -34,7 +34,24 @@
 					$bodega = $row['almacen'];
 				}
 
-				$id_producto_superior = intval($consulta['id_producto_superior']);
+				$data[] = array( 
+					"productos_id"=>$row['productos_id'],
+					"barCode"=>$row['barCode'],
+					"nombre"=>$row['nombre'],
+					"cantidad"=>$row['cantidad'],
+					"medida"=>$row['medida'],
+					"tipo_producto_id"=>$row['tipo_producto_id'],
+					"precio_venta"=>$row['precio_venta'],
+					"almacen"=>$bodega,
+					"almacen_id"=>$row['almacen_id'],
+					"tipo_producto"=>$row['tipo_producto'],
+					"impuesto_venta"=>$row['impuesto_venta'],
+					"precio_mayoreo"=>$row['precio_mayoreo'],
+					"cantidad_mayoreo"=>$row['cantidad_mayoreo'],
+					"tipo_producto_nombre"=>$row['tipo_producto_nombre']	
+				);
+								
+				/*$id_producto_superior = intval($consulta['id_producto_superior']);
 				if($id_producto_superior != 0 || $id_producto_superior != 'null'){
 					$datosH = [
 						"tipo_producto_id" => "",
@@ -91,7 +108,7 @@
 						"cantidad_mayoreo"=>$row['cantidad_mayoreo'],
 						"tipo_producto_nombre"=>$row['tipo_producto_nombre']	
 					);		
-				}
+				}*/
 
 			}
 		}			

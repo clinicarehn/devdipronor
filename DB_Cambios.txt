@@ -1,4 +1,11 @@
 ####20/11/2022####
+se cambiaron de INT a Float
+cantidad_entrada float(12,2)
+cantidad_salida  float(12,2)
+saldo		     float(12,2)
+
+
+####20/11/2022####
 tabla documento
 documento_id   int
 nombre         char(30)

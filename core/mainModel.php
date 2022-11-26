@@ -2075,29 +2075,17 @@
 
 
 			return $result;
-
 		}
 
-
-
 		public function getISVEstadoProducto($productos_id){
-
 			$query = "SELECT isv_venta
-
 				FROM productos
-
 				WHERE productos_id = '$productos_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getTipoProducto($productos_id){
@@ -2117,10 +2105,24 @@
 			$query = "SELECT id_producto_superior
 				FROM productos
 				WHERE productos_id = '$productos_id'";
+			
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getTotalHijosporPadre($productos_id){
+			$query = "SELECT productos_id
+				FROM productos
+				WHERE id_producto_superior = '$productos_id'";
 
 			$result = self::connection()->query($query);
 
 			return $result;
+		}
+
+		public function generarCodigoBarra(){
+			return date("Ymdhhmmss")."K";
 		}
 
 		public function getProductoHijo($producto_id){
@@ -2132,9 +2134,20 @@
 			FROM
 			productos
 			INNER JOIN medida ON productos.medida_id = medida.medida_id
-			WHERE productos.id_producto_superior = '$producto_id'
-			";
+			WHERE productos.id_producto_superior = '$producto_id'";
 			
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getMedidaProductoPadre($productos_id){
+			$query = "SELECT m.nombre AS 'medida'
+				FROM productos AS p
+				INNER JOIN medida AS m
+				ON p.medida_id = m.medida_id
+				WHERE p.productos_id = '$productos_id'";
+				
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -2150,6 +2163,17 @@
 
 			return $result;
 		}
+
+		public function getSaldoProductosMovimientosBodega($productos_id, $almacen_id){
+			$query = "SELECT saldo
+				FROM movimientos
+				WHERE productos_id = '$productos_id' AND almacen_id = '$almacen_id'
+				ORDER BY movimientos_id DESC LIMIT 1";
+				
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
 
 		protected function agregar_movimiento_productos_modelo($datos){
 			$movimientos_id = mainModel::correlativo("movimientos_id", "movimientos");
@@ -3829,7 +3853,6 @@
 			if($datos['tipo_producto_id'] != ''){
 				$tipo = "AND p.tipo_producto_id = '".$datos['tipo_producto_id']."'";
 			}
-
 
 			$query = "
 					SELECT

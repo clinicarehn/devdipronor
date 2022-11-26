@@ -210,11 +210,16 @@
 		protected function getAperturaIDModelo($datos){
 			$query = "SELECT apertura_id
 				FROM apertura
-				WHERE colaboradores_id = '".$datos['colaboradores_id']."' AND fecha = '".$datos['fecha']."' AND estado = '".$datos['estado']."'";
-			
+				WHERE colaboradores_id = '".$datos['colaboradores_id']."' AND fecha = '".$datos['fecha']."' AND estado = '".$datos['estado']."'";			
 			
 			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $result;			
 		}
+
+		protected function total_hijos_segun_padre_modelo($productos_id){
+			$result = mainModel::getTotalHijosporPadre($productos_id);
+			
+			return $result;			
+		}			
 	}

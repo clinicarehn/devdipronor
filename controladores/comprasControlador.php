@@ -5,7 +5,6 @@
         require_once "./modelos/comprasModelo.php";
     }
 
-
 	class comprasControlador extends comprasModelo{
 		public function agregar_compras_controlador(){
 			if(!isset($_SESSION['user_sd'])){ 
@@ -108,8 +107,6 @@
 								
 									if($productos_id != "" && $productName != "" && $quantity != "" && $price != "" && $discount != "" && $total != ""){
 										//VERIFICAMOS SI NO EXISTE LA FACTURA, DE NO EXISTIR LA ACTUALIZAMOS
-										//$result_factura_detalle = comprasModelo::validDetalleCompras($compras_id, $productos_id);	
-
 										$datos_detalles_facturas = [
 											"compras_id" => $compras_id,
 											"productos_id" => $productos_id,
@@ -137,34 +134,22 @@
 											$categoria_producto = $consulta_categoria["tipo_producto"];											
 
 											//SI LA CATEGORIA ES PRODUCTO PROCEDEMOS A RALIZAR LA SALIDA Y ACTUALIZAMOS LA NUEVA CANTIDAD DEL PRODUCTO, AGREGANDO TAMBIÉN EL MOVIMIENTO DE ESTE
-											if($categoria_producto == "Producto" || $categoria_producto == "Insumos"){																								
-												$medidaName = strtolower($medida);
+											if($categoria_producto == "Producto" || $categoria_producto == "Insumos"){	
+												//ALMACENAMOS EL PRODUCTO TAL CUAL SE FACTURA
+												$documento = "Compra ".$no_factura."_".$valor;	
+																
+												//OTENEMOS EL SALDO DEL PRODCUTO
+												$consultaSaldoProductoPrincipal = comprasModelo::saldo_productos_movimientos_modelo($productos_id)->fetch_assoc();
+												$saldoProductoPrincipal = doubleval($consultaSaldoProductoPrincipal['saldo']);											
 
-												//Verificamos producto Superior o hijo
-												$result_productos = comprasModelo::cantidad_producto_modelo($productos_id);			  								
+												$saldoNuevoPrincipal = $saldoProductoPrincipal + doubleval($quantity);
 
-												//DEVUELVE id_producto_superior SI ES UN HIJO EL QUE TIENE ASIGNADO UN PADRE
-												if($result_productos->num_rows>0){
-													$consulta = $result_productos->fetch_assoc();
-													$id_producto_superior = intval($consulta['id_producto_superior']);
-													//AQUI EVALUAMOS SI EL HIJO TRAE UN CODIGO DEL PADRE PARA LA RELACION PADRE-HIJO
-													if($id_producto_superior != 0 || $id_producto_superior != 'null'){
-														$productos_id = $id_producto_superior;
-
-														if($medidaName == "ton"){ // Medida en Toneladas DEL HIJO
-															$quantity = $quantity * 2205;
-														}																
-													}											
-												}	
-																								
-												$documento = "Compra ".$no_factura;		
-																					
 												$datos_movimientos_productos = [
 													"productos_id" => $productos_id,
 													"documento" => $documento,
 													"cantidad_entrada" => $quantity,				
 													"cantidad_salida" => 0,
-													"saldo" => 0,
+													"saldo" => $saldoNuevoPrincipal,
 													"fecha_registro" => $fecha_registro,
 													"empresa" => $empresa_id,
 													"clientes_id" => '',
@@ -173,6 +158,96 @@
 												];	
 
 												comprasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
+
+												$medidaName = strtolower($medida);
+
+												//CONSULTAMOS SI EL PRODUCTO ES UN PADRE
+												$producto_padre = comprasModelo::cantidad_producto_modelo($productos_id)->fetch_assoc();
+												$producto_padre_id = $producto_padre['id_producto_superior'];
+
+												//ES UN PRODUCTO PADRE
+												if($producto_padre_id == 0){
+													//CONSULTAMOS EL HIJO ASOCIADOS AL PRODUCTO PADRE
+													$resultTotalHijos = comprasModelo::total_hijos_segun_padre_modelo($productos_id);
+
+													if($resultTotalHijos->num_rows>0){
+														$valor = 0;
+														while($consultaTotalHijos = $resultTotalHijos->fetch_assoc()){
+															$producto_id_hijo = intval($consultaTotalHijos['productos_id']);
+															
+															if($medidaName == "ton"){ // MEDIDA EN TON DEL PADRE
+																$quantity = $quantity * 2240;
+															}	
+															
+															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
+																$quantity = $quantity / 2240;
+															}														
+															
+															$documento = "Compra ".$no_factura."_".$valor;	
+		
+															//OTENEMOS EL SALDO DEL PRODCUTO
+															$consultaSaldoHijos = comprasModelo::saldo_productos_movimientos_modelo($producto_id_hijo)->fetch_assoc();
+															$saldoProductoHijos = doubleval($consultaSaldoHijos['saldo']);
+		
+															$saldoNuevoHijos = $saldoProductoHijos + doubleval($quantity);
+		
+															$datos_movimientos_productos = [
+																"productos_id" => $producto_id_hijo,
+																"documento" => $documento,
+																"cantidad_entrada" => $quantity,				
+																"cantidad_salida" => 0,
+																"saldo" => $saldoNuevoHijos,
+																"fecha_registro" => $fecha_registro,
+																"empresa" => $empresa_id,
+																"clientes_id" => '',
+																"almacen_id" => $bodega,
+															];	
+																									
+															comprasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+														}
+													}
+
+												}else{//ES UN PRODUCTO HIJO
+													//CONSULTAMOS EL PADRE ASOCIADO AL PRODUCTO HIJO
+													$resultTotalPadre = comprasModelo::cantidad_producto_modelo($productos_id);
+
+													if($resultTotalPadre->num_rows>0){
+														$valor = 0;
+														while($consultaTotalPadre = $resultTotalPadre->fetch_assoc()){
+															$producto_id_padre = intval($consultaTotalPadre['id_producto_superior']);
+															
+															if($medidaName == "ton"){ // MEDIDA EN TON DEL PADRE
+																$quantity = $quantity * 2240;
+															}	
+															
+															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
+																$quantity = $quantity / 2240;
+															}														
+															
+															$documento = "Factura ".$facturas_id."_".$valor;	
+		
+															//OTENEMOS EL SALDO DEL PRODCUTO
+															$consultaSaldoPadre = comprasModelo::saldo_productos_movimientos_modelo($producto_id_padre)->fetch_assoc();
+															$saldoProductoPadre = doubleval($consultaSaldoPadre['saldo']);
+		
+															$saldoNuevoPadre = $saldoProductoPadre + doubleval($quantity);
+		
+															$datos_movimientos_productos = [
+																"productos_id" => $producto_id_padre,
+																"documento" => $documento,
+																"cantidad_entrada" => $quantity,				
+																"cantidad_salida" => 0,
+																"saldo" => $saldoNuevoPadre,
+																"fecha_registro" => $fecha_registro,
+																"empresa" => $empresa_id,
+																"clientes_id" => '',
+																"almacen_id" => $bodega,
+															];	
+																									
+															comprasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+														}
+													}
+												}																						
 											
 												$datos_prices_list = [
 													"compras_id" => $compras_id,
@@ -297,40 +372,119 @@
 											
 											//SI LA CATEGORIA ES PRODUCTO PROCEDEMOS A RALIZAR LA SALIDA Y ACTUALIZAMOS LA NUEVA CANTIDAD DEL PRODUCTO, AGREGANDO TAMBIÉN EL MOVIMIENTO DE ESTE
 											if($tipo_producto == "Producto" || $tipo_producto == "Insumos"){
-												$medidaName = strtolower($medida);
+												//ALMACENAMOS EL PRODUCTO TAL CUAL SE FACTURA
+												$documento = "Compra ".$no_factura;		
+															
+												//OTENEMOS EL SALDO DEL PRODCUTO
+												$consultaSaldoProductoPrincipal = comprasModelo::saldo_productos_movimientos_modelo($productos_id)->fetch_assoc();
+												$saldoProductoPrincipal = doubleval($consultaSaldoProductoPrincipal['saldo']);											
 
-												//Verificamos producto Superior o hijo
-												$result_productos = comprasModelo::cantidad_producto_modelo($productos_id);			  								
-
-												//DEVUELVE id_producto_superior SI ES UN HIJO EL QUE TIENE ASIGNADO UN PADRE
-												if($result_productos->num_rows>0){
-													$consulta = $result_productos->fetch_assoc();
-													$id_producto_superior = intval($consulta['id_producto_superior']);
-													//AQUI EVALUAMOS SI EL HIJO TRAE UN CODIGO DEL PADRE PARA LA RELACION PADRE-HIJO
-													if($id_producto_superior != 0 || $id_producto_superior != 'null'){
-														$productos_id = $id_producto_superior;
-
-														if($medidaName == "ton"){ // Medida en Toneladas DEL HIJO
-															$quantity = $quantity * 2205;
-														}																
-													}											
-												}	
-
-												$documento = "Compra ".$no_factura;									
+												$saldoNuevoPrincipal = $saldoProductoPrincipal + doubleval($quantity);
 
 												$datos_movimientos_productos = [
 													"productos_id" => $productos_id,
 													"documento" => $documento,
 													"cantidad_entrada" => $quantity,				
 													"cantidad_salida" => 0,
-													"saldo" => 0,
+													"saldo" => $saldoNuevoPrincipal,
 													"fecha_registro" => $fecha_registro,
 													"empresa" => $empresa_id,
 													"clientes_id" => '',
+													"comentario"  => '',
 													"almacen_id" => $bodega
 												];	
 
 												comprasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
+
+												$medidaName = strtolower($medida);
+
+												//CONSULTAMOS SI EL PRODUCTO ES UN PADRE
+												$producto_padre = comprasModelo::cantidad_producto_modelo($productos_id)->fetch_assoc();
+												$producto_padre_id = $producto_padre['id_producto_superior'];
+
+												//ES UN PRODUCTO PADRE
+												if($producto_padre_id == 0){
+													//CONSULTAMOS EL HIJO ASOCIADOS AL PRODUCTO PADRE
+													$resultTotalHijos = comprasModelo::total_hijos_segun_padre_modelo($productos_id);
+
+													if($resultTotalHijos->num_rows>0){
+														$valor = 0;
+														while($consultaTotalHijos = $resultTotalHijos->fetch_assoc()){
+															$producto_id_hijo = intval($consultaTotalHijos['productos_id']);
+															
+															if($medidaName == "ton"){ // MEDIDA EN TON DEL PADRE
+																$quantity = $quantity * 2240;
+															}	
+															
+															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
+																$quantity = $quantity / 2240;
+															}														
+															
+															$documento = "Compra ".$no_factura."_".$valor;	
+		
+															//OTENEMOS EL SALDO DEL PRODCUTO
+															$consultaSaldoHijos = comprasModelo::saldo_productos_movimientos_modelo($producto_id_hijo)->fetch_assoc();
+															$saldoProductoHijos = doubleval($consultaSaldoHijos['saldo']);
+		
+															$saldoNuevoHijos = $saldoProductoHijos + doubleval($quantity);
+		
+															$datos_movimientos_productos = [
+																"productos_id" => $producto_id_hijo,
+																"documento" => $documento,
+																"cantidad_entrada" => $quantity,				
+																"cantidad_salida" => 0,
+																"saldo" => $saldoNuevoHijos,
+																"fecha_registro" => $fecha_registro,
+																"empresa" => $empresa_id,
+																"clientes_id" => '',
+																"almacen_id" => $bodega,
+															];	
+																									
+															comprasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+														}
+													}
+
+												}else{//ES UN PRODUCTO HIJO
+													//CONSULTAMOS EL PADRE ASOCIADO AL PRODUCTO HIJO
+													$resultTotalPadre = comprasModelo::cantidad_producto_modelo($productos_id);
+
+													if($resultTotalPadre->num_rows>0){
+														$valor = 0;
+														while($consultaTotalPadre = $resultTotalPadre->fetch_assoc()){
+															$producto_id_padre = intval($consultaTotalPadre['id_producto_superior']);
+															
+															if($medidaName == "ton"){ // MEDIDA EN TON DEL PADRE
+																$quantity = $quantity * 2240;
+															}	
+															
+															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
+																$quantity = $quantity / 2240;
+															}														
+															
+															$documento = "Factura ".$facturas_id."_".$valor;	
+		
+															//OTENEMOS EL SALDO DEL PRODCUTO
+															$consultaSaldoPadre = comprasModelo::saldo_productos_movimientos_modelo($producto_id_padre)->fetch_assoc();
+															$saldoProductoPadre = doubleval($consultaSaldoPadre['saldo']);
+		
+															$saldoNuevoPadre = $saldoProductoPadre + doubleval($quantity);
+		
+															$datos_movimientos_productos = [
+																"productos_id" => $producto_id_padre,
+																"documento" => $documento,
+																"cantidad_entrada" => $quantity,				
+																"cantidad_salida" => 0,
+																"saldo" => $saldoNuevoPadre,
+																"fecha_registro" => $fecha_registro,
+																"empresa" => $empresa_id,
+																"clientes_id" => '',
+																"almacen_id" => $bodega,
+															];	
+																									
+															comprasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+														}
+													}
+												}
 											
 												$datos_prices_list = [
 													"compras_id" => $compras_id,
