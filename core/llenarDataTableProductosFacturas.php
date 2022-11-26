@@ -69,7 +69,8 @@
 							"tipo_producto"=>$row['tipo_producto'],
 							"impuesto_venta"=>$row['impuesto_venta'],
 							"precio_mayoreo"=>$row['precio_mayoreo'],
-							"cantidad_mayoreo"=>$row['cantidad_mayoreo']	
+							"cantidad_mayoreo"=>$row['cantidad_mayoreo'],
+							"tipo_producto_nombre"=>$row['tipo_producto_nombre']
 						);	
 					}
 				}else{
@@ -87,7 +88,8 @@
 						"tipo_producto"=>$row['tipo_producto'],
 						"impuesto_venta"=>$row['impuesto_venta'],
 						"precio_mayoreo"=>$row['precio_mayoreo'],
-						"cantidad_mayoreo"=>$row['cantidad_mayoreo']	
+						"cantidad_mayoreo"=>$row['cantidad_mayoreo'],
+						"tipo_producto_nombre"=>$row['tipo_producto_nombre']	
 					);		
 				}
 

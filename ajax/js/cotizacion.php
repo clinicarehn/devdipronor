@@ -872,6 +872,10 @@ var listar_productos_cotizacion_buscar = function(){
 			{"data":"nombre"},
 			{"data":"cantidad",
 				render: function (data, type) {
+					if(data == null){
+						data = 0;
+					}
+										
                     var number = $.fn.dataTable.render
                         .number('')
                         .display(data);
@@ -889,7 +893,7 @@ var listar_productos_cotizacion_buscar = function(){
                 },
 			},
 			{"data":"medida"},
-			{"data":"tipo_producto_id"},
+			{"data":"tipo_producto_nombre"},
 			{"data":"precio_venta",
 				render: function (data, type) {
                     var number = $.fn.dataTable.render

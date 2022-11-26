@@ -399,10 +399,14 @@ var listar_productos_compras_buscar = function(){
 			{"data":"nombre"},
 			{"data":"cantidad",
 				render: function (data, type) {
+					if(data == null){
+						data = 0;
+					}
+
                     var number = $.fn.dataTable.render
                         .number('')
                         .display(data);
- 
+
                     if (type === 'display') {
                         let color = 'green';
                         if (data < 0) {
@@ -416,7 +420,7 @@ var listar_productos_compras_buscar = function(){
                 },			
 			},
 			{"data":"medida"},
-			{"data":"tipo_producto_id"},
+			{"data":"tipo_producto_nombre"},
 			{"data":"precio_venta",
 				render: function (data, type) {
                     var number = $.fn.dataTable.render

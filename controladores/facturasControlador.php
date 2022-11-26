@@ -149,29 +149,30 @@
 
 									$tipo_producto = "";
 
-									if($result_tipo_producto->num_rows>0){
-							
-
+									if($result_tipo_producto->num_rows>0){						
 										$consulta_tipo_producto = $result_tipo_producto->fetch_assoc();
 										$tipo_producto = $consulta_tipo_producto["tipo_producto"];
 
 										//SI EL TIPO DE PRODUCTO, ES UN PRODUCTO PROCEDEMOS A RALIZAR LA SALIDA Y ACTUALIZAMOS LA NUEVA CANTIDAD DEL PRODUCTO, AGREGANDO TAMBIÉN EL MOVIMIENTO DE ESTE
 										if($tipo_producto == "Producto"){
-											$medidaName = strtolower($medida);
-
-												if($medidaName == "ton"){ // Medida en Toneladas
-													$quantity = $quantity * 2205;
-												}
+												$medidaName = strtolower($medida);
 												
 												//Verificamos producto Superior o hijo	
 												$result_productos = facturasModelo::cantidad_producto_modelo($productos_id);	  								
 
+												//DEVUELVE id_producto_superior SI ES UN HIJO EL QUE TIENE ASIGNADO UN PADRE
 												if($result_productos->num_rows>0){
 													$consulta = $result_productos->fetch_assoc();
 													$id_producto_superior = intval($consulta['id_producto_superior']);
+													
+													//AQUI EVALUAMOS SI EL HIJO TRAE UN CODIGO DEL PADRE PARA LA RELACION PADRE-HIJO
 													if($id_producto_superior != 0 || $id_producto_superior != 'null'){
 														$productos_id = $id_producto_superior;
-													}
+
+														if($medidaName == "ton"){ // Medida en Toneladas DEL HIJO
+															$quantity = $quantity * 2205;
+														}																
+													}											
 												}	
 								
 												$documento = "Factura ".$facturas_id;									
@@ -348,20 +349,22 @@
 										if($categoria_producto == "Producto"){
 											$medidaName = strtolower($medida);
 
-											if($medidaName == "ton"){ // Medida en Toneladas
-												$quantity = $quantity * 2205;
-											}
-											
 											//Verificamos producto Superior o hijo	
 											$result_productos = facturasModelo::cantidad_producto_modelo($productos_id);	  								
 
-											if($result_productos->num_rows>0){
-												$consulta = $result_productos->fetch_assoc();
-												$id_producto_superior = intval($consulta['id_producto_superior']);
-												if($id_producto_superior != 0 || $id_producto_superior != 'null'){
-													$productos_id = $id_producto_superior;
-												}
-											}	
+												//DEVUELVE id_producto_superior SI ES UN HIJO EL QUE TIENE ASIGNADO UN PADRE
+												if($result_productos->num_rows>0){
+													$consulta = $result_productos->fetch_assoc();
+													$id_producto_superior = intval($consulta['id_producto_superior']);
+													//AQUI EVALUAMOS SI EL HIJO TRAE UN CODIGO DEL PADRE PARA LA RELACION PADRE-HIJO
+													if($id_producto_superior != 0 || $id_producto_superior != 'null'){
+														$productos_id = $id_producto_superior;
+
+														if($medidaName == "ton"){ // Medida en Toneladas DEL HIJO
+															$quantity = $quantity * 2205;
+														}																
+													}											
+												}		
 							
 											$documento = "Factura ".$facturas_id;									
 

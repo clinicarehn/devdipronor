@@ -4,6 +4,9 @@ documento_id   int
 nombre         char(30)
 estado         int
 
+secuencia_facturacion
+documento_id   int  Despues de fecha_registro
+
 ####11/11/2022####
 server_customers_id int pk
 clientes_id         int

@@ -2101,27 +2101,16 @@
 
 
 		public function getTipoProducto($productos_id){
-
 			$query = "SELECT tp.nombre AS 'tipo_producto'
-
 				FROM productos AS p
-
 				INNER JOIN tipo_producto AS tp
-
 				ON p.tipo_producto_id = tp.tipo_producto_id
-
 				WHERE p.productos_id = '$productos_id'
-
 				GROUP BY p.productos_id";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 		public function getCantidadProductos($productos_id){
@@ -2254,7 +2243,7 @@
 				ELSE
 					'No'
 				END
-			) AS 'isv'
+			) AS 'isv', tp.nombre AS 'tipo_producto_nombre'
 		
 		FROM
 			movimientos AS m
