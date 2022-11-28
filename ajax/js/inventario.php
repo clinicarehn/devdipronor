@@ -40,11 +40,6 @@ $('#inventario_tipo_productos_id').on('change',function(){
   listar_movimientos();
 });
 
-$('#form_main_movimientos #search').on("click", function(e){
-	e.preventDefault();
-	listar_movimientos();
-});
-
 //INICIO MOVIMIENTOS
 var listar_movimientos = function(){
 	var tipo_producto_id;
@@ -145,7 +140,7 @@ var listar_movimientos = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Movimientos',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -248,7 +243,6 @@ var inventario_transferencia = function(){
 	var fechai = $("#form_main_movimientos #fechai").val();
 	var fechaf = $("#form_main_movimientos #fechaf").val();
 	var bodega = $("#form_main_movimientos #almacen").val();
-
 
 	var table_movimientos  = $("#dataTablaMovimientos").DataTable({
 		"destroy":true,
@@ -367,7 +361,7 @@ var inventario_transferencia = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Movimientos',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -456,8 +450,6 @@ $("#putEditarBodega").click(function(){
 	})
 });
 //TRANSFERIR PRODUCTO/BODEGA
-
-
 
 //INIICO OBTENER EL TIPO DE PRODUCTO
 function getTipoProductos(){

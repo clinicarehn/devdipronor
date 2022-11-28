@@ -2,14 +2,34 @@
 $(document).ready(function() {
 	getReporteFactura();
 	getFacturador();
+	getVendedpres();
     listar_reporte_ventas();
 	total_ingreso_footer();
 });
 
-$('#form_main_ventas #search').on("click", function(e){
-	e.preventDefault();
+$('#form_main_ventas #tipo_factura_reporte').on("change", function(e){
 	listar_reporte_ventas();
-	total_ingreso_footer()
+	total_ingreso_footer();
+});
+
+$('#form_main_ventas #facturador').on("change", function(e){
+	listar_reporte_ventas();
+	total_ingreso_footer();
+});
+
+$('#form_main_ventas #vendedor').on("change", function(e){
+	listar_reporte_ventas();
+	total_ingreso_footer();
+});
+
+$('#form_main_ventas #fechai').on("change", function(e){
+	listar_reporte_ventas();
+	total_ingreso_footer();
+});
+
+$('#form_main_ventas #fechaf').on("change", function(e){
+	listar_reporte_ventas();
+	total_ingreso_footer();
 });
 
 //INICIO REPORTE DE VENTAS
@@ -24,6 +44,7 @@ var listar_reporte_ventas = function(){
 	var fechai = $("#form_main_ventas #fechai").val();
 	var fechaf = $("#form_main_ventas #fechaf").val();
 	var facturador = $("#form_main_ventas #facturador").val();
+	var vendedor = $("#form_main_ventas #vendedor").val();
 
 	var table_reporteVentas  = $("#dataTablaReporteVentas").DataTable({
 		"destroy":true,
@@ -33,6 +54,7 @@ var listar_reporte_ventas = function(){
 			"data":{
 				"tipo_factura_reporte":tipo_factura_reporte,
 				"facturador":facturador,
+				"vendedor":vendedor,
 				"fechai":fechai,
 				"fechaf":fechaf
 			}
@@ -132,6 +154,8 @@ var listar_reporte_ventas = function(){
                     return number;
                 },
 			},
+			{"data":"vendedor"},
+			{"data":"facturador"},
 		    {"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_reportes print_comprobante btn btn-dark ocultar'><span class='far fa-file-pdf fa-lg'></span></button>"},
 		    {"defaultContent":"<button class='table_reportes email_factura btn btn-dark ocultar'><span class='fas fa-paper-plane fa-lg'></span></button>"},
@@ -142,21 +166,6 @@ var listar_reporte_ventas = function(){
 		"bDestroy": true,
 		"language": idioma_español,//esta se encuenta en el archivo main.js
 		"dom": dom,
-		"columnDefs": [
-		  { width: "9.09%", targets: 0 },
-		  { width: "9.09%", targets: 1 },
-		  { width: "19.09%", targets: 2 },
-		  { width: "18.09%", targets: 3 },
-		  { width: "9.09%", targets: 4 },
-		  { width: "9.09%", targets: 5 },
-		  { width: "9.09%", targets: 6 },
-		  { width: "9.09%", targets: 7 },
-		  { width: "3.09%", targets: 8 },
-		  { width: "3.09%", targets: 9 },
-		  { width: "2.09%", targets: 10 },
-		  { width: "2.09%", targets: 11 }		  		  		  
-
-		],
 		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
         	$('td', nRow).addClass(aData['color']);		
 		},
@@ -328,7 +337,22 @@ function getFacturador(){
 	    async: true,
         success: function(data){
 		    $('#form_main_ventas #facturador').html("");
-			$('#form_main_ventas #facturador').html(data);		
+			$('#form_main_ventas #facturador').html(data);				
+		}
+     });
+}
+
+function getVendedpres(){
+    var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+			
+		    $('#form_main_ventas #vendedor').html("");
+			$('#form_main_ventas #vendedor').html(data);				
 		}
      });
 }

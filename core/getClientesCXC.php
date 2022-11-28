@@ -5,11 +5,12 @@
 	
 	$insMainModel = new mainModel();
 	
-	$result = $insMainModel->getTipoProductosMovimientos();
+	$result = $insMainModel->getClientesCXC();
 	
 	if($result->num_rows>0){
+		echo '<option value="">Seleccione</option>';
 		while($consulta2 = $result->fetch_assoc()){
-			 echo '<option value="'.$consulta2['tipo_producto_id'].'">'.$consulta2['nombre'].'</option>';
+			 echo '<option value="'.$consulta2['clientes_id'].'">'.$consulta2['nombre'].'</option>';
 		}
 	}
 	

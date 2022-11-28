@@ -7,6 +7,7 @@ $(document).ready(function() {
 	getSubMenu1(getPrivilegioUsuario());	
 
 	validarAperturaCajaUsuario();
+	getCollaboradoresModalPagoFacturas();
 
 	//LLAMAMOS LOS METODOS QUE OBTIENEN LOS PERMISOS DE LOS USUARIOS PARA LOS ACCESOS
 	getPermisosTipoUsuarioAccesosForms(getPrivilegioTipoUsuario());
@@ -23,6 +24,9 @@ $(document).ready(function() {
     getCategoriaProductos(); 	
 	getEmpresaColaboradores();
 	getPuestoColaboradores();
+	getCollaboradoresModalPagoFacturasCompras();
+	getClientesCXC();
+	getProveedoresCXP();
 });
 
 
@@ -1455,9 +1459,27 @@ function getConsultarAperturaCaja(){
 }
 
 //INICIO CUENTAS POR COBRAR CLIENTES
+$('#form_main_cobrar_clientes #cobrar_clientes_estado').on("change", function(e){
+	listar_cuentas_por_cobrar_clientes();
+});
+
+$('#form_main_cobrar_clientes #cobrar_clientes').on("change", function(e){
+	listar_cuentas_por_cobrar_clientes();
+});
+
+$('#form_main_cobrar_clientes #fechai').on("change", function(e){
+	listar_cuentas_por_cobrar_clientes();
+});
+
+$('#form_main_cobrar_clientes #fechaf').on("change", function(e){
+	listar_cuentas_por_cobrar_clientes();
+});
+
 var listar_cuentas_por_cobrar_clientes = function(){
+	var estado = $("#form_main_cobrar_clientes #cobrar_clientes_estado").val();
+	var clientes_id = $("#form_main_cobrar_clientes #cobrar_clientes").val();
 	var fechai = $("#form_main_cobrar_clientes #fechai").val();
-	var fechaf = $("#form_main_cobrar_clientes #fechaf").val();
+	var fechaf = $("#form_main_cobrar_clientes #fechaf").val();	
 	
 	var table_cuentas_por_cobrar_clientes = $("#dataTableCuentasPorCobrarClientes").DataTable({
 		"destroy":true,
@@ -1465,6 +1487,8 @@ var listar_cuentas_por_cobrar_clientes = function(){
 			"method":"POST",
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableCobrarClientes.php",
 			"data":{
+				"estado":estado,
+				"clientes_id":clientes_id,				
 				"fechai":fechai,
 				"fechaf":fechaf
 			}
@@ -1528,6 +1552,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
                     return number;
                 },
 			},
+			{"data":"vendedor"},
 			{"defaultContent":"<button class='table_abono btn btn-dark'><span class='fas fa-cash-register fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_reportes abono_factura btn btn-dark ocultar'><span class='fa fa-money-bill-wave fa-solid'></span></button>"},
 			{"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"}
@@ -1539,15 +1564,16 @@ var listar_cuentas_por_cobrar_clientes = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "12.11%", targets: 0 },
-		  { width: "21.11%", targets: 1 },
-		  { width: "21.11%", targets: 2 },
-		  { width: "13.11%", targets: 3, className: "text-center"},
-		  { width: "13.11%", targets: 4, className: "text-center" },
-		  { width: "13.11%", targets: 5, className: "text-center" },
-		  { width: "2.11%", targets: 6 },
-		  { width: "2.11%", targets: 7 }, 	  
-		  { width: "2.11%", targets: 8 },
+		  { width: "10%", targets: 0 },
+		  { width: "16%", targets: 1 },
+		  { width: "16%", targets: 2 },
+		  { width: "12%", targets: 3, className: "text-center"},
+		  { width: "12%", targets: 4, className: "text-center" },
+		  { width: "12%", targets: 5, className: "text-center" },
+		  { width: "16%", targets: 6 },
+		  { width: "2%", targets: 7 }, 	  
+		  { width: "2%", targets: 8 },
+		  { width: "2%", targets: 9 }
 		],		
 		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
         	$('td', nRow).addClass(aData['color']);
@@ -1575,7 +1601,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
 				titleAttr: 'Excel',
 				title: 'Reporte Cuents por Cobrar Clientes',
 				exportOptions: {
-						columns: [2,3,4,5,6,7]
+						columns: [2,3,4,5,6]
 				},
 				className: 'table_reportes btn btn-success ocultar'
 			},
@@ -1588,7 +1614,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),				
 				className: 'table_reportes btn btn-danger ocultar',
 				exportOptions: {
-						columns: [2,3,4,5,6,7]
+						columns: [2,3,4,5,6]
 				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
@@ -1646,7 +1672,8 @@ var ver_abono_cxc_clientes_dataTable = function(tbody, table){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
 		$('#ver_abono_cxc').modal('show');
-		getAbonosCXC(data.facturas_id);
+		$("#formulario_ver_abono_cxc #abono_facturas_id").val(data.facturas_id);
+		listar_AbonosCXC();
 	});
 }
 
@@ -1655,14 +1682,60 @@ var ver_abono_cxp_proveedor_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.abono_proveedor", function(e){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
-		$('#ver_abono_cxc').modal('show');
-		getAbonosCXP(data.compras_id);
+		$('#ver_abono_cxp').modal('show');
+		$("#formulario_ver_abono_cxp #abono_compras_id").val(data.compras_id);
+		listar_AbonosCXP();
 	});
 }
 
+function getClientesCXC(){
+    var url = '<?php echo SERVERURL;?>core/getClientesCXC.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#form_main_cobrar_clientes #cobrar_clientes').html("");
+			$('#form_main_cobrar_clientes #cobrar_clientes').html(data);				
+		}
+     });
+}
+
+function getProveedoresCXP(){
+    var url = '<?php echo SERVERURL;?>core/getProveedoresCXP.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#form_main_pagar_proveedores #pagar_proveedores').html("");
+			$('#form_main_pagar_proveedores #pagar_proveedores').html(data);				
+		}
+     });
+}
+
 //INICIO CUENTAS POR PAGAR PROVEEDORES
+$('#form_main_pagar_proveedores #pagar_proveedores_estado').on("change", function(e){
+	listar_cuentas_por_pagar_proveedores();
+});
+
+$('#form_main_pagar_proveedores #pagar_proveedores').on("change", function(e){
+	listar_cuentas_por_pagar_proveedores();
+});
+
+$('#form_main_pagar_proveedores #fechai').on("change", function(e){
+	listar_cuentas_por_pagar_proveedores();
+});
+
+$('#form_main_pagar_proveedores #fechaf').on("change", function(e){
+	listar_cuentas_por_pagar_proveedores();
+});
+
 var listar_cuentas_por_pagar_proveedores = function(){
-	var tipo_busqueda = $("#form_main_pagar_proveedores #tipo_busqueda").val();
+	var estado = $("#form_main_pagar_proveedores #pagar_proveedores_estado").val();
+	var proveedores_id = $("#form_main_pagar_proveedores #pagar_proveedores").val();
 	var fechai = $("#form_main_pagar_proveedores #fechai").val();
 	var fechaf = $("#form_main_pagar_proveedores #fechaf").val();
 
@@ -1672,9 +1745,10 @@ var listar_cuentas_por_pagar_proveedores = function(){
 			"method":"POST",
 			"url":"<?php echo SERVERURL;?>core/llenarDataTablePagarProveedores.php",
 			"data":{
-				"tipo_busqueda":tipo_busqueda,
+				"estado":estado,
+				"proveedores_id":proveedores_id,
 				"fechai":fechai,
-				"fechaf":fechaf
+				"fechaf":fechaf				
 			}
 		},
 		"columns":[
@@ -1934,7 +2008,7 @@ var listar_clientes = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 				titleAttr: 'Agregar Clientes',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -2243,7 +2317,7 @@ function pago(facturas_id,saldo){
 			$('#formEfectivoBill #factura_id_efectivo').val(facturas_id);
 			$('#formEfectivoBill #tipo_factura_efectivo').val(datos[5]);
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
-			
+
 			if(datos[5] == '2'){
 				$('#bill-pay').html("L. " + parseFloat(saldo).toFixed(2));
 				$('#tab5').hide();
@@ -2251,6 +2325,7 @@ function pago(facturas_id,saldo){
 				$('#formTarjetaBill #monto_efectivo_tarjeta').show();
 				$('#formTransferenciaBill #importe_transferencia').show()
 				$('#formChequeBill #importe_cheque').show()
+				$("#formEfectivoBill #grupo_cambio_efectivo").hide();
 			}
 
 			//TARJETA
@@ -2356,7 +2431,7 @@ $(document).ready(function(){
 		var credito = $("#formEfectivoBill #tipo_factura_efectivo").val();
 		if(credito == 2 ){
 			$("#formEfectivoBill #cambio_efectivo").val(0)
-			$("#formEfectivoBill #cambio_efectivo").hide();
+			$("#formEfectivoBill #grupo_cambio_efectivo").hide();
 		}
 		
 		var total = efectivo - monto;				
@@ -2419,38 +2494,119 @@ $(document).ready(function(){
 	});
 });	
 
-function getAbonosCXC(factura_id){
-	var url = '<?php echo SERVERURL;?>core/getAbonosCXC.php';
-
-	var table_abonos_cxc = $("#table-modal-abonos").DataTable({
+var listar_AbonosCXC = function(){
+	var factura_id = $("#formulario_ver_abono_cxc #abono_facturas_id").val();
+	
+	var table_cuentas_por_cobrar_clientes = $("#table-modal-abonos").DataTable({
 		"destroy":true,
 		"ajax":{
-			"method":"POST",
-			"url":url,
-			"data":{"factura_id": factura_id},
+			"method":"POST",			
+			"url":"<?php echo SERVERURL;?>core/getAbonosCXC.php",
+			"data":{"factura_id": factura_id}
 		},
-		"columns":[
+		"columns":[			
 			{"data":"fecha"},
 			{"data":"tipo_pago"},
 			{"data":"descripcion"},
 			{"data":"abono"},
-		],	
+			{"data":"usuario"},
+		],
+		"pageLength": 10,
         "lengthMenu": lengthMenu,
 		"stateSave": true,
 		"bDestroy": true,
-		"language": idioma_español,		
+		"language": idioma_español,
+		"dom": dom,
 		"columnDefs": [
-		  { width: "25%", targets: 0 },
-		  { width: "25%", targets: 1 },
-		  { width: "25%", targets: 2 },
-		  { width: "25%", targets: 3 },
-		],
+		  { width: "10%", targets: 0 },
+		  { width: "15%", targets: 1 },
+		  { width: "35%", targets: 2 },
+		  { width: "15%", targets: 3 },
+		  { width: "50%", targets: 4 }
+		],		
 		"fnRowCallback": function( nRow, res, iDisplayIndex, iDisplayIndexFull ) {                 	
-			$('#ver_abono_cxcTitle').html('Cliente: '+ res['cliente'])
-			$('#importe-cxc').html('Valor Factura L. '+ res['importe'])
+			$('#ver_abono_cxcTitle').html('Factura: '+ res['no_factura'] + ' Cliente: '+ res['cliente'] + ' Total Factura: L. ' + res['importe'])
 			$('#total-footer-modal-cxc').html('L. '+ res['total'])
 		},
-     });
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Abonos',
+				className: 'table_actualizar btn btn-secondary ocultar',
+				action: 	function(){
+					listar_AbonosCXC();
+				}
+			},
+			{
+				extend:    'excelHtml5',
+				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
+				titleAttr: 'Excel',
+				title: 'Reporte de Abonos Cuentas por Cobrar Clientes',
+				messageTop: 'Factura: ' + getNumeroFactura(factura_id) + ' ' + getNombreClienteFactura(factura_id) + ' Total Factura: L. ' + getImporteFacturas(factura_id),
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'table_reportes btn btn-success ocultar'
+			},
+			{
+				extend:    'pdf',
+				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
+				titleAttr: 'PDF',
+				title: 'Reporte de Abonos Cuentas por Cobrar Clientes',
+				messageTop: 'Factura: ' + getNumeroFactura(factura_id) + ' ' + getNombreClienteFactura(factura_id) + ' Total Factura: L. ' + getImporteFacturas(factura_id),
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),				
+				className: 'table_reportes btn btn-danger ocultar',
+				customize: function ( doc ) {
+					doc.content.splice( 1, 0, {
+						margin: [ 0, 0, 0, 12 ],
+						alignment: 'left',
+						image: imagen,
+						width:100,
+                        height:45
+					} );
+				}
+			}
+		],
+		"drawCallback": function( settings ) {
+        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+    	}
+	});
+	table_cuentas_por_cobrar_clientes.search('').draw();
+	$('#buscar').focus();
+}
+
+function getNombreClienteFactura(factura_id){
+	var url = '<?php echo SERVERURL; ?>core/getNombreClienteFactura.php';
+    var cliente = '';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'factura_id='+factura_id,
+       success:function(data){
+            var datos = eval(data);
+            cliente = datos[0];
+      }	  
+    });
+
+	return cliente;
+}
+
+function getImporteFacturas(factura_id){
+	var url = '<?php echo SERVERURL; ?>core/getImporteFacturas.php';
+    var importe = '';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'factura_id='+factura_id,
+       success:function(data){
+            var datos = eval(data);
+            importe = datos[0];
+      }	  
+    });
+
+	return importe;
 }
 //FIN ABONO CXC
 
@@ -2461,38 +2617,119 @@ $(document).ready(function(){
 	});
 });	
 
-function getAbonosCXP(factura_id){
-	var url = '<?php echo SERVERURL;?>core/getAbonosCXP.php';
-
-	var table_abonos_cxc = $("#table-modal-abonos").DataTable({
+var listar_AbonosCXP = function(){
+	var compras_id = $("#formulario_ver_abono_cxp #abono_compras_id").val();
+	
+	var table_cuentas_por_cobrar_clientes = $("#table-modal-abonosCXP").DataTable({
 		"destroy":true,
 		"ajax":{
-			"method":"POST",
-			"url":url,
-			"data":{"factura_id": factura_id},
+			"method":"POST",			
+			"url":"<?php echo SERVERURL;?>core/getAbonosCXP.php",
+			"data":{"compras_id": compras_id},
 		},
-		"columns":[
+		"columns":[			
 			{"data":"fecha"},
 			{"data":"tipo_pago"},
 			{"data":"descripcion"},
-			{"data":"abono"},
-		],	
+			{"data":"abono"},		
+			{"data":"usuario"},
+		],
+		"pageLength": 10,
         "lengthMenu": lengthMenu,
 		"stateSave": true,
 		"bDestroy": true,
-		"language": idioma_español,		
+		"language": idioma_español,
+		"dom": dom,
 		"columnDefs": [
-		  { width: "25%", targets: 0 },
-		  { width: "25%", targets: 1 },
-		  { width: "25%", targets: 2 },
-		  { width: "25%", targets: 3 },
-		],
-		"fnRowCallback": function( nRow, res, iDisplayIndex, iDisplayIndexFull ) {                 	
-			$('#ver_abono_cxcTitle').html('Cliente: '+ res['cliente'])
-			$('#importe-cxc').html('Valor Factura L. '+ res['importe'])
-			$('#total-footer-modal-cxc').html('L. '+ res['total'])
+		  { width: "10%", targets: 0 },
+		  { width: "15%", targets: 1 },
+		  { width: "35%", targets: 2 },
+		  { width: "15%", targets: 3 },
+		  { width: "50%", targets: 4 }
+		],		
+		"fnRowCallback": function( nRow, res, iDisplayIndex, iDisplayIndexFull ) {  
+			$('#ver_abono_cxPTitle').html('Factura: '+ res['factura'] + ' Proveedor: '+ res['nombre'] + ' Total Factura: L. ' + res['importe'])
+			$('#total-footer-modal-cxp').html('L. '+ res['total'])
 		},
-     });
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Abonos',
+				className: 'table_actualizar btn btn-secondary ocultar',
+				action: 	function(){
+					listar_AbonosCXP();
+				}
+			},
+			{
+				extend:    'excelHtml5',
+				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
+				titleAttr: 'Excel',
+				title: 'Reporte de Abonos Cuentas por Pagar Proveedores',
+				messageTop: 'Factura: ' + getNumeroCompra(compras_id) + ' ' + getNombreClienteFacturaCompras(compras_id) + ' Total Factura: L. ' + getImporteCompras(compras_id),
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'table_reportes btn btn-success ocultar'
+			},
+			{
+				extend:    'pdf',
+				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
+				titleAttr: 'PDF',
+				title: 'Reporte de Abonos Cuentas por por Pagar Proveedores',
+				messageTop: 'Factura: ' + getNumeroCompra(compras_id) + ' ' + getNombreClienteFacturaCompras(compras_id) + ' Total Factura: L. ' + getImporteCompras(compras_id),
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),				
+				className: 'table_reportes btn btn-danger ocultar',
+				customize: function ( doc ) {
+					doc.content.splice( 1, 0, {
+						margin: [ 0, 0, 0, 12 ],
+						alignment: 'left',
+						image: imagen,
+						width:100,
+                        height:45
+					} );
+				}
+			}
+		],
+		"drawCallback": function( settings ) {
+        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+    	}
+	});
+	table_cuentas_por_cobrar_clientes.search('').draw();
+	$('#buscar').focus();
+}
+
+function getNombreClienteFacturaCompras(compras_id){
+	var url = '<?php echo SERVERURL; ?>core/getNombreClienteFacturaCompras.php';
+    var cliente = '';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'compras_id='+compras_id,
+       success:function(data){
+            var datos = eval(data);
+            cliente = datos[0];
+      }	  
+    });
+
+	return cliente;
+}
+
+function getImporteCompras(compras_id){
+	var url = '<?php echo SERVERURL; ?>core/getImporteCompras.php';
+    var importe = '';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'compras_id='+compras_id,
+       success:function(data){
+            var datos = eval(data);
+            importe = datos[0];
+      }	  
+    });
+
+	return importe;
 }
 //FIN ABONO CXP PROVEEDOR
 
@@ -2526,7 +2763,7 @@ function pagoCompras(compras_id,saldo){
 				$('#importe_cheque').attr('type','number');
 				//
 				$("#formEfectivoBill #cambio_efectivo").val(0)
-				$("#formEfectivoBill #cambio_efectivo").hide();
+				$("#formEfectivoPurchase #grupo_cambio_compras").hide();
 			}
 			
 			//TARJETA
@@ -2674,4 +2911,56 @@ function getBancoPurchase(){
      });
 }
 //FIN MODAL REGSITRAR PAGO COMPRAS PROVEEDORES
+
+function getCollaboradoresModalPagoFacturas(){
+    var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formEfectivoBill #usuario_efectivo').html("");
+			$('#formEfectivoBill #usuario_efectivo').html(data);			
+
+		    $('#formTarjetaBill #usuario_tarjeta').html("");
+			$('#formTarjetaBill #usuario_tarjeta').html(data);
+			
+		    $('#formMixtoBill #usuario_pago_mixto').html("");
+			$('#formMixtoBill #usuario_pago_mixto').html(data);
+			
+		    $('#formTransferenciaBill #usuario_transferencia').html("");
+			$('#formTransferenciaBill #usuario_transferencia').html(data);
+			
+			$('#formChequeBill #usuario_cheque').html("");
+			$('#formChequeBill #usuario_cheque').html(data);			
+		}
+     });
+}
+
+function getCollaboradoresModalPagoFacturasCompras(){
+    var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formEfectivoPurchase #usuario_efectivo_compras').html("");
+			$('#formEfectivoPurchase #usuario_efectivo_compras').html(data);			
+
+		    $('#formTarjetaPurchase #usuario_tarjeta_compras').html("");
+			$('#formTarjetaPurchase #usuario_tarjeta_compras').html(data);
+			
+		    $('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').html("");
+			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').html(data);
+			
+		    $('#formTransferenciaPurchase #usuario_transferencia_compras').html("");
+			$('#formTransferenciaPurchase #usuario_transferencia_compras').html(data);
+			
+			$('#formChequePurchase #usuario_cheque_compras').html("");
+			$('#formChequePurchase #usuario_cheque_compras').html(data);			
+		}
+     });
+}
 </script>

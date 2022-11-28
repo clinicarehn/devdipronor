@@ -15,7 +15,7 @@
 			$facturas_id = $_POST['factura_id_efectivo'];
 			$print_comprobante = $_POST['comprobante_print'];
 			$consulta_fecha_factura = pagoFacturaModelo::consultar_factura_fecha($facturas_id)->fetch_assoc();
-			$fecha = date("Y-m-d");
+			$fecha = $_POST['fecha_efectivo'];
 			$importe = $_POST['monto_efectivo'];
 			$abono = $_POST['efectivo_bill'];
 			$efectivo = $_POST['efectivo_bill'];
@@ -26,9 +26,15 @@
 			$banco_id = 0;//SIN BANCO
 			$tipo_pago = $_POST['tipo_factura'];//1. CONTADO 2. CRÉDITO
 			$referencia_pago1 = "";
-			$referencia_pago2 = "";
+			$referencia_pago2 = "";//DESCRIPCION ADICIONAL QUE SE ESCRIBE EN EL MODAL
 			$referencia_pago3 = "";
-			$usuario = $_SESSION['colaborador_id_sd'];
+
+			if($_POST['usuario_efectivo'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_efectivo'];
+			}
+			
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 2;
 			$estado_factura = $_POST['tipo_factura'];//PAGADA 1 //credito 2
@@ -71,7 +77,7 @@
 			$facturas_id = $_POST['factura_id_tarjeta'];
 			$print_comprobante = $_POST['comprobante_print'];
 			$consulta_fecha_factura = pagoFacturaModelo::consultar_factura_fecha($facturas_id)->fetch_assoc();
-			$fecha = date("Y-m-d");
+			$fecha = $_POST['fecha_tarjeta'];
 			$importe = $_POST['importe'];
 			$cambio = 0;
 			$empresa_id = $_SESSION['empresa_id_sd'];
@@ -88,7 +94,12 @@
 			$referencia_pago2 = mainModel::cleanStringConverterCase($_POST['exp']);//FECHA DE EXPIRACION
 			$referencia_pago3 = mainModel::cleanStringConverterCase($_POST['cvcpwd']);//NUMERO DE APROBACIÓN
 			
-			$usuario = $_SESSION['colaborador_id_sd'];
+			if($_POST['usuario_tarjeta'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_tarjeta'];
+			}
+
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 2;
 
@@ -151,7 +162,12 @@
 			$referencia_pago2 = mainModel::cleanStringConverterCase($_POST['exp']);//FECHA DE EXPIRACION
 			$referencia_pago3 = mainModel::cleanStringConverterCase($_POST['cvcpwd']);//NUMERO DE APROBACIÓN
 			
-			$usuario = $_SESSION['colaborador_id_sd'];
+			if($_POST['usuario_pago_mixto'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_pago_mixto'];
+			}
+
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 2;
 
@@ -209,7 +225,12 @@
 			$referencia_pago2 = "";
 			$referencia_pago3 = "";
 			
-			$usuario = $_SESSION['colaborador_id_sd'];
+			if($_POST['usuario_transferencia'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_transferencia'];
+			}
+
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 2;
 			
@@ -266,7 +287,12 @@
 			$referencia_pago2 = "";
 			$referencia_pago3 = "";
 			
-			$usuario = $_SESSION['colaborador_id_sd'];
+			if($_POST['usuario_cheque'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_cheque'];
+			}
+
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 2;
 			$abono = $_POST['importe'];

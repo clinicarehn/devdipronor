@@ -49,7 +49,7 @@ var listar_proveedores = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Proveedores',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){

@@ -7,10 +7,8 @@
 
 	$datos = [
 		"tipo_producto_id" => $_POST['tipo_producto_id'],
-		//"fechai" => $_POST['fechai'],
-		//"fechaf" => $_POST['fechaf'],
-		"productos_id" => '',
-		"bodega" => $_POST['bodega'] 		
+		"bodega" => $_POST['bodega'],
+		"productos_id" => $_POST['productos_id'] 
 	];	
 	
 	$result = $insMainModel->getTranferenciaProductos($datos);
@@ -47,64 +45,7 @@
 					"productos_id"=>$row['productos_id'],
 					"superior"=>$row['id_producto_superior']			
 				
-				);				
-				/*if($row['almacen_id'] == 0 || $row['almacen_id'] == null){
-					$bodega = "Sin bodega";
-				}else{
-					$bodega = $row['bodega'];
-				}
-				
-				$id_producto_superior = intval($consulta['id_producto_superior']);
-				if($id_producto_superior != 0 || $id_producto_superior != 'null'){
-					$datosH = [
-						"tipo_producto_id" => "",
-						"productos_id" => $id_producto_superior,
-						"bodega" => $row['almacen_id']		
-					];
-					//agregos el producto hijo y las cantidades del padre
-					$resultPadre = $insMainModel->getTranferenciaProductos($datosH);
-					if($resultPadre->num_rows>0){
-						$rowP = $resultPadre->fetch_assoc();						
-							$medidaName = strtolower($row['medida']);
-							if($medidaName == "ton"){ // Medida en Toneladas
-								$entradaH = $rowP['entrada'] / 2240;
-								$salidaH = $rowP['salida'] / 2240;
-
-							}
-
-						$data[] = array( 
-							"fecha_registro"=>$row['fecha_registro'],
-							"barCode"=>$row['barCode'],
-							"producto"=>$row['producto'],
-							"medida"=>$row['medida'],
-							"movimientos_id"=>$row['movimientos_id'],
-							"entrada"=> number_format($entradaH,2),
-							"salida"=>number_format($salidaH,2),
-							"saldo"=> $saldoH = number_format($entradaH - $salidaH,2),
-							"bodega"=>$bodega,
-							"id_bodega"=>$row['almacen_id'],
-							"productos_id"=>$row['productos_id'],
-							"superior"=>$row['id_producto_superior']			
-						
-						);
-					}
-				}else{
-					$data[] = array( 
-						"fecha_registro"=>$row['fecha_registro'],
-						"barCode"=>$row['barCode'],
-						"producto"=>$row['producto'],
-						"medida"=>$row['medida'],
-						"movimientos_id"=>$row['movimientos_id'],
-						"entrada"=>$row['entrada'],
-						"salida"=>$row['salida'],
-						"saldo"=>$row['saldo'],
-						"bodega"=>$bodega,
-						"id_bodega"=>$row['almacen_id'],
-						"productos_id"=>$row['productos_id'],
-						"superior"=>$row['id_producto_superior']			
-					
-					);	
-				}*/
+				);
 			}
 		}	
 	}

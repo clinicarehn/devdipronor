@@ -26,12 +26,9 @@
 			$saldo = 0;
 			
 			//SI LA OPERACION ES INGRESO
-			if($movimiento_operacion == 1){//INGRESO DE INVENTARIO
-				
-				//INGRESAMOS EL NUEVO REGISTRO EN LA ENTIDAD MOVIMIENTOS				
-
+			if($movimiento_operacion == 1){//INGRESO DE INVENTARIO			
+				//INGRESAMOS EL NUEVO REGISTRO EN LA ENTIDAD MOVIMIENTOS
 				$datos = [
-
 					"productos_id" => $movimiento_producto,
 					"cantidad_entrada" => $movimiento_cantidad,				
 					"cantidad_salida" => 0,
@@ -41,26 +38,24 @@
 					"clientes_id" => $cliente_movimientos,
 					"comentario"  => $movimiento_comentario,
 					"almacen_id" => $almacen
-
 				];	
-
 				
 				$query = movimientoProductosModelo::agregar_movimiento_productos_modelo($datos);
 				
 				if($query){
 					$alert = [
-						"alert" => "clear_pay",
+						"alert" => "clear",
 						"title" => "Registro almacenado",
 						"text" => "El registro se ha almacenado correctamente",
 						"type" => "success",
 						"btn-class" => "btn-primary",
 						"btn-text" => "¡Bien Hecho!",
-						"form" => "formMovimientos",
+						"form" => "formMovimientos",	
 						"id" => "proceso_movimientos",
-						"valor" => "Registro",	
+						"valor" => "Registro",
 						"funcion" => "listar_movimientos();",
-						"modal" => "",
-					];
+						"modal" => "modal_movimientos",
+					];					
 				}else{
 					$alert = [
 						"alert" => "simple",
@@ -73,9 +68,7 @@
 			}else{
 				//SALIDA DE PRODUCTO
 				//INGRESAMOS EL NUEVO REGISTRO EN LA ENTIDAD MOVIMIENTOS				
-
 				$datos = [
-
 					"productos_id" => $movimiento_producto,
 					"cantidad_entrada" => 0,				
 					"cantidad_salida" => $movimiento_cantidad,
@@ -85,7 +78,6 @@
 					"clientes_id" => $cliente_movimientos,
 					"comentario"  => $movimiento_comentario,
 					"almacen_id" => $almacen
-
 				];
 				
 				$query = movimientoProductosModelo::agregar_movimiento_productos_modelo($datos);

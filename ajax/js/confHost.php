@@ -46,7 +46,7 @@ var listar_host = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Host',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){

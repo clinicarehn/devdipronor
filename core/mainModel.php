@@ -365,15 +365,20 @@
 			pagos_detalles.descripcion1,
 			facturas.importe,
 			clientes.nombre as cliente,
-            tipo_pago.nombre as tipo_pago
-			FROM
-			pagos
+            tipo_pago.nombre as tipo_pago,
+			sf.prefijo AS 'prefijo', 
+			sf.siguiente AS 'numero', 
+			sf.relleno AS 'relleno',
+			sf.prefijo AS 'prefijo',
+			CONCAT(colaboradores.nombre, ' ', colaboradores.apellido) AS 'usuario'
+			FROM pagos
 			LEFT JOIN pagos_detalles ON pagos.pagos_id = pagos_detalles.pagos_id
 			INNER JOIN facturas ON facturas.facturas_id = pagos.facturas_id
 			INNER JOIN clientes ON facturas.clientes_id = clientes.clientes_id
             INNER JOIN tipo_pago ON pagos_detalles.tipo_pago_id = tipo_pago.tipo_pago_id
+			INNER JOIN secuencia_facturacion AS sf ON facturas.secuencia_facturacion_id = sf.secuencia_facturacion_id
+			INNER JOIN colaboradores ON pagos.usuario = colaboradores.colaboradores_id
 			WHERE pagos.facturas_id = '$facturas_id'";
-
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 
 			return $sql;
@@ -396,13 +401,15 @@
 			proveedores.nombre,
 			compras.importe,
 			tipo_pago.nombre as tipoPago,
-			pagoscompras_detalles.descripcion1
-			FROM
-			compras
+			pagoscompras_detalles.descripcion1,
+			compras.number AS factura,
+			CONCAT(colaboradores.nombre, ' ', colaboradores.apellido) AS 'usuario'
+			FROM compras
 			INNER JOIN pagoscompras ON compras.compras_id = pagoscompras.compras_id
 			INNER JOIN pagoscompras_detalles ON pagoscompras_detalles.pagoscompras_id = pagoscompras.pagoscompras_id
 			INNER JOIN tipo_pago ON pagoscompras_detalles.tipo_pago_id = tipo_pago.tipo_pago_id
 			INNER JOIN proveedores ON proveedores.proveedores_id = compras.proveedores_id
+			INNER JOIN colaboradores ON pagoscompras.usuario = colaboradores.colaboradores_id
 			WHERE
 				compras.compras_id ='$facturas_id'";
 
@@ -1613,6 +1620,16 @@
 			return $result;
 		}
 
+		public function getColaboradoresConsulta(){
+			$query = "SELECT colaboradores_id, CONCAT(nombre, ' ', apellido) AS 'nombre'
+				FROM colaboradores
+				WHERE estado = 1
+				ORDER BY nombre";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
 		public function getDepartamentos(){
 			$query = "SELECT *
 				FROM departamentos";
@@ -1639,6 +1656,28 @@
 
 			return $result;
 		}
+
+		public function getClientesCXC(){
+			$query = "SELECT c.clientes_id AS 'clientes_id', c.nombre AS 'nombre'
+			FROM cobrar_clientes AS cc
+			INNER JOIN clientes AS c
+			ON cc.clientes_id = c.clientes_id
+			GROUP BY c.nombre";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getProveedoresCXP(){
+			$query = "SELECT p.proveedores_id AS 'proveedores_id', p.nombre AS 'nombre'
+			FROM pagar_proveedores AS pp
+			INNER JOIN proveedores AS p
+			ON pp.proveedores_id = p.proveedores_id
+			GROUP BY p.nombre;";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
 
 		public function getTipoUsuario($datos){
 
@@ -2193,7 +2232,7 @@
 		public function getProductos(){
 			$query = "SELECT p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', p.precio_compra AS 'precio_compra', p.precio_venta AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
 			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
-			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'categoria', p.isv_venta AS 'impuesto_venta', p.isv_compra AS 'isv_compra', p.file_name AS 'image'
+			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'categoria', (CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END) AS 'isv_venta', (CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END) AS 'isv_compra', p.file_name AS 'image'
 				FROM productos AS p
 				INNER JOIN medida AS m
 				ON p.medida_id = m.medida_id
@@ -2252,7 +2291,7 @@
 			p.file_name AS 'image',
 			tp.tipo_producto_id AS 'tipo_producto_id',
 			tp.nombre AS 'tipo_producto',
-		(
+			(
 				CASE
 				WHEN p.estado = '1' THEN
 					'Activo'
@@ -2267,7 +2306,9 @@
 				ELSE
 					'No'
 				END
-			) AS 'isv', tp.nombre AS 'tipo_producto_nombre'
+			) AS 'isv', tp.nombre AS 'tipo_producto_nombre',
+			(CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END) AS 'isv_venta',
+			(CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END) AS 'isv_compra'
 		
 		FROM
 			movimientos AS m
@@ -2378,7 +2419,6 @@
 				INNER JOIN tipo_producto AS tp
 				ON p.tipo_producto_id = tp.tipo_producto_id
 				WHERE p.estado = 1 AND p.tipo_producto_id = '$tipo_producto_id'";
-
 
 			$result = self::connection()->query($query);
 
@@ -3165,6 +3205,50 @@
 			return $result;
 		}
 
+		public function getNombreClienteFactura($factura_id){
+			$query = "SELECT c.nombre 'nombre'
+			FROM facturas AS f
+			INNER JOIN clientes AS c
+			ON f.clientes_id = c.clientes_id
+			WHERE f.facturas_id = '$factura_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}	
+		
+		public function getNombreClienteFacturaCompras($compras_id){
+			$query = "SELECT p.nombre AS 'nombre'
+			FROM compras AS c
+			INNER JOIN proveedores AS p
+			ON c.proveedores_id = p.proveedores_id
+			WHERE c.compras_id = '$compras_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}	
+		
+		public function getImporteCompras($compras_id){
+			$query = "SELECT importe
+			FROM compras 
+			WHERE compras_id = '$compras_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}			
+		
+		public function getImporteFacturas($facturas_id){
+			$query = "SELECT importe
+			FROM facturas 
+			WHERE facturas_id = '$facturas_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}			
+
 		public function getRTNCliente($clientes_id, $rtn){
 			$query = "SELECT rtn
 			FROM clientes
@@ -3785,54 +3869,42 @@
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getIngresosEdit($ingresos_id){
-
 			$query = "SELECT *
-
 				FROM ingresos
-
 				WHERE ingresos_id = '$ingresos_id'";
-
-
 
 			$result = self::connection()->query($query);
 
 
-
 			return $result;
-
 		}
 
 
-
 		public function getVigenciaCotizacion(){
-
 			$query = "SELECT *
-
 				FROM vigencia_cotizacion";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 		public function getMovimientosProductos($datos){
 			$producto = '';
 			$cliente = '';
 			$tipo = '';
+			$fecha = '';
+
+			$fecha_actual = date("Y-m-d");
+
+			if($datos['fechai'] != $fecha_actual){
+				$fecha = "AND CAST(m.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
+			}
 
 			if($datos['bodega'] != ''){
 				$bodega = "AND bo.almacen_id = '".$datos['bodega']."'";
@@ -3884,7 +3956,8 @@
 				INNER JOIN almacen AS bo
 				on p.almacen_id = bo.almacen_id
 				LEFT JOIN clientes AS cl ON cl.clientes_id = m.clientes_id
-				WHERE CAST(m.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
+				WHERE p.estado = 1
+				$fecha
 				$bodega
 				$producto
 				$cliente
@@ -3900,7 +3973,7 @@
 			$bodega = '';
 			$tipo_product = '';
 			$id_producto = '';
-			//$fecha = "AND CAST(p.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
+
 			if($datos['bodega'] != ''){
 				$bodega = "AND bo.almacen_id = '".$datos['bodega']."'";
 			}
@@ -3954,43 +4027,71 @@
 		}
 
 		public function consultaVentas($datos){
-			if($datos['tipo_factura_reporte'] == 1){//Estado 2. contado y Estado 3.crédito
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado IN(2,3)";
-			}elseif($datos['tipo_factura_reporte'] == 2){//Estado 4 Anuladas
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 4";
+			$tipo_factura_reporte = '';
+			$facturador = '';
+			$fecha = '';
+			$vendedor = '';
+
+			if($datos['tipo_factura_reporte'] == 1){
+				$tipo_factura_reporte = "AND f.estado IN(2,3)";
+			}
+
+			if($datos['tipo_factura_reporte'] == 2){
+				$tipo_factura_reporte = "AND f.estado = 4";
+			}	
+			
+			if($datos['facturador'] != ""){
+				$facturador = "AND f.usuario = '".$datos['facturador']."'";
+			}				
+
+			if($datos['vendedor'] != ""){
+				$vendedor = "AND f.colaboradores_id = '".$datos['vendedor']."'";
 			}
 
 			$query = "SELECT 
 				f.facturas_id AS 'facturas_id', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.nombre AS 'cliente', 
 				CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', FORMAT(f.importe,2) As 'total', 
-				(CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento'
+				(CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', CONCAT(co.nombre, ' ', co.apellido) AS 'vendedor', CONCAT(co1.nombre, ' ', co1.apellido) AS 'facturador'
 				FROM facturas AS f
 				INNER JOIN clientes AS c
 				ON f.clientes_id = c.clientes_id
+				INNER JOIN colaboradores AS co
+				ON f.colaboradores_id = co.colaboradores_id
+				INNER JOIN colaboradores AS co1
+				ON f.usuario = co1.colaboradores_id
 				INNER JOIN secuencia_facturacion AS sf
 				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-				".$where;
+				WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
+				$tipo_factura_reporte
+				$facturador
+				$vendedor
+				ORDER BY f.number ASC";
 
-	
 			$result = self::connection()->query($query);
 			return $result;
 		}
 
 		public function consultaCXPagoFactura($facturas_id){
 			$query = "SELECT cobrar_clientes_id  FROM cobrar_clientes WHERE facturas_id = '".$facturas_id."' AND estado = 2";
-
 	
 			$result = self::connection()->query($query);
 			return $result;
 		}		
 
-		public function consultaImpresora(){
-			
+		public function consultaCXPagoFacturaCompras($compras_id){
+			$query = "SELECT pagar_proveedores_id  FROM pagar_proveedores WHERE compras_id = '".$compras_id."' AND estado = 2";
+	
+			$result = self::connection()->query($query);
+			return $result;
+		}		
+
+
+		public function consultaImpresora(){		
 			$query = "
-			SELECT
-			*
-			FROM `impresora`
-			";
+				SELECT
+				*
+				FROM `impresora`
+				";
 
 			$result = self::connection()->query($query);
 			return $result;
@@ -4040,7 +4141,6 @@
 
 			return $result;
 		}
-
 
 		public function consultaCotizaciones($datos){
 			if($datos['tipo_cotizacion_reporte'] == 1){
@@ -4200,11 +4300,21 @@
 		}
 
 		public function getCuentasporCobrarClientes($datos){
-			$where = "WHERE cc.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
+			$clientes_id = "";
+			$fecha_actual = date("Y-m-d");
+			$fecha = "";
+
+			if($datos['fechai'] != $fecha_actual){
+				$fecha = "AND cc.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
+			}
+
+			if($datos['clientes_id'] != 0){
+				$clientes_id = "AND cc.clientes_id = '".$datos['clientes_id']."'";
+			}
 
 			$query = "SELECT cc.cobrar_clientes_id AS 'cobrar_clientes_id', f.facturas_id AS 'facturas_id', c.nombre AS 'cliente',
 				 f.fecha AS 'fecha', cc.saldo AS 'saldo', CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', cc.estado,
-				 f.importe
+				 f.importe, CONCAT(co.nombre, ' ', co.apellido) AS 'vendedor'
 				FROM cobrar_clientes AS cc
 				INNER JOIN clientes AS c
 				ON cc.clientes_id = c.clientes_id
@@ -4212,7 +4322,12 @@
 				ON cc.facturas_id = f.facturas_id
 				INNER JOIN secuencia_facturacion AS sf
 				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-				".$where;
+				INNER JOIN colaboradores AS co
+				ON f.colaboradores_id = co.colaboradores_id				
+				WHERE cc.estado = '".$datos['estado']."'
+				$fecha
+				$clientes_id
+				ORDER BY cc.fecha ASC";				
 
 			$result = self::connection()->query($query);
 
@@ -4229,10 +4344,16 @@
 		}
 		
 		public function getCuentasporPagarProveedores($datos){
-			if($datos['tipo_busqueda'] == 1){
-				$where = "WHERE cp.estado = 1";
-			}else{
-				$where = "WHERE cp.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND cp.estado = 1";
+			$proveedores_id = "";
+			$fecha_actual = date("Y-m-d");
+			$fecha = "";
+
+			if($datos['fechai'] != $fecha_actual){
+				$fecha = "AND proveedores.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
+			}
+
+			if($datos['proveedores_id'] != 0){
+				$proveedores_id = "AND proveedores.proveedores_id = '".$datos['proveedores_id']."'";
 			}
 
 			$query = "SELECT
@@ -4245,11 +4366,13 @@
 			FROM
 			proveedores
 			INNER JOIN compras ON proveedores.proveedores_id = compras.proveedores_id
-			WHERE compras.estado = 3 OR compras.estado = 2
-				";
+			WHERE proveedores.estado = '".$datos['estado']."'
+			$fecha
+			$proveedores_id
+			ORDER BY proveedores.fecha ASC";	
 
 			$result = self::connection()->query($query);
-			//estado 2 pagado // estado 3 pendiente credito
+
 			return $result;
 		}
 

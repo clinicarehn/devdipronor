@@ -38,7 +38,7 @@ var listar_planes = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Planes',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){

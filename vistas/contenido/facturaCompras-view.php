@@ -13,7 +13,7 @@
 				<form class="FormularioAjax" id="purchase-form" action="<?php echo SERVERURL;?>ajax/addComprasAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data" >
 				  <div class="form-group row">	
 					<div class="col-sm-6">
-						<button class="btn btn-secondary" type="submit" id="reg_factura" form="purchase-form" data-toggle="tooltip" data-placement="top" title="Registrar Factura"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>					
+						<button class="btn btn-secondary" type="submit" id="reg_factura" form="purchase-form" data-toggle="tooltip" data-placement="top" title="Ingresar Factura de Compra"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Ingresar</button>					
 					</div>				
 					<label for="inputCliente" class="col-sm-1 col-form-label-md">Factura <span class="priority">*<span/></label>
 					<div class="col-sm-3">

@@ -1,5 +1,4 @@
 <script>
-
 $(document).ready(function() {
 
     getBancoPurchase();
@@ -8,31 +7,20 @@ $(document).ready(function() {
 
 });
 
-
-
 //INICIO PURCHARSE BILL
 
 //INICIO BUSQUEDA PROVEEDORES EN COMPRAS
 
 $('#purchase-form #buscar_proveedores_compras').on('click', function(e){
-
 	e.preventDefault();
 
 	listar_proveedores_compras_buscar();
-
 	 $('#modal_buscar_proveedores_compras').modal({
-
 		show:true,
-
 		keyboard: false,
-
 		backdrop:'static'
-
 	});
-
 });
-
-
 
 var listar_proveedores_compras_buscar = function(){
 
@@ -189,7 +177,6 @@ $('#purchase-form #buscar_colaboradores_compras').on('click', function(e){
 });
 
 
-
 function getColaboradorCompras(){
 
 	var url = '<?php echo SERVERURL;?>core/editarUsarioSistema.php';
@@ -213,13 +200,10 @@ function getColaboradorCompras(){
 			$('#purchase-form #facturaPurchase').focus();
 
 			return false;
-
 		}
-
 	});
 
 }
-
 
 
 var listar_colaboradores_buscar_compras = function(){
@@ -273,21 +257,13 @@ var listar_colaboradores_buscar_compras = function(){
 		],
 
 		"buttons":[
-
 			{
-
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
-
 				titleAttr: 'Actualizar Productos',
-
 				className: 'table_actualizar btn btn-secondary ocultar',
-
 				action: 	function(){
-
 					listar_colaboradores_buscar_factura();
-
 				}
-
 			},
 
 			{
@@ -440,7 +416,8 @@ var listar_productos_compras_buscar = function(){
                 },			
 			},
 			{"data":"almacen"},
-			{"data":"almacen_id"}
+			{"data":"almacen_id"},
+			{"data":"isv_compra"}
 		],	
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -449,15 +426,16 @@ var listar_productos_compras_buscar = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "5.5%", targets: 0 },
-		  { width: "18.5%", targets: 1 },
-		  { width: "19.5%", targets: 2 },
-		  { width: "12.5%", targets: 3 },
-		  { width: "5.5%", targets: 4 },
-		  { width: "12.5%", targets: 5 },
-		  { width: "12.5%", targets: 6 },
-		  { width: "21.5%", targets: 7 },
-		  { width: "21.5%", targets: 8 , visible: false,}
+		  { width: "2%", targets: 0 },
+		  { width: "17%", targets: 1 },
+		  { width: "17%", targets: 2 },
+		  { width: "10%", targets: 3 },
+		  { width: "10%", targets: 4 },
+		  { width: "10%", targets: 5 },
+		  { width: "12%", targets: 6 },
+		  { width: "12%", targets: 7 },
+		  { width: "0%", targets: 8, visible: false },
+		  { width: "10%", targets: 9 }
 		],
 		"buttons":[
 			{

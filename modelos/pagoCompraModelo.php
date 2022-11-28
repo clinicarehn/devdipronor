@@ -110,9 +110,8 @@
 						"descripcion2" => $referencia_pago2,
 						"descripcion3" => $referencia_pago3,			
 					];	
-
 					
-						pagoCompraModelo::agregar_pago_detalles_compras_modelo($datos_pago_detalle);
+					pagoCompraModelo::agregar_pago_detalles_compras_modelo($datos_pago_detalle);
 					
 					
 					/**###########################################################################################################*/
@@ -194,7 +193,7 @@
 					/**###########################################################################################################*/
 
 					$alert = [
-						"alert" => "clear_pay",
+						"alert" => "save_simple",
 						"title" => "Registro almacenado",
 						"text" => "El registro se ha almacenado correctamente",
 						"type" => "success",
@@ -204,8 +203,8 @@
 						"id" => "proceso_pagosPurchase",
 						"valor" => "Registro",	
 						"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();",
-						"modal" => "modal_pagosPurchase",
-					];
+						"modal" => "modal_pagosPurchase",													
+					];					
 				}else{
 					$alert = [
 						"alert" => "simple",
@@ -214,9 +213,7 @@
 						"type" => "error",
 						"btn-class" => "btn-danger",					
 					];				
-				}					
-						
-				
+				}									
 			}else{
 					$datos = [
 						"compras_id" => $compras_id,
@@ -348,10 +345,9 @@
 						
 						pagoCompraModelo::agregar_movimientos_contabilidad_modelo($datos_movimientos);
 					}					
-					/**###########################################################################################################*/
-
+					/**###########################################################################################################*/					
 					$alert = [
-						"alert" => "clear_pay",
+						"alert" => "save_simple",
 						"title" => "Registro almacenado",
 						"text" => "El registro se ha almacenado correctamente",
 						"type" => "success",
@@ -361,9 +357,8 @@
 						"id" => "proceso_pagosPurchase",
 						"valor" => "Registro",	
 						"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();printPurchase(".$compras_id.");",
-						"modal" => "modal_pagosPurchase",
-					];		
-						
+						"modal" => "modal_pagosPurchase",													
+					];						
 					
 			}
 

@@ -3,11 +3,6 @@ $(document).ready(function() {
     listar_historial_accesos();
 });
 
-$('#formMainHistorialAcceso #search').on("click", function(e){
-	e.preventDefault();
-	listar_historial_accesos();
-});
-
 //BUSQUEDA FECHAS HISTORIAL DE ACCESOS
 $(document).ready(function() {
 	$('#formMainHistorialAcceso #fechai').on('change',function(){

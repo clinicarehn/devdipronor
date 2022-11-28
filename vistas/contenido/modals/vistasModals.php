@@ -426,10 +426,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="row justify-content-center">
-									<div class="text-center" id="test"></div>
-								</div>
-								<div class="tab-content">
+								<div class="tab-content" style="height: auto; overflow-y:auto;">
 									<div id="menu1Purchase" class="tab-pane in active">
 										<div class="row justify-content-center">
 											<div class="col-11">
@@ -437,7 +434,13 @@
 													<h3 class="mt-0 mb-4 text-center">Ingrese detalles del Pago</h3>
 													<form class="FormularioAjax" id="formEfectivoPurchase" action="<?php echo SERVERURL;?>ajax/addPagoComprasEfectivoAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
-															<div class="col-11">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_compras_efectivo">Fecha</label>
+																	<input type="date" name="fecha_compras_efectivo" id="fecha_compras_efectivo" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																
+															<div class="col-12">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
 																	<input type="hidden" name="compras_id_efectivo" id="compras_id_efectivo" placeholder="Compra Codigo"> 
@@ -447,7 +450,7 @@
 
 																</div>
 															</div>
-															<div class="col-11">
+															<div class="col-12" id="grupo_cambio_compras">
 																<div class="input-group">
 																	<label for="cambio_efectivo">Cambio</label>
 																	<input type="number" readonly name="cambio_efectivoPurchase" id="cambio_efectivoPurchase" class="inputfield" step="0.01" placeholder="0.00">																
@@ -455,8 +458,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-12">
+															    <label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_efectivo_compras" id="usuario_efectivo_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>	
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_efectivo" class="pay btn btn-info placeicon" form="formEfectivoPurchase">
+																<input type="submit" value="Efectuar Pago" id="pago_efectivo" class="mt-3 pay btn btn-info placeicon" form="formEfectivoPurchase">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -472,6 +484,12 @@
 													<h3 class="mt-0 mb-4 text-center">Ingrese detalles de la Tarjeta</h3>
 													<form class="FormularioAjax" id="formTarjetaPurchase" method="POST" data-form="save" action="<?php echo SERVERURL;?>ajax/addPagoComprasTarjetaAjax.php" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_compras_tarjeta">Fecha</label>
+																	<input type="date" name="fecha_compras_tarjeta" id="fecha_compras_tarjeta" class="inputfield"  value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																
 															<div class="col-12">
 																<div class="input-group"> 
 																<label>Número de Tarjeta</label> 
@@ -498,8 +516,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-12">
+															    <label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_tarjeta_compras" id="usuario_tarjeta_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>	
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_tarjeta" class="pay btn btn-info placeicon" form="formTarjetaPurchase">
+																<input type="submit" value="Efectuar Pago" id="pago_tarjeta" class="mt-3 pay btn btn-info placeicon" form="formTarjetaPurchase">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -515,6 +542,12 @@
 													<h6 class="mt-0 mb-4 text-center">Ingrese Pago Mixto</h6>
 													<form class="FormularioAjax" id="formMixtoPurchaseBill" action="<?php echo SERVERURL;?>ajax/addPagoCompraMixtoAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_compras_mixto">Fecha</label>
+																	<input type="date" name="fecha_compras_mixto" id="fecha_compras_mixto" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>	
 															<div class="col-12 col-md-6">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
@@ -556,8 +589,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-12">
+															    <label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_mixto_compras" id="usuario_mixto_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>	
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_mixto_Purchase" class="pay btn btn-info placeicon" form="formMixtoPurchaseBill">
+																<input type="submit" value="Efectuar Pago" id="pago_mixto_Purchase" class="mt-3 pay btn btn-info placeicon" form="formMixtoPurchaseBill">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -573,6 +615,12 @@
 													<h3 class="mt-0 mb-4 text-center">Ingrese detalles de la Transferencia</h3>
 													<form class="FormularioAjax" id="formTransferenciaPurchase" method="POST" data-form="save" action="<?php echo SERVERURL;?>ajax/addPagoComprasTransferenciaAjax.php" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_compras_transferencia">Fecha</label>
+																	<input type="date" name="fecha_compras_transferencia" id="fecha_compras_transferencia" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																
 															<div class="col-12">
 															    <label>Banco</label> 
 																<div class="input-group"> 																	
@@ -602,8 +650,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-12">
+															    <label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_transferencia_compras" id="usuario_transferencia_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>	
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="pay btn btn-info placeicon" form="formTransferenciaPurchase"> 
+																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="mt-3 pay btn btn-info placeicon" form="formTransferenciaPurchase"> 
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -620,6 +677,12 @@
 													<h3 class="mt-0 mb-4 text-center">Ingrese detalles del Cheque</h3>
 													<form class="FormularioAjax" id="formChequePurchase" method="POST" data-form="save" action="<?php echo SERVERURL;?>ajax/addPagoComprasChequeAjax.php" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_compras_cheque">Fecha</label>
+																	<input type="date" name="fecha_compras_cheque" id="fecha_compras_cheque" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																														
 															<div class="col-12">
 															    <label>Banco</label> 
 																<div class="input-group"> 																	
@@ -642,8 +705,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-12">
+															    <label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_cheque_compras" id="usuario_cheque_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>	
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="pay btn btn-info placeicon" form="formChequePurchase"> 
+																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="mt-3 pay btn btn-info placeicon" form="formChequePurchase"> 
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -734,10 +806,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="row justify-content-center">
-									<div class="text-center" id="test"></div>
-								</div>
-								<div class="tab-content">
+								<div class="tab-content" style="height: auto; overflow-y:auto;">
 									<div id="menu1" class="tab-pane in active">
 										<div class="row justify-content-center">
 											<div class="col-11">
@@ -745,7 +814,13 @@
 													<h3 class="mt-0 mb-4 text-center">Ingrese detalles del Pago</h3>
 													<form class="FormularioAjax" id="formEfectivoBill" action="<?php echo SERVERURL;?>ajax/addPagoFacturasEfectivoAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
-															<div class="col-11">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_efectivo">Fecha</label>
+																	<input type="date" name="fecha_efectivo" id="fecha_efectivo" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>															
+															<div class="col-12">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
@@ -755,16 +830,25 @@
 																	<input type="number" name="efectivo_bill" id="efectivo_bill" class="inputfield" step="0.01" placeholder="0.00" step="0.01">																						
 																</div>
 															</div>
-															<div class="col-11">
-																<div class="input-group">
+															<div class="col-12">
+																<div class="input-group" id="grupo_cambio_efectivo">
 																	<label for="cambio_efectivo">Cambio</label>
 																	<input type="number" readonly name="cambio_efectivo" id="cambio_efectivo" class="inputfield" step="0.01" placeholder="0.00">																
 																</div>
-															</div>
+															</div>													
+														</div>
+														<div class="row">
+															<div class="col-12">
+															    <label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_efectivo" id="usuario_efectivo" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>	
 														</div>
 														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_efectivo" class="pay btn btn-info placeicon" form="formEfectivoBill">
+																<input type="submit" value="Efectuar Pago" id="pago_efectivo" class="mt-3 pay btn btn-info placeicon" form="formEfectivoBill">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -780,6 +864,12 @@
 													<h3 class="mt-0 mb-4 text-center">Ingrese detalles de la Tarjeta</h3>
 													<form class="FormularioAjax" id="formTarjetaBill" method="POST" data-form="save" action="<?php echo SERVERURL;?>ajax/addPagoFacturasTarjetaAjax.php" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_tarjeta">Fecha</label>
+																	<input type="date" name="fecha_tarjeta" id="fecha_tarjeta" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																
 															<div class="col-12">
 																<div class="input-group"> 
 																<label>Número de Tarjeta</label> 
@@ -806,9 +896,20 @@
 																</div>
 															</div>
 														</div>
+
+														<div class="row">
+															<div class="col-md-12">
+																<label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_tarjeta" id="usuario_tarjeta" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>
+														</div>
+
 														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_tarjeta" class="pay btn btn-info placeicon" form="formTarjetaBill">
+																<input type="submit" value="Efectuar Pago" id="pago_tarjeta" class="mt-3 pay btn btn-info placeicon" form="formTarjetaBill">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -824,6 +925,12 @@
 													<h6 class="mt-0 mb-4 text-center">Ingrese Pago Mixto</h6>
 													<form class="FormularioAjax" id="formMixtoBill" action="<?php echo SERVERURL;?>ajax/addPagoMixtoAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_efectivo_mixto">Fecha</label>
+																	<input type="date" name="fecha_efectivo_mixto" id="fecha_efectivo_mixto" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																															
 															<div class="col-12 col-md-6">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
@@ -846,8 +953,7 @@
 															<div class="col-12">
 																<div class="input-group"> 
 																<label>Número de Tarjeta</label> 
-																<input type="text" id="cr_bill_mixto" name="cr_bill" class="inputfield"  placeholder="XXXX">
-																																																
+																<input type="text" id="cr_bill_mixto" name="cr_bill" class="inputfield"  placeholder="XXXX">																															
 																</div>
 															</div>
 														</div>
@@ -866,8 +972,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-md-12">
+																<label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_pago_mixto" id="usuario_pago_mixto" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_efectivo_mixto" class="pay btn btn-info placeicon" form="formMixtoBill">
+																<input type="submit" value="Efectuar Pago" id="pago_efectivo_mixto" class="mt-3 pay btn btn-info placeicon" form="formMixtoBill">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -883,6 +998,12 @@
 													<h3 class="mt-0 mb-4 text-center">Ingrese detalles de la Transferencia</h3>
 													<form class="FormularioAjax" id="formTransferenciaBill" method="POST" data-form="save" action="<?php echo SERVERURL;?>ajax/addPagoFacturasTransferenciaAjax.php" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_transferencia">Fecha</label>
+																	<input type="date" name="fecha_transferencia" id="fecha_transferencia" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>															
 															<div class="col-12">
 															    <label>Banco</label> 
 																<div class="input-group"> 																	
@@ -912,8 +1033,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-md-12">
+																<label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_transferencia" id="usuario_transferencia" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>
+														</div>															
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="pay btn btn-info placeicon" form="formTransferenciaBill"> 
+																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="mt-3 pay btn btn-info placeicon" form="formTransferenciaBill"> 
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -930,6 +1060,12 @@
 													<h3 class="mt-0 mb-4 text-center">Ingrese detalles del Cheque</h3>
 													<form class="FormularioAjax" id="formChequeBill" method="POST" data-form="save" action="<?php echo SERVERURL;?>ajax/addPagoFacturasChequeAjax.php" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_cheque">Fecha</label>
+																	<input type="date" name="fecha_cheque" id="fecha_cheque" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																															
 															<div class="col-12">
 															    <label>Banco</label> 
 																<div class="input-group"> 	
@@ -953,8 +1089,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-md-12">
+																<label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_cheque" id="usuario_cheque" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="pay btn btn-info placeicon" form="formChequeBill"> 
+																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="mt-3 pay btn btn-info placeicon" form="formChequeBill"> 
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -1219,6 +1364,7 @@
 										<th>Precio Venta</th>							
 										<th>Almacén</th>
 										<th></th>
+										<th>ISV</th>										
 									</tr>
 								</thead>
 							</table>
@@ -1944,28 +2090,36 @@
 				<input type="hidden" value="" id="id_bodega_actual" name="id_bodega_actual">
 				<label class="modal-title" id="nameProduct" class="col-form-label"></label>
           	</div>
-			 <div class="form-group mx-sm-3 mb-3">
-				<div class="input-group">				
-					<div class="input-group-append">				
-						<span class="input-group-text"><div class="sb-nav-link-icon"></div>Bodega</span>
-					</div>
+
+			<div class="form-row">				
+				<div class="col-md-12 mb-3">
+					<label for="prefijo">Bodega</label>
+					<div class="input-group mb-3">
 						<select id="id_bodega" name="id_bodega" class="custom-select" data-toggle="tooltip" data-placement="top" >
 			 			</select>
-				</div>
-			  </div>
-			  <div class="form-group mx-sm-3 mb-1">
-				<div class="input-group">				
-					<div class="input-group-append">				
-						<span class="input-group-text"><div class="sb-nav-link-icon"></div>Cantidad</span>
-					</div>
-					<input type="number" name="cantidad_movimiento" id="cantidad_movimiento" class="form-control">
-				</div>
-			  </div>				
-			  <div class="RespuestaAjax"></div>	  
+						<div class="input-group-append">				
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-warehouse"></i></span>
+						</div>
+					</div>	 
+				</div>						
+			</div>	
+			
+			<div class="form-row">				
+				<div class="col-md-12 mb-3">
+					<label for="prefijo">Cantidad</label>
+					<div class="input-group mb-3">
+						<input type="number" id="cantidad_movimiento" name="cantidad_movimiento" placeholder="Cantidad" class="form-control" step="0.01">
+						<div class="input-group-append">				
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-sort-amount-up-alt"></i></span>
+						</div>
+					</div>	 
+				</div>						
+			</div>							
+			<div class="RespuestaAjax"></div>	  
 		</form>
       </div>
       <div class="modal-footer">
-			<button class="btn btn-primary ml-2" type="submit" id="putEditarBodega" ><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>
+			<button class="btn btn-primary ml-2" type="submit" id="putEditarBodega" ><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Mover</button>
 			<button class="btn btn-secondary ml-2" type="button" data-dismiss="modal"><div class="sb-nav-link-icon"></div><i class="fas fa-window-close"></i> Cerrar</button>
       </div>
     </div>
@@ -1975,49 +2129,102 @@
 <!--FN Modal Transferencia de Producto / Bodega-->
 
 <!-- modal de abonos cxc -->
-<div class="modal fade" id="ver_abono_cxc" tabindex="-1" role="dialog" aria-labelledby="ver_abono_cxcTitle" aria-hidden="true">
-	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="importe-cxc">Abonos</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-	  <form class="FormularioAjax" id="formulario_ver_abono_cxc">
-			<h5 id="ver_abono_cxcTitle"></h5>
-			<table class="table-modal-abonos w-100" id="table-modal-abonos" >
-				<thead>
-					<tr>
-						<th scope="col">Fecha</th>
-						<th scope="col">Tipo Pago</th>
-						<th scope="col">Descripcion</th>
-						<th scope="col">Abono</th>
-					</tr>
-				</thead>
-				<tbody class="">
-					
-				</tbody>
-				<tfoot class="bg-info text-white font-weight-bold">
-					<tr>
-						<td colspan='2' class="text-left">Total</td>
-						<td colspan="1"></td>
-						<td colspan='1' id='total-footer-modal-cxc' class="text-right"></td>
-						
-					</tr>
-				</tfoot>
-			</table>
-		</form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        
+<div class="modal fade" id="ver_abono_cxc">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Abonos Clientes</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+        </div><div class="container"></div>
+        <div class="modal-body">
+			<form class="FormularioAjax" id="formulario_ver_abono_cxc">				
+				<div class="form-group">
+					<input type="hidden" name="abono_facturas_id" id="abono_facturas_id" class="form-control">				  
+					<div class="col-md-12">			
+						<div class="overflow-auto">											
+							<table id="table-modal-abonos" class="table table-striped table-condensed table-hover" style="width:100%">
+								<h5 id="ver_abono_cxcTitle"></h5>
+								<thead>
+									<tr>
+										<th>Fecha</th>
+										<th>Tipo Pago</th>
+										<th>Descripcion</th>
+										<th>Abono</th>
+										<th>Usuario que recibe</th>
+									</tr>
+								</thead>
+								<tfoot class="bg-info text-white font-weight-bold">
+									<tr>
+										<td colspan='2' class="text-left">Total</td>
+										<td colspan="1"></td>
+										<td colspan='1' id='total-footer-modal-cxc' class="text-right"></td>
+										<td colspan="1"></td>										
+									</tr>
+								</tfoot>								
+							</table>
+						</div>				
+					</div>				  
+				</div>
+			</form>
+        </div>
+		<div class="modal-footer">
+
+		</div>			
       </div>
     </div>
-  </div>
 </div>
 <!-- FIN modal de abonos cxc -->
+
+<!-- modal de abonos cxp -->
+<div class="modal fade" id="ver_abono_cxp">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Abono Proveedores</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+        </div><div class="container"></div>
+        <div class="modal-body">
+			<form class="FormularioAjax" id="formulario_ver_abono_cxp">				
+				<div class="form-group">
+					<input type="hidden" name="abono_compras_id" id="abono_compras_id" class="form-control">				  
+					<div class="col-md-12">			
+						<div class="overflow-auto">											
+							<table id="table-modal-abonosCXP" class="table table-striped table-condensed table-hover" style="width:100%">
+								<h5 id="ver_abono_cxPTitle"></h5>
+								<thead>
+									<tr>
+										<th>Fecha</th>
+										<th>Tipo Pago</th>
+										<th>Descripcion</th>
+										<th>Abono</th>
+										<th>Usuario que Entrega</th>
+									</tr>
+								</thead>
+								<tfoot class="bg-info text-white font-weight-bold">
+									<tr>
+										<td colspan='2' class="text-left">Total</td>
+										<td colspan="1"></td>
+										<td colspan='1' id='total-footer-modal-cxp' class="text-right"></td>
+										<td colspan="1"></td>
+									</tr>
+								</tfoot>								
+							</table>
+						</div>				
+					</div>				  
+				</div>
+			</form>
+        </div>
+		<div class="modal-footer">
+
+		</div>			
+      </div>
+    </div>
+</div>
+<!-- FIN modal de abonos cxp -->
 
 <!--INICIO MODAL EDITAR RTN CLIENTES-->
 <div class="modal fade" id="modalEditarRTNClientes">

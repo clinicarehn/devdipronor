@@ -9,6 +9,8 @@
 		"tipo_factura_reporte" => $_POST['tipo_factura_reporte'],
 		"fechai" => $_POST['fechai'],
 		"fechaf" => $_POST['fechaf'],		
+		"facturador" => $_POST['facturador'],
+		"vendedor" => $_POST['vendedor'],
 	];	
 	
 	$result = $insMainModel->consultaVentas($datos);
@@ -38,7 +40,8 @@
 	   $isv = number_format($isv,2);
 	   $descuento = number_format($descuento,2);
 	   $total = $row['total'];
-	   $ganancia = $subtotal - $subCosto - $isv - $descuento;	   
+
+	   $ganancia = doubleval($subtotal) - doubleval($subCosto) - doubleval($isv) - doubleval($descuento);	
 	   
 	   if($row['tipo_documento'] == 'Contado'){
 			$color = 'bg-c-green';
@@ -67,7 +70,9 @@
 		  "descuento"=>$descuento,
 		  "total"=>$total,
 		  "color"=> $color,
-		  "footer_total" => $footer_total	  
+		  "footer_total" => $footer_total,
+		  "vendedor"=>$row['vendedor'],	  
+		  "facturador"=>$row['facturador'],	
 	  );		
 	}
 	

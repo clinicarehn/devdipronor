@@ -37,8 +37,8 @@
 					<div class="bill">
 						<div class="form-group row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<button class="btn btn-secondary" type="submit" id="help_factura" form="quoteForm" data-toggle="tooltip" data-placement="top" title="Cobrar"><div class="sb-nav-link-icon"></div><i class="fas fa-question-circle fa-lg"></i> [F1] Ayuda</button>
-								<button class="btn btn-secondary" type="submit" id="reg_cotizacion" form="quoteForm" data-toggle="tooltip" data-placement="top" title="Cobrar"><div class="sb-nav-link-icon"></div><i class="fas fa-hand-holding-usd fa-lg"></i> [F6] Registrar</button>
+								<button class="btn btn-secondary" type="submit" id="help_factura" form="quoteForm" data-toggle="tooltip" data-placement="top" title="Ayuda"><div class="sb-nav-link-icon"></div><i class="fas fa-question-circle fa-lg"></i> [F1] Ayuda</button>
+								<button class="btn btn-secondary" type="submit" id="reg_cotizacion" form="quoteForm" data-toggle="tooltip" data-placement="top" title="Ingresar"><div class="sb-nav-link-icon"></div><i class="fas fa-hand-holding-usd fa-lg"></i> [F6] Ingresar</button>
 								<button class="btn btn-secondary" type="submit" id="add_cliente" form="quoteForm" data-toggle="tooltip" data-placement="top" title="Agregar Cliente"><div class="sb-nav-link-icon"></div><i class="fas fa-user-plus fa-lg"></i> [F7] Cliente</button>	
 								<button class="btn btn-secondary" type="submit" id="add_vendedor" form="quoteForm" data-toggle="tooltip" data-placement="top" title="Agregar Vendeor o Empleado"><div class="sb-nav-link-icon"></div><i class="fas fa-plus-circle fa-lg"></i> [F8] Vendedor</button>
 							</div>

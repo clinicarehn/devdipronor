@@ -176,11 +176,11 @@
 															$producto_id_hijo = intval($consultaTotalHijos['productos_id']);
 															
 															if($medidaName == "ton"){ // MEDIDA EN TON DEL PADRE
-																$quantity = $quantity * 2240;
+																$quantity = $quantity * 2204.623;
 															}	
 															
 															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
-																$quantity = $quantity / 2240;
+																$quantity = $quantity / 2204.623;
 															}														
 															
 															$documento = "Compra ".$no_factura."_".$valor;	
@@ -217,11 +217,11 @@
 															$producto_id_padre = intval($consultaTotalPadre['id_producto_superior']);
 															
 															if($medidaName == "ton"){ // MEDIDA EN TON DEL PADRE
-																$quantity = $quantity * 2240;
+																$quantity = $quantity * 2204.623;
 															}	
 															
 															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
-																$quantity = $quantity / 2240;
+																$quantity = $quantity / 2204.623;
 															}														
 															
 															$documento = "Factura ".$facturas_id."_".$valor;	
@@ -413,11 +413,11 @@
 															$producto_id_hijo = intval($consultaTotalHijos['productos_id']);
 															
 															if($medidaName == "ton"){ // MEDIDA EN TON DEL PADRE
-																$quantity = $quantity * 2240;
+																$quantity = $quantity * 2204.623;
 															}	
 															
 															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
-																$quantity = $quantity / 2240;
+																$quantity = $quantity / 2204.623;
 															}														
 															
 															$documento = "Compra ".$no_factura."_".$valor;	
@@ -454,11 +454,11 @@
 															$producto_id_padre = intval($consultaTotalPadre['id_producto_superior']);
 															
 															if($medidaName == "ton"){ // MEDIDA EN TON DEL PADRE
-																$quantity = $quantity * 2240;
+																$quantity = $quantity * 2204.623;
 															}	
 															
 															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
-																$quantity = $quantity / 2240;
+																$quantity = $quantity / 2204.623;
 															}														
 															
 															$documento = "Factura ".$facturas_id."_".$valor;	

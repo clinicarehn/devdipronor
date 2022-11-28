@@ -38,7 +38,7 @@ var listar_medidas = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fa-balance-scale-left fa-lg"></i> Crear',
+				text:      '<i class="fas fa-balance-scale-left fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Medidas',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){

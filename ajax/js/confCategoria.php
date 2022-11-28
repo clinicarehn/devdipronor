@@ -36,7 +36,7 @@ var listar_categoria_productos = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fa-layer-group fa-lg"></i> Crear',
+				text:      '<i class="fas fa-layer-group fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Categoria Productos',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){

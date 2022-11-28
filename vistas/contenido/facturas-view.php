@@ -36,10 +36,10 @@
 					<div class="bill">
 						<div class="form-group row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<button class="btn btn-secondary" type="submit" id="help_factura" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Cobrar"><div class="sb-nav-link-icon"></div><i class="fas fa-question-circle fa-lg"></i> [F1] Ayuda</button>
-								<button class="btn btn-secondary" type="submit" id="reg_factura" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Cobrar"><div class="sb-nav-link-icon"></div><i class="fas fa-hand-holding-usd fa-lg"></i> [F6] Cobrar</button>
+								<button class="btn btn-secondary" type="submit" id="help_factura" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Ayuda"><div class="sb-nav-link-icon"></div><i class="fas fa-question-circle fa-lg"></i> [F1] Ayuda</button>
+								<button class="btn btn-secondary" type="submit" id="reg_factura" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Facturar"><div class="sb-nav-link-icon"></div><i class="fas fa-hand-holding-usd fa-lg"></i> [F6] Facturar</button>
 								<button class="btn btn-secondary" type="submit" id="add_cliente" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Agregar Cliente"><div class="sb-nav-link-icon"></div><i class="fas fa-user-plus fa-lg"></i> [F7] Cliente</button>	
-								<button class="btn btn-secondary" type="submit" id="add_vendedor" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Agregar Vendeor o Empleado"><div class="sb-nav-link-icon"></div><i class="fas fa-plus-circle fa-lg"></i> [F8] Vendedor</button>						
+								<button class="btn btn-secondary" type="submit" id="add_vendedor" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Agregar Vendeor o Empleado"><div class="sb-nav-link-icon"></div><i class="fas fa-plus-circle fa-lg"></i> [F8] Vendedor</button>				
 								<button class="btn btn-secondary" type="submit" id="btn_apertura" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Aperturar Caja"><div class="sb-nav-link-icon"></div><i class="fas fa-cash-register fa-lg"></i> [F9] Aperturar</button>					
 								<button class="btn btn-secondary" type="submit" id="btn_cierre" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Cerrar Caja" style="display:none;"><div class="sb-nav-link-icon"></div><i class="fas fa-cash-register fa-lg"></i> [F10] Cerrar</button>
 									<label class="switch mb-2" data-toggle="tooltip" data-placement="top" title="Tipo de Factura, Contado o Crédito">

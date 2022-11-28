@@ -6,7 +6,8 @@
 	$insMainModel = new mainModel();
 	
 	$datos = [
-		"tipo_busqueda" => $_POST['tipo_busqueda'],
+		"estado" => $_POST['estado'],
+		"proveedores_id" => $_POST['proveedores_id'],		
 		"fechai" => $_POST['fechai'],
 		"fechaf" => $_POST['fechaf'],		
 	];	
@@ -38,7 +39,6 @@
 		}
 
 		$data[] = array( 
-			//"pagar_proveedores_id"=>$row['pagar_proveedores_id'],
 			"compras_id"=>$row['compras_id'],
 			"fecha"=>$row['fecha'],
 			"proveedores"=>$row['proveedores'],

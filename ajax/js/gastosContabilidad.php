@@ -213,7 +213,7 @@ var listar_gastos_contabilidad = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 				titleAttr: 'Agregar Egresos',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -488,7 +488,7 @@ var listar_proveedores_egresos_contabilidad_buscar = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Proveedores',
 				className: 'table_crear btn btn-primary ocultar',
 				action:	function(){
@@ -606,7 +606,7 @@ var listar_cuentas_contabilidad_egresos_buscar = function(){
 
 			{
 
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 
 				titleAttr: 'Agregar Cuentas',
 

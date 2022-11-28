@@ -42,7 +42,7 @@ var listar_tipo_pago_contabilidad = function(){
 				}
 			},
 			{
-				text:      '<i class="fab fa-bitcoin fa-lg"></i> Crear',
+				text:      '<i class="fab fa-bitcoin fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Tipo de Pago',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){

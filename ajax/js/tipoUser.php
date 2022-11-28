@@ -38,7 +38,7 @@ var listar_tipo_usuario = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Tipos de Usuario',
 				className: 'btn btn-primary',
 				action: 	function(){

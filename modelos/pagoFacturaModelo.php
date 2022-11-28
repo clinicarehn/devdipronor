@@ -353,9 +353,8 @@
 							"form" => "formEfectivoBill",
 							"id" => "proceso_pagos",
 							"valor" => "Registro",	
-							"funcion" => "listar_cuentas_por_cobrar_clientes();",
-							"modal" => "modal_pagos",
-													
+							"funcion" => "listar_cuentas_por_cobrar_clientes();getCollaboradoresModalPagoFacturas();",
+							"modal" => "modal_pagos",													
 						];
 					}else{
 						$alert = [
@@ -452,7 +451,7 @@
 							"form" => "formEfectivoBill",
 							"id" => "proceso_pagos",
 							"valor" => "Registro",	
-							"funcion" => "printBill(".$res['facturas_id'].",".$res['print_comprobante'].");listar_cuentas_por_cobrar_clientes();mailBill(".$res['facturas_id'].");",
+							"funcion" => "printBill(".$res['facturas_id'].",".$res['print_comprobante'].");listar_cuentas_por_cobrar_clientes();mailBill(".$res['facturas_id'].");getCollaboradoresModalPagoFacturas();",
 							"modal" => "modal_pagos",
 													
 						];

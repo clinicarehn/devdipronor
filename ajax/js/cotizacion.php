@@ -182,29 +182,19 @@ $(document).ready(function(){
 
 				event.preventDefault();
 
-				var cantidad = $("#quoteForm #QuoteItem #quantityQuote_" + row_index).val();
-
-						
-
-				
+				var cantidad = $("#quoteForm #QuoteItem #quantityQuote_" + row_index).val();									
 
 				if(!cantidad){
 
 					cantidad = 1;
 
 				}
-
 				
-
 				cantidad++;
-
 				
-
 				if(cantidad > 0){
 
 					$("#quoteForm #QuoteItem #quantityQuote_" + row_index).val(cantidad);	
-
-
 
 					//EVALUAMOS ANTES QUE LA CANTIDAD DE MAYOREO Y EL PRECIO DE MAYOREO NO ESTEN VACIOS					
 
@@ -230,9 +220,7 @@ $(document).ready(function(){
 
 				}					
 
-			}	
-
-			
+			}				
 
 			var impuesto_venta = parseFloat($('#quoteForm #QuoteItem #isvQuote_'+ row_index).val());
 
@@ -254,14 +242,10 @@ $(document).ready(function(){
 
 			var isv_neto = 0;
 
-
-
 			if(impuesto_venta == 1){
 
 				porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
-
-													
-
+												
 				if(total == "" || total == 0){
 
 					porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad1) * porcentaje_isv).toFixed(2);
@@ -287,9 +271,7 @@ $(document).ready(function(){
 			calculateTotalQuote();
 
 		}
-
-		
-
+	
 		//TECLA MENOS
 
 		if (event.which === 45) {
@@ -301,25 +283,19 @@ $(document).ready(function(){
 				var cantidad = $("#quoteForm #QuoteItem #quantityQuote_" + row_index).val();
 
 				
-
 				if(!cantidad){
 
 					cantidad = 1;
 
 				}
-
 				
-
 				cantidad--;
 
 				
-
 				if(cantidad > 0){
 
 					$("#quoteForm #QuoteItem #quantityQuote_" + row_index).val(cantidad);
-
 					
-
 					//EVALUAMOS ANTES QUE LA CANTIDAD DE MAYOREO Y EL PRECIO DE MAYOREO NO ESTEN VACIOS
 
 					if(parseFloat($('#quoteForm #QuoteItem #cantidad_mayoreoQuote_'+ row_index).val()) != 0 && parseFloat($('#quoteForm #QuoteItem #precio_mayoreoQuote_'+ row_index).val()) != 0){
@@ -345,8 +321,6 @@ $(document).ready(function(){
 				}								
 
 			}
-
-
 
 			var impuesto_venta = parseFloat($('#quoteForm #QuoteItem #isvQuote_'+ row_index).val());
 
@@ -913,7 +887,8 @@ var listar_productos_cotizacion_buscar = function(){
                 },			
 			},
 			{"data":"almacen"},
-			{"data":"almacen_id"}
+			{"data":"almacen_id"},
+			{"data":"isv_venta"}
 		],	
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -922,15 +897,16 @@ var listar_productos_cotizacion_buscar = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "5.5%", targets: 0 },
-		  { width: "18.5%", targets: 1 },
-		  { width: "19.5%", targets: 2 },
-		  { width: "12.5%", targets: 3 },
-		  { width: "5.5%", targets: 4 },
-		  { width: "12.5%", targets: 5 },
-		  { width: "12.5%", targets: 6 },
-		  { width: "21.5%", targets: 7 },
-		  { width: "21.5%", targets: 8 , visible: false,}
+		  { width: "2%", targets: 0 },
+		  { width: "17%", targets: 1 },
+		  { width: "17%", targets: 2 },
+		  { width: "10%", targets: 3 },
+		  { width: "10%", targets: 4 },
+		  { width: "10%", targets: 5 },
+		  { width: "12%", targets: 6 },
+		  { width: "12%", targets: 7 },
+		  { width: "0%", targets: 8, visible: false },
+		  { width: "10%", targets: 9 }
 		],
 		"buttons":[
 			{
@@ -944,7 +920,7 @@ var listar_productos_cotizacion_buscar = function(){
 			},
 
 			{
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 				titleAttr: 'Agregar Productos',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -1219,7 +1195,7 @@ var listar_clientes_cotizacion_buscar = function(){
 
 			{
 
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 
 				titleAttr: 'Agregar Clientes',
 
@@ -1383,7 +1359,7 @@ var listar_colaboradores_buscar_cotizacion = function(){
 
 			{
 
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 
 				titleAttr: 'Agregar Productos',
 
@@ -1457,7 +1433,6 @@ $(document).ready(function(){
 
 		}	
 
-  
 
 		if (e.which === 118) {//TECLA F7 (CLIENTES)
 

@@ -5,19 +5,23 @@ $(document).ready(function() {
 });
 
 $('#form_main_movimientos #inventario_tipo_productos_id').on('change',function(){
-inventario_transferencia();
+	inventario_transferencia();
+});
+
+$('#form_main_movimientos #inventario_productos_id').on('change',function(){
+	inventario_transferencia();
 });
 
 $('#form_main_movimientos #fechai').on('change',function(){
-inventario_transferencia();
+	inventario_transferencia();
 });
 
 $('#form_main_movimientos #fechaf').on('change',function(){
-inventario_transferencia();
+	inventario_transferencia();
 });
 
 $('#form_main_movimientos #almacen').on('change',function(){
-inventario_transferencia();
+	inventario_transferencia();
 });
 
 $('#form_main_movimientos #search').on("click", function(e){
@@ -37,6 +41,7 @@ var inventario_transferencia = function(){
 	
 	var fechai = $("#form_main_movimientos #fechai").val();
 	var fechaf = $("#form_main_movimientos #fechaf").val();
+	var productos_id = $("#form_main_movimientos #inventario_productos_id").val();
 	var bodega = $("#form_main_movimientos #almacen").val();
 	
 	var table_movimientos  = $("#dataTablaMovimientos").DataTable({
@@ -48,7 +53,8 @@ var inventario_transferencia = function(){
 				"tipo_producto_id":tipo_producto_id,
 				"fechai":fechai,
 				"fechaf":fechaf,
-				"bodega":bodega
+				"bodega":bodega,
+				"productos_id":productos_id
 			}
 		},
 	"columns":[
@@ -194,7 +200,6 @@ table_movimientos.search('').draw();
 $('#buscar').focus();
 
 transferencia_producto_dataTable("#dataTablaMovimientos tbody",table_movimientos);
-
 }
 //FIN TRANSFERENCIA
 
@@ -264,10 +269,46 @@ function getTipoProductos(){
 			$('#form_main_movimientos #inventario_tipo_productos_id').html(data);
 			
 		    $('#formMovimientos #movimientos_tipo_producto_id').html("");
-			$('#formMovimientos #movimientos_tipo_producto_id').html(data);			
+			$('#formMovimientos #movimientos_tipo_producto_id').html(data);
+			
+			getProductosMovimientos($('#form_main_movimientos #inventario_tipo_productos_id').val());
 		}
      });
 }
 //FIN OBTENER EL TIPO DE PRODUCTO
 
+$(document).ready(function() {
+	$('#form_main_movimientos #inventario_tipo_productos_id').on('change', function(){
+		var tipo_producto_id;
+
+		if ($('#form_main_movimientos #inventario_tipo_productos_id').val() == "" || $('#form_main_movimientos #inventario_tipo_productos_id').val() == null){
+		  tipo_producto_id = 1;
+		}else{
+		  tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
+		}
+
+		getProductosMovimientos(tipo_producto_id);
+	    return false;
+    });
+});
+
+function getProductosMovimientos(tipo_producto_id){
+    var url = '<?php echo SERVERURL; ?>core/getProductosMovimientosTipoProducto.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+		data:'tipo_producto_id='+tipo_producto_id,
+        success: function(data){
+		    $('#form_main_movimientos #inventario_productos_id').html("");
+			$('#form_main_movimientos #inventario_productos_id').html(data);
+		}
+     });
+}
+
+$(document).ready(function(){
+    $("#modal_transferencia_producto").on('shown.bs.modal', function(){
+        $(this).find('#formTransferencia #cantidad_movimiento').focus();
+    });
+});
 </script>

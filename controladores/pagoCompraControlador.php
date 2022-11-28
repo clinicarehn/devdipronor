@@ -13,7 +13,7 @@
 
 			$compras_id = $_POST['compras_id_efectivo'];
 			$consulta_fecha_compra = pagoCompraModelo::consultar_compra_fecha($compras_id)->fetch_assoc();
-			$fecha = date("Y-m-d");
+			$fecha = $_POST['fecha_compras_efectivo'];
 			$importe = $_POST['monto_efectivoPurchase'];
 			$abono = isset($_POST['efectivo_Purchase']) ? $_POST['efectivo_Purchase'] : 0;
 			$cambio = $_POST['cambio_efectivoPurchase'];
@@ -26,8 +26,14 @@
 			$referencia_pago1 = "";
 			$referencia_pago2 = "";
 			$referencia_pago3 = "";
-			$usuario = $_SESSION['colaborador_id_sd'];
 			$colaboradores_id = $_SESSION['colaborador_id_sd'];
+
+			if($_POST['usuario_efectivo_compras'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_efectivo_compras'];
+			}
+			
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 1;
 			
@@ -60,14 +66,20 @@
 			if(!isset($_SESSION['user_sd'])){ 
 				session_start(['name'=>'SD']); 
 			}
-					
+			
+			if($_POST['usuario_tarjeta_compras'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_tarjeta_compras'];
+			}
+
 			$datos = [
 				"compras_id" =>$_POST['compras_id_tarjeta'],
-				"fecha" => date("Y-m-d"),
+				"fecha" => $_POST['fecha_compras_tarjeta'],
 				"importe" => $_POST['monto_efectivoPurchase'],
 				"abono" => isset($_POST['monto_efectivo']) ? $_POST['monto_efectivo'] : 0,
 				"cambio" => 0,
-				"usuario" => $_SESSION['colaborador_id_sd'],
+				"usuario" => $usuario,
 				"estado" => 1,
 				"fecha_registro" => date("Y-m-d H:i:s"),
 				"empresa" =>  $_SESSION['empresa_id_sd'],
@@ -94,8 +106,8 @@
 
 			$compras_id = $_POST['compras_id_mixto'];
 			$consulta_fecha_compra = pagoCompraModelo::consultar_compra_fecha($compras_id)->fetch_assoc();
-			$fecha = date("Y-m-d");
-			$importe = $_POST['monto_efectivoPurchase'];
+			$fecha = $_POST['fecha_compras_tarjeta'];
+			$importe = $_POST['fecha_compras_mixto'];
 			$efectivo = $_POST['efectivo_bill'];
 			$cambio = $_POST['cambio_efectivo'];
 			$empresa_id = $_SESSION['empresa_id_sd'];	
@@ -108,7 +120,12 @@
 			$referencia_pago2 = mainModel::cleanStringConverterCase($_POST['exp']);//FECHA DE EXPIRACION
 			$referencia_pago3 = mainModel::cleanStringConverterCase($_POST['cvcpwd']);//NUMERO DE APROBACIÓN
 			
-			$usuario = $_SESSION['colaborador_id_sd'];
+			if($_POST['usuario_mixto_compras'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_mixto_compras'];
+			}
+
 			$colaboradores_id = $_SESSION['colaborador_id_sd'];
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 1;
@@ -282,13 +299,19 @@
 				session_start(['name'=>'SD']); 
 			}
 			
+			if($_POST['usuario_transferencia_compras'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_transferencia_compras'];
+			}
+
 			$datos = [
 				"compras_id" =>$_POST['compras_id_transferencia'],
-				"fecha" => date("Y-m-d"),
+				"fecha" => $_POST['fecha_compras_transferencia'],
 				"importe" => $_POST['monto_efectivoPurchase'],
 				"abono" => isset($_POST['importe']) ? $_POST['importe'] : 0,
 				"cambio" => 0,
-				"usuario" => $_SESSION['colaborador_id_sd'],
+				"usuario" => $usuario,
 				"estado" => 1,
 				"fecha_registro" => date("Y-m-d H:i:s"),
 				"empresa" =>  $_SESSION['empresa_id_sd'],
@@ -303,9 +326,7 @@
 			];
 
 			$alert = pagoCompraModelo::agregar_pago_compras_base($datos);
-			return mainModel::sweetAlert($alert);
-			
-			
+			return mainModel::sweetAlert($alert);			
 		}		
 
 		//PAGO CON CHEQUE
@@ -314,13 +335,19 @@
 				session_start(['name'=>'SD']); 
 			}	
 			
+			if($_POST['usuario_cheque_compras'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_cheque_compras'];
+			}
+
 			$datos = [
 				"compras_id" =>$_POST['compras_id_cheque'],
-				"fecha" => date("Y-m-d"),
+				"fecha" => $_POST['fecha_compras_cheque'],
 				"importe" => $_POST['importe'],
 				"abono" => isset($_POST['importe']) ? $_POST['importe'] : 0,
 				"cambio" => 0,
-				"usuario" => $_SESSION['colaborador_id_sd'],
+				"usuario" => $usuario,
 				"estado" => 1,
 				"fecha_registro" => date("Y-m-d H:i:s"),
 				"empresa" =>  $_SESSION['empresa_id_sd'],

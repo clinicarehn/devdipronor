@@ -9,6 +9,7 @@ $(document).ready(function() {
 	getTotalFacturasDisponibles();
 	getReporteCotizacion();
 	getReporteFactura();
+	getCollaboradoresModalPagoFacturas();
 });
 
 function resetRow(){
@@ -118,7 +119,7 @@ var listar_clientes_factura_buscar = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 				titleAttr: 'Agregar Clientes',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -199,7 +200,7 @@ var listar_colaboradores_buscar_factura = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 				titleAttr: 'Agregar Productos',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -307,7 +308,8 @@ var listar_productos_factura_buscar = function(){
                 },			
 			},
 			{"data":"almacen"},
-			{"data":"almacen_id"}
+			{"data":"almacen_id"},
+			{"data":"isv_venta"}
 		],	
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -316,15 +318,16 @@ var listar_productos_factura_buscar = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "5.5%", targets: 0 },
-		  { width: "18.5%", targets: 1 },
-		  { width: "19.5%", targets: 2 },
-		  { width: "12.5%", targets: 3 },
-		  { width: "5.5%", targets: 4 },
-		  { width: "12.5%", targets: 5 },
-		  { width: "12.5%", targets: 6 },
-		  { width: "21.5%", targets: 7 },
-		  { width: "21.5%", targets: 8 , visible: false,}
+		  { width: "2%", targets: 0 },
+		  { width: "17%", targets: 1 },
+		  { width: "17%", targets: 2 },
+		  { width: "10%", targets: 3 },
+		  { width: "10%", targets: 4 },
+		  { width: "10%", targets: 5 },
+		  { width: "12%", targets: 6 },
+		  { width: "12%", targets: 7 },
+		  { width: "0%", targets: 8, visible: false },
+		  { width: "10%", targets: 9 }
 		],
 		"buttons":[
 			{
@@ -336,7 +339,7 @@ var listar_productos_factura_buscar = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 				titleAttr: 'Agregar Productos',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -1496,10 +1499,78 @@ var listar_busqueda_cotizaciones = function(){
 			{"data":"tipo_documento"},
 			{"data":"cliente"},
 			{"data":"numero"},
-			{"data":"subtotal"},
-			{"data":"isv"},
-			{"data":"descuento"},			
-			{"data":"total"}
+			{"data":"subtotal",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"isv",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"descuento",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},			
+			{"data":"total",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			}
 		],
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -1736,7 +1807,8 @@ var ver_abono_cxc_clientes_dataTable = function(tbody, table){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
 		$('#ver_abono_cxc').modal('show');
-		getAbonosCXC(data.facturas_id);
+		$("#formulario_ver_abono_cxc #abono_facturas_id").val(data.facturas_id);
+		listar_AbonosCXC();
 	});
 }
 
@@ -1906,10 +1978,78 @@ var listar_busqueda_bill_draf = function(){
 			{"data":"tipo_documento"},
 			{"data":"cliente"},
 			{"data":"numero"},
-			{"data":"subtotal"},
-			{"data":"isv"},
-			{"data":"descuento"},
-			{"data":"total"}			
+			{"data":"subtotal",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"isv",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"descuento",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"total",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			}			
 		],
 		"pageLength": 5,
         "lengthMenu": lengthMenu,
@@ -2043,10 +2183,78 @@ var listar_busqueda_bill = function(){
 			{"data":"tipo_documento"},
 			{"data":"cliente"},
 			{"data":"numero"},
-			{"data":"subtotal"},
-			{"data":"isv"},
-			{"data":"descuento"},			
-			{"data":"total"},
+			{"data":"subtotal",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"isv",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"descuento",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},			
+			{"data":"total",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
 		    {"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_reportes print_comprobante btn btn-dark ocultar'><span class='far fa-file-pdf fa-lg'></span></button>"},
 		    {"defaultContent":"<button class='table_reportes email_factura btn btn-dark ocultar'><span class='fas fa-paper-plane fa-lg'></span></button>"},
@@ -2069,7 +2277,10 @@ var listar_busqueda_bill = function(){
 		  { width: "3.09%", targets: 8 },
 		  { width: "3.09%", targets: 9 },
 		  { width: "2.09%", targets: 10 }		  		  		  
-		],		
+		],
+		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
+        	$('td', nRow).addClass(aData['color']);		
+		},	
 		"buttons":[
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',

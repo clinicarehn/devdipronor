@@ -78,15 +78,7 @@
 									</div>
 								</div>
 						  </div>
-						</div>
-					<div class="row mt-4">
-						<div class="col-12 col-md-4">
-							<div class="form-group mx-sm-2 mb-1">
-								  <button class="consultar btn btn-secondary form-control ml-2" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>
-							</div> 				  				  
-						</div>
-					</div>
-				  
+						</div>				  
 			</form>          
         </div>
     </div>	

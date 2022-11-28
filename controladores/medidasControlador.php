@@ -27,7 +27,7 @@
 				
 				if($query){
 					$alert = [
-						"alert" => "clear",
+						"alert" => "edit",
 						"title" => "Registro almacenado",
 						"text" => "El registro se ha almacenado correctamente",
 						"type" => "success",

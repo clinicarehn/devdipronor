@@ -45,7 +45,7 @@ var listar_almacen = function(){
 				}
 			},
 			{
-				text:      '<i class="fab fas fa-warehouse fa-lg"></i> Crear',
+				text:      '<i class="fab fas fa-warehouse fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Almacén',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){

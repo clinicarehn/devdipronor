@@ -19,14 +19,26 @@
 					<div class="input-group">
 						<div class="input-group-append">
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Facturador</span>
-							<select id="facturador" name="facturador" class="custom-select" data-toggle="tooltip" data-placement="top" title="Facturador">
+							<select id="facturador" name="facturador" class="custom-select" data-toggle="tooltip" data-placement="top" title="Facturador" style="width:165px;">
 					 		 </select>
-							<div class="input-group-append" id="grupo_editar_rtn">				
-								<span data-toggle="tooltip" data-placement="top" title="Consultar Facturadores"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control consultar_facturador"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a></span>
+							<div class="input-group-append">				
+								<span data-toggle="tooltip" data-placement="top" title="Consultar por Facturador"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control consultar_facturador"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a></span>
 							</div>
 						</div>	
 					</div>
-				</div>								
+				</div>	
+				<div class="form-group mx-sm-3 mb-1">
+					<div class="input-group">
+						<div class="input-group-append">
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Vendedor</span>
+							<select id="vendedor" name="vendedor" class="custom-select" data-toggle="tooltip" data-placement="top" title="Vendedor" style="width:165px;">
+					 		 </select>
+							<div class="input-group-append">				
+								<span data-toggle="tooltip" data-placement="top" title="Consultar por Vendedor"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control consultar_facturador"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a></span>
+							</div>
+						</div>	
+					</div>
+				</div>												
 				<div class="form-group mx-sm-3 mb-1">
 					<div class="input-group">				
 						<div class="input-group-append">				
@@ -47,7 +59,7 @@
 						
 						
 						echo $fecha_inicial;
-					?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
+					?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio" style="width:165px;">
 					</div>
 				  </div>	
 				  <div class="form-group mx-sm-3 mb-1">
@@ -55,12 +67,9 @@
 						<div class="input-group-append">				
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Fin</span>
 						</div>
-						<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
+						<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Fin" style="width:165px;">
 					</div>
-				  </div>
-				  <div class="form-group mx-sm-2 mb-1">
-               		 <button class="consultar btn btn-secondary ml-2" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>
-			 	 </div>   				  
+				  </div>  				  
 			</form>          
         </div>
     </div>	
@@ -84,6 +93,8 @@
 								<th>Descuento</th>							
 								<th>Total Ventas</th>
 								<th>Gananacia</th>
+								<th>Vendedor</th>
+								<th>Facturador</th>
 								<th>Factura</th>
 								<th>Comprobante</th>
 								<th>Enviar</th>	
@@ -99,7 +110,7 @@
 								<td id="descuento-i"></td>
 								<td colspan='1' id='total-footer-ingreso'></td>
 								<td colspan='1' id='ganancia'></td>
-								<td colspan="4"></td>
+								<td colspan="6"></td>
 							</tr>
 						</tfoot>						
 					</table>  
