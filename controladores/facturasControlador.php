@@ -609,7 +609,7 @@
 								"form" => "invoice-form",	
 								"id" => "proceso_factura",
 								"valor" => "Registro",
-								"funcion" => "limpiarTablaFactura();getCajero();getConsumidorFinal();getEstadoFactura();cleanFooterValueBill();resetRow();",
+								"funcion" => "limpiarTablaFactura();getCajero();printBill(".$facturas_id.");getConsumidorFinal();getEstadoFactura();cleanFooterValueBill();resetRow();",
 								"modal" => "",
 							];							
 						}else{
