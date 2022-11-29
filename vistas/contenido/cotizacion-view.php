@@ -111,10 +111,24 @@
 												</td>
 											<td>
 												<input type="hidden" name="precio_realQuote[]" id="precio_realQuote_0" placeholder="Precio Real" class="form-control inputfield-details" readonly autocomplete="off" step="0.01">
-												<input type="number" name="priceQuote[]" id="priceQuote_0" placeholder="Precio" step="0.01" class="form-control inputfield-details" readonly autocomplete="off">
+												<div class="input-group mb-3">
+													<input type="number" name="priceQuote[]" id="priceQuote_0" class="form-control" step="0.01" placeholder="Precio" readonly autocomplete="off">
+													<div id="suggestions_producto_0" class="suggestions"></div>
+													<div class="input-group-append">								
+														<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_precio_cotizacion fas fa-plus fa-lg"></i></a>
+													</div>
+												</div>
 												<input type="hidden" name="precio_mayoreoQuote[]" id="precio_mayoreoQuote_0" step="0.01" placeholder="Precio mayoreo" class="form-control inputfield-details" readonly autocomplete="off">
 											</td>
-											<td><input type="number" name="discountQuote[]" id="discountQuote_0" placeholder="Descuento" value="0.00" class="form-control inputfield-details" readonly autocomplete="off" step="0.01"></td>
+											<td>
+												<div class="input-group mb-3">
+													<input type="number" name="discountQuote[]" id="discountQuote_0" class="form-control" step="0.01" placeholder="Descuento" readonly autocomplete="off">
+													<div id="suggestions_producto_0" class="suggestions"></div>
+													<div class="input-group-append">								
+														<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_descuento_cotizacion fas fa-plus fa-lg"></i></a>
+													</div>
+												</div>
+											</td>
 											<td><input type="number" name="totalQuote[]" id="totalQuote_0" placeholder="Total" class="form-control total inputfield-details" step="0.01" readonly autocomplete="off"></td>
 										</tr>
 									</tbody>

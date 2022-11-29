@@ -10,7 +10,108 @@ $(document).ready(function() {
 	getReporteCotizacion();
 	getReporteFactura();
 	getCollaboradoresModalPagoFacturas();
+	getFacturador();
+	getVendedores();
+	getClientesFacturasCXC();
 });
+
+function getClientesFacturasCXC(){
+    var url = '<?php echo SERVERURL;?>core/getClientesCXC.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes').html("");
+			$('#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes').html(data);				
+		}
+     });
+}
+
+function getFacturador(){
+    var url = '<?php echo SERVERURL;?>core/getFacturador.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formulario_bill #facturador').html("");
+			$('#formulario_bill #facturador').html(data);				
+		}
+     });
+}
+
+function getVendedores(){
+    var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+			
+		    $('#formulario_bill #vendedor').html("");
+			$('#formulario_bill #vendedor').html(data);				
+		}
+     });
+}
+
+//INICIO CONSULTA FACTURAS BORRADOR
+$(document).ready(function(){
+    $("#modal_buscar_bill_draft").on('shown.bs.modal', function(){
+        $(this).find('#formulario_bill_draft #buscar').focus();
+    });
+});
+//FIN CONSULTA FACTURAS BORRADOR
+
+//INIICO CONSULTA DE FACTURAS
+$(document).ready(function(){
+    $("#modal_buscar_bill").on('shown.bs.modal', function(){
+        $(this).find('#formulario_bill #buscar').focus();
+    });
+});
+
+$('#formulario_bill #tipo_factura_reporte').on("change", function(e){
+	listar_busqueda_bill();
+});
+
+$('#formulario_bill #facturador').on("change", function(e){
+	listar_busqueda_bill();
+});
+
+$('#formulario_bill #vendedor').on("change", function(e){
+	listar_busqueda_bill();
+});
+
+$('#formulario_bill #fechai').on("change", function(e){
+	listar_busqueda_bill();
+});
+
+$('#formulario_bill #fechaf').on("change", function(e){
+	listar_busqueda_bill();
+});
+//FIN CONSULTA DE FACTURAS
+
+//INICIO CUENTAS POR COBRAR CLIENTES
+$('#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes_estado').on("change", function(e){
+	listar_busqueda_bill();
+});
+
+$('#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes').on("change", function(e){
+	listar_busqueda_cuentas_por_cobrar_clientes();
+});
+
+$('#formulario_busqueda_cuentas_cobrar_clientes #fechai').on("change", function(e){
+	listar_busqueda_cuentas_por_cobrar_clientes();
+});
+
+$('#formulario_busqueda_cuentas_cobrar_clientes #fechaf').on("change", function(e){
+	listar_busqueda_cuentas_por_cobrar_clientes();
+});
+
+//FIN CUENTAS POR COBRAR CLIENTES
 
 function resetRow(){
 	row = 0;
@@ -565,8 +666,8 @@ function limpiarTablaFactura(){
 	htmlRows += '<td><input type="text" name="productName[]" id="productName_'+count+'" readonly placeholder="Descripción del Producto" class="form-control inputfield-details1" autocomplete="off"></td>';
 	htmlRows += '<td><input type="number" name="quantity[]" id="quantity_'+count+'" step="0.01" placeholder="Cantidad" class="buscar_cantidad form-control inputfield-details" autocomplete="off"><input type="hidden" name="cantidad_mayoreo[]" id="cantidad_mayoreo_'+count+'" step="0.01" placeholder="Cantidad Mayoreo" class="buscar_cantidad form-control inputfield-details" autocomplete="off"></td>';
 	htmlRows += '<td><input type="text" name="medida[]" id="medida_'+count+'" readonly class="form-control buscar_medida" autocomplete="off" placeholder="Medida"><input type="hidden" name="bodega[]" id="bodega_'+count+'" readonly class="form-control buscar_bodega" autocomplete="off"></td>';
-	htmlRows += '<td><input type="number" name="price[]" id="price_'+count+'" placeholder="Precio" class="form-control inputfield-details" readonly autocomplete="off" step="0.01"><input type="hidden" name="pprecio_mayoreo[]" id="precio_mayoreo_'+count+'" placeholder="Precio Mayoreo" class="form-control inputfield-details" readonly autocomplete="off"><input type="hidden" name="precio_real[]" id="precio_real_'+count+'" placeholder="Precio Real" class="form-control inputfield-details" readonly autocomplete="off"></td>';
-	htmlRows += '<td><input type="number" name="discount[]" id="discount_'+count+'" placeholder="Descuento" value="0.00" class="form-control inputfield-details" readonly autocomplete="off" step="0.01"></td>';
+	htmlRows += '<td><div class="input-group mb-3"><input type="number" name="price[]" id="price_'+count+'" class="form-control" step="0.01" placeholder="Precio" readonly autocomplete="off"><div id="suggestions_producto_0" class="suggestions"></div><div class="input-group-append"><a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_precio fas fa-plus fa-lg"></i></a></div></div><input type="hidden" name="pprecio_mayoreo[]" id="precio_mayoreo_'+count+'" placeholder="Precio Mayoreo" class="form-control inputfield-details" readonly autocomplete="off"><input type="hidden" name="precio_real[]" id="precio_real_'+count+'" placeholder="Precio Real" class="form-control inputfield-details" readonly autocomplete="off"></td>';
+	htmlRows += '<td><div class="input-group mb-3"><input type="number" name="discount[]" id="discount_'+count+'" class="form-control" step="0.01" placeholder="Descuento" readonly autocomplete="off"><div id="suggestions_producto_0" class="suggestions"></div><div class="input-group-append"><a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_descuento fas fa-plus fa-lg"></i></a></div></div></td>';
 	htmlRows += '<td><input type="number" name="total[]" id="total_'+count+'" placeholder="Total" class="form-control total inputfield-details" readonly autocomplete="off" step="0.01"></td>';
 	htmlRows += '</tr>';
 	$('#invoiceItem').append(htmlRows);
@@ -584,8 +685,8 @@ function addRowFacturas(){
 	htmlRows += '<td><input type="text" name="productName[]" id="productName_'+count+'" readonly placeholder="Descripción del Producto" class="form-control inputfield-details1" autocomplete="off"></td>';
 	htmlRows += '<td><input type="number" name="quantity[]" id="quantity_'+count+'" step="0.01" placeholder="Cantidad" class="buscar_cantidad form-control inputfield-details" autocomplete="off"><input type="hidden" name="cantidad_mayoreo[]" id="cantidad_mayoreo_'+count+'" step="0.01" placeholder="Cantidad Mayoreo" class="buscar_cantidad form-control inputfield-details" autocomplete="off"></td>';
 	htmlRows += '<td><input type="text" name="medida[]" id="medida_'+count+'" readonly class="form-control buscar_medida" autocomplete="off" placeholder="Medida"><input type="hidden" name="bodega[]" id="bodega_'+count+'" readonly class="form-control buscar_bodega" autocomplete="off"></td>';
-	htmlRows += '<td><input type="number" name="price[]" id="price_'+count+'" placeholder="Precio" class="form-control inputfield-details" readonly autocomplete="off" step="0.01"><input type="hidden" name="pprecio_mayoreo[]" id="precio_mayoreo_'+count+'" step="0.01" placeholder="Precio Mayoreo" class="form-control inputfield-details" readonly autocomplete="off"><input type="hidden" name="precio_real[]" id="precio_real_'+count+'" placeholder="Precio Real" class="form-control inputfield-details" readonly autocomplete="off"></td>';
-	htmlRows += '<td><input type="number" name="discount[]" id="discount_'+count+'" placeholder="Descuento" value="0.00" class="form-control inputfield-details" readonly autocomplete="off" step="0.01"></td>';
+	htmlRows += '<td><div class="input-group mb-3"><input type="number" name="price[]" id="price_'+count+'" class="form-control" step="0.01" placeholder="Precio" readonly autocomplete="off"><div id="suggestions_producto_0" class="suggestions"></div><div class="input-group-append"><a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_precio fas fa-plus fa-lg"></i></a></div></div><input type="hidden" name="pprecio_mayoreo[]" id="precio_mayoreo_'+count+'" step="0.01" placeholder="Precio Mayoreo" class="form-control inputfield-details" readonly autocomplete="off"><input type="hidden" name="precio_real[]" id="precio_real_'+count+'" placeholder="Precio Real" class="form-control inputfield-details" readonly autocomplete="off"></td>';
+	htmlRows += '<td><div class="input-group mb-3"><input type="number" name="discount[]" id="discount_'+count+'" class="form-control" step="0.01" placeholder="Descuento" readonly autocomplete="off"><div id="suggestions_producto_0" class="suggestions"></div><div class="input-group-append"><a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_descuento fas fa-plus fa-lg"></i></a></div></div></td>';
 	htmlRows += '<td><input type="number" name="total[]" id="total_'+count+'" placeholder="Total" class="form-control total inputfield-details" readonly autocomplete="off" step="0.01"></td>';
 	htmlRows += '</tr>';
 	$('#invoiceItem').append(htmlRows);
@@ -1230,7 +1331,7 @@ $(document).ready(function(){
 			  $('#formModificarPrecioFacturacion #modificar_precio_productos_id').val(productos_id);
 			  $('#formModificarPrecioFacturacion #producto_modificar_precio_fact').val(producto);		  
 			  
-			  $('#formModificarPrecioFacturacion #pro_modificar_precio').val("Registrar");
+			  $('#formModificarPrecioFacturacion #pro_modificar_precio').val("Aplicar Nuevo Precio");
 			  
 			  $('#modalModificarPrecioFacturacion').modal({
 				show:true,
@@ -1648,6 +1749,8 @@ $("#invoice-form #addPayCustomers").on("click", function(e){
 });
 
 var listar_busqueda_cuentas_por_cobrar_clientes = function(){
+	var estado = $("#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes_estado").val();
+	var clientes_id = $("#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes").val();	
 	var fechai = $("#formulario_busqueda_cuentas_cobrar_clientes #fechai").val();
 	var fechaf = $("#formulario_busqueda_cuentas_cobrar_clientes #fechaf").val();
 
@@ -1657,6 +1760,8 @@ var listar_busqueda_cuentas_por_cobrar_clientes = function(){
 			"method":"POST",
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableCobrarClientes.php",
 			"data":{
+				"estado":estado,
+				"clientes_id":clientes_id,				
 				"fechai":fechai,
 				"fechaf":fechaf
 			}
@@ -2158,6 +2263,7 @@ $("#BillReports").on("click", function(e){
 });
 
 var listar_busqueda_bill = function(){
+	var tipo_factura_reporte = 1;
 	if($("#formulario_bill #tipo_factura_reporte").val() == null || $("#formulario_bill #tipo_factura_reporte").val() == ""){
 		tipo_factura_reporte = 1;
 	}else{
@@ -2166,6 +2272,8 @@ var listar_busqueda_bill = function(){
 
 	var fechai = $("#formulario_bill #fechai").val();
 	var fechaf = $("#formulario_bill #fechaf").val();
+	var facturador = $("#formulario_bill #facturador").val();
+	var vendedor = $("#formulario_bill #vendedor").val();
 
 	var table_busqueda_bill = $("#DatatableBusquedaBill").DataTable({
 		"destroy":true,
@@ -2174,6 +2282,8 @@ var listar_busqueda_bill = function(){
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableReporteVentas.php",
 			"data":{
 				"tipo_factura_reporte":tipo_factura_reporte,
+				"facturador":facturador,
+				"vendedor":vendedor,
 				"fechai":fechai,
 				"fechaf":fechaf
 			}
@@ -2408,4 +2518,166 @@ $('#formulario_bill #search').on("click", function(e){
 	e.preventDefault();
 	listar_busqueda_bill();
 });
+
+//INICIO DESCUENTO PRODUCTO EN FACTURACION
+$(document).ready(function(){
+    $("#invoice-form #invoiceItem").on('click', '.aplicar_descuento', function(e) {
+		  e.preventDefault();
+		  $('#formDescuentoFacturacion')[0].reset();
+
+		  var row_index = $(this).closest("tr").index();
+		  var col_index = $(this).closest("td").index();
+
+		  if( $('#invoice-form #cliente_id').val() != "" &&  $("#invoice-form #invoiceItem #productos_id_" + row_index).val() != ""){			
+			$('#formDescuentoFacturacion #row_index').val(row_index);
+			$('#formDescuentoFacturacion #col_index').val(col_index);
+
+			var productos_id = $("#invoice-form #invoiceItem #productos_id_" + row_index).val();
+			var producto = $("#invoice-form #invoiceItem #productName_" + row_index).val();
+			var precio = $("#invoice-form #invoiceItem #price_" + row_index).val();
+					
+			$('#formDescuentoFacturacion #descuento_productos_id').val(productos_id);
+			$('#formDescuentoFacturacion #producto_descuento_fact').val(producto);
+			$('#formDescuentoFacturacion #precio_descuento_fact').val(precio);		  
+
+			$('#formDescuentoFacturacion #pro_descuento_fact').val("Aplicar Descuento");
+
+			$('#modalDescuentoFacturacion').modal({
+				show:true,
+				keyboard: false,
+				backdrop:'static'
+			});
+		  }else{
+			swal({
+				title: "Error",
+				text: "Debe seleccionar un cliente y un producto antes de continuar",
+				type: "error",
+				confirmButtonClass: "btn-danger"
+			});				
+		  }
+	});
+});
+
+$(document).ready(function() {
+	$("#formDescuentoFacturacion #porcentaje_descuento_fact").on("keyup", function(){
+		var precio;
+		var porcentaje;
+			
+		if($("#formDescuentoFacturacion #porcentaje_descuento_fact").val()){
+			precio = parseFloat($('#formDescuentoFacturacion #precio_descuento_fact').val());
+			porcentaje = parseFloat($('#formDescuentoFacturacion #porcentaje_descuento_fact').val());
+			
+			$('#formDescuentoFacturacion #descuento_fact').val(parseFloat(precio * (porcentaje/100)).toFixed(2));
+		}else{
+			$('#formDescuentoFacturacion #descuento_fact').val(0);
+		}
+	});	
+	
+	$("#formDescuentoFacturacion #descuento_fact").on("keyup", function(){
+		var precio;
+		var descuento_fact;
+			
+		if($("#formDescuentoFacturacion #descuento_fact").val() != ""){
+			precio = parseFloat($('#formDescuentoFacturacion #precio_descuento_fact').val());
+			descuento_fact = parseFloat($('#formDescuentoFacturacion #descuento_fact').val());
+			
+			$('#formDescuentoFacturacion #porcentaje_descuento_fact').val(parseFloat((descuento_fact / precio) * 100).toFixed(2));
+		}else{
+			$('#formDescuentoFacturacion #porcentaje_descuento_fact').val(0);
+		}
+	});		
+});		
+
+$("#reg_DescuentoFacturacion").on("click", function(e){
+	e.preventDefault();
+	var row_index = $('#formDescuentoFacturacion #row_index').val();
+	var col_index = $('#formDescuentoFacturacion #col_index').val();
+
+	var descuento = parseFloat($('#formDescuentoFacturacion #descuento_fact').val()).toFixed(2);
+
+	var precio = $("#invoice-form #invoiceItem #price_" + row_index).val();
+	var cantidad = $("#invoice-form #invoiceItem #quantity_" + row_index).val();
+	var impuesto_venta = $("#invoice-form #invoiceItem #isv_" + row_index).val();
+	$("#invoice-form #invoiceItem #discount_" + row_index).val(descuento);
+
+
+	var isv = 0;
+	var isv_total = 0;
+	var porcentaje_isv = 0;
+	var porcentaje_calculo = 0;
+	var isv_neto = 0;
+	var total_ = (precio * cantidad) - descuento;
+
+	if(total_ >= 0){
+		if(impuesto_venta == 1){
+			porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
+			if($('#invoice-form #taxAmount').val() == "" || $('#invoice-form #taxAmount').val() == 0){
+				porcentaje_calculo = (parseFloat(total_) * porcentaje_isv).toFixed(2);
+				isv_neto = porcentaje_calculo;
+				$('#invoice-form #taxAmount').val(porcentaje_calculo);
+				$('#invoice-form #invoiceItem #valor_isv_'+ row_index).val(porcentaje_calculo);
+			}else{
+				isv_total = parseFloat($('#invoice-form #taxAmount').val());
+				porcentaje_calculo = (parseFloat(total_) * porcentaje_isv).toFixed(2);
+				isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
+				$('#invoice-form #taxAmount').val(isv_neto);
+				$('#invoice-form #invoiceItem #valor_isv_'+ row_index).val(porcentaje_calculo);
+			}
+		}
+
+		$('#modalDescuentoFacturacion').modal('hide');
+		calculateTotalFacturas();
+	}else{
+		swal({
+			title: "warning",
+			text: "El valor del descuento es mayor al precio total del artículo, por favor corregir",
+			type: "warning",
+			confirmButtonClass: "btn-warning"
+		});		
+	}
+});
+//FIN DESCUENTO PRODUCTO EN FACTURACION
+
+//INICIO MODIFICAR PRECIO EN PRODUCTO FACTURACION
+$(document).ready(function(){
+    $("#invoice-form #invoiceItem").on('click', '.aplicar_precio', function(e) {
+		e.preventDefault();
+		$('#formModificarPrecioFacturacion')[0].reset();
+
+		var row_index = $(this).closest("tr").index();
+		var col_index = $(this).closest("td").index();
+		$('#formModificarPrecioFacturacion #row_index').val(row_index);
+		$('#formModificarPrecioFacturacion #col_index').val(col_index);			  
+
+		if($("#invoice-form #invoiceItem #productos_id_" + row_index).val() != ""){
+			$('#formModificarPrecioFacturacion')[0].reset();
+			var clientes_id = $("#invoice-form #cliente_id").val();
+			var fecha = $("#invoice-form #fecha").val();
+			var productos_id = $("#invoice-form #invoiceItem #productos_id_" + row_index).val();
+			var producto = $("#invoice-form #invoiceItem #productName_" + row_index).val();
+			var precio = $("#invoice-form #invoiceItem #price_" + row_index).val();
+						
+			$('#formModificarPrecioFacturacion #modificar_precio_fecha').val(fecha);
+			$('#formModificarPrecioFacturacion #modificar_precio_clientes_id').val(clientes_id);
+			$('#formModificarPrecioFacturacion #modificar_precio_productos_id').val(productos_id);
+			$('#formModificarPrecioFacturacion #producto_modificar_precio_fact').val(producto);		  
+			
+			$('#formModificarPrecioFacturacion #pro_modificar_precio').val("Aplicar Nuevo Precio");
+			
+			$('#modalModificarPrecioFacturacion').modal({
+			show:true,
+			keyboard: false,
+			backdrop:'static'
+			});
+		}else{
+			swal({
+				title: "Error",
+				text: "Debe seleccionar un cliente y un producto antes de continuar",
+				type: "error",
+				confirmButtonClass: "btn-danger"
+			});				
+		}
+	});
+});
+//FIN MODIFICAR PRECIO EN PRODUCTO FACTURACION
 </script>

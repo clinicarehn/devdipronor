@@ -1,9 +1,5 @@
 <body id="view_bill">
-	<div class="container-fluid">
-		<!--<ol class="breadcrumb mt-2 mb-4">
-			<li class="breadcrumb-item"><a class="breadcrumb-link" href="<?php echo SERVERURL; ?>dashboard/">Dashboard</a></li>
-			<li class="breadcrumb-item active">Facturas</li>
-		</ol>-->	
+	<div class="container-fluid">	
 		<div class="card mb-4">
 			<div class="card-header">
 				<i class="fas fa-file-invoice mr-1"></i>
@@ -122,11 +118,25 @@
 
 											</td>
 											<td>
-												<input type="hidden" name="precio_real[]" id="precio_real_0" placeholder="Precio Real" class="form-control inputfield-details" step="0.01" readonly autocomplete="off">
-												<input type="number" name="price[]" id="price_0" placeholder="Precio" class="form-control inputfield-details" step="0.01" readonly autocomplete="off">
+												<input type="hidden" name="precio_real[]" id="precio_real_0" placeholder="Precio Real" class="form-control inputfield-details" step="0.01" readonly autocomplete="off">												
+												<div class="input-group mb-3">
+													<input type="number" name="price[]" id="price_0" class="form-control" step="0.01" placeholder="Precio" readonly autocomplete="off">
+													<div id="suggestions_producto_0" class="suggestions"></div>
+													<div class="input-group-append">								
+														<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_precio fas fa-plus fa-lg"></i></a>
+													</div>
+												</div>
 												<input type="hidden" name="precio_mayoreo[]" id="precio_mayoreo_0" placeholder="Precio mayoreo" step="0.01" class="form-control inputfield-details" readonly autocomplete="off">
 											</td>
-											<td><input type="number" name="discount[]" id="discount_0" placeholder="Descuento" value="0.00" step="0.01" class="form-control inputfield-details" readonly autocomplete="off" step="0.01"></td>
+											<td>
+												<div class="input-group mb-3">
+													<input type="number" name="discount[]" id="discount_0" class="form-control" step="0.01" placeholder="Descuento" readonly autocomplete="off">
+													<div id="suggestions_producto_0" class="suggestions"></div>
+													<div class="input-group-append">								
+														<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_descuento fas fa-plus fa-lg"></i></a>
+													</div>
+												</div>
+											</td>
 											<td><input type="number" name="total[]" id="total_0" placeholder="Total" class="form-control total inputfield-details" step="0.01" readonly autocomplete="off"></td>
 										</tr>
 									</tbody>

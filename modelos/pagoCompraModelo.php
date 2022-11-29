@@ -29,12 +29,11 @@
 			
 			isset($res["colaboradores_id"]) ? $colaboradores_id = $res["colaboradores_id"] : $colaboradores_id = '';
 
-			if($res['tipo_pago'] == 2){
-
+			//SI EL PAGO QUE SE ESTA REALIZANDO ES DE UN DOCUMENTO AL CREDITO
+			if($res['tipo_pago'] == 2){//SI ES CREDITO ESTO ES UN ABONO A LA FACTURA
 				//consultamos a la tabla cuenta x pagar
 				$get_cxc_proveedor = pagoCompraModelo::consultar_compra_cuentas_por_pagar($compras_id);
-				
-				
+								
 				if($get_cxc_proveedor->num_rows > 0){
 					$rec = $get_cxc_proveedor->fetch_assoc();
 					$saldo_credito = $rec['saldo'];

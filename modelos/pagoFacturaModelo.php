@@ -220,10 +220,12 @@
 		}
 
 		//funcion para realizar todos lo pagos de factura
-		protected function agregar_pago_factura_base($res){			
-			if($res['estado_factura'] == 2){ // si es credito esto es un abono a la factura				
+		protected function agregar_pago_factura_base($res){	
+			//SI EL PAGO QUE SE ESTA REALIZANDO ES DE UN DOCUMENTO AL CREDITO
+			if($res['estado_factura'] == 2){//SI ES CREDITO ESTO ES UN ABONO A LA FACTURA
 				$saldo_credito = 0;
 				$nuevo_saldo = 0;
+
 				//consultamos a la tabla cobrar cliente
 				$get_cobrar_cliente = pagoFacturaModelo::consultar_factura_cuentas_por_cobrar($res['facturas_id']);
 								
@@ -479,5 +481,4 @@
 			
 			return $alert;
 		}
-
 	}

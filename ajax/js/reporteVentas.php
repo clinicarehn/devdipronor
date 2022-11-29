@@ -2,7 +2,7 @@
 $(document).ready(function() {
 	getReporteFactura();
 	getFacturador();
-	getVendedpres();
+	getVendedores();
     listar_reporte_ventas();
 	total_ingreso_footer();
 });
@@ -342,7 +342,7 @@ function getFacturador(){
      });
 }
 
-function getVendedpres(){
+function getVendedores(){
     var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
 
 	$.ajax({

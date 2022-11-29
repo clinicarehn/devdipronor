@@ -31,7 +31,7 @@
 						<div class="input-group-append">				
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
 						</div>
-						<input type="date" required id="fechai" name="fechai" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
+						<input type="date" required id="fechai" name="fechai" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
 					</div>
 				  </div>	
 				  <div class="form-group mx-sm-3 mb-1">
