@@ -41,6 +41,7 @@
 			$tarjeta = 	0;			
 			
 			$datos = [
+				"multiple_pago" => 1,
 				"facturas_id" => $facturas_id,
 				"fecha" => $fecha,
 				"importe" => $importe,

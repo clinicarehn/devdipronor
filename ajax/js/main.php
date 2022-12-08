@@ -2296,10 +2296,19 @@ function getNombreCliente(clientes_id){
 //FIN EDITAR RTN CLIENTE
 //FIN ACCIONES FROMULARIO CLIENTES
 
+//funcion aplicar nuevo saldo
+function saldoFactura(saldoFactura){
+	//IMPORTE NUEVO EFECTIVO
+	alert('SALDO',saldoFactura)
+	$('#formEfectivoBill #monto_efectivo').val(saldoFactura);
+	$('#bill-pay').val(saldoFactura);
+
+}
+
 //INICIO MODAL REGSITRAR PAGO FACTURACIÓN CLIENTES
 function pago(facturas_id,saldo){
 	var url = '<?php echo SERVERURL;?>core/editarPagoFacturas.php';
-	
+
 	$.ajax({
 		type:'POST',
 		url:url,
@@ -2429,6 +2438,8 @@ $(document).ready(function(){
 		var efectivo = parseFloat($("#formEfectivoBill #efectivo_bill").val()).toFixed(2);
 		var monto = parseFloat($("#formEfectivoBill #monto_efectivo").val()).toFixed(2);
 		var credito = $("#formEfectivoBill #tipo_factura_efectivo").val();
+		var pagos_multiples = $('#pagos_multiples').val();
+
 		if(credito == 2 ){
 			$("#formEfectivoBill #cambio_efectivo").val(0)
 			$("#formEfectivoBill #grupo_cambio_efectivo").hide();
@@ -2436,7 +2447,7 @@ $(document).ready(function(){
 		
 		var total = efectivo - monto;				
 		
-		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2){			
+		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2 || pagos_multiples == 1){			
 			$('#formEfectivoBill #cambio_efectivo').val(parseFloat(total).toFixed(2));
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', false);
 			
@@ -2852,8 +2863,8 @@ $(document).ready(function(){
 		var efectivo = parseFloat($("#formEfectivoPurchase #efectivo_Purchase").val()).toFixed(2);
 		var monto = parseFloat($("#formEfectivoPurchase #monto_efectivoPurchase").val()).toFixed(2);
 		var credito = $("#formEfectivoPurchase #tipo_purchase_efectivo").val();
+		var pagos_multiples = $('#pagos_multiples').val();
 		
-		console.log('credotp',credito)
 		if(credito == 2 ){
 			$("#formEfectivoPurchase #cambio_efectivoPurchase").val(0)
 			$("#formEfectivoPurchase #cambio_efectivoPurchase").hide();
@@ -2862,7 +2873,7 @@ $(document).ready(function(){
 		var total = efectivo - monto;				
 		//Math.floor NOS PERMITE COMPARAR UN FLOAT CONVIRTIENDOLO A ENTERO CUANDO SE MULTIPLICA POR 100
 		
-		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2){	
+		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2 || pagos_multiples == 1){	
 			$('#formEfectivoPurchase #cambio_efectivoPurchase').val(parseFloat(total).toFixed(2));
 			$('#formEfectivoPurchase #pago_efectivo').attr('disabled', false);				
 		}else{				

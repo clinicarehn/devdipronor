@@ -5835,7 +5835,7 @@
 			$mysqli_main->set_charset("utf8");
 		
 			if ($mysqli_main->connect_errno) {
-			   echo "Fallo al conectar a MySQL: " . $mysqli->connect_error;
+			   echo "Fallo al conectar a MySQL: ".$mysqli_main->connect_error;
 			   exit;
 			}
 		

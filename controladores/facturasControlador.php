@@ -337,6 +337,19 @@
 							];				
 						}
 
+						$datos_cobrar_clientes = [
+							"clientes_id" => $clientes_id,
+							"facturas_id" => $facturas_id,
+							"fecha" => $fecha,				
+							"saldo" => $total_despues_isv,
+							"estado" => 3,//1. Pendiente de Cobrar 2. Pago Realizado 3. Efectivo con abonos
+							"usuario" => $usuario,
+							"fecha_registro" => $fecha_registro,
+							"empresa" => $empresa_id
+						];		
+						
+						facturasModelo::agregar_cuenta_por_cobrar_clientes($datos_cobrar_clientes);
+
 					//FIN FACTURA CONTADO
 					}else{//INICIO FACTURA CRÉDITO
 						//SI LA FACTURA ES AL CRÉDITO ALMACENAMOS LOS DATOS DE LA FACTURA PERO NO REGISTRAMOS EL PAGO, SIMPLEMENTE DEJAMOS LA CUENTA POR COBRAR A LOS CLIENTES						

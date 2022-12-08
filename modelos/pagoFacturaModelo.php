@@ -90,9 +90,20 @@
 			
 			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 			
-			
 			return $result;					
 		}		
+
+		protected function insert_factura_cuentas_por_cobrar($estado,$importe){			
+			if($importe != ''){
+				$importe = $importe;
+			}
+
+			$update = "INSERT INTO cobrar_clientes
+				(estado,saldo) VALUES ($estado,$importe)";
+			
+			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
+			return $result;					
+		}
 		
 		protected function consultar_factura_cuentas_por_cobrar($facturas_id){
 			$query = "SELECT *
@@ -222,26 +233,23 @@
 		//funcion para realizar todos lo pagos de factura
 		protected function agregar_pago_factura_base($res){	
 			//SI EL PAGO QUE SE ESTA REALIZANDO ES DE UN DOCUMENTO AL CREDITO
-			if($res['estado_factura'] == 2){//SI ES CREDITO ESTO ES UN ABONO A LA FACTURA
+			if($res['estado_factura'] == 2 || $res['multiple_pago'] == 1){//SI ES CREDITO ESTO ES UN ABONO A LA FACTURA
 				$saldo_credito = 0;
 				$nuevo_saldo = 0;
 
+				
 				//consultamos a la tabla cobrar cliente
-				$get_cobrar_cliente = pagoFacturaModelo::consultar_factura_cuentas_por_cobrar($res['facturas_id']);
-								
-				if($get_cobrar_cliente->num_rows > 0){
-					$rec = $get_cobrar_cliente->fetch_assoc();
-					$saldo_credito = $rec['saldo'];
-					
-				}else{
-					$alert = [
-						"alert" => "simple",
-						"title" => "Ocurrio un error inesperado",
-						"text" => "No hemos podido procesar su solicitud",
-						"type" => "error",
-						"btn-class" => "btn-danger",					
-					];
-				}
+
+					$get_cobrar_cliente = pagoFacturaModelo::consultar_factura_cuentas_por_cobrar($res['facturas_id']);
+			
+					if($get_cobrar_cliente->num_rows == 0){
+						echo 'error';
+					}else{
+						$rec = $get_cobrar_cliente->fetch_assoc();
+						$saldo_credito = $rec['saldo'];
+						
+					}
+
 	
 				//validar que no se hagan mas abonos que el importe
 				if($res['abono'] <= $saldo_credito ){
@@ -344,20 +352,49 @@
 
 						//ALMACENAMOS EL MOVIMIENTO DE CUENTA DEL PAGO
 						self::agregar_movimientos_contabilidad_pagos_modelo($datos_movimientos);
-																	
-						$alert = [
-							"alert" => "save_simple",
-							"title" => "Registro almacenado",
-							"text" => "El registro se ha almacenado correctamente",
-							"type" => "success",
-							"btn-class" => "btn-primary",
-							"btn-text" => "¡Bien Hecho!",
-							"form" => "formEfectivoBill",
-							"id" => "proceso_pagos",
-							"valor" => "Registro",	
-							"funcion" => "listar_cuentas_por_cobrar_clientes();getCollaboradoresModalPagoFacturas();",
-							"modal" => "modal_pagos",													
-						];
+						
+						
+						if($res['multiple_pago'] == 1){
+							$get_cobrar_cliente = pagoFacturaModelo::consultar_factura_cuentas_por_cobrar($res['facturas_id']);
+							$saldo_nuevo = 0;
+								if($get_cobrar_cliente->num_rows > 0){
+									$rec = $get_cobrar_cliente->fetch_assoc();
+									$saldo_nuevo = $rec['saldo'];
+									echo 'saldo nueo'.$saldo_nuevo;
+									$saldo_nuevo = intval($saldo_nuevo);
+									echo 'tipo'.gettype($saldo_nuevo);
+								}
+
+							$alert = [
+								"alert" => "save_simple",
+								"title" => "Registro pago multiples almacenado",
+								"text" => "El registro se ha almacenado correctamente",
+								"type" => "success",
+								"btn-class" => "btn-primary",
+								"btn-text" => "¡Bien Hecho!",
+								"form" => "formEfectivoBill",
+								"id" => "proceso_pagos",
+								"valor" => "Registro",	
+								"funcion" => "pago(".$res['facturas_id'].");saldoFactura(".$saldo_nuevo.")",
+								"modal" => "modal_pagos",
+														
+							];
+						}else{
+
+							$alert = [
+								"alert" => "save_simple",
+								"title" => "Registro almacenado",
+								"text" => "El registro se ha almacenado correctamente",
+								"type" => "success",
+								"btn-class" => "btn-primary",
+								"btn-text" => "¡Bien Hecho!",
+								"form" => "formEfectivoBill",
+								"id" => "proceso_pagos",
+								"valor" => "Registro",	
+								"funcion" => "listar_cuentas_por_cobrar_clientes();getCollaboradoresModalPagoFacturas();",
+								"modal" => "modal_pagos",													
+							];
+						}
 					}else{
 						$alert = [
 							"alert" => "simple",
@@ -442,21 +479,25 @@
 							$numero += $incremento;
 							pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);		
 						}	
+
+
+							$alert = [
+								"alert" => "save_simple",
+								"title" => "Registro almacenado",
+								"text" => "El registro se ha almacenado correctamente",
+								"type" => "success",
+								"btn-class" => "btn-primary",
+								"btn-text" => "¡Bien Hecho!",
+								"form" => "formEfectivoBill",
+								"id" => "proceso_pagos",
+								"valor" => "Registro",	
+								"funcion" => "printBill(".$res['facturas_id'].",".$res['print_comprobante'].");listar_cuentas_por_cobrar_clientes();mailBill(".$res['facturas_id'].");getCollaboradoresModalPagoFacturas();",
+								"modal" => "modal_pagos",
+														
+							];
+
+						
 	
-						$alert = [
-							"alert" => "save_simple",
-							"title" => "Registro almacenado",
-							"text" => "El registro se ha almacenado correctamente",
-							"type" => "success",
-							"btn-class" => "btn-primary",
-							"btn-text" => "¡Bien Hecho!",
-							"form" => "formEfectivoBill",
-							"id" => "proceso_pagos",
-							"valor" => "Registro",	
-							"funcion" => "printBill(".$res['facturas_id'].",".$res['print_comprobante'].");listar_cuentas_por_cobrar_clientes();mailBill(".$res['facturas_id'].");getCollaboradoresModalPagoFacturas();",
-							"modal" => "modal_pagos",
-													
-						];
 					}else{
 						$alert = [
 							"alert" => "simple",

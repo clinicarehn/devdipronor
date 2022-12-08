@@ -780,6 +780,14 @@
 											<div class="slider round"></div>
 										</label>
 										<span class="question mb-2" id="label_print_comprobant"></span>
+									</div>
+									<div class="container mt-md-0">
+										<p class="mb-0 mt-3">Pagos Multiples:</p>
+										<label class="switch mb-2" data-toggle="tooltip" data-placement="top">
+											<input type="checkbox" id="pagos_multiples" name="pagos_multiples_switch" value="0">
+											<div class="slider round"></div>
+										</label>
+										<span class="question mb-2" id="label_pagos_multiples"></span>
 									</div>								
 								</div>
 							</div> <!-- Page Content -->

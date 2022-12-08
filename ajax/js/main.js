@@ -267,6 +267,23 @@ $(document).ready(function(){
         }
     });		
 	//FIN PRINT COMPROBANTE
+	//INICIO PAGOS MULTIPLES
+	$('#modal_pagos #label_pagos_multiples').html("No");
+	
+    $('#modal_pagos .switch').change(function(){    
+        if($('input[name=pagos_multiples_switch]').is(':checked')){
+            $('#modal_pagos #label_pagos_multiples').html("Si");
+			$('#pagos_multiples').val(1);
+			$('#formEfectivoBill #pago_efectivo').attr('disabled', false);
+            return true;
+        }else{
+            $('#modal_pagos #label_pagos_multiples').html("No");
+			$('#pagos_multiples').val(0);
+			$('#formEfectivoBill #pago_efectivo').prop('disabled', true)
+            return false;
+        }
+    });		
+	//FIN PAGOS MULTIPLES
 });
 
 //FIN MENU FACTURAS
