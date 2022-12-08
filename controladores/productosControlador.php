@@ -333,6 +333,8 @@
 			$bodega_actual = mainModel::cleanString($_POST['id_bodega_actual']);
 			$bodega = mainModel::cleanString($_POST['id_bodega']);
 			$cantidad = mainModel::cleanString($_POST['cantidad_movimiento']);
+			$comentario = mainModel::cleanString($_POST['movimiento_comentario']);
+			$clientes_id = mainModel::cleanString($_POST['cliente_movimientos']);
 
 			$datos = [
 				"productos_id" => $productos_id,
@@ -372,8 +374,8 @@
 								"saldo" => $saldoNuevoProductoHijo,	
 								"fecha_registro" => $fecha_registro,
 								"empresa" => $empresa_id,
-								"comentario" => '',
-								"clientes_id" => '',
+								"comentario" => $comentario,
+								"clientes_id" => $clientes_id,
 								"almacen_id" => $bodega
 							];
 							
