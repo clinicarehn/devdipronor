@@ -71,7 +71,7 @@ var listar_reporte_ventas = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -89,7 +89,7 @@ var listar_reporte_ventas = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -107,7 +107,7 @@ var listar_reporte_ventas = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -125,7 +125,7 @@ var listar_reporte_ventas = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -143,7 +143,7 @@ var listar_reporte_ventas = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 

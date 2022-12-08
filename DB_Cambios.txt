@@ -1,12 +1,61 @@
+####04/12/2022####
+tabla => nomina
+nomina_id			int
+contrato_id			int
+empresa_id			int
+fecha_inicio		date
+fecha_fin			date
+importe			decimal(12,2)
+notas				varchar(254)
+usuario			int
+fecha_registro		datetime
+
+tabla => nomina_detalles
+
+Se edito el la tabla submenu el submenu_id 16 cambiando menu_id de 7 a 8 para el campo nombre
+
+####29/11/2022####
+Se insertaron los siguiente valores en las siguientes tablas:
+menu
+recursosHumanos
+
+submenu
+contrato
+nomina
+
+tabla => tipo_contrato
+tipo_contrato_id		int
+nombre			varchar(50)
+
+tabla => pago_planificado
+pago_planificado_id	int
+nombre			varchar(50)
+
+tabla => tipo_empleado
+tipo_empleado_id		int
+nombre			varchar(30)
+
+tabla => contrato
+contrato_id        	int
+colaborador_id  		int
+tipo_contrato_id		int
+pago_planificado_id	int
+salario			decimal(12,2)
+fecha_inicio		date
+fecha_fin			varchar(30)
+notas				varchar(256)
+usuario			int
+estado			int
+fecha_registro		datetime
+
 ####20/11/2022####
 se cambiaron de INT a Float
 cantidad_entrada float(12,2)
 cantidad_salida  float(12,2)
 saldo		     float(12,2)
 
-
 ####20/11/2022####
-tabla documento
+tabla => documento
 documento_id   int
 nombre         char(30)
 estado         int
@@ -15,6 +64,7 @@ secuencia_facturacion
 documento_id   int  Despues de fecha_registro
 
 ####11/11/2022####
+tabla => server_customers
 server_customers_id int pk
 clientes_id         int
 db                  char(40)
@@ -33,11 +83,11 @@ fecha_registro date_time -> despues de tipo
 Se elimino de la tabla secuencia_facturacion el campo comentario
 
 ####24/8/2022####
-tabla movimientos
+tabla => movimientos
 clientes_id int
 comentario  char 255
 
-#tabla productos
+tabla => productos
 p.id_producto_superior int
 
 ####31/8/2022####

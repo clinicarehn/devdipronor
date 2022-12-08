@@ -83,7 +83,7 @@
 					</div>					
 					<div class="col-md-8 mb-3">
 						<label>Comentario</label>
-					  <input type="text" required id="movimiento_comentario" name="movimiento_comentario" class="form-control">	
+					  <input type="text" id="movimiento_comentario" name="movimiento_comentario" class="form-control">	
 					</div>				  														
 				</div>
 				

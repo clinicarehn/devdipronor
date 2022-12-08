@@ -55,7 +55,6 @@
 						</label>
 						<span class="question mb-2" id="label_facturar_cero">si</span>				
 				  	</div>	
-
 				</div>
 				<input type="hidden" id="almacen_activo" name="almacen_activo" value="1" checked>
 				<div class="form-group" id="estado_almacen">

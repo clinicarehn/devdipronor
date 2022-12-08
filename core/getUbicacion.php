@@ -12,5 +12,7 @@
 		while($consulta2 = $result->fetch_assoc()){
 			 echo '<option value="'.$consulta2['ubicacion_id'].'">'.$consulta2['ubicacion'].'</option>';
 		}
+	}else{
+		echo '<option value="">Seleccione</option>';
 	}
 	

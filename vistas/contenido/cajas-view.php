@@ -12,7 +12,7 @@
 							<div class="input-group-append">				
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
 							</div>
-							<select id="estado_cajas" name="estado_cajas" class="custom-select" data-toggle="tooltip" data-placement="top" title="Estado">
+							<select id="estado_cajas" name="estado_cajas" class="selectpicker" data-toggle="tooltip" data-placement="top" title="Estado" data-live-search="true">
 								<option value="1">Activas</option>
 								<option value="2">Cerrada</option>
 							</select>

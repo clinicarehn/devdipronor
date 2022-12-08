@@ -1008,7 +1008,7 @@
 															    <label>Banco</label> 
 																<div class="input-group"> 																	
 																	<input type="hidden" name="factura_id_transferencia" id="factura_id_transferencia">
-																	<select required name="bk_nm" id="bk_nm" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
+																	<select required name="bk_nm" id="bk_nm" class="selectpicker inputfield" data-live-search="true" title="Banco">
 																		<option value="">Seleccione un Banco</option>
 																	</select> 	
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">																
@@ -1158,23 +1158,31 @@
 				</div>					
 			  </div>
 			  <div class="form-row">
-				<div class="col-md-4 mb-3">
+				<div class="col-md-3 mb-3">
 					<label for="fecha_clientes">Fecha <span class="priority">*<span/></label>
 					<div class="input-group mb-3">
 						<input type="date" required id="fecha_clientes" name="fecha_clientes" value="<?php echo date ("Y-m-d");?>" class="form-control"/>
 					</div>	 
 				</div>				  
-				<div class="col-md-4 mb-3">
-				  <label for="departamento_cliente">Departamento <span class="priority">*<span/></label>
-				  <select class="form-control" id="departamento_cliente" name="departamento_cliente" required>			  
-				  </select>
+				<div class="col-md-3 mb-3">
+					<label for="departamento_cliente">Departamento <span class="priority">*<span/></label>			
+				  	<div class="input-group mb-3">
+					  <select class="selectpicker" id="departamento_cliente" name="departamento_cliente" required data-live-search="true" title="Departamentos">			  
+				 	 </select>
+					</div>
 				</div>
-				<div class="col-md-4 mb-3">
-				  <label for="municipio_cliente">Municipio <span class="priority">*<span/></label>
-				  <select class="form-control" id="municipio_cliente" name="municipio_cliente" required>
-					<option value="">Seleccione</option>
-				  </select>
-				</div>				
+				<div class="col-md-3 mb-3">
+					<label for="municipio_cliente">Municipio <span class="priority">*<span/></label>			
+				  	<div class="input-group mb-3">
+					  <select class="selectpicker" id="municipio_cliente" name="municipio_cliente" required data-live-search="true" title="Municipio">
+						<option value="">Seleccione</option>
+				  	 </select>
+					</div>
+				</div>	
+				<div class="col-md-3 mb-3">
+				  <label for="telefono_clientes">Teléfono</label>
+				  <input type="number" class="form-control" id="telefono_clientes" name="telefono_clientes" placeholder="Teléfono" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+				</div>						
 			  </div>
 			  <div class="form-row">
 				<div class="col-md-12 mb-3">
@@ -1183,11 +1191,7 @@
 				</div>				  				
 			  </div>
 			  <div class="form-row">			  
-				<div class="col-md-4 mb-3">
-				  <label for="telefono_clientes">Teléfono</label>
-				  <input type="number" class="form-control" id="telefono_clientes" name="telefono_clientes" placeholder="Teléfono" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-				</div>
-				<div class="col-md-8 mb-3">
+				<div class="col-md-12 mb-3">
 					<label for="correo_clientes">Correo</label>
 					<div class="input-group mb-3">
 					  <input type="email" class="form-control" placeholder="Correo" id="correo_clientes" name="correo_clientes" aria-label="Correo" aria-describedby="basic-addon2" maxlength="70">
@@ -1244,51 +1248,54 @@
 					</div>							
 				</div>				  
 				<div class="form-row">
-				<div class="col-md-8 mb-3">
-				  <label for="nombre_proveedores">Proveedor <span class="priority">*<span/></label>
-				  <input type="text" class="form-control" id="nombre_proveedores" name="nombre_proveedores" placeholder="Proveedor" required maxlength="150" placeholder="RTN" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+					<div class="col-md-8 mb-3">
+					  <label for="nombre_proveedores">Proveedor <span class="priority">*<span/></label>
+					  <input type="text" class="form-control" id="nombre_proveedores" name="nombre_proveedores" placeholder="Proveedor" required maxlength="150" placeholder="RTN" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+					</div>
+					<div class="col-md-4 mb-3">
+					  <label for="rtn_proveedores">Identidad o RTN</label>
+						<div class="input-group mb-3">
+							<input type="number" class="form-control" id="rtn_proveedores" name= "rtn_proveedores" maxlength="14" placeholder="RTN" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+							<div class="input-group-append" id="grupo_editar_rtn">				
+								<span data-toggle="tooltip" data-placement="top" title="Editar RTN"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control editar_rtn"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i></a></span>
+							</div>
+						</div>				  
+					</div>					
 				</div>
-				<div class="col-md-4 mb-3">
-				  <label for="rtn_proveedores">Identidad o RTN</label>
-				  	<div class="input-group mb-3">
-				  		<input type="number" class="form-control" id="rtn_proveedores" name= "rtn_proveedores" maxlength="14" placeholder="RTN" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-						<div class="input-group-append" id="grupo_editar_rtn">				
-							<span data-toggle="tooltip" data-placement="top" title="Editar RTN"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control editar_rtn"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i></a></span>
+				<div class="form-row">
+					<div class="col-md-3 mb-3">
+						<label for="fecha_proveedores">Fecha <span class="priority">*<span/></label>
+						<div class="input-group mb-3">
+							<input type="date" required id="fecha_proveedores" name="fecha_proveedores" value="<?php echo date ("Y-m-d");?>" class="form-control"/>
+						</div>	 
+					</div>		
+					<div class="col-md-3 mb-3">
+						<label for="departamento_proveedores">Departamento <span class="priority">*<span/></label>			
+						<div class="input-group mb-3">
+						  <select class="selectpicker" id="departamento_proveedores" name="departamento_proveedores" required data-live-search="true" title="Departamentos">			  
+						 </select>
 						</div>
-					</div>				  
-				</div>					
+					</div>
+					<div class="col-md-3 mb-3">
+						<label for="municipio_proveedores">Municipio <span class="priority">*<span/></label>			
+						<div class="input-group mb-3">
+						  <select class="selectpicker" id="municipio_proveedores" name="municipio_proveedores" required data-live-search="true" title="Municipios">			  
+						 </select>
+						</div>
+					</div>	
+					<div class="col-md-3 mb-3">
+					  <label for="dirección_proveedores">Dirección</label>
+					  <input type="text" class="form-control" id="telefono_proveedores" name="telefono_proveedores" placeholder="Teléfono">
+					</div>							
 				</div>
 				<div class="form-row">
-				<div class="col-md-4 mb-3">
-					<label for="fecha_proveedores">Fecha <span class="priority">*<span/></label>
-					<div class="input-group mb-3">
-						<input type="date" required id="fecha_proveedores" name="fecha_proveedores" value="<?php echo date ("Y-m-d");?>" class="form-control"/>
-					</div>	 
-				</div>				  
-				<div class="col-md-4 mb-3">
-				  <label for="departamento_proveedores">Departamento <span class="priority">*<span/></label>
-				  <select class="form-control" id="departamento_proveedores" name="departamento_proveedores" required>		  
-				  </select>
-				</div>
-				<div class="col-md-4 mb-3">
-				  <label for="municipio_proveedores">Municipio <span class="priority">*<span/></label>
-				  <select class="form-control" id="municipio_proveedores" name="municipio_proveedores" required>
-					<option value="">Seleccione</option>				  
-				  </select>
-				</div>				
-				</div>
-				<div class="form-row">
-				<div class="col-md-12 mb-3">
-				  <label for="dirección_proveedores">Dirección</label>
-				  <input type="text" class="form-control" id="dirección_proveedores" name="dirección_proveedores" placeholder="Dirección" maxlength="150">
-				</div>				  				
+					<div class="col-md-12 mb-3">
+					  <label for="dirección_proveedores">Dirección</label>
+					  <input type="text" class="form-control" id="dirección_proveedores" name="dirección_proveedores" placeholder="Dirección" maxlength="150">
+					</div>				  				
 				</div>
 				<div class="form-row">			  
-					<div class="col-md-4 mb-3">
-					  <label for="telefono_proveedores">Teléfono</label>
-					  <input type="number" class="form-control" id="telefono_proveedores" name="telefono_proveedores" placeholder="Teléfono" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-					</div>
-					<div class="col-md-8 mb-3">
+					<div class="col-md-12 mb-3">
 						<label for="correo_proveedores">Correo</label>
 						<div class="input-group mb-3">
 						  <input type="email" class="form-control" placeholder="Correo" id="correo_proveedores" name="correo_proveedores" aria-label="Correo" aria-describedby="basic-addon2" maxlength="70">
@@ -1937,54 +1944,48 @@
 				
 				<div class="form-row">
 					<div class="col-md-3 mb-3">
-					  <label>Empresa <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <select id="producto_empresa_id" name="producto_empresa_id" class="custom-select" data-toggle="tooltip" data-placement="top" required>
+						<label for="producto_empresa_id">Empresa <span class="priority">*<span/></label>			
+						<div class="input-group mb-3">
+						<select id="producto_empresa_id" name="producto_empresa_id" required class="selectpicker" data-live-search="true" title="Empresa">
 							<option value="">Seleccione</option>
-						  </select>
-						  <div class="input-group-append" id="buscar_producto_empresa">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-						  </div>
-					   </div>
+						</select>
+						</div>
 					</div>	
 					<div class="col-md-3 mb-3">
-					  <label>Superior</label>
-					  <div class="input-group mb-3">
-						  <select id="producto_superior" name="producto_superior" class="custom-select" data-toggle="tooltip" data-placement="top">
+						<label for="producto_superior">Superior</label>			
+						<div class="input-group mb-3">
+						<select class="selectpicker" id="producto_superior" name="producto_superior" required data-live-search="true" title="Superior">
 							<option value="">Seleccione</option>
-						  </select>
-						  <div class="input-group-append" id="buscar_producto_superior">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-						  </div>
-					   </div>
+						</select>
+						</div>
+					</div>
+					<div class="col-md-3 mb-3">
+						<label for="producto_categoria">Categoria</label>			
+						<div class="input-group mb-3">
+						<select class="selectpicker" id="producto_categoria" name="producto_categoria" required data-live-search="true" title="Categoria">
+							<option value="">Seleccione</option>
+						</select>
+						</div>
 					</div>	
 					<div class="col-md-3 mb-3">
-					  <label>Categoria <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <select id="producto_categoria" name="producto_categoria" class="custom-select" data-toggle="tooltip" data-placement="top">
+						<label for="almacen">Almacén</label>			
+						<div class="input-group mb-3">
+						<select id="almacen" name="almacen" required class="selectpicker" data-live-search="true" title="Almacén">
 							<option value="">Seleccione</option>
-						  </select>
-						  <div class="input-group-append" id="buscar_producto_categorias">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-						  </div>
-					   </div>
-					</div>						
-					<div class="col-md-3 mb-3">
-					  <label for="almacen">Almacén <span class="priority">*<span/></label>
-					  <select class="form-control" id="almacen" name="almacen" required>			  
-					  </select>
-					</div>						
+						</select>
+						</div>
+					</div>					
 				</div>
 				
 				<div class="form-row">
 					<div class="col-md-3 mb-3">
 					  <label for="tipo_producto">Tipo Producto <span class="priority">*<span/></label>
-					  <select class="form-control" id="tipo_producto" name="tipo_producto" required data-toggle="tooltip" data-placement="top">			  
+					  <select id="tipo_producto" name="tipo_producto" required class="selectpicker" data-live-search="true" title="Tipo Producto">			  
 					  </select>
 					</div>					
 					<div class="col-md-3 mb-3">
 					  <label for="medida">Medida <span class="priority">*<span/></label>
-					  <select class="form-control" id="medida" name="medida" required data-toggle="tooltip" data-placement="top">			  
+					  <select id="medida" name="medida" required class="selectpicker" data-live-search="true" title="Medida">			  
 					  </select>
 					</div>				  				
 					<div class="col-md-3 mb-3">

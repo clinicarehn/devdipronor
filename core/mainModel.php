@@ -1989,57 +1989,157 @@
 
 				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
 		}
-
-
 
 		public function getPuestos(){
-
 			$query = "SELECT *
-
 				FROM puestos
-
 				WHERE estado = 1
-
 				ORDER BY nombre";
 
+			$result = self::connection()->query($query);
 
+			return $result;
+		}
+
+		public function getTipoContrato(){
+			$query = "SELECT *
+				FROM tipo_contrato
+				ORDER BY nombre";
 
 			$result = self::connection()->query($query);
 
+			return $result;
+		}	
+		
+		public function getPagoPlanificado(){
+			$query = "SELECT *
+				FROM pago_planificado
+				ORDER BY nombre";
 
+			$result = self::connection()->query($query);
 
 			return $result;
+		}
+		
+		public function getTipoEmpleado(){
+			$query = "SELECT *
+				FROM tipo_empleado
+				ORDER BY nombre DESC";
 
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
+		public function getEmpleadoContrato(){
+			$query = "SELECT c.colaborador_id AS colaborador_id, CONCAT(co.nombre, ' ', co.apellido) AS 'nombre'
+				FROM contrato AS c
+				INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
+				ORDER BY co.nombre";
+				
+			$result = self::connection()->query($query);
+
+			return $result;
+		}	
+		
+		public function getEmpleado(){
+			$query = "SELECT colaboradores_id, CONCAT(nombre, ' ', apellido) AS 'nombre'
+			FROM colaboradores
+			ORDER BY nombre";
+				
+			$result = self::connection()->query($query);
+		
+			return $result;
+		}	
+
+		public function getContratoEdit($datos){
+			$query = "SELECT *
+			FROM contrato";
+				
+			$result = self::connection()->query($query);
+		
+			return $result;
 		}
 
+		public function getContrato($datos){
+			$estado = '';			
+			$tipo_contrato = '';
+			$pago_planificado_id = '';
+			$tipo_empleado = '';
 
+
+			if($datos['tipo_contrato'] != "" || $datos['tipo_contrato'] != 0){
+				$tipo_contrato = "AND c.tipo_contrato_id = '".$datos['tipo_contrato']."'";
+			}	
+			
+			if($datos['pago_planificado'] != "" || $datos['pago_planificado'] != 0){
+				$pago_planificado_id = "AND c.pago_planificado_id = '".$datos['pago_planificado']."'";
+			}
+
+			if($datos['tipo_empleado'] != "" || $datos['tipo_empleado'] != 0){
+				$tipo_empleado = "AND c.tipo_empleado_id = '".$datos['tipo_empleado']."'";
+			}			
+
+			$query = "SELECT c.contrato_id AS contrato_id, CONCAT(co.nombre, ' ', co.apellido) AS 'empleado', tc.nombre AS 'tipo_contrato', pp.nombre AS 'pago_planificado', te.nombre AS 'tipo_empleado', c.fecha_inicio AS 'fecha_inicio', c.estado AS 'estado', (CASE WHEN c.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', c.salario AS 'salario', c.tipo_contrato_id AS 'tipo_contrato_id', c.pago_planificado_id AS 'pago_planificado_id', c.tipo_empleado_id AS 'tipo_empleado_id', (CASE WHEN c.fecha_fin = '' THEN 'Sin Registro' ELSE c.fecha_fin END) AS 'fecha_fin', c.notas AS 'notas'
+				FROM contrato AS c
+				INNER JOIN colaboradores AS co ON c.contrato_id = co.colaboradores_id
+				INNER JOIN tipo_contrato AS tc ON c.tipo_contrato_id = tc.tipo_contrato_id
+				INNER JOIN pago_planificado AS pp ON c.pago_planificado_id = pp.pago_planificado_id
+				INNER JOIN tipo_empleado AS te ON c.tipo_empleado_id = te.tipo_empleado_id
+				WHERE c.estado = '".$datos['estado']."'
+				$tipo_contrato
+				$pago_planificado_id
+				$tipo_empleado
+				ORDER BY co.nombre ASC";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
+		public function getNomina($datos){
+			$estado = '';			
+			$tipo_contrato = '';
+			$pago_planificado_id = '';
+
+			/*if($datos['tipo_contrato'] != "" || $datos['tipo_contrato'] != 0){
+				$tipo_contrato = "AND c.tipo_contrato_id = '".$datos['tipo_contrato']."'";
+			}	
+			
+			if($datos['pago_planificado'] != "" || $datos['pago_planificado'] != 0){
+				$pago_planificado_id = "AND c.pago_planificado_id = '".$datos['pago_planificado']."'";
+			}
+
+			if($datos['tipo_empleado'] != "" || $datos['tipo_empleado'] != 0){
+				$tipo_empleado = "AND c.tipo_empleado_id = '".$datos['tipo_empleado']."'";
+			}*/			
+
+			$query = "SELECT n.nomina_id AS 'nomina_id', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas'
+			FROM nomina AS n
+			INNER JOIN contrato AS c ON n.contrato_id = c.contrato_id
+			INNER JOIN tipo_contrato AS tp ON c.tipo_contrato_id = tp.tipo_contrato_id
+			INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
+			ORDER BY n.fecha_registro DESC";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}			
 
 		public function getCantidadUsuariosPlan(){
-
 			$query = "SELECT *
-
 				FROM plan";
-
-
 
 			$result = self::connection()->query($query);
 
 
-
 			return $result;
-
 		}
-
-
 
 		public function getUsuarios($datos){
 
@@ -2052,8 +2152,6 @@
 				$where = "WHERE u.estado = 1 AND u.privilegio_id NOT IN(1)";
 
 			}
-
-
 
 			$query = "SELECT u.users_id AS 'users_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', u.username AS 'username', u.email AS 'correo', tp.nombre AS 'tipo_usuario',
 
@@ -2325,7 +2423,7 @@
 			p.productos_id, m.almacen_id
 		ORDER BY
 			p.fecha_registro ASC";
-
+			
 			$result = self::connection()->query($query);
 
 			return $result;

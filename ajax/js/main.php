@@ -27,6 +27,7 @@ $(document).ready(function() {
 	getCollaboradoresModalPagoFacturasCompras();
 	getClientesCXC();
 	getProveedoresCXP();
+	$('.selectpicker').selectpicker();
 });
 
 
@@ -132,8 +133,10 @@ function getMenu(privilegio_id){
 				for(var i=0; i < valores_menu.length; i++){					
 					if(valores_menu[i].estado == 1){
 						$('#' + valores_menu[i].menu).show();
+						$('.' + valores_menu[i].menu).show();
 					}else{
 						$('#' + valores_menu[i].menu).hide();
+						$('.' + valores_menu[i].menu).hide();
 					}					
 				}
 			}catch(e){
@@ -157,8 +160,10 @@ function getSubMenu(privilegio_id){
 				for(var i=0; i < valores_submenu.length; i++){
 					if(valores_submenu[i].estado == 1){
 						$('#' + valores_submenu[i].submenu).show();
+						$('.' + valores_submenu[i].submenu).show();
 					}else{
 						$('#' + valores_submenu[i].submenu).hide();
+						$('.' + valores_submenu[i].submenu).hide();
 					}					
 				}
 			}catch(e){
@@ -182,8 +187,10 @@ function getSubMenu1(privilegio_id){
 				for(var i=0; i < valores_submenu.length; i++){
 					if(valores_submenu[i].estado == 1){
 						$('#' + valores_submenu[i].submenu1).show();
+						$('.' + valores_submenu[i].submenu1).show();
 					}else{
 						$('#' + valores_submenu[i].submenu1).hide();
+						$('.' + valores_submenu[i].submenu1).hide();
 					}					
 				}
 			}catch(e){
@@ -509,10 +516,15 @@ function modal_productos(){
 	$('#edi_producto').hide();
 	$('#delete_producto').hide();
 
-
 	//MOSTRAR OBJETOS
 	$('#formProductos #cantidad').show();
 	$('#div_cantidad_editar_producto').show();
+
+	$('#formProductos #producto_empresa_id').val(1);
+	$('#formProductos #producto_empresa_id').selectpicker('refresh');
+
+	$('#formProductos #tipo_producto').val(1);
+	$('#formProductos #tipo_producto').selectpicker('refresh');
 
 	//HABILITAR OBJETOS
 	$('#formProductos #producto').attr("readonly", false);
@@ -566,7 +578,8 @@ function getEmpresaProductos(){
 	    async: true,
         success: function(data){
 		    $('#formProductos #producto_empresa_id').html("");
-			$('#formProductos #producto_empresa_id').html(data);			
+			$('#formProductos #producto_empresa_id').html(data);
+			$('#formProductos #producto_empresa_id').selectpicker('refresh');			
 		}
      });
 }
@@ -581,6 +594,7 @@ function getMedida(count){
         success: function(data){
 		    $('#formProductos #medida').html("");
 			$('#formProductos #medida').html(data);
+			$('#formProductos #medida').selectpicker('refresh');
 			$('#medidaPurchase_'+count).html(data);
 			$('#medida_'+count).html(data);
 		}
@@ -597,6 +611,7 @@ function getAlmacen(){
         success: function(data){
 		    $('#formProductos #almacen').html("");
 			$('#formProductos #almacen').html(data);
+			$('#formProductos #almacen').selectpicker('refresh');
 
 			$('#form_main_movimientos #almacen').append("");
 			$('#form_main_movimientos #almacen').append("<option value='0'>Todos</option>"+data);
@@ -606,9 +621,11 @@ function getAlmacen(){
 
 			$('#formTransferencia #id_bodega').html("");
 			$('#formTransferencia #id_bodega').html(data);
+			$('#formTransferencia #id_bodega').selectpicker('refresh');
 
 			$('#almacen_modal').html("");
 			$('#almacen_modal').html(data);
+			$('#almacen_modal').selectpicker('refresh');
 		}
      });
 }
@@ -623,6 +640,7 @@ function getTipoProducto(){
         success: function(data){
 		    $('#formProductos #tipo_producto').html("");
 			$('#formProductos #tipo_producto').html(data);
+			$('#formProductos #tipo_producto').selectpicker('refresh');
 		}
      });
 }
@@ -637,6 +655,7 @@ function getCategoriaProductos(){
         success: function(data){
 		    $('#formProductos #producto_categoria').html("");
 			$('#formProductos #producto_categoria').html(data);
+			$('#formProductos #producto_categoria').selectpicker('refresh');
 		}
      });
 }
@@ -650,8 +669,9 @@ function getProductos(){
 	    async: true,
         success: function(data){
 			$('#formMovimientos #movimiento_producto').html(data);
-			$('#producto_superior').html(data);
+			$('#formProductos #producto_superior').html(data);
 			$('#producto_movimiento_filtro').html(data);
+			$('#formProductos #producto_superior').selectpicker('refresh');	
 		}
      });
 }
@@ -700,6 +720,7 @@ function getDepartamentoClientes(){
         success: function(data){
 		    $('#formClientes #departamento_cliente').html("");
 			$('#formClientes #departamento_cliente').html(data);
+			$('#formClientes #departamento_cliente').selectpicker('refresh');
 		}
      });
 }
@@ -750,6 +771,7 @@ function getDepartamentoProveedores(){
         success: function(data){
 		    $('#formProveedores #departamento_proveedores').html("");
 			$('#formProveedores #departamento_proveedores').html(data);
+			$('#formProveedores #departamento_proveedores').selectpicker('refresh');
 		}
      });
 }
@@ -767,6 +789,7 @@ function getMunicipiosProveedores(departamentos_id, municipios_id){
 		  $('#formProveedores #municipio_proveedores').html("");
 		  $('#formProveedores #municipio_proveedores').html(data);
 		  $('#formProveedores #municipio_proveedores').val(municipios_id);
+		  $('#formProveedores #municipio_proveedores').selectpicker('refresh');
 	  }
   });
   return false;
@@ -784,6 +807,7 @@ $('#formProveedores #departamento_proveedores').on('change', function(){
 		   success:function(data){
 		      $('#formProveedores #municipio_proveedores').html("");
 			  $('#formProveedores #municipio_proveedores').html(data);
+			  $('#formProveedores #municipio_proveedores').selectpicker('refresh');
 		  }
 	  });
 	  return false;
@@ -1321,6 +1345,7 @@ function getPuestoColaboradores(){
         success: function(data){
 		    $('#formColaboradores #puesto_colaborador').html("");
 			$('#formColaboradores #puesto_colaborador').html(data);
+			$('#formColaboradores #puesto_colaborador').selectpicker('refresh');	
 		}
      });
 }
@@ -1334,7 +1359,8 @@ function getEmpresaColaboradores(){
 	    async: true,
         success: function(data){
 		    $('#formColaboradores #colaborador_empresa_id').html("");
-			$('#formColaboradores #colaborador_empresa_id').html(data);			
+			$('#formColaboradores #colaborador_empresa_id').html(data);
+			$('#formColaboradores #colaborador_empresa_id').selectpicker('refresh');		
 		}
      });
 }
@@ -1697,7 +1723,8 @@ function getClientesCXC(){
 	    async: true,
         success: function(data){
 		    $('#form_main_cobrar_clientes #cobrar_clientes').html("");
-			$('#form_main_cobrar_clientes #cobrar_clientes').html(data);				
+			$('#form_main_cobrar_clientes #cobrar_clientes').html(data);
+			$('#form_main_cobrar_clientes #cobrar_clientes').selectpicker('refresh');				
 		}
      });
 }
@@ -1711,7 +1738,8 @@ function getProveedoresCXP(){
 	    async: true,
         success: function(data){
 		    $('#form_main_pagar_proveedores #pagar_proveedores').html("");
-			$('#form_main_pagar_proveedores #pagar_proveedores').html(data);				
+			$('#form_main_pagar_proveedores #pagar_proveedores').html(data);
+			$('#form_main_pagar_proveedores #pagar_proveedores').selectpicker('refresh');			
 		}
      });
 }
@@ -1935,6 +1963,7 @@ function getMunicipiosClientes(departamentos_id, municipios_id){
 		  $('#formClientes #municipio_cliente').html("");
 		  $('#formClientes #municipio_cliente').html(data);
 		  $('#formClientes #municipio_cliente').val(municipios_id);
+		  $('#formClientes #municipio_cliente').selectpicker('refresh');
 	  }
   });
   return false;
@@ -1952,6 +1981,7 @@ $('#formClientes #departamento_cliente').on('change', function(){
 		   success:function(data){
 		      $('#formClientes #municipio_cliente').html("");
 			  $('#formClientes #municipio_cliente').html(data);
+			  $('#formClientes #municipio_cliente').selectpicker('refresh');
 		  }
 	  });
 	  return false;
@@ -2085,6 +2115,7 @@ var editar_clientes_dataTable = function(tbody, table){
 				$('#formClientes #fecha_clientes').attr('disabled', true);
 				$('#formClientes #fecha_clientes').val(valores[2]);
 				$('#formClientes #departamento_cliente').val(valores[3]);
+				$('#formClientes #departamento_cliente').selectpicker('refresh');
 				getMunicipiosClientes(valores[4], valores[4]);
 				$('#formClientes #dirección_clientes').val(valores[5]);
 				$('#formClientes #telefono_clientes').val(valores[6]);
@@ -2147,6 +2178,7 @@ var eliminar_clientes_dataTable = function(tbody, table){
 				$('#formClientes #fecha_clientes').attr('disabled', true);
 				$('#formClientes #fecha_clientes').val(valores[2]);
 				$('#formClientes #departamento_cliente').val(valores[3]);
+				$('#formClientes #departamento_cliente').selectpicker('refresh');
 				getMunicipiosClientes(valores[4], valores[4]);
 				$('#formClientes #dirección_clientes').val(valores[5]);
 				$('#formClientes #telefono_clientes').val(valores[6]);
@@ -2477,9 +2509,11 @@ function getBanco(){
         success: function(data){
 		    $('#formTransferenciaBill #bk_nm').html("");
 			$('#formTransferenciaBill #bk_nm').html(data);
+			$('#formTransferenciaBill #bk_nm').selectpicker('refresh');
 
 		    $('#formChequeBill #bk_nm_chk').html("");
 			$('#formChequeBill #bk_nm_chk').html(data);
+			$('#formChequeBill #bk_nm_chk').selectpicker('refresh');
 			
         },
 		

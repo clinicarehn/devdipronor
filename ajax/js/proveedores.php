@@ -125,6 +125,7 @@ var editar_proveedores_dataTable = function(tbody, table){
 				$('#formProveedores #fecha_proveedores').attr('disabled', true);
 				$('#formProveedores #fecha_proveedores').val(valores[2]);
 				$('#formProveedores #departamento_proveedores').val(valores[3]);
+				$('#formProveedores #departamento_proveedores').selectpicker('refresh');
 				getMunicipiosProveedores(valores[3], valores[4]);
 				$('#formProveedores #dirección_proveedores').val(valores[5]);
 				$('#formProveedores #telefono_proveedores').val(valores[6]);
@@ -186,6 +187,7 @@ var eliminar_proveedores_dataTable = function(tbody, table){
 				$('#formProveedores #fecha_proveedores').attr('disabled', true);
 				$('#formProveedores #fecha_proveedores').val(valores[2]);
 				$('#formProveedores #departamento_proveedores').val(valores[3]);
+				$('#formProveedores #departamento_proveedores').selectpicker('refresh');
 				getMunicipiosProveedores(valores[3], valores[4]);
 				$('#formProveedores #dirección_proveedores').val(valores[5]);
 				$('#formProveedores #telefono_proveedores').val(valores[6]);

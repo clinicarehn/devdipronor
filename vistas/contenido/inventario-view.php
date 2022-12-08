@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <ol class="breadcrumb mt-2 mb-4">
         <li class="breadcrumb-item"><a class="breadcrumb-link" href="<?php echo SERVERURL; ?>dashboard/">Dashboard</a></li>
-        <li class="breadcrumb-item active">Inventario</li>
+        <li class="breadcrumb-item active">Movimientos de Inventario</li>
     </ol>
    <div class="card mb-4">
         <div class="card-body">

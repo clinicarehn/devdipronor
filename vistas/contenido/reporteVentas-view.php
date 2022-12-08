@@ -42,7 +42,7 @@
 				<div class="form-group mx-sm-3 mb-1">
 					<div class="input-group">				
 						<div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Inicio</span>
 						</div>
 						<input type="date" required id="fechai" name="fechai" value="<?php 
 						$fecha = date ("Y-m-d");
@@ -65,7 +65,7 @@
 				  <div class="form-group mx-sm-3 mb-1">
 				 	<div class="input-group">				
 						<div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Fin</span>
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fin</span>
 						</div>
 						<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Fin" style="width:165px;">
 					</div>

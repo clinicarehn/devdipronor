@@ -1,20 +1,42 @@
 <div class="container-fluid">
     <ol class="breadcrumb mt-2 mb-4">
         <li class="breadcrumb-item"><a class="breadcrumb-link" href="<?php echo SERVERURL; ?>dashboard/">Dashboard</a></li>
-        <li class="breadcrumb-item active">Reporte de Cotizaciones</li>
+        <li class="breadcrumb-item active">Nomina</li>
     </ol>
-   <div class="card mb-4">
+	<div class="card mb-4">
         <div class="card-body">
-			<form class="form-inline" id="form_main_cotizaciones">
+			<form class="form-inline" id="form_main_nominas">			
+				<div class="form-group mx-sm-3 mb-1">			
+					<div class="input-group">
+						<div class="input-group-append">
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
+							<select id="estado_nomina" class="selectpicker" data-live-search="true">
+								<option value="1">Activas</option>
+								<option value="2">Inactivas</option>
+							</select>
+						</div>	
+					</div>					
+				</div>					
 				<div class="form-group mx-sm-3 mb-1">
-					<div class="input-group">				
-						<div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Tipo Factura</span>
-						</div>
-						<select id="tipo_cotizacion_reporte" name="tipo_cotizacion_reporte" class="custom-select" data-toggle="tooltip" data-placement="top" title="Tipo de Factura">
-					  </select>
+					<div class="input-group">
+						<div class="input-group-append">
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Tipo Contrato</span>
+							<select id="tipo_contrato_nomina" name="tipo_contrato_nomina" class="selectpicker" title="Tipo Contrato" data-live-search="true">
+								<option value="">Seleccione</option>
+					 		 </select>
+						</div>	
 					</div>
-				</div>				
+				</div>	
+				<div class="form-group mx-sm-3 mb-1">
+					<div class="input-group">
+						<div class="input-group-append">
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Pago Planificado</span>
+							<select id="pago_planificado_nomina" name="pago_planificado_nomina" class="selectpicker" data-live-search="true" title="Pago Planificado">
+								<option value="">Seleccione</option>
+					 		 </select>
+						</div>	
+					</div>
+				</div> 	
 				<div class="form-group mx-sm-3 mb-1">
 					<div class="input-group">				
 						<div class="input-group-append">				
@@ -45,45 +67,32 @@
 						</div>
 						<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Fin" style="width:165px;">
 					</div>
-				  </div> 				  
+				  </div>  				 							  
 			</form>          
         </div>
-    </div>	
+    </div>		
     <div class="card mb-4">
 		<div class="card mb-4">
 			<div class="card-header">
-				<i class="fas fa-file-invoice-dollar mr-1"></i>
-				Reporte de Cotizaciones
+				<i class="fas fa-hand-holding-usd mr-1"></i>
+				Nomina
 			</div>
 			<div class="card-body"> 
 				<div class="table-responsive">
-					<table id="dataTablaReporteCotizaciones" class="table table-striped table-condensed table-hover" style="width:100%">
+					<table id="dataTableNomina" class="table table-striped table-condensed table-hover" style="width:100%">
 						<thead>
-							<tr>						
-							<th>Fecha</th>
-							<th>Tipo</th>
-							<th>Proveedor</th>
-							<th>Factura</th>
-							<th>SubTotal</th>
-							<th>ISV</th>
-							<th>Descuento</th>								
-							<th>Total</th>
-							<th>Imprimir</th>
-							<th>Enviar</th>							
-							<th>Anular</th>
+							<tr>
+								<th>Código</th>
+								<th>Contrato</th>
+								<th>Empresa</th>
+								<th>Fecha Inicio</th>
+								<th>Fecha Fin</th>
+								<th>Importe</th>
+								<th>Notas</th>
+								<th>Editar</th>	
+								<th>Eliminar</th>
 							</tr>
 						</thead>
-						<tfoot class="bg-info text-white font-weight-bold">
-							<tr>
-								<td colspan='1'>Total</td>
-								<td colspan="3"></td>
-								<td id="subtotal-i"></td>
-								<td id="impuesto-i"></td>
-								<td id="descuento-i"></td>
-								<td colspan='1' id='total-footer-ingreso'></td>
-								<td colspan="3"></td>
-							</tr>
-						</tfoot>							
 					</table>  
 				</div>                   
 				</div>
@@ -92,7 +101,7 @@
 				require_once "./core/mainModel.php";
 				
 				$insMainModel = new mainModel();
-				$entidad = "compras";
+				$entidad = "nomina";
 				
 				if($insMainModel->getlastUpdate($entidad)->num_rows > 0){
 					$consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();
@@ -103,12 +112,12 @@
 					echo "Última Actualización ".$insMainModel->getTheDay($fecha_registro, $hora);						
 				}else{
 					echo "No se encontraron registros ";
-				}			
+				}				
 			?>
 			</div>
 		</div>
-	</div>
+	</div>	
 
 <?php
-	$insMainModel->guardar_historial_accesos("Ingreso al modulo Reporte de Compras");
+	$insMainModel->guardar_historial_accesos("Ingreso al modulo Nomnas");
 ?>
