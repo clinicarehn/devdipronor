@@ -402,8 +402,8 @@
 				"saldo" => $saldoBodegaNueva,	
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
-				"comentario" => '',
-				"clientes_id" => '',
+				"comentario" => $comentario,
+				"clientes_id" => $clientes_id,
 				"almacen_id" => $bodega
 			];
 				
@@ -421,8 +421,8 @@
 				"saldo" => $saldoBodegaActual,	
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
-				"comentario" => '',
-				"clientes_id" => '',
+				"comentario" => $comentario,
+				"clientes_id" => $clientes_id,
 				"almacen_id" => $bodega_actual
 
 			];
