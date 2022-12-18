@@ -7,6 +7,22 @@ $(document).ready(function() {
 	listar_contratos();
 });
 
+$('#form_main_contrato #estado').on("change", function(e){
+	listar_contratos();
+});
+
+$('#form_main_contrato #tipo_contrato').on("change", function(e){
+	listar_contratos();
+});
+
+$('#form_main_contrato #pago_planificado').on("change", function(e){
+	listar_contratos();
+});
+
+$('#form_main_contrato #tipo_empleado').on("change", function(e){
+	listar_contratos();
+});
+
 //INICIO ACCIONES FROMULARIO CONTRATOS
 var listar_contratos = function(){
 
@@ -320,7 +336,7 @@ function getTipoContrato(){
 			
 		    $('#form_main_contrato #tipo_contrato').html("");
 			$('#form_main_contrato #tipo_contrato').html(data);
-			$('#form_main_contrato #tipo_contrato').selectpicker('refresh');	
+			$('#form_main_contrato #tipo_contrato').selectpicker('refresh');
 			
 		    $('#formContrato #contrato_tipo_contrato_id').html("");
 			$('#formContrato #contrato_tipo_contrato_id').html(data);

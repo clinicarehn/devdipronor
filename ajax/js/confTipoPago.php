@@ -114,7 +114,9 @@ var edit_tipo_pago_contabilidad_dataTable = function(tbody, table){
 				$('#formConfTipoPago #pro_tipoPago').val("Editar");
 				$('#formConfTipoPago #confTipoPago').val(valores[0]);
 				$('#formConfTipoPago #confCuentaTipoPago').val(valores[1]);	
-				$('#formConfTipoPago #confTipoCuenta').val(valores[3]);				
+				$('#formConfTipoPago #confCuentaTipoPago').selectpicker('refresh');				
+				$('#formConfTipoPago #confTipoCuenta').val(valores[3]);		
+				$('#formConfTipoPago #confTipoCuenta').selectpicker('refresh');	
 
 				if(valores[2] == 1){
 					$('#formConfTipoPago #confTipoPago_activo').attr('checked', true);
@@ -167,7 +169,9 @@ var delete_tipo_pago_contabilidad_dataTable = function(tbody, table){
 				$('#formConfTipoPago #pro_tipoPago').val("Eliminar");
 				$('#formConfTipoPago #confTipoPago').val(valores[0]);
 				$('#formConfTipoPago #confCuentaTipoPago').val(valores[1]);	
-				$('#formConfTipoPago #confTipoCuenta').val(valores[3]);				
+				$('#formConfTipoPago #confCuentaTipoPago').selectpicker('refresh');
+				$('#formConfTipoPago #confTipoCuenta').val(valores[3]);	
+				$('#formConfTipoPago #confTipoCuenta').selectpicker('refresh');			
 
 				if(valores[2] == 1){
 					$('#formConfTipoPago #confTipoPago_activo').attr('checked', true);
@@ -229,7 +233,8 @@ function getCuentaTipoPago(){
 	    async: true,
         success: function(data){
 		    $('#formConfTipoPago #confCuentaTipoPago').html("");
-			$('#formConfTipoPago #confCuentaTipoPago').html(data);			
+			$('#formConfTipoPago #confCuentaTipoPago').html(data);
+			$('#formConfTipoPago #confCuentaTipoPago').selectpicker('refresh');
 		}
      });
 }
@@ -243,7 +248,8 @@ function getTipoCuenta(){
 	    async: true,
         success: function(data){
 		    $('#formConfTipoPago #confTipoCuenta').html("");
-			$('#formConfTipoPago #confTipoCuenta').html(data);			
+			$('#formConfTipoPago #confTipoCuenta').html(data);
+			$('#formConfTipoPago #confTipoCuenta').selectpicker('refresh');			
 		}
      });
 }

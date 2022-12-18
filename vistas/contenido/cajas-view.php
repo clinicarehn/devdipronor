@@ -47,10 +47,7 @@
 						</div>
 						<input type="date" class="form-control" id="fecha_cajas_f" name="fecha_cajas_f" value="<?php echo date('Y-m-d');?>">
 					</div>
-				</div>			  
-				<div class="form-group mx-sm-2">
-					<button class="consultar btn btn-secondary" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>
-				</div> 							  
+				</div>						  
 			</form>	           
         </div>
     </div>	

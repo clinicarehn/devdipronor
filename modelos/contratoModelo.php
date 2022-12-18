@@ -47,8 +47,11 @@
 		}
 		
 		protected function valid_contrato_nomina_modelo($contrato_id){
-			$query = "SELECT nomina_id FROM nomina WHERE contrato_id = '$contrato_id'";
-			
+			$query = "SELECT c.contrato_id
+				FROM contrato As c
+				INNER JOIN nomina_detalles AS nd ON c.colaborador_id = nd.colaboradores_id
+				WHERE c.contrato_id = '$contrato_id'";
+
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;			

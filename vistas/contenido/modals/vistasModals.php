@@ -123,7 +123,7 @@
 
 <!--INICIO MODAL USUARIOS-->
 <div class="modal fade" id="modal_registrar_usuarios">
-	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Usuarios</h4>    
@@ -146,15 +146,15 @@
 					</div>							
 				</div>					
 				<div class="form-row">
-					<div class="input-group mb-3">
-					  <input type="text" class="form-control" placeholder="Colaborador" id="colaborador_id_usuario" name="colaborador_id_usuario" aria-label="Colaborador" aria-describedby="basic-addon2" readonly required>
-					 <div class="input-group-append" id="buscar_colaboradores">				
-						<span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control buscar_productos"><div class="sb-nav-link-icon"></div><i class="fas fa-search-plus fa-lg"></i></a></span>
-					 </div>
-					</div>	 			
-				</div>
-				<div class="form-row">
-					<div class="col-md-6 mb-3">
+					<div class="col-md-3 mb-3">
+						<label for="colaborador_id_usuario">Colaboradores <span class="priority">*<span/></label>
+					    <div class="input-group mb-3">
+						  <select id="colaborador_id_usuario" name="colaborador_id_usuario" class="selectpicker" data-live-search="true" title="Colaboradores">
+							<option value="">Seleccione</option>
+						  </select>
+					    </div>
+					</div>					 			
+					<div class="col-md-3 mb-3">
 						<label for="nickname">Nick Name <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
 						  <input type="text" class="form-control" placeholder="Usuario" id="nickname" name="nickname" aria-label="Correo" aria-describedby="basic-addon2" required>
@@ -163,7 +163,7 @@
 						  </div>
 						</div>	 
 					</div>
-					<div class="col-md-6 mb-3">
+					<div class="col-md-3 mb-3">
 						<label for="correo_usuario">Correo <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
 						  <input type="email" class="form-control" placeholder="Correo" id="correo_usuario" name="correo_usuario" aria-label="Correo" aria-describedby="basic-addon2" required>
@@ -171,25 +171,32 @@
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-envelope-square"></i></span>
 						  </div>
 						</div>	 
-					</div>										
+					</div>
+					<div class="col-md-3 mb-3">
+						<label for="empresa_usuario">Empresa <span class="priority">*<span/></label>
+					    <div class="input-group mb-3">
+						  <select id="empresa_usuario" name="empresa_usuario" class="selectpicker" data-live-search="true" title="Empresa">
+							<option value="">Seleccione</option>
+						  </select>
+					    </div>
+					</div>					
 				</div>
 				<div class="form-row">
-					<div class="col-md-6 mb-3">
-						<label for="empresa">Empresa <span class="priority">*<span/></label>
-						<select class="form-control" id="empresa_usuario" name="empresa_usuario" required>			  
-						</select>
-					</div>						
-					<div class="col-md-6 mb-3">
+					<div class="col-md-3 mb-3">
 					  <label for="tipo_user">Tipo Usuario <span class="priority">*<span/></label>
-					  <select class="form-control" id="tipo_user" name="tipo_user" required>						  
-					  </select>
-					</div>															
-				</div>
-				<div class="form-row">
-					<div class="col-md-6 mb-3">
-					  <label for="tipo_user">Privilegio <span class="priority">*<span/></label>
-					  <select class="form-control" id="privilegio_id" name="privilegio_id" required>						  
-					  </select>
+					    <div class="input-group mb-3">
+						  <select id="tipo_user" name="tipo_user" class="selectpicker" data-live-search="true" title="Tipo Usuario">
+							<option value="">Seleccione</option>
+						  </select>
+					    </div>
+					</div>					
+					<div class="col-md-3 mb-3">
+					  <label for="privilegio_id">Privilegio <span class="priority">*<span/></label>
+					    <div class="input-group mb-3">
+						  <select id="privilegio_id" name="privilegio_id" class="selectpicker" data-live-search="true" title="Prvilegio">
+							<option value="">Seleccione</option>
+						  </select>
+					    </div>					 				
 					</div>																
 				</div>				
 				<div class="form-group" id="estado_usuarios">				  
@@ -1175,7 +1182,6 @@
 					<label for="municipio_cliente">Municipio <span class="priority">*<span/></label>			
 				  	<div class="input-group mb-3">
 					  <select class="selectpicker" id="municipio_cliente" name="municipio_cliente" required data-live-search="true" title="Municipio">
-						<option value="">Seleccione</option>
 				  	 </select>
 					</div>
 				</div>	
@@ -1493,40 +1499,50 @@
 					</div>							
 				</div>				
 				<div class="form-row">
-				<div class="col-md-6 mb-3">
-				  <label for="nombre">Nombre <span class="priority">*<span/></label>
-				  <input type="text" class="form-control" id="nombre_colaborador" name="nombre_colaborador" placeholder="Nombre" required>
-				</div>
-				<div class="col-md-6 mb-3">
-				  <label for="apellido">Apellido <span class="priority">*<span/></label>
-				  <input type="text" class="form-control" id="apellido_colaborador" name="apellido_colaborador" placeholder="Apellido" required>
-				</div>
-				</div>
-				<div class="form-row">
-				<div class="col-md-6 mb-3">
-				  <label for="identidad">Identidad <span class="priority">*<span/></label>
-				  <input type="number" class="form-control" id="identidad_colaborador" name= "identidad_colaborador" placeholder="Identidad" maxlength="13" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
-				</div>			  
-				<div class="col-md-6 mb-3">
-				  <label for="telefono">Teléfono <span class="priority">*<span/></label>
-				  <input type="number" class="form-control" id="telefono_colaborador" name="telefono_colaborador" placeholder="Teléfono" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
-				</div>
+					<div class="col-md-6 mb-3">
+						<label for="nombre">Nombre <span class="priority">*<span/></label>
+						<input type="text" class="form-control" id="nombre_colaborador" name="nombre_colaborador" placeholder="Nombre" required>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label for="apellido">Apellido <span class="priority">*<span/></label>
+						<input type="text" class="form-control" id="apellido_colaborador" name="apellido_colaborador" placeholder="Apellido" required>
+					</div>
 				</div>
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
-					  <label for="estado">Puesto <span class="priority">*<span/></label>
-					  <select class="form-control" id="puesto_colaborador" name="puesto_colaborador" required>			  
-					  </select>
-					</div>				
+						<label for="identidad_colaborador">Identidad <span class="priority">*<span/></label>
+						<input type="number" class="form-control" id="identidad_colaborador" name= "identidad_colaborador" placeholder="Identidad" maxlength="13" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+					</div>			  
+					<div class="col-md-6 mb-3">
+						<label for="telefono">Teléfono <span class="priority">*<span/></label>
+						<input type="number" class="form-control" id="telefono_colaborador" name="telefono_colaborador" placeholder="Teléfono" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-md-6 mb-3">
+						<label for="fecha_ingreso_colaborador">Fecha Ingreso <span class="priority">*<span/></label>
+						<input type="date" class="form-control" id="fecha_ingreso_colaborador" name="fecha_ingreso_colaborador" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Ingreso" required>
+					</div>			  
+					<div class="col-md-6 mb-3">
+						<label for="fecha_egreso_colaborador">Fecha Egreso</label>
+						<input type="number" class="form-control" id="fecha_egreso_colaborador" name="fecha_egreso_colaborador" placeholder="Fecha Egreso">
+					</div>
+				</div>				
+				<div class="form-row">				
+					<div class="col-md-6 mb-3">
+					  <label>Puesto <span class="priority">*<span/></label>
+					  <div class="input-group mb-3">
+						  <select id="puesto_colaborador" name="puesto_colaborador" class="selectpicker" title="Puesto" data-live-search="true" required>
+							<option value="">Seleccione</option>
+						  </select>
+					   </div>
+					</div>	
 					<div class="col-md-6 mb-3">
 					  <label>Empresa <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
-						  <select id="colaborador_empresa_id" name="colaborador_empresa_id" class="custom-select" data-toggle="tooltip" data-placement="top" title="Modalidad">
+						  <select id="colaborador_empresa_id" name="colaborador_empresa_id" class="selectpicker" title="Empresa" data-live-search="true" required>
 							<option value="">Seleccione</option>
 						  </select>
-						  <div class="input-group-append" id="buscar_colaborador_empresa">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-						  </div>
 					   </div>
 					</div>						
 				</div>
@@ -1993,22 +2009,22 @@
 					  <input type="number" class="form-control" id="precio_compra" name="precio_compra" placeholder="Precio Compra" step="0.01" required>
 					</div>	
 					<div class="col-md-3 mb-3">
-					  <label for="municipio_cliente">Precio Venta</label>
+					  <label for="precio_venta">Precio Venta</label>
 					  <input type="number" class="form-control" id="precio_venta" name="precio_venta" placeholder="Precio Venta" step="0.01">
 					</div>										
 				</div>
 				
 				<div class="form-row">				  
 					<div class="col-md-3 mb-3">
-					  <label for="municipio_cliente">% Ganancia</label>
+					  <label for="porcentaje_venta">% Ganancia</label>
 					  <input type="number" class="form-control" id="porcentaje_venta" name="porcentaje_venta" placeholder="Precio Venta" step="0.01">
 					</div>	
 					<div class="col-md-3 mb-3">
-					  <label for="municipio_cliente">Cantidad Mayoreo </label>
+					  <label for="cantidad_mayoreo">Cantidad Mayoreo </label>
 					  <input type="number" class="form-control" id="cantidad_mayoreo" name="cantidad_mayoreo" placeholder="Precio Mayoreo" step="0.01" value="3">
 					</div>	
 					<div class="col-md-3 mb-3">
-					  <label for="municipio_cliente">Precio Mayoreo </label>
+					  <label for="precio_mayoreo">Precio Mayoreo </label>
 					  <input type="number" class="form-control" id="precio_mayoreo" name="precio_mayoreo" placeholder="Precio Mayoreo" step="0.01">
 					</div>		
 					<div class="col-md-3 mb-3">
@@ -2076,7 +2092,7 @@
 <!--Modal Transferencia de Producto / Bodega-->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="modal_transferencia_producto">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Transferir Producto</h5>
@@ -2093,20 +2109,17 @@
           	</div>
 
 			<div class="form-row">				
-				<div class="col-md-12 mb-3">
+				<div class="col-md-5 mb-3">
 					<label for="prefijo">Bodega</label>
 					<div class="input-group mb-3">
-						<select id="id_bodega" name="id_bodega" class="custom-select" data-toggle="tooltip" data-placement="top" >
-			 			</select>
+						<select id="id_bodega" name="id_bodega" class="selectpicker" data-live-search="true" title="Bodega">
+						</select>
 						<div class="input-group-append">				
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-warehouse"></i></span>
 						</div>
 					</div>	 
-				</div>						
-			</div>	
-			
-			<div class="form-row">				
-				<div class="col-md-12 mb-3">
+				</div>	
+				<div class="col-md-7 mb-9">
 					<label for="prefijo">Cantidad</label>
 					<div class="input-group mb-3">
 						<input type="number" id="cantidad_movimiento" name="cantidad_movimiento" placeholder="Cantidad" class="form-control" step="0.01">
@@ -2114,8 +2127,8 @@
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-sort-amount-up-alt"></i></span>
 						</div>
 					</div>	 
-				</div>						
-			</div>							
+				</div>										
+			</div>								
 			<div class="RespuestaAjax"></div>	  
 		</form>
       </div>

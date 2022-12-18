@@ -123,6 +123,7 @@ var editar_secuencia_facturacion_dataTable = function(tbody, table){
 				$('#edi_secuencia').show();
 				$('#delete_secuencia').hide();
 				$('#formSecuencia #empresa_secuencia').val(valores[0]);
+				$('#formSecuencia #empresa_secuencia').selectpicker('refresh');	
 				$('#formSecuencia #cai_secuencia').val(valores[1]);
 				$('#formSecuencia #prefijo_secuencia').val(valores[2]);
 				$('#formSecuencia #relleno_secuencia').val(valores[3]);
@@ -133,6 +134,7 @@ var editar_secuencia_facturacion_dataTable = function(tbody, table){
 				$('#formSecuencia #fecha_activacion_secuencia').val(valores[8]);
 				$('#formSecuencia #fecha_limite_secuencia').val(valores[9]);
 				$('#formSecuencia #documento_secuencia').val(valores[11]);
+				$('#formSecuencia #documento_secuencia').selectpicker('refresh');
 
 				if(valores[10] == 1){
 					$('#formSecuencia #estado_secuencia').attr('checked', true);
@@ -188,6 +190,7 @@ var eliminar_secuencia_facturacion_dataTable = function(tbody, table){
 				$('#reg_secuencia').hide();
 				$('#delete_secuencia').show();
 				$('#formSecuencia #empresa_secuencia').val(valores[0]);
+				$('#formSecuencia #empresa_secuencia').selectpicker('refresh');
 				$('#formSecuencia #cai_secuencia').val(valores[1]);
 				$('#formSecuencia #prefijo_secuencia').val(valores[2]);
 				$('#formSecuencia #relleno_secuencia').val(valores[3]);
@@ -198,6 +201,7 @@ var eliminar_secuencia_facturacion_dataTable = function(tbody, table){
 				$('#formSecuencia #fecha_activacion_secuencia').val(valores[8]);
 				$('#formSecuencia #fecha_limite_secuencia').val(valores[9]);
 				$('#formSecuencia #documento_secuencia').val(valores[11]);
+				$('#formSecuencia #documento_secuencia').selectpicker('refresh');
 
 				if(valores[10] == 1){
 					$('#formSecuencia #estado_secuencia').attr('checked', true);
@@ -276,6 +280,7 @@ function getEmpresaSecuencia(){
         success: function(data){
 		    $('#formSecuencia #empresa_secuencia').html("");
 			$('#formSecuencia #empresa_secuencia').html(data);
+			$('#formSecuencia #empresa_secuencia').selectpicker('refresh');	
 		}
      });
 }
@@ -290,6 +295,7 @@ function getDocumentoSecuencia(){
         success: function(data){
 		    $('#formSecuencia #documento_secuencia').html("");
 			$('#formSecuencia #documento_secuencia').html(data);
+			$('#formSecuencia #documento_secuencia').selectpicker('refresh');	
 		}
      });
 }

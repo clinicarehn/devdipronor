@@ -3,7 +3,8 @@ $(document).ready(function() {
     listar_usuarios();
 	getTipoUsuario();
 	getPrivilegio();
-	getEmpresaUsers();	
+	getEmpresaUsers();
+	getColaboradoresUsuario();
 });
 
 //INICIO ACCIONES FROMULARIO USUARIOS
@@ -145,13 +146,16 @@ var editar_usuarios_dataTable = function(tbody, table){
 				$('#delete_usuario').hide();
 				$('#formUsers #usuarios_colaborador_id').val(valores[0]);
 				$('#formUsers #colaborador_id_usuario').val(valores[1]);
+				$('#formUsers #colaborador_id_usuario').selectpicker('refresh');
 				$('#formUsers #nickname').val(valores[2]);
 				$('#formUsers #pass').attr('disabled', true);
 				$('#formUsers #correo_usuario').val(valores[3]);
 				$('#formUsers #empresa_usuario').val(valores[4]);
+				$('#formUsers #empresa_usuario').selectpicker('refresh');
 				$('#formUsers #tipo_user').val(valores[5]);
+				$('#formUsers #tipo_user').selectpicker('refresh');
 				$('#formUsers #privilegio_id').val(valores[7]);
-				$('#formUsers #buscar_colaboradores').hide();
+				$('#formUsers #privilegio_id').selectpicker('refresh');
 
 				if(valores[6] == 1){
 					$('#formUsers #usuarios_activo').attr('checked', true);
@@ -206,12 +210,16 @@ var eliminar_usuarios_dataTable = function(tbody, table){
 				$('#delete_usuario').show();
 				$('#formUsers #usuarios_colaborador_id').val(valores[0]);
 				$('#formUsers #colaborador_id_usuario').val(valores[1]);
+				$('#formUsers #empresa_uscolaborador_id_usuariouario').selectpicker('refresh');
 				$('#formUsers #nickname').val(valores[2]);
 				$('#formUsers #pass').attr('disabled', true);
 				$('#formUsers #correo_usuario').val(valores[3]);
 				$('#formUsers #empresa_usuario').val(valores[4]);
+				$('#formUsers #empresa_usuario').selectpicker('refresh');
 				$('#formUsers #tipo_user').val(valores[5]);
+				$('#formUsers #tipo_user').selectpicker('refresh');
 				$('#formUsers #privilegio_id').val(valores[7]);
+				$('#formUsers #privilegio_id').selectpicker('refresh');
 
 				if(valores[6] == 1){
 					$('#formUsers #usuarios_activo').attr('checked', true);
@@ -255,7 +263,6 @@ function modal_usuarios(){
 	$('#delete_usuario').hide();
 	$('#formUsers #proceso_usuarios').val("Registro");
 	$('#formUsers #grupo_buscar_colaboradores').attr('disabled', false);
-	$('#formUsers #buscar_colaboradores').show();
 
 	//HABILITAR OBJETOS
 	$('#formUsers #nickname').attr('readonly', false);
@@ -275,59 +282,6 @@ function modal_usuarios(){
 		backdrop:'static'
 	});
 }
-
-$('#formUsers #buscar_colaboradores').on('click',function(){
-	  $('#formColaboradores #edi_colaborador').hide();
-	  $('#formColaboradores #reg_colaborador').hide();
-	  $('#formColaboradores #delete_colaborador').hide();
-	  $('#formBuscarColaboradores #buscar').val("");
-     
-      listar_colaboradores_buscar();
-
-	  $('#modal_buscar_colaboradores_usuarios').modal({
-		show:true,
-		keyboard: false,
-		backdrop:'static'
-	  });
-});
-
-var listar_colaboradores_buscar = function(){
-	var table_colaboradores_buscar = $("#DatatableColaboradoresBusqueda").DataTable({
-		"destroy":true,
-		"ajax":{
-			"method":"POST",
-			"url":"<?php echo SERVERURL;?>core/llenarDataTableColaboradores.php"
-		},
-		"columns":[
-			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-copy fa-lg'></span></button>"},
-			{"data":"colaborador"},
-			{"data":"identidad"}
-		],
-		"pageLength": 5,
-        "lengthMenu": lengthMenu,
-		"stateSave": true,
-		"bDestroy": true,
-		"language": idioma_español,
-	});
-	table_colaboradores_buscar.search('').draw();
-	$('#buscar').focus();
-	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
-
-	view_colaboradores_busqueda_dataTable("#DatatableColaboradoresBusqueda tbody", table_colaboradores_buscar);
-}
-
-var view_colaboradores_busqueda_dataTable = function(tbody, table){
-	$(tbody).off("click", "button.table_view");
-	$(tbody).on("click", "button.table_view", function(e){
-		e.preventDefault();
-		var data = table.row( $(this).parents("tr") ).data();
-		$('#formUsers #usuarios_colaborador_id').val(data.colaborador_id);
-		$('#formUsers #colaborador_id_usuario').val(data.colaborador);
-		$('#formUsers #nickname').focus();
-		$('#modal_buscar_colaboradores_usuarios').modal('hide');
-	});
-}
-/*FIN FORMULARIO USUARIOS*/
 
 function consultarNombre(users_id){	
     var url = '<?php echo SERVERURL; ?>core/getUsuarioNombre.php';
@@ -356,6 +310,7 @@ function getTipoUsuario(){
         success: function(data){
 		    $('#formUsers #tipo_user').html("");
 			$('#formUsers #tipo_user').html(data);
+			$('#formUsers #tipo_user').selectpicker('refresh');
 		}
      });
 }
@@ -370,6 +325,7 @@ function getPrivilegio(){
         success: function(data){
 		    $('#formUsers #privilegio_id').html("");
 			$('#formUsers #privilegio_id').html(data);
+			$('#formUsers #privilegio_id').selectpicker('refresh');
 		}
      });
 }
@@ -383,7 +339,23 @@ function getEmpresaUsers(){
 	    async: true,
         success: function(data){
 		    $('#formUsers #empresa_usuario').html("");
-			$('#formUsers #empresa_usuario').html(data);		
+			$('#formUsers #empresa_usuario').html(data);
+			$('#formUsers #empresa_usuario').selectpicker('refresh');	
+		}
+     });
+}
+
+function getColaboradoresUsuario(){
+    var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formUsers #colaborador_id_usuario').html("");
+			$('#formUsers #colaborador_id_usuario').html(data);
+			$('#formUsers #colaborador_id_usuario').selectpicker('refresh');	
 		}
      });
 }

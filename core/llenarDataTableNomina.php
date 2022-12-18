@@ -6,8 +6,7 @@
 	$insMainModel = new mainModel();
 	
 	$datos = [
-		"estado" => $_POST['estado'],
-		"tipo_contrato" => $_POST['tipo_contrato'],		
+		"estado" => $_POST['estado'],	
 		"pago_planificado" => $_POST['pago_planificado'],
 	];	
 
@@ -15,17 +14,24 @@
 	
 	$arreglo = array();
 	$data = array();
-	
-	while($row = $result->fetch_assoc()){				
+	$neto_importe = 0;	
+
+	while($row = $result->fetch_assoc()){
+		$neto_importe += $row['importe'];
+
 		$data[] = array( 
 			"nomina_id"=>$row['nomina_id'],
-			"contrato"=>$row['contrato'],
 			"empresa"=>$row['empresa'],
 			"fecha_inicio"=>$row['fecha_inicio'],
 			"fecha_fin"=>$row['fecha_fin'],
 			"importe"=>$row['importe'],
-			"notas"=>$row['notas']		
-		);		
+			"notas"=>$row['notas']	,
+			"detalle"=>$row['detalle'],
+			"pago_planificado_id"=>$row['pago_planificado_id'],
+			"estado"=>$row['estado'],
+			"neto_importe"=>$neto_importe,	
+			"empresa_id"=>$row['empresa_id'],	
+		);			
 	}
 	
 	$arreglo = array(

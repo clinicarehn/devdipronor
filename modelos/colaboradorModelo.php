@@ -9,7 +9,7 @@
 		protected function agregar_colaborador_modelo($datos){
 			$colaboradores_id  = mainModel::correlativo("colaboradores_id", "colaboradores");
 
-			$insert = "INSERT INTO colaboradores VALUES('$colaboradores_id ','".$datos['puesto']."','".$datos['nombre']."','".$datos['apellido']."','".$datos['identidad']."','".$datos['estado']."','".$datos['telefono']."','".$datos['empresa']."','".$datos['fecha']."')";
+			$insert = "INSERT INTO colaboradores VALUES('$colaboradores_id ','".$datos['puesto']."','".$datos['nombre']."','".$datos['apellido']."','".$datos['identidad']."','".$datos['estado']."','".$datos['telefono']."','".$datos['empresa']."','".$datos['fecha_registro']."','".$datos['fecha_ingreso']."','".$datos['fecha_egreso']."')";
 
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
@@ -31,9 +31,10 @@
 				nombre = '".$datos['nombre']."',
 				apellido = '".$datos['apellido']."',
 				estado = '".$datos['estado']."',
+				fecha_ingreso = '".$datos['fecha_ingreso']."',
 				telefono = '".$datos['telefono']."'
 			WHERE colaboradores_id  = '".$datos['colaborador_id']."'";
-			
+
 			$sql = mainModel::connection()->query($udapte) or die(mainModel::connection()->error);
 			
 			return $sql;			

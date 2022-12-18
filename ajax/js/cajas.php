@@ -1,10 +1,19 @@
 <script>
 $(document).ready(function() {
     listar_registro_cajas();
+	$("#formMainCajas #estado_cajas").val(1);
+	$('#formMainCajas #estado_cajas').selectpicker('refresh');
 });
 
-$('#formMainCajas #search').on("click", function(e){
-	e.preventDefault();
+$('#formMainCajas #estado_cajas').on("change", function(e){
+	listar_registro_cajas();
+});
+
+$('#formMainCajas #fecha_cajas').on("change", function(e){
+	listar_registro_cajas();
+});
+
+$('#formMainCajas #fecha_cajas_f').on("change", function(e){
 	listar_registro_cajas();
 });
 

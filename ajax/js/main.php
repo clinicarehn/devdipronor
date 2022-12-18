@@ -1324,6 +1324,8 @@ function modal_colaboradores(){
 	$('#formColaboradores #estado_colaborador').attr('disabled', false);
 	$('#formColaboradores #colaboradores_activo').attr('disabled', false);
 	$('#formColaboradores #colaborador_empresa_id').attr('disabled', false);
+	$('#formColaboradores #fecha_ingreso_colaborador').attr('disabled', false);
+	$('#formColaboradores #fecha_egreso_colaborador').attr('disabled', false);	
 	$('#formColaboradores #buscar_colaborador_empresa').show();
 	$('#formColaboradores #estado_colaboradores').hide();
 
@@ -1404,6 +1406,8 @@ $('#modificar_perfil_usuario_sistema').on('click',function(e){
 			$('#formColaboradores #puesto_colaborador').val(valores[4]);
 			$('#formColaboradores #colaborador_empresa_id').val(valores[5]);
 			$('#formColaboradores #colaborador_id').val(valores[7]);
+			$('#formColaboradores #fecha_ingreso_colaborador').val(valores[8]);
+			$('#formColaboradores #fecha_egreso_colaborador').val(valores[9]);
 
 			if(valores[6] == 1){
 				$('#formColaboradores #colaboradores_activo').attr('checked', true);
@@ -1411,17 +1415,19 @@ $('#modificar_perfil_usuario_sistema').on('click',function(e){
 				$('#formColaboradores #colaboradores_activo').attr('checked', false);
 			}
 
-			//DESHABIITAR OBJETOS
-			$('#formColaboradores #puesto_colaborador').attr('disabled', true);
-
 			//HABILITAR OBJETOS
 			$('#formColaboradores #nombre_colaborador').attr('readonly', false);
 			$('#formColaboradores #apellido_colaborador').attr('readonly', false);
 			$('#formColaboradores #identidad_colaborador').attr('readonly', false);
 			$('#formColaboradores #telefono_colaborador').attr('readonly', false);
 			$('#formColaboradores #estado_colaborador').attr('disabled', false);
-			$('#formColaboradores #colaboradores_activo').attr('disabled', true);
-			$('#formColaboradores #colaborador_empresa_id').attr('disabled', true);			
+
+			//DESHABILITAR OBJETOS
+			$('#formColaboradores #puesto_colaborador').attr('disabled', true);				
+			$('#formColaboradores #colaborador_empresa_id').attr('disabled', true);	
+
+			$('#formColaboradores #fecha_ingreso_colaborador').attr('disabled', true);
+			$('#formColaboradores #fecha_egreso_colaborador').attr('disabled', true);			
 			$('#formColaboradores #buscar_colaborador_empresa').hide();	
 
 			$('#formColaboradores #proceso_colaboradores').val("Editar");
@@ -1724,7 +1730,7 @@ function getClientesCXC(){
         success: function(data){
 		    $('#form_main_cobrar_clientes #cobrar_clientes').html("");
 			$('#form_main_cobrar_clientes #cobrar_clientes').html(data);
-			$('#form_main_cobrar_clientes #cobrar_clientes').selectpicker('refresh');				
+			$('#form_main_cobrar_clientes #cobrar_clientes').selectpicker('refresh');
 		}
      });
 }
@@ -1950,7 +1956,7 @@ var registrar_pago_proveedores_dataTable = function(tbody, table){
 //FIN LLENAR TABLAS
 
 /*INICIO FUNCION OBTENER MUNICIPIOS*/
-function getMunicipiosClientes(departamentos_id, municipios_id){
+function getMunicipiosClientes(municipios_id){
 	var url = '<?php echo SERVERURL;?>core/getMunicipios.php';
 
 	var departamentos_id = $('#formClientes #departamento_cliente').val();
@@ -1962,7 +1968,6 @@ function getMunicipiosClientes(departamentos_id, municipios_id){
 	   success:function(data){
 		  $('#formClientes #municipio_cliente').html("");
 		  $('#formClientes #municipio_cliente').html(data);
-		  $('#formClientes #municipio_cliente').val(municipios_id);
 		  $('#formClientes #municipio_cliente').selectpicker('refresh');
 	  }
   });
@@ -2116,7 +2121,9 @@ var editar_clientes_dataTable = function(tbody, table){
 				$('#formClientes #fecha_clientes').val(valores[2]);
 				$('#formClientes #departamento_cliente').val(valores[3]);
 				$('#formClientes #departamento_cliente').selectpicker('refresh');
-				getMunicipiosClientes(valores[4], valores[4]);
+				getMunicipiosClientes(valores[4]);
+				$('#formClientes #municipio_cliente').val(valores[4]);
+				$('#formClientes #municipio_cliente').selectpicker('refresh');
 				$('#formClientes #dirección_clientes').val(valores[5]);
 				$('#formClientes #telefono_clientes').val(valores[6]);
 				$('#formClientes #correo_clientes').val(valores[7]);
@@ -2179,7 +2186,7 @@ var eliminar_clientes_dataTable = function(tbody, table){
 				$('#formClientes #fecha_clientes').val(valores[2]);
 				$('#formClientes #departamento_cliente').val(valores[3]);
 				$('#formClientes #departamento_cliente').selectpicker('refresh');
-				getMunicipiosClientes(valores[4], valores[4]);
+				getMunicipiosClientes(valores[4]);
 				$('#formClientes #dirección_clientes').val(valores[5]);
 				$('#formClientes #telefono_clientes').val(valores[6]);
 				$('#formClientes #correo_clientes').val(valores[7]);

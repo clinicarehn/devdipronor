@@ -2,6 +2,7 @@
 $(document).ready(function() {
 	inventario_transferencia();
 	getTipoProductos();
+	getAlmacen();
 });
 
 $('#form_main_movimientos #inventario_tipo_productos_id').on('change',function(){
@@ -267,9 +268,11 @@ function getTipoProductos(){
         success: function(data){
 		    $('#form_main_movimientos #inventario_tipo_productos_id').html("");
 			$('#form_main_movimientos #inventario_tipo_productos_id').html(data);
+			$('#form_main_movimientos #inventario_tipo_productos_id').selectpicker('refresh');
 			
 		    $('#formMovimientos #movimientos_tipo_producto_id').html("");
 			$('#formMovimientos #movimientos_tipo_producto_id').html(data);
+			$('#formMovimientos #movimientos_tipo_producto_id').selectpicker('refresh');
 			
 			getProductosMovimientos($('#form_main_movimientos #inventario_tipo_productos_id').val());
 		}
@@ -302,6 +305,7 @@ function getProductosMovimientos(tipo_producto_id){
         success: function(data){
 		    $('#form_main_movimientos #inventario_productos_id').html("");
 			$('#form_main_movimientos #inventario_productos_id').html(data);
+			$('#form_main_movimientos #inventario_productos_id').selectpicker('refresh');
 		}
      });
 }
@@ -311,4 +315,23 @@ $(document).ready(function(){
         $(this).find('#formTransferencia #cantidad_movimiento').focus();
     });
 });
+
+function getAlmacen(){
+    var url = '<?php echo SERVERURL;?>core/getAlmacen.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#form_main_movimientos #almacen').html("");
+			$('#form_main_movimientos #almacen').html(data);
+			$('#form_main_movimientos #almacen').selectpicker('refresh');
+
+		    $('#formTransferencia #id_bodega').html("");
+			$('#formTransferencia #id_bodega').html(data);
+			$('#formTransferencia #id_bodega').selectpicker('refresh');			
+		}
+     });
+}
 </script>

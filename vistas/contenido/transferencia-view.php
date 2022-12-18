@@ -7,37 +7,33 @@
         <div class="card-body">
 			<form class="" id="form_main_movimientos">
 				<div class="row">
-					<div class="form-group mx-sm-3 mb-1">
-						<div class="input-group">				
-							<div class="input-group-append">				
-								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Categoría</span>
-							</div>
-							<select id="inventario_tipo_productos_id" name="inventario_tipo_productos_id" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
-						</select>
-						</div>
-					</div>
-					<div class="form-group mx-sm-3 mb-1">
+					<div class="form-group mx-sm-3 mb-1">			
 						<div class="input-group">
 							<div class="input-group-append">
-								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Productos</span>
-								<select id="inventario_productos_id" name="inventario_productos_id" class="custom-select" data-toggle="tooltip" data-placement="top" title="Productos">
-								</select>
-								<div class="input-group-append" id="grupo_editar_rtn">				
-									<span data-toggle="tooltip" data-placement="top" title="Consultar Facturadores"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control consultar_facturador"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a></span>
-								</div>
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Categoría</span>
+								  <select id="inventario_tipo_productos_id" name="inventario_tipo_productos_id" class="selectpicker" data-live-search="true" title="Categoría de Productos">
+								 </select>
 							</div>	
-						</div>
-					</div>
-						<div class="form-group mx-sm-3 mb-1">
-							<div class="input-group">				
-								<div class="input-group-append">				
-									<span class="input-group-text"><div class="sb-nav-link-icon"></div>Bodega</span>
-								</div>
-								<select id="almacen" name="almacen" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
-									
-							</select>
-							</div>
-						</div>
+						</div>					
+					</div>	
+					<div class="form-group mx-sm-3 mb-1">			
+						<div class="input-group">
+							<div class="input-group-append">
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Categoría</span>
+								  <select id="inventario_productos_id" name="inventario_productos_id" class="selectpicker" data-live-search="true" title="Productos">
+								 </select>
+							</div>	
+						</div>					
+					</div>		
+					<div class="form-group mx-sm-3 mb-1">			
+						<div class="input-group">
+							<div class="input-group-append">
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Categoría</span>
+								  <select id="almacen" name="almacen" class="selectpicker" data-live-search="true" title="Almacen">
+								 </select>
+							</div>	
+						</div>					
+					</div>				
 				</div>
 				
 			</form>          
