@@ -8,7 +8,7 @@
 	class nominaModelo extends mainModel{
 		protected function agregar_nomina_modelo($datos){
 			$nomina_id = mainModel::correlativo("nomina_id", "nomina");
-			$insert = "INSERT INTO nomina VALUES('$nomina_id','".$datos['empresa_id']."','".$datos['pago_planificado_id']."','".$datos['fecha_inicio']."','".$datos['fecha_fin']."','".$datos['detalle']."','".$datos['importe']."','".$datos['notas']."','".$datos['usuario']."','".$datos['estado']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO nomina VALUES('$nomina_id','".$datos['empresa_id']."','".$datos['pago_planificado_id']."','".$datos['tipo_nomina']."','".$datos['fecha_inicio']."','".$datos['fecha_fin']."','".$datos['detalle']."','".$datos['importe']."','".$datos['notas']."','".$datos['usuario']."','".$datos['estado']."','".$datos['fecha_registro']."')";
 
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			

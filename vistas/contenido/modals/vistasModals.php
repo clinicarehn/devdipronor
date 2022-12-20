@@ -1970,7 +1970,7 @@
 					<div class="col-md-3 mb-3">
 						<label for="producto_superior">Superior</label>			
 						<div class="input-group mb-3">
-						<select class="selectpicker" id="producto_superior" name="producto_superior" required data-live-search="true" title="Superior">
+						<select class="selectpicker" id="producto_superior" name="producto_superior" data-live-search="true" title="Superior">
 							<option value="">Seleccione</option>
 						</select>
 						</div>

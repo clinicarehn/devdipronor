@@ -2021,6 +2021,16 @@
 
 			return $result;
 		}	
+
+		public function getTipoNomina(){
+			$query = "SELECT *
+				FROM tipo_nomina
+				ORDER BY nombre";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}			
 		
 		public function getPagoPlanificado(){
 			$query = "SELECT *
@@ -2223,7 +2233,7 @@
 		}	
 
 		public function getNominaEdit($nomina_id){
-			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', e.empresa_id AS 'empresa_id', n.estado AS 'estado'
+			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', e.empresa_id AS 'empresa_id', n.estado AS 'estado', tipo_nomina_id AS 'tipo_nomina_id'
 			FROM nomina AS n
 			INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
 			WHERE n.nomina_id = '".$nomina_id."'	

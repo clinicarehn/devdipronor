@@ -13,6 +13,7 @@
 						
 			$pago_planificado_id = mainModel::cleanString($_POST['nomina_pago_planificado_id']);
 			$empresa_id = mainModel::cleanString($_POST['nomina_empresa_id']);
+			$tipo_nomina = mainModel::cleanString($_POST['tipo_nomina']);
 			$fecha_inicio = mainModel::cleanString($_POST['nomina_fecha_inicio']);						
 			$fecha_fin = mainModel::cleanString($_POST['nomina_fecha_fin']);
 			$detalle = mainModel::cleanString($_POST['nomina_detale']);
@@ -33,6 +34,7 @@
 				"usuario" => $usuario,
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,
+				"tipo_nomina" => $tipo_nomina,
 			];
 			
 			$resultNmina = nominaModelo::valid_nomina_modelo($detalle);

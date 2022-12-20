@@ -41,7 +41,14 @@
 					</div>																									
 				</div>
 
-				<div class="form-row">					
+				<div class="form-row">	
+					<div class="col-md-3 mb-3">
+					  <label for="nomina_empresa_id">Tipo Nomina <span class="priority">*<span/></label>
+					  <div class="input-group mb-3">
+						  <select id="tipo_nomina" name="tipo_nomina" class="selectpicker" data-live-search="true" title="Tipo Nomina">
+						  </select>
+					   </div>
+					</div>									
 					<div class="col-md-3 mb-3">
 					  <label for="nomina_fecha_inicio">Fecha Inicio <span class="priority">*<span/></label>
 					  <input type="date" required id="nomina_fecha_inicio" name="nomina_fecha_inicio" value="<?php 

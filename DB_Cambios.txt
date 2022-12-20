@@ -8,6 +8,8 @@ fecha_ingreso		varchar(30)
 tabla => nomina
 nomina_id			int
 empresa_id			int
+pago_planificado_id	int
+tipo_nomina_id		int
 fecha_inicio		date
 fecha_fin			date
 detalle                 char(100)

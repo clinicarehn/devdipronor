@@ -18,6 +18,7 @@
 		5 => $valores2['importe'],
 		6 => $valores2['notas'],
 		7 => $valores2['estado'],
+		8 => $valores2['tipo_nomina_id'],
 	);
 
 	echo json_encode($datos);

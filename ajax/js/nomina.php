@@ -5,7 +5,8 @@ $(document).ready(function() {
 	getTipoEmpleado();
 	getEmpresa();
 	getEmpleado();
-	listar_nominas();	
+	listar_nominas();
+	getTipoNomina();
 });
 
 $('#form_main_nominas #estado_nomina').on("change", function(e){
@@ -312,6 +313,8 @@ var editar_nominas_dataTable = function(tbody, table){
 				$('#formNomina #nomina_fecha_fin').val(valores[4]);
 				$('#formNomina #nomina_importe').val(valores[5]);
 				$('#formNomina #nomina_notas').val(valores[6]);
+				$('#formNomina #tipo_nomina').val(valores[8]);
+				$('#formNomina #tipo_nomina').selectpicker('refresh');
 
 				if(data.estado == 1){
 					$('#edi_nomina').attr('disabled', true);
@@ -383,6 +386,8 @@ var eliminar_nominas_dataTable = function(tbody, table){
 				$('#formNomina #nomina_fecha_fin').val(valores[4]);
 				$('#formNomina #nomina_importe').val(valores[5]);
 				$('#formNomina #nomina_notas').val(valores[6]);
+				$('#formNomina #tipo_nomina').val(valores[8]);
+				$('#formNomina #tipo_nomina').selectpicker('refresh');				
 
 				if(data.estado == 1){
 					$('#delete_nomina').attr('disabled', true);
@@ -437,6 +442,9 @@ function modal_nominas(){
 
 	  $('#formNomina #nomina_empresa_id').val(1);
 	  $('#formNomina #nomina_empresa_id').selectpicker('refresh');
+
+	  $('#formNomina #tipo_nomina').val(1);
+	  $('#formNomina #tipo_nomina').selectpicker('refresh');	  
 
 	  $("#formNomina #grupo_salario").hide();
 
@@ -544,6 +552,21 @@ $('#formNominaDetalles .switch').change(function(){
         return false;
     }
 });
+
+function getTipoNomina(){
+    var url = '<?php echo SERVERURL;?>core/getTipoNomina.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){			
+		    $('#formNomina #tipo_nomina').html("");
+			$('#formNomina #tipo_nomina').html(data);	
+			$('#formNomina #tipo_nomina').selectpicker('refresh');
+		}
+     });
+}
 
 function getTipoContrato(){
     var url = '<?php echo SERVERURL;?>core/getTipoContrato.php';
