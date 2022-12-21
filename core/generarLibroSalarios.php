@@ -32,7 +32,7 @@
 		}
 
 		ob_start();
-		include(dirname('__FILE__').'/generarLibroSalarios.php');
+		include(dirname('__FILE__').'/libroSalarios.php');
 		$html = ob_get_clean();
 
 		// instantiate and use the dompdf class
@@ -42,7 +42,7 @@
 
 		$dompdf->loadHtml(utf8_decode(utf8_encode($html)));
 		// (Optional) Setup the paper size and orientation
-		$dompdf->setPaper('letter', 'portrait');
+		$dompdf->setPaper('legal', 'landscape');
 		// Render the HTML as PDF
 		$dompdf->render();
 		

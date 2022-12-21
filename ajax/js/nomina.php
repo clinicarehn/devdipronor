@@ -258,15 +258,20 @@ var crear_nominas_dataTable = function(tbody, table){
 var voucher_nominas_dataTable = function(tbody, table){
 	$(tbody).off("click", "a.voucher_pago");
 	$(tbody).on("click", "a.voucher_pago", function(){
-		var data = table.row( $(this).parents("tr") ).data();
-		swal({
-			title: "Mantenimiento",
-			text: "Lo sentimos, el voucher se encuentra en desarrollo",
-			type: "warning",
-			confirmButtonClass: 'btn-warning',
-			allowEscapeKey: false,
-			allowOutsideClick: false					
-		});		
+		var data = table.row( $(this).parents("tr") ).data();		
+		if(data.estado == 0){
+			swal({
+				title: "Error",
+				text: "Lo sentimos, la nomina no esta generada no se puede mostrar el reporte",
+				type: "error",
+				confirmButtonClass: 'btn-danger',
+				allowEscapeKey: false,
+				allowOutsideClick: false					
+			});			
+		}else{
+			var url_comprobante = '<?php echo SERVERURL; ?>core/generarNomina.php?nomina_id='+data.nomina_id;
+			window.open(url_comprobante);
+		}		
 	});
 }
 
@@ -274,14 +279,20 @@ var libro_saslarios_nominas_dataTable = function(tbody, table){
 	$(tbody).off("click", "a.libro_salarios");
 	$(tbody).on("click", "a.libro_salarios", function(){
 		var data = table.row( $(this).parents("tr") ).data();
-		swal({
-			title: "Mantenimiento",
-			text: "Lo sentimos, el libro de salarios se encuentra en desarrollo",
-			type: "warning",
-			confirmButtonClass: 'btn-warning',
-			allowEscapeKey: false,
-			allowOutsideClick: false					
-		});		
+
+		if(data.estado == 0){
+			swal({
+				title: "Error",
+				text: "Lo sentimos, la nomina no esta generada no se puede mostrar el reporte",
+				type: "error",
+				confirmButtonClass: 'btn-danger',
+				allowEscapeKey: false,
+				allowOutsideClick: false					
+			});				
+		}else{
+			var url_comprobante = '<?php echo SERVERURL; ?>core/generarLibroSalarios.php?nomina_id='+data.nomina_id;
+			window.open(url_comprobante);
+		}
 	});
 }
 
