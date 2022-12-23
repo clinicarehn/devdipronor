@@ -7,23 +7,24 @@
         <div class="card-body">		
 			<form class="form-inline" id="form_main_cobrar_clientes">
 				<div class="form-group mx-sm-3 mb-1">
-					<div class="input-group">				
-						<div class="input-group-append">				
+					<div class="input-group">
+						<div class="input-group-append">
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
-						</div>
-						<select id="cobrar_clientes_estado" name="cobrar_clientes_estado" class="custom-select" data-toggle="tooltip" data-placement="top" title="Estado">
-							<option value="1">Pendientes</option>
-							<option value="2">Pagadas</option>
-					  </select>
-					</div>
+							<select id="cobrar_clientes_estado" name="cobrar_clientes_estado" class="selectpicker" title="Estado" data-live-search="true">
+								<option value="1">Pendientes</option>
+								<option value="2">Pagadas</option>
+							</select>
+						</div>	
+					</div>		
 				</div>	
 				<div class="form-group mx-sm-3 mb-1">
-					<div class="input-group">				
-						<div class="input-group-append">				
+					<div class="input-group">
+						<div class="input-group-append">
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Clientes</span>
-						</div>
-						<select id="cobrar_clientes" name="cobrar_clientes" class="custom-select" data-toggle="tooltip" data-placement="top" title="Clientes">
-					  </select>
+							<select id="cobrar_clientes" name="cobrar_clientes" class="selectpicker" title="Clientes" data-live-search="true">
+								<option value="">Seleccione</option>
+								</select>
+						</div>	
 					</div>
 				</div>								
 				<div class="form-group mx-sm-3 mb-1">

@@ -7,23 +7,22 @@
         <div class="card-body">
 			<form class="form-inline" id="form_main_ventas">
 				<div class="form-group mx-sm-3 mb-1">
-					<div class="input-group">				
-						<div class="input-group-append">				
+					<div class="input-group">
+						<div class="input-group-append">
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Tipo Factura</span>
-						</div>
-						<select id="tipo_factura_reporte" name="tipo_factura_reporte" class="custom-select" data-toggle="tooltip" data-placement="top" title="Tipo de Factura">
-					  </select>
+							<select id="tipo_factura_reporte" name="tipo_factura_reporte" class="selectpicker" title="Tipo de Factura" data-live-search="true">
+								<option value="">Seleccione</option>
+								</select>
+						</div>	
 					</div>
 				</div>	
 				<div class="form-group mx-sm-3 mb-1">
 					<div class="input-group">
 						<div class="input-group-append">
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Facturador</span>
-							<select id="facturador" name="facturador" class="custom-select" data-toggle="tooltip" data-placement="top" title="Facturador" style="width:165px;">
-					 		 </select>
-							<div class="input-group-append">				
-								<span data-toggle="tooltip" data-placement="top" title="Consultar por Facturador"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control consultar_facturador"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a></span>
-							</div>
+							<select id="facturador" name="facturador" class="selectpicker" title="Facturador" data-live-search="true">
+								<option value="">Seleccione</option>
+								</select>
 						</div>	
 					</div>
 				</div>	
@@ -31,11 +30,9 @@
 					<div class="input-group">
 						<div class="input-group-append">
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Vendedor</span>
-							<select id="vendedor" name="vendedor" class="custom-select" data-toggle="tooltip" data-placement="top" title="Vendedor" style="width:165px;">
-					 		 </select>
-							<div class="input-group-append">				
-								<span data-toggle="tooltip" data-placement="top" title="Consultar por Vendedor"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control consultar_facturador"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a></span>
-							</div>
+							<select id="vendedor" name="vendedor" class="selectpicker" title="Vendedor" data-live-search="true">
+								<option value="">Seleccione</option>
+								</select>
 						</div>	
 					</div>
 				</div>												

@@ -271,7 +271,8 @@ function getReporteCompras(){
 	    async: true,
         success: function(data){
 		    $('#form_main_compras #tipo_compras_reporte').html("");
-			$('#form_main_compras #tipo_compras_reporte').html(data);		
+			$('#form_main_compras #tipo_compras_reporte').html(data);
+			$('#form_main_compras #tipo_compras_reporte').selectpicker('refresh');	
 		}
      });
 }

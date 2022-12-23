@@ -279,7 +279,8 @@ function getReporteCotizacion(){
 	    async: true,
         success: function(data){
 		    $('#form_main_cotizaciones #tipo_cotizacion_reporte').html("");
-			$('#form_main_cotizaciones #tipo_cotizacion_reporte').html(data);		
+			$('#form_main_cotizaciones #tipo_cotizacion_reporte').html(data);
+			$('#form_main_cotizaciones #tipo_cotizacion_reporte').selectpicker('refresh');	
 		}
      });
 }

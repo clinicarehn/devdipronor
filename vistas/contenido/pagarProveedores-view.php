@@ -6,24 +6,25 @@
     <div class="card mb-4">
         <div class="card-body">
 			<form class="form-inline" id="form_main_pagar_proveedores">
-				<div class="form-group mx-sm-3 mb-1">
-						<div class="input-group">				
-							<div class="input-group-append">				
+					<div class="form-group mx-sm-3 mb-1">
+						<div class="input-group">
+							<div class="input-group-append">
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
-							</div>
-							<select id="pagar_proveedores_estado" name="pagar_proveedores_estado" class="custom-select" data-toggle="tooltip" data-placement="top" title="Estado">
-								<option value="1">Pendientes</option>
-								<option value="2">Pagadas</option>
-						</select>
-						</div>
+								<select id="pagar_proveedores_estado" name="pagar_proveedores_estado" class="selectpicker" title="Estado" data-live-search="true">
+									<option value="1">Pendientes</option>
+									<option value="2">Pagadas</option>
+								</select>
+							</div>	
+						</div>						
 					</div>					
 					<div class="form-group mx-sm-3 mb-1">
-						<div class="input-group">				
-							<div class="input-group-append">				
+						<div class="input-group">
+							<div class="input-group-append">
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Proveedores</span>
-							</div>
-							<select id="pagar_proveedores" name="pagar_proveedores" class="custom-select" data-toggle="tooltip" data-placement="top" title="Proveedores">
-						</select>
+								<select id="pagar_proveedores" name="pagar_proveedores" class="selectpicker" title="Proveedores" data-live-search="true">
+									<option value="">Seleccione</option>
+									</select>
+							</div>	
 						</div>
 					</div>									
 					<div class="form-group mx-sm-3 mb-1">

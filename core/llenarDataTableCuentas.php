@@ -44,10 +44,10 @@
 			$saldo_anterior = $row_saldo_anterior['saldo'];
 	   }else{
 			//CONSULTAMOS EL ULTIMO SALDO DE LA CUENTA
-			$result_ultimo_saldo = $insMainModel->getSaldoMovimientosCuentasUltimoSaldo($cuentas_id);
+			$result__ultimo_saldo = $insMainModel->getSaldoMovimientosCuentasUltimoSaldo($cuentas_id);
 
-			if($result_ultimo_saldo->num_rows>0){
-				$row_ultimo_saldo = $result_ultimo_saldo->fetch_assoc();
+			if($result__ultimo_saldo->num_rows>0){
+				$row_ultimo_saldo = $result__ultimo_saldo->fetch_assoc();
 				$saldo_anterior = $row_ultimo_saldo['saldo'];
 				$fecha_registro = $row_ultimo_saldo['fecha_registro'];
 
@@ -74,11 +74,11 @@
 		  "cuentas_id"=>$cuentas_id,
 		  "codigo"=>$row['codigo'],
 		  "nombre"=>$row['nombre'],
-		  "saldo_anterior"=> number_format($saldo_anterior),		  
-		  "ingreso"=> number_format($ingreso),	
-		  "egreso"=> number_format($egreso),
-		  "saldo_cierre"=> number_format($saldo_cierre),		  
-		  "neto"=> number_format($neto)		  
+		  "saldo_anterior"=>'L. '.number_format($saldo_anterior,2),		  
+		  "ingreso"=>'L. '.number_format($ingreso,2),	
+		  "egreso"=>'L. '.number_format($egreso, 2),
+		  "saldo_cierre"=>'L. '.number_format($saldo_cierre, 2),		  
+		  "neto"=>'L. '.number_format($neto,2)		  
 	  );	
 	  	
 	}

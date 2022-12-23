@@ -2197,7 +2197,7 @@
 
 			$query = "SELECT c.contrato_id AS contrato_id, CONCAT(co.nombre, ' ', co.apellido) AS 'empleado', tc.nombre AS 'tipo_contrato', pp.nombre AS 'pago_planificado', te.nombre AS 'tipo_empleado', c.fecha_inicio AS 'fecha_inicio', c.estado AS 'estado', (CASE WHEN c.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', c.salario AS 'salario', c.tipo_contrato_id AS 'tipo_contrato_id', c.pago_planificado_id AS 'pago_planificado_id', c.tipo_empleado_id AS 'tipo_empleado_id', (CASE WHEN c.fecha_fin = '' THEN 'Sin Registro' ELSE c.fecha_fin END) AS 'fecha_fin', c.notas AS 'notas'
 				FROM contrato AS c
-				INNER JOIN colaboradores AS co ON c.contrato_id = co.colaboradores_id
+				INNER JOIN colaboradores AS co ON c.colaboradores_id = co.colaboradores_id
 				INNER JOIN tipo_contrato AS tc ON c.tipo_contrato_id = tc.tipo_contrato_id
 				INNER JOIN pago_planificado AS pp ON c.pago_planificado_id = pp.pago_planificado_id
 				INNER JOIN tipo_empleado AS te ON c.tipo_empleado_id = te.tipo_empleado_id

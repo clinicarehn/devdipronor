@@ -7,12 +7,13 @@
         <div class="card-body">
 			<form class="form-inline" id="form_main_cotizaciones">
 				<div class="form-group mx-sm-3 mb-1">
-					<div class="input-group">				
-						<div class="input-group-append">				
+					<div class="input-group">
+						<div class="input-group-append">
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Tipo Factura</span>
-						</div>
-						<select id="tipo_cotizacion_reporte" name="tipo_cotizacion_reporte" class="custom-select" data-toggle="tooltip" data-placement="top" title="Tipo de Factura">
-					  </select>
+							<select id="tipo_cotizacion_reporte" name="tipo_cotizacion_reporte" class="selectpicker" title="Tipo de Factura" data-live-search="true">
+								<option value="">Seleccione</option>
+								</select>
+						</div>	
 					</div>
 				</div>				
 				<div class="form-group mx-sm-3 mb-1">
