@@ -1164,8 +1164,7 @@
 
 					    ".$datos['funcion'].";
 
-					    $('#".$datos['modal']."').modal('hide');
-
+					   
                     </script>
 
                 ";
@@ -1667,6 +1666,15 @@
 
 			return $result;
 		}
+
+		public function saldo_factura_cuentas_por_cobrar($facturas_id){
+			$query = "SELECT *
+				FROM cobrar_clientes
+				WHERE facturas_id = '$facturas_id'";
+			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+		
+			return $result;				
+		}	
 
 		public function getProveedoresCXP(){
 			$query = "SELECT p.proveedores_id AS 'proveedores_id', p.nombre AS 'nombre'
@@ -4217,22 +4225,30 @@
 
 		public function getDatosFactura($facturas_id){
 
-			$query = "SELECT f.facturas_id AS facturas_id, DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha',
-				 c.clientes_id AS 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn',
-				 CONCAT(ven.nombre,' ',ven.apellido) AS 'profesional', f.colaboradores_id AS 'colaborador_id',
-				  f.estado AS 'estado', f.fecha AS 'fecha_factura', f.notas AS 'notas',tipo_factura AS 'credito'
-
-				FROM facturas AS f
-
-				INNER JOIN clientes AS c
-
-				ON f.clientes_id = c.clientes_id
-
-				INNER JOIN colaboradores AS ven
-
-				ON f.colaboradores_id = ven.colaboradores_id
-
-				WHERE f.facturas_id = '$facturas_id'";
+			$query = "SELECT
+			f.facturas_id AS facturas_id,
+			DATE_FORMAT(f.fecha, '%d/%m/%Y') AS fecha,
+			c.clientes_id AS clientes_id,
+			c.nombre AS cliente,
+			c.rtn AS rtn,
+			CONCAT(
+					ven.nombre,
+					' ',
+					ven.apellido
+				) AS profesional,
+			f.colaboradores_id AS colaborador_id,
+			f.estado AS estado,
+			f.fecha AS fecha_factura,
+			f.notas AS notas,
+			f.tipo_factura AS credito,
+			cobrar_clientes.saldo
+			FROM
+			facturas AS f
+			INNER JOIN clientes AS c ON f.clientes_id = c.clientes_id
+			INNER JOIN colaboradores AS ven ON f.colaboradores_id = ven.colaboradores_id
+			INNER JOIN cobrar_clientes ON f.facturas_id = cobrar_clientes.facturas_id
+			WHERE
+				f.facturas_id = '$facturas_id'";
 
 			$result = self::connection()->query($query);
 

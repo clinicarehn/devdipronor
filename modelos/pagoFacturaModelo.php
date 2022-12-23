@@ -78,7 +78,7 @@
 		}	
 
 		protected function update_status_factura_cuentas_por_cobrar($facturas_id,$estado = 2,$importe = ''){ //DONDE 2 ES PAGO REALIZADO			
-			if($importe != ''){
+			if($importe != '' || $importe == 0){
 				$importe = ', saldo = '.$importe;
 			}
 
@@ -89,7 +89,6 @@
 				WHERE facturas_id = '$facturas_id'";
 			
 			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
-			
 			return $result;					
 		}		
 
@@ -256,7 +255,9 @@
 					//update tabla cobrar cliente
 					if($res['abono'] == $saldo_credito){
 						//actualizamos el estado a pagado (2)
-						$put_cobrar_cliente = pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($res['facturas_id'],2);
+						$nuevo_saldo = 0;
+						$put_cobrar_cliente = pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($res['facturas_id'],2,$nuevo_saldo);
+												
 						//ACTUALIZAMOS EL ESTADO DE LA FACTURA
 						pagoFacturaModelo::update_status_factura($res['facturas_id']);
 					}else{
@@ -353,20 +354,18 @@
 						//ALMACENAMOS EL MOVIMIENTO DE CUENTA DEL PAGO
 						self::agregar_movimientos_contabilidad_pagos_modelo($datos_movimientos);
 						
+						$get_cobrar_cliente = pagoFacturaModelo::consultar_factura_cuentas_por_cobrar($res['facturas_id']);
+						$saldo_nuevo = 0;
+							if($get_cobrar_cliente->num_rows > 0){
+								$rec = $get_cobrar_cliente->fetch_assoc();
+								$saldo_nuevo = $rec['saldo'];
+								$saldo_nuevo = intval($saldo_nuevo);
+							}
 						
-						if($res['multiple_pago'] == 1){
-							$get_cobrar_cliente = pagoFacturaModelo::consultar_factura_cuentas_por_cobrar($res['facturas_id']);
-							$saldo_nuevo = 0;
-								if($get_cobrar_cliente->num_rows > 0){
-									$rec = $get_cobrar_cliente->fetch_assoc();
-									$saldo_nuevo = $rec['saldo'];
-									echo 'saldo nueo'.$saldo_nuevo;
-									$saldo_nuevo = intval($saldo_nuevo);
-									echo 'tipo'.gettype($saldo_nuevo);
-								}
+						if($res['multiple_pago'] == 1 && $saldo_nuevo > 0){
 
 							$alert = [
-								"alert" => "save_simple",
+								"alert" => "save",
 								"title" => "Registro pago multiples almacenado",
 								"text" => "El registro se ha almacenado correctamente",
 								"type" => "success",
@@ -375,7 +374,7 @@
 								"form" => "formEfectivoBill",
 								"id" => "proceso_pagos",
 								"valor" => "Registro",	
-								"funcion" => "pago(".$res['facturas_id'].");saldoFactura(".$saldo_nuevo.")",
+								"funcion" => "pago(".$res['facturas_id'].");saldoFactura(".$res['facturas_id'].")",
 								"modal" => "modal_pagos",
 														
 							];

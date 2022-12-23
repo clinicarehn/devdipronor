@@ -41,7 +41,7 @@
 			$tarjeta = 	0;			
 			
 			$datos = [
-				"multiple_pago" => 1,
+				"multiple_pago" => isset($_POST['multiple_pago']) ? $_POST['multiple_pago'] : 0,
 				"facturas_id" => $facturas_id,
 				"fecha" => $fecha,
 				"importe" => $importe,
@@ -110,6 +110,7 @@
 			}
 			
 			$datos = [
+				"multiple_pago" => isset($_POST['multiple_pago']) ? $_POST['multiple_pago'] : 0,
 				"facturas_id" => $facturas_id,
 				"fecha" => $fecha,
 				"importe" => $importe,
@@ -173,6 +174,7 @@
 			$estado = 2;
 
 			$datos = [
+				"multiple_pago" => isset($_POST['multiple_pago']) ? $_POST['multiple_pago'] : 0,
 				"facturas_id" => $facturas_id,
 				"fecha" => $fecha,
 				"importe" => $importe,
@@ -236,6 +238,7 @@
 			$estado = 2;
 			
 			$datos = [
+				"multiple_pago" => isset($_POST['multiple_pago']) ? $_POST['multiple_pago'] : 0,
 				"facturas_id" => $facturas_id,
 				"fecha" => $fecha,
 				"importe" => $importe,
@@ -299,6 +302,7 @@
 			$abono = $_POST['importe'];
 			
 			$datos = [
+				"multiple_pago" => isset($_POST['multiple_pago']) ? $_POST['multiple_pago'] : 0,
 				"facturas_id" => $facturas_id,
 				"fecha" => $fecha,
 				"importe" => $importe,

@@ -20,7 +20,6 @@
 				VALUES('$facturas_detalle_id','".$datos['facturas_id']."','".$datos['productos_id']."',
 				'".$datos['cantidad']."','".$datos['precio']."','".$datos['isv_valor']."','".$datos['descuento']."','".$datos['medida']."')";
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
-		
 			return $result;			
 		}
 		

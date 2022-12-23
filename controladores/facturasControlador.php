@@ -69,6 +69,7 @@
 
 				//SI EXITE VALORES EN LA TABLA, PROCEDEMOS ALMACENAR LA FACTURA Y EL DETALLE DE ESTA
 				if($tamano_tabla > 0){
+
 					//INICIO FACTURA CONTADO
 					if($tipo_factura == 1){	
 						$datos = [
@@ -98,7 +99,8 @@
 							$isv_neto = 0;
 							$total_despues_isv = 0;
 
-							for ($i = 0; $i < count( $_POST['productName']); $i++){//INICIO CICLO FOR
+							for ($i = 0; $i < count( $_POST['productName']); $i++){
+								//INICIO CICLO FOR
 								$discount = 0;
 								$isv_valor = 0;								
 								$referenciaProducto = $_POST['referenciaProducto'][$i];
@@ -121,10 +123,10 @@
 									$isv_valor = $_POST['valor_isv'][$i];
 								}								
 							
-								if($productos_id != "" && $productName != "" && $quantity != "" && $price != "" && $discount != "" && $total != ""){
+								if($productos_id != "" && $productName != "" && $quantity != "" && $price != ""  && $total != ""){
 									//VERIFICAMOS SI NO EXISTE LA FACTURA, DE NO EXISTIR LA ACTUALIZAMOS
 									//$result_factura_detalle = facturasModelo::validDetalleFactura($facturas_id, $productos_id);	
-
+									
 									$datos_detalles_facturas = [
 										"facturas_id" => $facturas_id,
 										"productos_id" => $productos_id,
@@ -138,7 +140,7 @@
 									$total_valor += ($price * $quantity);
 									$descuentos += $discount;
 									$isv_neto += $isv_valor;									
-
+									
 									//INSERTAMOS LOS DE PRODUCTOS EN EL DETALLE DE LA FACTURA
 
 									facturasModelo::agregar_detalle_facturas_modelo($datos_detalles_facturas);
