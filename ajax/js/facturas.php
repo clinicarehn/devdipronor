@@ -551,7 +551,6 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table){
 				});
 			}			
 		}
-
 		
 		e.preventDefault();
 	});

@@ -23,8 +23,7 @@
 
 						$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
 						$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));						
-						
-						
+												
 						echo $fecha_inicial;
 					?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
 					</div>
@@ -81,7 +80,6 @@
         </div>
     </div>
 </div>
-
 <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Bitacora");
 ?>

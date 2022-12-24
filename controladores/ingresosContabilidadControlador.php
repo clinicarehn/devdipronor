@@ -1,33 +1,20 @@
 <?php
-
     if($peticionAjax){
-
         require_once "../modelos/ingresosContabilidadModelo.php";
-
     }else{
-
         require_once "./modelos/ingresosContabilidadModelo.php";
-
     }
-
 	
 
 	class ingresosContabilidadControlador extends ingresosContabilidadModelo{
-
 		public function agregar_ingresos_contabilidad_controlador(){
-
 			if(!isset($_SESSION['user_sd'])){ 
-
 				session_start(['name'=>'SD']); 
-
 			}
 
 
-
 			$clientes_id = mainModel::cleanStringConverterCase($_POST['cliente_ingresos']);
-
 			$cuentas_id = mainModel::cleanStringConverterCase($_POST['cuenta_ingresos']);
-
 			$empresa_id = mainModel::cleanStringConverterCase($_POST['empresa_ingresos']);
 
 			$fecha = $_POST['fecha_ingresos'];

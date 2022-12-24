@@ -4,6 +4,7 @@
 			<li class="breadcrumb-item"><a class="breadcrumb-link" href="<?php echo SERVERURL; ?>dashboard/">Dashboard</a></li>
 			<li class="breadcrumb-item active">Nomina</li>
 		</ol>
+		
 		<div class="card mb-4">
 			<div class="card-body">
 				<form class="form-inline" id="form_main_nominas">			
@@ -148,7 +149,6 @@
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Nomnas");
 ?>	
 </div>
-
 <div id="nomina_detalles" style="display: none;">	
 	<div class="container-fluid">
 		<ol class="breadcrumb mt-2 mb-4">

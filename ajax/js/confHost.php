@@ -4,7 +4,6 @@ $(document).ready(function() {
 	getClientes();
 	getPlanes();	
 });
-
 //INICIO ACCIONES FROMULARIO HOST
 var listar_host = function(){
 	var table_host  = $("#dataTableHost").DataTable({

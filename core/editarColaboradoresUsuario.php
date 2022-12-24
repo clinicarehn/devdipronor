@@ -26,3 +26,4 @@
 		9 => $valores2['fecha_egreso'],	
 	);
 	echo json_encode($datos);
+?>	

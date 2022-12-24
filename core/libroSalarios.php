@@ -50,8 +50,6 @@
 
 	<table id="factura_detalle">
 		<tr>
-
-
 		</tr>		
 	</table>
 

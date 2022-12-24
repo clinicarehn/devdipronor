@@ -5,6 +5,7 @@ $(document).ready(function() {
 	getAlmacen();
 });
 
+
 $('#form_main_movimientos #inventario_tipo_productos_id').on('change',function(){
 	inventario_transferencia();
 });

@@ -4106,34 +4106,20 @@
 
 				WHERE tipo_pago_id = '$tipo_pago_id'";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 
-
 		public function getBancosEdit($banco_id){
-
 			$query = "SELECT *
-
 				FROM banco
-
 				WHERE banco_id = '$banco_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 

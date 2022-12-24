@@ -362,8 +362,8 @@
 			}
 
 			return $alert;
-
 		}
+		
 		protected function agregar_pago_compras_modelo($datos){
 			$pagoscompras_id = mainModel::correlativo("pagoscompras_id", " pagoscompras");
 			$insert = "INSERT INTO pagoscompras 

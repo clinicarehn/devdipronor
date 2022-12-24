@@ -28,7 +28,6 @@
       </div>
     </div>
 </div>
-
 <!--INICIO MODAL BUSQUEDA DE CUENTAS CONTABLES-->
 <div class="modal fade" id="modal_buscar_cuentas_contables">
 	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">

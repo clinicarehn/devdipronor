@@ -327,5 +327,6 @@ $('#formCuentasContables .switch').change(function(){
         $('#formCuentasContables #label_cuentas_activo').html("Inactivo");
         return false;
     }
-});	
+});
+	
 </script>

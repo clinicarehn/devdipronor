@@ -54,7 +54,6 @@
       </div>
     </div>
 </div>
-
 <!--INICIO MODAL PARA MODIFICAR PRECIO FACTURAS-->
 <div class="modal fade" id="modalModificarPrecioFacturacion">
 	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">

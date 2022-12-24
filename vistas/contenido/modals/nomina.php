@@ -93,7 +93,6 @@
 					  <input type="number" id="nomina_importe" name="nomina_importe" placeholder="Salario" class="form-control" step="0.01"/>
 					</div>																													
 				</div>
-
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
 						<label for="nomina_notas">Notas</label>
@@ -157,8 +156,7 @@
 							</div>
 						</div>	 
 					</div>																								
-				</div>
-						
+				</div>						
 				<div class="card">
 					<div class="card-header text-white bg-info mb-3" align="center">
 						Nomina
@@ -175,8 +173,7 @@
 							</div>																							
 						</div>					
 					</div>
-				</div>	
-				
+				</div>					
 				<div class="card">
 					<div class="card-header text-white bg-info mb-3" align="center">
 						Datos Generales
@@ -226,7 +223,6 @@
 						</div>											
 					</div>
 				</div>				
-
 				<div class="card">
 					<div class="card-header text-white bg-info mb-3" align="center">
 						Ingresos

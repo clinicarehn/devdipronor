@@ -216,4 +216,5 @@ $('#formPuestos .switch').change(function(){
         return false;
     }
 });	
+
 </script>

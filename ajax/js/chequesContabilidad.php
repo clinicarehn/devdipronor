@@ -7,7 +7,6 @@ $('#formMainChequesContabilidad #search').on("click", function(e){
 	e.preventDefault();
 	listar_cheques_contabilidad();
 });
-
 //INICIO ACCIONES FORMULARIO CHEQUES
 var listar_cheques_contabilidad = function(){	
 	var fechai = $("#formMainChequesContabilidad #fechai").val();

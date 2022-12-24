@@ -50,8 +50,7 @@
 					  <label for="fecha_ingresos">Fecha Factura <span class="priority">*<span/></label>
 					  <input type="date" required id="fecha_ingresos" name="fecha_ingresos" value="<?php echo date ("Y-m-d");?>" class="form-control" />
 					</div>					
-				</div>
-				
+				</div>				
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
 					  <label for="factura_ingresos">Factura <span class="priority">*<span/></label>

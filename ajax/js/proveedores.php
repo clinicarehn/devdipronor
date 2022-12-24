@@ -326,7 +326,6 @@ function getNombreProveedor(proveedores_id){
 //FIN EDITAR RTN PROVEEDORES
 //FIN ACCIONES FROMULARIO PROVEEDORES
 /*FIN FORMULARIO PROVEEDORES*/
-
 $(document).ready(function(){
     $("#modal_registrar_proveedores").on('shown.bs.modal', function(){
         $(this).find('#formProveedores #nombre_proveedores').focus();

@@ -2,7 +2,6 @@
 $(document).ready(function() {
     listar_banco_contabilidad();
 });
-
 //INICIO BANCOS
 var listar_banco_contabilidad = function(){
 	var table_banco_contabilidad = $("#dataTableConfBancos").DataTable({

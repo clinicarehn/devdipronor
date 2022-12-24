@@ -140,4 +140,5 @@ var listar_movimientos_contabilidad = function(){
 	$('#buscar').focus();
 }
 //FIN ACCIONES FORMULARIO MOVIMIENTOS CONTABLES	
+
 </script>

@@ -6,7 +6,6 @@ $(document).ready(function() {
 	getEmpleado();
 	listar_contratos();
 });
-
 $('#form_main_contrato #estado').on("change", function(e){
 	listar_contratos();
 });
@@ -14,7 +13,6 @@ $('#form_main_contrato #estado').on("change", function(e){
 $('#form_main_contrato #tipo_contrato').on("change", function(e){
 	listar_contratos();
 });
-
 $('#form_main_contrato #pago_planificado').on("change", function(e){
 	listar_contratos();
 });

@@ -3,7 +3,6 @@ $(document).ready(function() {
     cleanQuote();
 	getVigencia(); 
 });
-
 //INICIO COTIZACIONES
 
 function resetRow(){
@@ -59,15 +58,11 @@ $(document).ready(function(){
 							$("#quoteForm #QuoteItem #quantityQuote_" + row_index).val(cantidad);
 
 							$("#quoteForm #QuoteItem #bar-code-id_" + row_index).val(barcode);							
-
 							$("#quoteForm #QuoteItem #cantidad_mayoreoQuote_" + row_index).val(valores[4]);
-
 							$("#quoteForm #QuoteItem #precio_realQuote_" + row_index).val(valores[1]);
-
 							$("#quoteForm #QuoteItem #precio_mayoreoQuote_" + row_index).val(valores[5]);							
 
-							
-
+						
 							var impuesto_venta = parseFloat($('#quoteForm #QuoteItem #isvQuote_'+ row_index).val());
 
 							var cantidad1 = parseFloat($('#quoteForm #QuoteItem #quantityQuote_'+ row_index).val());

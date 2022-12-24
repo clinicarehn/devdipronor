@@ -94,3 +94,4 @@
 	}else{//EL REGISTRO NO SE HA PODIDO ACTUALIZAR
 		echo 2;
 	}	
+?>	

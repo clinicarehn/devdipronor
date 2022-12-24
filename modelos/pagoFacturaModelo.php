@@ -466,9 +466,7 @@
 							"btn-class" => "btn-danger",					
 						];				
 					}					
-				}else{
-					
-
+				}else{					
 					$alert = [
 						"alert" => "simple",
 						"title" => "Error al ingresar el pago",

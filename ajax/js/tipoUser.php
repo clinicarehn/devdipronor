@@ -438,4 +438,5 @@ $('#formPermisos .switch').change(function(){
 	}
 });			
 //INICIO PERMISOS
+
 </script>

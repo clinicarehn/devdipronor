@@ -16,7 +16,6 @@ $('#formMainCajas #fecha_cajas').on("change", function(e){
 $('#formMainCajas #fecha_cajas_f').on("change", function(e){
 	listar_registro_cajas();
 });
-
 //INICIO ACCIONES FORMULARIO REGISTRO DE CAJA
 var listar_registro_cajas = function(){
 	var fechai = $("#formMainCajas #fecha_cajas").val();

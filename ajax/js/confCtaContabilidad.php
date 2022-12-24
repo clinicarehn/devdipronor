@@ -3,7 +3,6 @@ $(document).ready(function() {
     listar_diarios_configuracion();
 	getCuentaDiarios(); 
 });
-
 //INICIO CONFIGURACION CUENTAS CONTABLES EN DIARIOS
 var listar_diarios_configuracion = function(){
 	var table_diarios_configuracion = $("#dataTableConfDiarios").DataTable({

@@ -2,7 +2,6 @@
 $(document).ready(function() {
     listar_bitacora();
 });
-
 //BUSQUEDA FECHAS BITACORA
 $(document).ready(function() {
 	$('#formMainBitacora #fechai').on('change',function(){

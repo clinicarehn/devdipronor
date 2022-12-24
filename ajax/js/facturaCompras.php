@@ -1,6 +1,5 @@
 <script>
 $(document).ready(function() {
-
     getBancoPurchase();
     getColaboradorCompras();
 	getMedida(0)

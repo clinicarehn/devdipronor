@@ -318,4 +318,5 @@ $('#formSecuencia .switch').change(function(){
         return false;
     }
 });
+
 </script>

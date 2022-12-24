@@ -255,3 +255,4 @@
 			return mainModel::sweetAlert($alert);			
 		}
 	}
+?>	

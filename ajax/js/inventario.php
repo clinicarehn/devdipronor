@@ -199,7 +199,6 @@ var listar_movimientos = function(){
 }
 //FOOTER MOVIMIENTOS
 var total_movimiento_footer = function(){	
-	
 	var tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
 	var fechai = $("#form_main_movimientos #fechai").val();
 	var fechaf = $("#form_main_movimientos #fechaf").val();

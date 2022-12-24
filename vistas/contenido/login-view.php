@@ -128,8 +128,6 @@
         })g"
     </p>	
 </div>
-
-
 <?php
 	require_once "./ajax/js/login.php";
 ?>

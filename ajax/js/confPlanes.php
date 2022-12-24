@@ -2,7 +2,6 @@
 $(document).ready(function() {
     listar_planes();
 });
-
 //INICIO ACCIONES FROMULARIO PLANES
 var listar_planes = function(){
 	var table_planes  = $("#dataTablePlanes").DataTable({

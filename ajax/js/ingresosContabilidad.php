@@ -368,7 +368,6 @@ function getEmpresaIngresos(){
      });
 }
 
-
 function getCuentaIngresos(){
 
     var url = '<?php echo SERVERURL;?>core/getCuenta.php';

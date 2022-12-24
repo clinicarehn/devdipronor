@@ -3,7 +3,6 @@ $(document).ready(function() {
     listar_colaboradores();
 	getEmpresaColaboradores();
 });
-
 //INICIO ACCIONES FROMULARIO COLABORADORES
 var listar_colaboradores = function(){
 	var table_colaboradores  = $("#dataTableColaboradores").DataTable({

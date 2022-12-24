@@ -300,4 +300,5 @@ var total_ingreso_footer = function(){
 			console.log( "total ingreso error" );
 	});
 }
+
 </script>

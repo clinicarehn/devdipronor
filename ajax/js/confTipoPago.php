@@ -4,7 +4,6 @@ $(document).ready(function() {
     getCuentaTipoPago();
 	getTipoCuenta();
 });
-
 //INICIO TIPO DE PAGO
 var listar_tipo_pago_contabilidad = function(){
 	var table_tipo_pago_contabilidad = $("#dataTableConfTipoPago").DataTable({

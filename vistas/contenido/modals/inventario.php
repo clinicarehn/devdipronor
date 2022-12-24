@@ -78,7 +78,6 @@
 					</div>				  														
 				</div>
 				
-
 				<div class="RespuestaAjax"></div> 
 			</form>
         	

@@ -94,6 +94,5 @@
 			$sql = mainModel::connection()->query($delete) or die(mainModel::connection()->error);
 			
 			return $sql;			
-		}		
-
+		}
 	}

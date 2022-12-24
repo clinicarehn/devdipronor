@@ -47,7 +47,6 @@
         
            $ruta = explode("/", $_GET['views']);//DIVIDIMOS EN PARTES LA VARIABLE
     ?>
-
     <!-- Navbar Top -->
     <?php require_once "./vistas/plantilla/modulos/navbartop.php";?>
     <!-- fin Navbar Top -->

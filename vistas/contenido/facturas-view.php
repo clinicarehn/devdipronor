@@ -177,8 +177,7 @@
 													
 									</div>
 								</div>
-							</div>	
-															
+							</div>															
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4" style="display: none;">
 							  <div class="row">					  
 								<div class="col-sm-3 form-inline">

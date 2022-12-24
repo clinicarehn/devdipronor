@@ -2,7 +2,6 @@
 $(document).ready(function() {
     listar_ubicacion();
 });
-
 //INICIO UBUCACION
 var listar_ubicacion = function(){
 	var table_ubicacion  = $("#dataTableConfUbicacion").DataTable({

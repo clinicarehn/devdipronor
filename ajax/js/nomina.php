@@ -38,7 +38,6 @@ $('#form_main_nominas_detalles #detalle_nomina_empleado').on("change", function(
 	listar_nominas_detalles();
 });
 
-
 //INICIO ACCIONES FROMULARIO NOMINAS
 var listar_nominas = function(){
 	var estado = $("#form_main_nominas #estado_nomina").val();	
@@ -1446,4 +1445,5 @@ $("#formNominaDetalles #nominad_isr").on("keyup", function(){
 $("#formNominaDetalles #nominad_incapacidad_ihss").on("keyup", function(){
 	calculoNomina();
 });
+
 </script>

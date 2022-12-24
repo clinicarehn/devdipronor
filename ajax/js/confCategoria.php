@@ -2,7 +2,6 @@
 $(document).ready(function() {
     listar_categoria_productos(); 
 });
-
 //INICIO CONF CATEGORIAS
 var listar_categoria_productos = function(){
 	var table_categoria_productos  = $("#dataTableConfCategorias").DataTable({

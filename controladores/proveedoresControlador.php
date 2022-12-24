@@ -167,3 +167,4 @@
 			return mainModel::sweetAlert($alert);
 		}		
 	}
+?>	

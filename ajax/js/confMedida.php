@@ -2,7 +2,6 @@
 $(document).ready(function() {
     listar_medidas(); 
 });
-
 //INICIO MEDIDAS
 var listar_medidas = function(){
 	var table_medidas  = $("#dataTableConfMedidas").DataTable({

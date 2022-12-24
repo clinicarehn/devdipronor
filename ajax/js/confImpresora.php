@@ -2,7 +2,6 @@
 $(document).ready(function() {
 	getImpresora();
 });
-
 //CONFIGURACION DE IMPRESORA    
 var getImpresora = function(){
 	var impresora_id;
@@ -87,7 +86,6 @@ table_impresora.search('').draw();
 $('#buscar').focus();
 
 updateStatus("#dataTableConfImpresora tbody",table_impresora);
-
 }
 //FIN 
 

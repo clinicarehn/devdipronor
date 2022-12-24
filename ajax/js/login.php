@@ -6,6 +6,7 @@ function sf(ID) {
 function redireccionar() {
     window.location = "../vistas/index.php";
 }
+
 $(document).ready(function() {
     $("#loginform").submit(function() {
         var url = '<?php echo SERVERURL;?>ajax/iniciarSesionAjax.php';

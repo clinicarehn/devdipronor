@@ -4,7 +4,6 @@ $(document).ready(function() {
 	getEmpresaAlmacen();
 	getUbicacionAlmacen();
 });
-
 //INICIO ALMACEN
 var listar_almacen = function(){
 	var table_almacen  = $("#dataTableConfAlmacen").DataTable({

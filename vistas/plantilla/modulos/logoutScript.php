@@ -52,4 +52,5 @@ function salir(token){
 		}
 	});	
 }
+
 </script>

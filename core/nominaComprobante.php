@@ -96,7 +96,6 @@
 
 	echo $datos;
 	?>
-	
 </div>
 </body>
 </html>

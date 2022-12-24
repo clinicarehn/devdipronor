@@ -1,5 +1,4 @@
 <?php
-
     if($peticionAjax){
         require_once "../modelos/facturasModelo.php";
     }else{

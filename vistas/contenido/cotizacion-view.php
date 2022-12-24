@@ -1,10 +1,5 @@
 <body id="view_quote">
 	<div class="container-fluid">
-		<!--<ol class="breadcrumb mt-2 mb-4">
-			<li class="breadcrumb-item"><a class="breadcrumb-link" href="<?php echo SERVERURL; ?>dashboard/">Dashboard</a></li>
-			<li class="breadcrumb-item active">Cotización</li>
-		</ol>-->
-		
 		<div class="card mb-4">
 			<div class="card-header">
 				<i class="fas fa-file-invoice-dollar mr-1"></i>
