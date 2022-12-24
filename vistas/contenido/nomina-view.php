@@ -245,4 +245,5 @@
 <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Nomna de Empleados");
 ?>	
+
 </div>
