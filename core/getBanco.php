@@ -14,5 +14,3 @@
 	}else{
 		echo '<option value="">Seleccione un Banco</option>';
 	}
-		
-?>

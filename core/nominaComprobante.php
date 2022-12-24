@@ -37,7 +37,6 @@
 
 	<?php
 	$datos = "";
-
 	while($registro_detalles = $result_voucher_detalle->fetch_assoc()){
 		$datos .= '
 			<table id="factura_detalle">
@@ -93,7 +92,6 @@
 			
 		';
 	}
-
 	echo $datos;
 	?>
 </div>

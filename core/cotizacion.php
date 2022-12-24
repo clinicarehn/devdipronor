@@ -70,7 +70,6 @@ use LDAP\Result;
 
 		</tr>
 	</table>
-
 	<table id="factura_detalle">
 			<thead>
 				<tr>

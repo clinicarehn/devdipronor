@@ -33,3 +33,5 @@
 	);
 
 	echo json_encode($arreglo);
+	
+?>

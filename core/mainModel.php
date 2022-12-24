@@ -23,35 +23,21 @@
 
             return $mysqli;
         }
-
 		
-
 		public function consulta_total_ingreso($query){
 			$result = self::connection()->query($query);
 	
 			return $result;
 		}
 
-
 		//FUNCION CORRELATIVO
 
 		protected function correlativo($campo_id, $tabla){
-
 			$query = "SELECT MAX(".$campo_id.") AS max, COUNT(".$campo_id.") AS count FROM ".$tabla;
-
 			$result = self::connection()->query($query);
-
-
-
 			$correlativo2 = $result->fetch_assoc();
-
-
-
 			$numero = $correlativo2['max'];
-
 			$cantidad = $correlativo2['count'];
-
-
 
 			if ( $cantidad == 0 )
 
@@ -6081,14 +6067,10 @@
 
 			$num = (int)$num;
 
-
-
 			$numf = self::milmillon($num);
 
 
-
 			return $numf." CON ".$cents."/100";
-
 		}
 
 		/*FIN CONVERTIR NUMEROS A LETRAS*/

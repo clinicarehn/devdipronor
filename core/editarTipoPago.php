@@ -16,3 +16,4 @@
 		3 => $valores2['tipo_pago_id']	
 	);
 	echo json_encode($datos);
+?>	

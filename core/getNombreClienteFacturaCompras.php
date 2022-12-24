@@ -20,4 +20,4 @@
 		0 => $proveedor,							
 	);
 	echo json_encode($datos);
-	
+?>	

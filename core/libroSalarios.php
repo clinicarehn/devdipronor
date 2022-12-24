@@ -47,7 +47,6 @@
 			</td>						
 		</tr>
 	</table>
-
 	<table id="factura_detalle">
 		<tr>
 		</tr>		

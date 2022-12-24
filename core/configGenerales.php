@@ -6,3 +6,5 @@
 
     const COMPANY = "KIREDS";
     date_default_timezone_set("America/Tegucigalpa");
+	
+    

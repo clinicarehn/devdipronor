@@ -14,4 +14,3 @@
 	}else{
 		echo '<option value="">Seleccione un Tipo de Correo</option>';
 	}
-?>

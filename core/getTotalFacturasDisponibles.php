@@ -46,3 +46,4 @@
 		2 => $fecha_limite,		
 	);
 	echo json_encode($datos);
+?>	

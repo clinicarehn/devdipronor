@@ -22,3 +22,5 @@
     const METHOD = "AES-256-CBC";
     const SECRET_KEY = '$DP_@2020';
     const SECRET_IV = '10172';
+	
+    

@@ -45,4 +45,3 @@
 		 5 => $estado	 
 	);	
 	echo json_encode($datos);
-?>

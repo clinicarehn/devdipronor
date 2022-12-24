@@ -33,3 +33,4 @@
 		20 => $valores2['id_producto_superior'],
 	);
 	echo json_encode($datos);
+?>	
