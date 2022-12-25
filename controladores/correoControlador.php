@@ -36,7 +36,7 @@
 					"form" => "formConfEmails",	
 					"id" => "pro_correos",
 					"valor" => "Editar",
-					"funcion" => "listar_correos_configuracion();",
+					"funcion" => "listar_correos_configuracion();getSMTPSecure();getTipoCorreo();",
 					"modal" => "",
 				];
 			}else{

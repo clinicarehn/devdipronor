@@ -53,7 +53,7 @@
 						"form" => "formContrato",
 						"id" => "proceso_contrato",
 						"valor" => "Registro",	
-						"funcion" => "listar_contratos();",
+						"funcion" => "listar_contratos();getTipoContrato();getPagoPlanificado();getTipoEmpleado();getEmpleado();",
 						"modal" => "",
 					];
 				}else{
@@ -113,7 +113,7 @@
 					"form" => "formContrato",	
 					"id" => "proceso_contrato",
 					"valor" => "Editar",
-					"funcion" => "listar_contratos();",
+					"funcion" => "listar_contratos();getTipoContrato();getPagoPlanificado();getTipoEmpleado();getEmpleado();",
 					"modal" => "",
 				];
 			}else{
@@ -148,7 +148,7 @@
 						"form" => "formContrato",	
 						"id" => "proceso_contrato",
 						"valor" => "Eliminar",
-						"funcion" => "listar_contratos();",
+						"funcion" => "listar_contratos();getTipoContrato();getPagoPlanificado();getTipoEmpleado();getEmpleado();",
 						"modal" => "modal_registrar_contrato",
 					];
 				}else{

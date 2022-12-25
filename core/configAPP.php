@@ -5,7 +5,7 @@
 
     //DATOS DE CONEXION DEL CLIENTE
     const SERVER = "localhost";
-    const DB = "clinicarehn_clientes_clinicare";
+    const DB = "kireds_clientes_dipronor";
     const USER = "clinicarehn_clinicare";
     const PASS = "Clin1c@r32022#";
 

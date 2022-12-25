@@ -18,7 +18,7 @@
 			if (isset($_POST['confTipoCuenta'])){
 				$tipo_cuenta = $_POST['confTipoCuenta'];
 			}else{
-				$cuentas_id = 0;
+				$tipo_cuenta = 0;
 			}			
 
 			$estado = 1;
@@ -49,7 +49,7 @@
 						"form" => "formConfTipoPago",
 						"id" => "pro_tipoPago",
 						"valor" => "Registro",	
-						"funcion" => "listar_tipo_pago_contabilidad();",
+						"funcion" => "listar_tipo_pago_contabilidad();getCuentaTipoPago();getTipoCuenta();",
 						"modal" => "",
 					];
 				}else{
@@ -113,7 +113,7 @@
 					"form" => "formConfTipoPago",	
 					"id" => "pro_tipoPago",
 					"valor" => "Editar",
-					"funcion" => "listar_tipo_pago_contabilidad();",
+					"funcion" => "listar_tipo_pago_contabilidad();getCuentaTipoPago();getTipoCuenta();",
 					"modal" => "",
 				];
 			}else{
@@ -148,7 +148,7 @@
 						"form" => "formConfTipoPago",	
 						"id" => "pro_tipoPago",
 						"valor" => "Eliminar",
-						"funcion" => "listar_tipo_pago_contabilidad();",
+						"funcion" => "listar_tipo_pago_contabilidad();getCuentaTipoPago();getTipoCuenta();",
 						"modal" => "modalConfTipoPago",
 					];
 				}else{

@@ -207,11 +207,10 @@ transferencia_producto_dataTable("#dataTablaMovimientos tbody",table_movimientos
 
 //TRANSFERIR PRODUCTO/BODEGA
 var transferencia_producto_dataTable = function(tbody, table){
-
 	$(tbody).off("click", "button.table_transferencia");
 	$(tbody).on("click", "button.table_transferencia", function(){
 		var data = table.row( $(this).parents("tr") ).data();
-
+		$('#formTransferencia')[0].reset();
 		if(data.superior > 0){
 			swal({
 					title: 'Error', 

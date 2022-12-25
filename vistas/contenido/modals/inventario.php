@@ -1,6 +1,6 @@
 <!--INICIO MODAL MOVIMIENTO DE PRODUCTOS-->
 <div class="modal fade" id="modal_movimientos">
-	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Movimiento de Productos</h4>

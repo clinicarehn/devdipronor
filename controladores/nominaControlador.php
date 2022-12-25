@@ -53,7 +53,7 @@
 						"form" => "formNomina",
 						"id" => "proceso_nomina",
 						"valor" => "Registro",	
-						"funcion" => "listar_nominas();",
+						"funcion" => "listar_nominas();getPagoPlanificado();getEmpresa();getTipoNomina();",
 						"modal" => "",
 					];
 				}else{
@@ -211,7 +211,7 @@
 					"form" => "formNomina",	
 					"id" => "proceso_nomina",
 					"valor" => "Editar",
-					"funcion" => "listar_nominas();",
+					"funcion" => "listar_nominas();getPagoPlanificado();getEmpresa();getTipoNomina();",
 					"modal" => "",
 				];
 			}else{
@@ -297,7 +297,7 @@
 					"form" => "formNomina",	
 					"id" => "proceso_nomina",
 					"valor" => "Editar",
-					"funcion" => "listar_nominas_detalles();",
+					"funcion" => "listar_nominas_detalles();getEmpleado();",
 					"modal" => "",
 				];
 			}else{
@@ -332,7 +332,7 @@
 						"form" => "formNomina",	
 						"id" => "proceso_nomina",
 						"valor" => "Eliminar",
-						"funcion" => "listar_nominas();",
+						"funcion" => "listar_nominas();getPagoPlanificado();getEmpresa();getTipoNomina();",
 						"modal" => "modal_registrar_nomina",
 					];
 				}else{
@@ -373,7 +373,7 @@
 					"form" => "formNomina",	
 					"id" => "proceso_nomina",
 					"valor" => "Eliminar",
-					"funcion" => "listar_nominas_detalles();",
+					"funcion" => "listar_nominas_detalles();getEmpleado();",
 					"modal" => "modal_registrar_nomina",
 				];
 			}else{

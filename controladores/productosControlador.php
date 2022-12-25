@@ -188,7 +188,7 @@
 								"form" => "formProductos",	
 								"id" => "proceso_productos",
 								"valor" => "Registro",
-								"funcion" => "listar_productos();getProductos();",
+								"funcion" => "listar_productos();getProductos();getCategoriaProductos();getTipoProducto();getAlmacen();getMedida(0);getEmpresaProductos();",
 								"modal" => "",
 							];
 						}else{
@@ -308,7 +308,7 @@
 					"form" => "formProductos",	
 					"id" => "proceso_productos",
 					"valor" => "Editar",
-					"funcion" => "listar_productos();getProductos();",
+					"funcion" => "listar_productos();getProductos();getCategoriaProductos();getTipoProducto();getAlmacen();getMedida(0);getEmpresaProductos();",
 					"modal" => "",
 				];
 			}else{
@@ -333,8 +333,19 @@
 			$bodega_actual = mainModel::cleanString($_POST['id_bodega_actual']);
 			$bodega = mainModel::cleanString($_POST['id_bodega']);
 			$cantidad = mainModel::cleanString($_POST['cantidad_movimiento']);
-			$comentario = mainModel::cleanString($_POST['movimiento_comentario']);
-			$clientes_id = mainModel::cleanString($_POST['cliente_movimientos']);
+			$saldoProducto = 0;
+			
+			if(isset($_POST['movimiento_comentario'])){
+				$comentario = mainModel::cleanString($_POST['movimiento_comentario']);
+			}else{
+				$comentario = "";
+			}
+			
+			if(isset($_POST['movimiento_comentario'])){
+				$clientes_id = mainModel::cleanString($_POST['cliente_movimientos']);
+			}else{
+				$clientes_id = "";
+			}
 
 			$datos = [
 				"productos_id" => $productos_id,
@@ -440,7 +451,7 @@
 					"form" => "formMovimientos",	
 					"id" => "proceso_movimientos",
 					"valor" => "Editar",
-					"funcion" => "inventario_transferencia()",
+					"funcion" => "inventario_transferencia();getAlmacen();getTipoProductos();getProductoOperacion();getTipoProductosMovimientos();",
 					"modal" => "",
 				];
 			}else{
@@ -480,7 +491,7 @@
 						"form" => "formProductos",	
 						"id" => "proceso_productos",
 						"valor" => "Eliminar",
-						"funcion" => "listar_productos();getProductos();",
+						"funcion" => "listar_productos();getProductos();getCategoriaProductos();getTipoProducto();getAlmacen();getMedida(0);getEmpresaProductos();",
 						"modal" => "modal_registrar_productos",
 					];
 				}else{

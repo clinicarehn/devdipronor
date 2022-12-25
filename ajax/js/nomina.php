@@ -572,7 +572,9 @@ function getTipoNomina(){
 	    async: true,
         success: function(data){			
 		    $('#formNomina #tipo_nomina').html("");
-			$('#formNomina #tipo_nomina').html(data);	
+			$('#formNomina #tipo_nomina').html(data);
+			$('#formNomina #tipo_nomina').selectpicker('refresh');
+			$('#formNomina #tipo_nomina').val(1);	
 			$('#formNomina #tipo_nomina').selectpicker('refresh');
 		}
      });

@@ -59,7 +59,7 @@
 						"form" => "formSecuencia",
 						"id" => "proceso_secuencia_facturacion",
 						"valor" => "Registro",	
-						"funcion" => "listar_secuencia_facturacion();",
+						"funcion" => "listar_secuencia_facturacion();getEmpresaSecuencia();getDocumentoSecuencia();",
 						"modal" => "",						
 					];						
 				}else{
@@ -129,7 +129,7 @@
 					"form" => "formSecuencia",	
 					"id" => "proceso_secuencia_facturacion",
 					"valor" => "Editar",
-					"funcion" => "listar_secuencia_facturacion();",
+					"funcion" => "listar_secuencia_facturacion();getEmpresaSecuencia();getDocumentoSecuencia();",
 					"modal" => "",
 				];
 			}else{
@@ -164,7 +164,7 @@
 						"form" => "formSecuencia",	
 						"id" => "proceso_secuencia_facturacion",
 						"valor" => "Eliminar",
-						"funcion" => "listar_secuencia_facturacion();",
+						"funcion" => "listar_secuencia_facturacion();getEmpresaSecuencia();getDocumentoSecuencia();",
 						"modal" => "modal_registrar_secuencias",
 					];
 				}else{

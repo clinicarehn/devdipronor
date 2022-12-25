@@ -41,7 +41,7 @@
 					<div class="col-md-3 mb-3">
 					  <label for="empresa_egresos">Empresa <span class="priority">*<span/></label>
 					    <div class="input-group mb-3">
-						  <select id="cuenta_egresos" name="empresa_egresos" class="selectpicker" data-live-search="true" title="Empresa">
+						  <select id="empresa_egresos" name="empresa_egresos" class="selectpicker" data-live-search="true" title="Empresa">
 							<option value="">Seleccione</option>
 						  </select>
 					    </div>					
@@ -50,7 +50,8 @@
 					  <label for="fecha_egresos">Fecha Factura <span class="priority">*<span/></label>
 					  <input type="date" required id="fecha_egresos" name="fecha_egresos" value="<?php echo date ("Y-m-d");?>" class="form-control" />
 					</div>					
-				</div>				
+				</div>
+				
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
 					  <label for="factura_egresos">Factura <span class="priority">*<span/></label>

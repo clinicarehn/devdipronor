@@ -565,7 +565,6 @@ function modal_productos(){
 	});
 }
 /*FIN FORMULARIO PRODUCTOS*/
-
 function getEmpresaProductos(){
     var url = '<?php echo SERVERURL;?>core/getEmpresa.php';
 
@@ -626,7 +625,6 @@ function getAlmacen(){
 		}
      });
 }
-
 function getTipoProducto(){
     var url = '<?php echo SERVERURL;?>core/getTipoProducto.php';
 
@@ -773,7 +771,7 @@ function getDepartamentoProveedores(){
      });
 }
 
-function getMunicipiosProveedores(departamentos_id, municipios_id){
+function getMunicipiosProveedores(municipios_id){
 	var url = '<?php echo SERVERURL;?>core/getMunicipios.php';
 
 	var departamentos_id = $('#formProveedores #departamento_proveedores').val();
@@ -1965,6 +1963,7 @@ function getMunicipiosClientes(municipios_id){
 	   success:function(data){
 		  $('#formClientes #municipio_cliente').html("");
 		  $('#formClientes #municipio_cliente').html(data);
+		  $('#formClientes #municipio_cliente').val(municipios_id);
 		  $('#formClientes #municipio_cliente').selectpicker('refresh');
 	  }
   });

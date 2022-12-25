@@ -858,481 +858,219 @@
 
         }
 
-
-
         protected function sweetAlert($datos){
-
             if($datos['alert'] == "simple"){
-
                 $alerta = "
-
                     <script>
-
                         swal({
-
                             title: '".$datos['title']."',
-
                             text: '".$datos['text']."',
-
                             type: '".$datos['type']."',
-
                             confirmButtonClass: '".$datos['btn-class']."',
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
                         });
-
                     </script>
-
                 ";
-
             }elseif($datos['alert'] == "reload"){
-
                 $alerta = "
-
                     <script>
-
                         swal({
-
                             title: '".$datos['title']."',
-
                             text: '".$datos['text']."',
-
                             type: '".$datos['type']."',
-
                             showCancelButton: true,
-
 							timer: 3000,
-
                             confirmButtonClass: '".$datos['btn-class']."',
-
                             confirmButtonText: '".$datos['btn-text']."',
-
                             closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
                         },
-
                         function(){
-
                             location.reload();
-
                         });
-
                     </script>
-
                 ";
-
             }elseif($datos['alert'] == "cerrar"){
-
                 $alerta = "
-
                     <script>
-
                         swal({
-
                             title: '".$datos['title']."',
-
                             text: '".$datos['text']."',
-
                             type: '".$datos['type']."',
-
                             showCancelButton: true,
-
 							timer: 3000,
-
                             confirmButtonClass: '".$datos['btn-class']."',
-
                             confirmButtonText: '".$datos['btn-text']."',
-
                             closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
                         },
-
                         function(dismiss){
-
                             redireccionar();
-
 							if(dismiss == 'cancel'){
-
 								redireccionar();
-
 							}
-
                         });
-
                     </script>
-
                 ";
-
 				self::cerrar_sesion();
-
             }elseif($datos['alert'] == "clear"){
-
                 $alerta = "
-
                     <script>
-
 						swal({
-
 							title: '".$datos['title']."',
-
 							text: '".$datos['text']."',
-
 							type: '".$datos['type']."',
-
 							showCancelButton: false,
-
 							timer: 3000,
-
 							confirmButtonClass: '".$datos['btn-class']."',
-
 							confirmButtonText: '".$datos['btn-text']."',
-
 							closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
 						});
 
-
-
 						$('#".$datos['form']."')[0].reset();
-
 						$('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
 						".$datos['funcion'].";
-
 						$('#".$datos['modal']."').modal('hide');
-
                     </script>
-
                 ";
-
             }elseif($datos['alert'] == "clear_pay"){
-
-				
                 $alerta = "
-
                     <script>
-
 						swal({
-
 							title: '".$datos['title']."',
-
 							text: '".$datos['text']."',
-
 							type: '".$datos['type']."',
-
 							showCancelButton: false,
-
 							confirmButtonClass: '".$datos['btn-class']."',
-
 							confirmButtonText: '".$datos['btn-text']."',
-
 							closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
-							
-
 						});
-
 						location.reload();
-
 						$('#".$datos['form']."')[0].reset();
-
 						$('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
 						".$datos['funcion'].";
-
 						$('#".$datos['modal']."').modal('hide');
-
-                        
-
-
                     </script>
-
                 ";
-
             }elseif($datos['alert'] == "save_simple"){
-
                 $alerta = "
-
                     <script>
-
 						swal({
-
 							title: '".$datos['title']."',
-
 							text: '".$datos['text']."',
-
 							type: '".$datos['type']."',
-
 							showCancelButton: false,
-
 							timer: 3000,
-
 							confirmButtonClass: '".$datos['btn-class']."',
-
 							confirmButtonText: '".$datos['btn-text']."',
-
 							closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
 						});
-
-
 
 						$('#".$datos['form']."')[0].reset();
-
 						$('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
 						".$datos['funcion'].";
-
 						$('#".$datos['modal']."').modal('hide');
-
                     </script>
-
                 ";
-
             }elseif($datos['alert'] == "save"){
-
                 $alerta = "
-
                     <script>
-
 						swal({
-
 							title: '".$datos['title']."',
-
 							text: '".$datos['text']."',
-
 							type: '".$datos['type']."',
-
 							showCancelButton: false,
-
 							timer: 3000,
-
 							confirmButtonClass: '".$datos['btn-class']."',
-
 							confirmButtonText: '".$datos['btn-text']."',
-
 							closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
 						});
-
-
 
 					    $('#".$datos['form']."')[0].reset();
-
 					    $('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
 					    ".$datos['funcion'].";
-
 					    $('#".$datos['modal']."').modal('hide');
-
                     </script>
 
                 ";
 
             }elseif($datos['alert'] == "delete"){
-
                 $alerta = "
-
                     <script>
-
 						swal({
-
 							title: '".$datos['title']."',
-
 							text: '".$datos['text']."',
-
 							type: '".$datos['type']."',
-
 							showCancelButton: false,
-
 							timer: 3000,
-
 							confirmButtonClass: '".$datos['btn-class']."',
-
 							confirmButtonText: '".$datos['btn-text']."',
-
 							closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
 						});
-
-
 
 					    $('#".$datos['form']."')[0].reset();
-
 					    $('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
 					    ".$datos['funcion'].";
-
 					    $('#".$datos['modal']."').modal('hide');
-
                     </script>
-
                 ";
-
             }elseif($datos['alert'] == "edit"){
-
                 $alerta = "
-
                     <script>
-
 						swal({
-
 							title: '".$datos['title']."',
-
 							text: '".$datos['text']."',
-
 							type: '".$datos['type']."',
-
 							showCancelButton: false,
-
 							timer: 3000,
-
 							confirmButtonClass: '".$datos['btn-class']."',
-
 							confirmButtonText: '".$datos['btn-text']."',
-
 							closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
 						});
 
-
-
 					    $('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
 					    ".$datos['funcion'].";
-
 					    $('#".$datos['modal']."').modal('hide');
-
                     </script>
-
                 ";
-
-            }elseif($datos['alert'] == "edit"){
-
-                $alerta = "
-
-                    <script>
-
-						swal({
-
-							title: '".$datos['title']."',
-
-							text: '".$datos['text']."',
-
-							type: '".$datos['type']."',
-
-							showCancelButton: false,
-
-							timer: 3000,
-
-							confirmButtonClass: '".$datos['btn-class']."',
-
-							confirmButtonText: '".$datos['btn-text']."',
-
-							closeOnConfirm: false,
-
-							allowEscapeKey: false,
-
-							allowOutsideClick: false
-
-						});
-
-
-
-					    $('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
-					    ".$datos['funcion'].";
-
-					    $('#".$datos['modal']."').modal('hide');
-
-                    </script>
-
-                ";
-
             }
 
-
-
 			return $alerta;
-
         }
 
-
-
 		function cerrar_sesion(){
-
 			if(!isset($_SESSION['user_sd'])){
-
 				session_start(['name'=>'SD']);
 
 			}
 
-
-
 			$token = self::decryption($_SESSION['token_sd']);
-
 			$hora = date("H:m:s");
-
-
-
 			$usuario = $_SESSION['user_sd'];
-
 			$token_s = $_SESSION['token_sd'];
-
 			$token = $token;
-
 			$codigo = $_SESSION['codigo_bitacora_sd'];
-
-
-
 			self::guardar_historial_accesos("Cierre de Sesion");
-
 			session_unset();//VACIAR LA SESION
-
 			session_destroy();//DESTRUIR LA SESION
 
-
-
-			//window.location(SERVERURL."login/");
-
+			window.location(SERVERURL."login/");
 		}
-
-
 
 		public function getProductoBarCodeBill($barCode){
 
@@ -2183,7 +1921,7 @@
 
 			$query = "SELECT c.contrato_id AS contrato_id, CONCAT(co.nombre, ' ', co.apellido) AS 'empleado', tc.nombre AS 'tipo_contrato', pp.nombre AS 'pago_planificado', te.nombre AS 'tipo_empleado', c.fecha_inicio AS 'fecha_inicio', c.estado AS 'estado', (CASE WHEN c.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', c.salario AS 'salario', c.tipo_contrato_id AS 'tipo_contrato_id', c.pago_planificado_id AS 'pago_planificado_id', c.tipo_empleado_id AS 'tipo_empleado_id', (CASE WHEN c.fecha_fin = '' THEN 'Sin Registro' ELSE c.fecha_fin END) AS 'fecha_fin', c.notas AS 'notas'
 				FROM contrato AS c
-				INNER JOIN colaboradores AS co ON c.colaboradores_id = co.colaboradores_id
+				INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
 				INNER JOIN tipo_contrato AS tc ON c.tipo_contrato_id = tc.tipo_contrato_id
 				INNER JOIN pago_planificado AS pp ON c.pago_planificado_id = pp.pago_planificado_id
 				INNER JOIN tipo_empleado AS te ON c.tipo_empleado_id = te.tipo_empleado_id
@@ -2805,80 +2543,42 @@
 				a.facturar_cero
 
 				FROM almacen AS a
-
 				INNER JOIN ubicacion AS u
-
 				ON a.ubicacion_id = u.ubicacion_id
-
 				INNER JOIN empresa AS e
-
 				ON a.empresa_id = e.empresa_id
-
 				WHERE a.estado = 1
-
 				ORDER BY a.nombre ASC";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getTipoPagoContabilidad(){
-
 			$query = "SELECT tp.nombre AS 'nombre', c.codigo AS 'codigo', c.nombre AS 'cuenta', tp.tipo_pago_id AS 'tipo_pago_id'
-
 				FROM tipo_pago AS tp
-
 				INNER JOIN cuentas As c
-
 				ON tp.cuentas_id = c.cuentas_id
-
 				WHERE tp.estado = 1";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getUbicacion(){
-
 			$query = "SELECT u.ubicacion_id AS 'ubicacion_id', u.nombre AS 'ubicacion', e.nombre AS 'empresa'
-
 				FROM ubicacion AS u
-
 				INNER JOIN empresa AS e
-
 				ON u.empresa_id = e.empresa_id
-
 				WHERE u.estado = 1
-
 				ORDER BY u.nombre ASC";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getTipoProductos(){
 

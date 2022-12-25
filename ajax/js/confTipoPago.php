@@ -4,6 +4,7 @@ $(document).ready(function() {
     getCuentaTipoPago();
 	getTipoCuenta();
 });
+
 //INICIO TIPO DE PAGO
 var listar_tipo_pago_contabilidad = function(){
 	var table_tipo_pago_contabilidad = $("#dataTableConfTipoPago").DataTable({
@@ -96,6 +97,7 @@ var edit_tipo_pago_contabilidad_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.table_editar", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 		var url = '<?php echo SERVERURL;?>core/editarTipoPago.php';
+		$('#formConfTipoPago')[0].reset();
 		$('#formConfTipoPago #tipo_pago_id').val(data.tipo_pago_id);
 
 		$.ajax({
@@ -106,7 +108,6 @@ var edit_tipo_pago_contabilidad_dataTable = function(tbody, table){
 				var valores = eval(registro);
 				$('#formConfTipoPago').attr({ 'data-form': 'update' });
 				$('#formConfTipoPago').attr({ 'action': '<?php echo SERVERURL;?>ajax/modificarTipoPagoAjax.php' });
-				$('#formConfTipoPago')[0].reset();
 				$('#reg_formTipoPago').hide();
 				$('#edi_formTipoPago').show();
 				$('#delete_formTipoPago').hide();
@@ -151,6 +152,7 @@ var delete_tipo_pago_contabilidad_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.table_eliminar", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 		var url = '<?php echo SERVERURL;?>core/editarTipoPago.php';
+		$('#formConfTipoPago')[0].reset();
 		$('#formConfTipoPago #tipo_pago_id').val(data.tipo_pago_id);
 
 		$.ajax({
@@ -161,7 +163,6 @@ var delete_tipo_pago_contabilidad_dataTable = function(tbody, table){
 				var valores = eval(registro);
 				$('#formConfTipoPago').attr({ 'data-form': 'update' });
 				$('#formConfTipoPago').attr({ 'action': '<?php echo SERVERURL;?>ajax/eliminarTipoPagoAjax.php' });
-				$('#formConfTipoPago')[0].reset();
 				$('#reg_formTipoPago').hide();
 				$('#edi_formTipoPago').hide();
 				$('#delete_formTipoPago').show();

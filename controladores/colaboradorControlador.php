@@ -52,7 +52,7 @@
 						"form" => "formColaboradores",
 						"id" => "proceso_colaboradores",
 						"valor" => "Registro",
-						"funcion" => "listar_colaboradores();listar_colaboradores_buscar_factura();listar_colaboradores_buscar_cotizacion();",
+						"funcion" => "listar_colaboradores();getEmpresaColaboradores();getPuestoColaboradores();listar_colaboradores_buscar_factura();listar_colaboradores_buscar_cotizacion();",
 						"modal" => "",						
 					];
 				}else{
@@ -127,7 +127,7 @@
 					"form" => "formColaboradores",	
 					"id" => "proceso_colaboradores",
 					"valor" => "Editar",
-					"funcion" => "listar_colaboradores();",
+					"funcion" => "listar_colaboradores();getEmpresaColaboradores();getPuestoColaboradores();",
 					"modal" => "",	
 				];
 			}else{
@@ -171,7 +171,7 @@
 					"form" => "formColaboradores",	
 					"id" => "proceso_colaboradores",
 					"valor" => "Editar",
-					"funcion" => "listar_colaboradores();",
+					"funcion" => "listar_colaboradores();getEmpresaColaboradores();getPuestoColaboradores();",
 					"modal" => "",	
 				];
 			}else{
@@ -206,7 +206,7 @@
 						"form" => "formColaboradores",	
 						"id" => "proceso_colaboradores",
 						"valor" => "Eliminar",
-						"funcion" => "listar_colaboradores();",
+						"funcion" => "listar_colaboradores();getEmpresaColaboradores();getPuestoColaboradores();",
 						"modal" => "modal_registrar_colaboradores",
 					];
 				}else{

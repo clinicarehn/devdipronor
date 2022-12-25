@@ -28,7 +28,7 @@
 					"form" => "formConfCuentasEntidades",	
 					"id" => "pro_ConfCuentasEntidades",
 					"valor" => "Editar",
-					"funcion" => "listar_diarios_configuracion();",
+					"funcion" => "listar_diarios_configuracion();getCuentaDiarios();",
 					"modal" => "",
 				];
 			}else{

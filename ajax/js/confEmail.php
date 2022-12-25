@@ -4,6 +4,7 @@ $(document).ready(function() {
     getSMTPSecure();
     getTipoCorreo();
 });
+
 //INICIO CORREO
 var listar_correos_configuracion = function(){
 	var table_correos_configuracion = $("#dataTableConfCorreos").DataTable({

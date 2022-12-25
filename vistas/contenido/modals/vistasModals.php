@@ -125,13 +125,13 @@
 	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Usuarios</h4>    
+          <h4 class="modal-title">Registro de Usuarios</h4>    
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			  <span aria-hidden="true">&times;</span>
 			</button>
         </div><div class="container"></div>
         <div class="modal-body">
-			<form class="FormularioAjax" id="formUsers" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">	
+			<form class="FormularioAjax" id="formUsers" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
 						<div class="input-group mb-3">
@@ -146,13 +146,13 @@
 				</div>					
 				<div class="form-row">
 					<div class="col-md-3 mb-3">
-						<label for="colaborador_id_usuario">Colaboradores <span class="priority">*<span/></label>
-					    <div class="input-group mb-3">
+					  <label for="colaborador_id_usuario">Colaboradores <span class="priority">*<span/></label>
+					  <div class="input-group mb-3">
 						  <select id="colaborador_id_usuario" name="colaborador_id_usuario" class="selectpicker" data-live-search="true" title="Colaboradores">
 							<option value="">Seleccione</option>
 						  </select>
-					    </div>
-					</div>					 			
+					   </div>
+					</div>	
 					<div class="col-md-3 mb-3">
 						<label for="nickname">Nick Name <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
@@ -160,44 +160,46 @@
 						  <div class="input-group-append">				
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-user"></i></span>
 						  </div>
-						</div>	 
-					</div>
-					<div class="col-md-3 mb-3">
-						<label for="correo_usuario">Correo <span class="priority">*<span/></label>
+						</div>
+					</div>	
+					<div class="col-md-6 mb-3">
+					  <label for="correo_usuario">Correo <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
 						  <input type="email" class="form-control" placeholder="Correo" id="correo_usuario" name="correo_usuario" aria-label="Correo" aria-describedby="basic-addon2" required>
 						  <div class="input-group-append">				
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-envelope-square"></i></span>
 						  </div>
-						</div>	 
-					</div>
+						</div>
+					</div>															
+				</div>
+
+				<div class="form-row">
 					<div class="col-md-3 mb-3">
-						<label for="empresa_usuario">Empresa <span class="priority">*<span/></label>
-					    <div class="input-group mb-3">
+					  <label for="empresa_usuario">Empresa <span class="priority">*<span/></label>
+					  <div class="input-group mb-3">
 						  <select id="empresa_usuario" name="empresa_usuario" class="selectpicker" data-live-search="true" title="Empresa">
 							<option value="">Seleccione</option>
 						  </select>
-					    </div>
-					</div>					
-				</div>
-				<div class="form-row">
+					   </div>
+					</div>						
 					<div class="col-md-3 mb-3">
 					  <label for="tipo_user">Tipo Usuario <span class="priority">*<span/></label>
-					    <div class="input-group mb-3">
+					  <div class="input-group mb-3">
 						  <select id="tipo_user" name="tipo_user" class="selectpicker" data-live-search="true" title="Tipo Usuario">
 							<option value="">Seleccione</option>
 						  </select>
-					    </div>
-					</div>					
+					   </div>					 
+					</div>
 					<div class="col-md-3 mb-3">
 					  <label for="privilegio_id">Privilegio <span class="priority">*<span/></label>
-					    <div class="input-group mb-3">
-						  <select id="privilegio_id" name="privilegio_id" class="selectpicker" data-live-search="true" title="Prvilegio">
+					  <div class="input-group mb-3">
+						  <select id="privilegio_id" name="privilegio_id" class="selectpicker" data-live-search="true" title="Tipo Usuario">
 							<option value="">Seleccione</option>
 						  </select>
-					    </div>					 				
-					</div>																
-				</div>				
+					   </div>						  
+					</div>											
+				</div>													
+
 				<div class="form-group" id="estado_usuarios">				  
 				  <div class="col-md-12">			
 						<label class="switch">
@@ -206,15 +208,15 @@
 						</label>
 						<span class="question mb-2" id="label_usuarios_activo"></span>				
 				  </div>				  
-				</div>			   
-				<div class="RespuestaAjax"></div>					 
+				</div>				
+				<div class="RespuestaAjax"></div>  
 			</form>
         </div>
 		<div class="modal-footer">
 			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_usuario" form="formUsers"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>
 			<button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="edi_usuario" form="formUsers"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>
 			<button class="eliminar btn btn-danger ml-2" type="submit" style="display: none;" id="delete_usuario" form="formUsers"><div class="sb-nav-link-icon"></div><i class="fa fa-trash fa-lg"></i> Eliminar</button>					
-		</div>	 		
+		</div>			
       </div>
     </div>
 </div>

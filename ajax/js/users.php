@@ -7,6 +7,7 @@ $(document).ready(function() {
 	getColaboradoresUsuario();
 });
 
+
 //INICIO ACCIONES FROMULARIO USUARIOS
 var listar_usuarios = function(){
 	var table_usuarios  = $("#dataTableUsers").DataTable({

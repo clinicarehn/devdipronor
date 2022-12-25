@@ -12,7 +12,7 @@
 			<form class="form-horizontal FormularioAjax" id="formConfTipoPago" action="" method="POST" data-form="" enctype="multipart/form-data">				
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
-					    <input type="hidden" required="required" readonly id="tipo_pago_id" name="tipo_pago_id"/>
+					    <input type="hidden" required="required" class="form-control" readonly id="tipo_pago_id" name="tipo_pago_id"/>
 						<div class="input-group mb-3">
 							<input type="text" required readonly id="pro_tipoPago" name="pro_tipoPago" class="form-control"/>
 							<div class="input-group-append">				
@@ -22,14 +22,22 @@
 					</div>							
 				</div>
 				<div class="form-row">
-					<div class="col-md-12 mb-3">
+					<div class="col-md-6 mb-3">
 					  <label>Tipo de Cuenta <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
 						  <select id="confTipoCuenta" name="confTipoCuenta" class="selectpicker" data-live-search="true" title="Tipo Cuenta">
 							<option value="">Seleccione</option>
 						  </select>
 					  </div>					 
-					</div>										
+					</div>	
+					<div class="col-md-6 mb-3">
+					  <label>Cuenta <span class="priority">*<span/></label>
+					  <div class="input-group mb-3">
+						  <select id="confCuentaTipoPago" name="confCuentaTipoPago" class="selectpicker" data-live-search="true" title="Cuenta">
+							<option value="">Seleccione</option>
+						  </select>
+					  </div>						 
+					</div>						
 				</div>				
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
@@ -41,16 +49,6 @@
 							</div>
 					  </div>
 					</div>										
-				</div>
-				<div class="form-row">
-					<div class="col-md-12 mb-3">
-					  <label>Cuenta <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <select id="confCuentaTipoPago" name="confCuentaTipoPago" class="selectpicker" data-live-search="true" title="Cuenta">
-							<option value="">Seleccione</option>
-						  </select>
-					  </div>						 
-					</div>								
 				</div>
 				<div class="form-group" id="estado_tipo_pago">				  
 				  <div class="col-md-12">			
