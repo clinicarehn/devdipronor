@@ -32,7 +32,7 @@
 		}
 
 		ob_start();
-		include(dirname('__FILE__').'/libroSalarios.php');
+		include(dirname('__FILE__').'/consolidadoNominas.php');
 		$html = ob_get_clean();
 
 		// instantiate and use the dompdf class
@@ -46,10 +46,10 @@
 		// Render the HTML as PDF
 		$dompdf->render();
 		
-		file_put_contents(dirname('__FILE__').'/nomina/libroSalarios_'.$no_factura.'.pdf', $dompdf->output());
+		file_put_contents(dirname('__FILE__').'/nomina/consolidadoNominas_'.$no_factura.'.pdf', $dompdf->output());
 		
 		// Output the generated PDF to Browser
-		$dompdf->stream('libroSalarios_'.$no_factura.'.pdf',array('Attachment'=>0));
+		$dompdf->stream('consolidadoNominas_'.$no_factura.'.pdf',array('Attachment'=>0));
 		
 		exit;	
 	}

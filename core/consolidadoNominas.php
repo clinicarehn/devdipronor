@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Libro de Salarios</title>
+	<title>Consolidado Nominas</title>
 	<link rel="stylesheet" href="<?php echo SERVERURL; ?>vistas/plantilla/css/style_factura.css">
 	<link rel="shortcut icon" href="<?php echo SERVERURL; ?>vistas/plantilla/img/icono.png">
 </head>
@@ -22,7 +22,7 @@
 			</td>			
 			<td class="info_empresa" colspan="3">
 				<div>
-					<span class="h3">Libro de Salarios <?php echo " Año: ".$consulta_registro['ano_registro']; ?></span>								
+					<span class="h3">Consolidado de Nomina <?php echo $insMainModel->nombremes(date("m", strtotime($consulta_registro['fecha_registro']))).", ".$consulta_registro['ano_registro']; ?></span>								
 				</div>												
 			</td>		
 		</tr>
