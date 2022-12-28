@@ -1526,7 +1526,7 @@
 					</div>			  
 					<div class="col-md-6 mb-3">
 						<label for="fecha_egreso_colaborador">Fecha Egreso</label>
-						<input type="number" class="form-control" id="fecha_egreso_colaborador" name="fecha_egreso_colaborador" placeholder="Fecha Egreso">
+						<input type="text" class="form-control" id="fecha_egreso_colaborador" name="fecha_egreso_colaborador" placeholder="Fecha Egreso">
 					</div>
 				</div>				
 				<div class="form-row">				
