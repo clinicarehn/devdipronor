@@ -2456,7 +2456,7 @@ $(document).ready(function(){
 		var efectivo = parseFloat($("#formEfectivoBill #efectivo_bill").val()).toFixed(2);
 		var monto = parseFloat($("#formEfectivoBill #monto_efectivo").val()).toFixed(2);
 		var credito = $("#formEfectivoBill #tipo_factura_efectivo").val();
-		var pagos_multiples = $('#pagos_multiples').val();
+		var pagos_multiples = $('#pagos_multiples_switch').val();
 
 		if(credito == 2 ){
 			$("#formEfectivoBill #cambio_efectivo").val(0)
