@@ -29,10 +29,11 @@
 		
 		protected function agregar_movimientos_productos_modelo($datos){
 			$movimientos_id = mainModel::correlativo("movimientos_id", "movimientos");
+			$comentario = isset($datos['comentario']) ? $datos['comentario'] : ''; 
 			$insert = "INSERT INTO movimientos
 				VALUES('$movimientos_id','".$datos['productos_id']."','".$datos['documento']."','".$datos['cantidad_entrada']."',
 				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
-				'".$datos['clientes_id']."','".$datos['comentario']."','".$datos['almacen_id']."'
+				'".$datos['clientes_id']."','$comentario','".$datos['almacen_id']."'
 				)";
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 		

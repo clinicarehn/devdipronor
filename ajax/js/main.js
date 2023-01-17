@@ -266,9 +266,9 @@ $(document).ready(function(){
             return false;
         }
     });		
-//FIN PRINT COMPROBANTE
+ //FIN PRINT COMPROBANTE
 
-//INICIO PAGOS MULTIPLES
+ 	//INICIO PAGOS MULTIPLES FACTURA
 	$('#modal_pagos #label_pagos_multiples').html("No");
 	
     $('#modal_pagos .switch').change(function(){    
@@ -288,11 +288,14 @@ $(document).ready(function(){
             return false;
         }
     });		
-	//FIN PAGOS MULTIPLES
+	//FIN PAGOS MULTIPLES FACTURA
+
 });
 
 //FIN MENU FACTURAS
-
+$(document).ready(function(){
+	console.log('pagos multiples compras')
+})
 //INICIO MENU COMPRAS
 $(document).ready(function(){
 	$(".menu-toggle2Purchase").hide();

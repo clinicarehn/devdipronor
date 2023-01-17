@@ -4091,7 +4091,14 @@
 	
 			$result = self::connection()->query($query);
 			return $result;
-		}		
+		}	
+		
+		public function saldo_cuentas_por_pagar($compras_id){
+			$query = "SELECT saldo  FROM pagar_proveedores WHERE compras_id = '".$compras_id."' ";
+	
+			$result = self::connection()->query($query);
+			return $result;
+		}	
 
 
 		public function consultaImpresora(){		
@@ -4289,13 +4296,22 @@
 
 
 		public function getDatosCompras($compras_id){
-			$query = "SELECT c.compras_id AS compras_id, DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha',
-			 c.proveedores_id AS 'proveedores_id', p.nombre AS 'proveedor', p.rtn AS 'rtn',
-			  c.estado AS 'estado', c.fecha AS 'fecha_compra', c.notas AS 'notas',tipo_compra
-				FROM compras AS c
-				INNER JOIN proveedores AS p
-				ON c.proveedores_id = p.proveedores_id
-				WHERE c.compras_id = '$compras_id'";
+			$query = "SELECT
+			c.compras_id AS compras_id,
+			DATE_FORMAT(c.fecha, '%d/%m/%Y') AS fecha,
+			c.proveedores_id AS proveedores_id,
+			p.nombre AS proveedor,
+			p.rtn AS rtn,
+			c.estado AS estado,
+			c.fecha AS fecha_compra,
+			c.notas AS notas,
+			c.tipo_compra,
+			pagar_proveedores.saldo
+			FROM
+			compras AS c
+			INNER JOIN proveedores AS p ON c.proveedores_id = p.proveedores_id
+			INNER JOIN pagar_proveedores ON pagar_proveedores.compras_id = c.compras_id			
+			WHERE c.compras_id = '$compras_id'";
 
 			$result = self::connection()->query($query);
 
@@ -4403,21 +4419,7 @@
 			return $result;
 		}
 
-		public function getCuentasporPagarClientes(){
-
-			$query = "";
-
-
-
-			$result = self::connection()->query($query);
-
-
-
-			return $result;
-
-		}
-
-
+		
 
 		public function getlastUpdate($entidad){
 

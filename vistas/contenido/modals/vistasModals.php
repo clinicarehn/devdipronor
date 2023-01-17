@@ -400,6 +400,14 @@
 											<div class="fas fa-money-check fa-lg"></div> &nbsp;&nbsp; Cheque
 										</div>
 									</a>
+									<div class="container mt-md-0">
+										<p class="mb-0 mt-3">Pagos Multiples:</p>
+										<label class="switch mb-2" data-toggle="tooltip" data-placement="top">
+											<input type="checkbox" id="pagos_multiples_switch" name="pagos_multiples_switch" value="0">
+											<div class="slider round"></div>
+										</label>
+										<span class="question mb-2 label_pagos_multiples" id="label_pagos_multiples"></span>
+									</div>
 																		
 								</div>
 							</div> <!-- Page Content -->
@@ -443,6 +451,7 @@
 															<div class="col-12">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
+																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																	<input type="hidden" name="compras_id_efectivo" id="compras_id_efectivo" placeholder="Compra Codigo"> 
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00"> 
 																	<input type="text" name="efectivo_Purchase" id="efectivo_Purchase" class="inputfield" placeholder="0.00" step="0.01">
@@ -493,6 +502,7 @@
 															<div class="col-12">
 																<div class="input-group"> 
 																<label>Número de Tarjeta</label> 
+																<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																<input type="hidden" name="compras_id_tarjeta" id="compras_id_tarjeta" placeholder="Compra Codigo">
 																<input type="text" id="cr_Purchase" name="cr_Purchase" class="inputfield"  placeholder="XXXX">
 																<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">
@@ -551,6 +561,7 @@
 															<div class="col-12 col-md-6">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
+																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																	<input type="hidden" name="compras_id_mixto" id="compras_id_mixto"> 
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivo_mixtoPurchase" placeholder="0.00"> 
 																	<input type="number" name="efectivo_bill" id="efectivo_bill_mixtoPurchase" class="inputfield" placeholder="0.00" step="0.01">																						
@@ -627,7 +638,8 @@
 																	<input type="hidden" name="compras_id_transferencia" id="compras_id_transferencia" placeholder="Compra Codigo">
 																	<select required name="bk_nm" id="bk_nm" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
 																		<option value="">Seleccione un Banco</option>
-																	</select> 																	
+																	</select> 		
+																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																	<input type="hidden" name="importe" id="importe_transferencia" class="inputfield mt-5" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">	
 																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
@@ -689,7 +701,8 @@
 																	<input type="hidden" name="compras_id_cheque" id="compras_id_cheque">
 																	<select required name="bk_nm_chk" id="bk_nm_chk" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
 																		<option value="">Seleccione un Banco</option>
-																	</select> 																	
+																	</select> 		
+																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																	<input type="number" name="importe" id="importe_cheque" class="inputfield mt-5"step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">								

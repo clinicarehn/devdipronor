@@ -1915,7 +1915,7 @@ var registrar_pago_proveedores_dataTable = function(tbody, table){
 				confirmButtonClass: "btn-primary"
 			});
 		}else{
-			pagoCompras(data.compras_id,data.saldo);
+			pagoCompras(data.compras_id,data.saldo,2);
 		}
 	});
 }
@@ -2317,6 +2317,27 @@ function saldoFactura(facturas_id){
 
 }
 
+//funcion aplicar nuevo saldo compras CXP
+function saldoCompras(compras_id){
+	//IMPORTE NUEVO EFECTIVO
+	console.log('SALDO',compras_id)
+	var url = '<?php echo SERVERURL;?>core/getSaldoCompras.php';
+
+	$.ajax({
+		type:'POST',
+		url:url,
+		data:'compras_id='+compras_id,
+		success: function(saldoFactura){
+			console.log('res',saldoFactura);
+			//$('#formEfectivoBill #monto_efectivo').val(saldoFactura);
+			$('#Purchase-pay').html(saldoFactura);
+
+			
+		}
+	});	
+
+}
+
 //INICIO MODAL REGSITRAR PAGO FACTURACIÓN CLIENTES
 function pago(facturas_id,tipoPago){
 	var url = '<?php echo SERVERURL;?>core/editarPagoFacturas.php';
@@ -2339,8 +2360,6 @@ function pago(facturas_id,tipoPago){
 			$('#formEfectivoBill #tipo_factura_efectivo').val(tipoPago);
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
 
-			//if(datos[5] == '2'){
-			//tipo = parseInt(tipo);
 			console.log(tipoPago,'tipoPago', typeof tipoPago )
 			 if(tipoPago == 2){
 			
@@ -2763,9 +2782,44 @@ function getImporteCompras(compras_id){
 //FIN ABONO CXP PROVEEDOR
 
 //INICIO MODAL REGSITRAR PAGO COMPRAS PROVEEDORES
-function pagoCompras(compras_id,saldo){
+$(document).ready(function(){
+		//INICIO PAGOS MULTIPLES COMPRAS
+		$('#modal_pagosPurchase .label_pagos_multiples').html("No");
+	
+    $('#modal_pagosPurchase .switch').change(function(){    
+        if($('input[name=pagos_multiples_switch]').is(':checked')){
+            $('#modal_pagosPurchase .label_pagos_multiples').html("Si");
+			$('#pagos_multiples_switch').val(1);
+			$('#modal_pagosPurchase .multiple_pago').val(1);
+			//HABILITAR TEXTFIELD COMPRAS
+			$('#formEfectivoPurchase #pago_efectivo').prop('disabled', false);
+			///TARJETA
+			$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', false);
+			$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "text")
+			///TRANSFERENCIA
+			$('#formTransferenciaPurchase #importe_transferencia').prop("type", "text")
+            return true;
+        }else{
+            $('#modal_pagosPurchase .label_pagos_multiples').html("No");
+			$('#pagos_multiples_switch').val(0);
+			$('#modal_pagosPurchase .multiple_pago').val(0);
+			//HABILITAR TEXTFIELD COMPRAS
+			$('#formEfectivoPurchase #pago_efectivo').prop('disabled', true)
+			///TARJETA
+			//--$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', true);
+			$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "hidden")
+			///TRANSFERENCIA
+			$('#formTransferenciaPurchase #importe_transferencia').prop("type", "hidden")
+            return false;
+        }
+    });		
+	//FIN PAGOS MULTIPLES COMPRAS
+});
+
+function pagoCompras(compras_id,saldo,tipo){
 	var url = '<?php echo SERVERURL;?>core/editarPagoCompras.php';
 
+	console.log('tipo dato',tipo);
 	$.ajax({
 		type:'POST',
 		url:url,
@@ -2775,17 +2829,17 @@ function pagoCompras(compras_id,saldo){
 			$('#formEfectivoPurchase .border-right a:eq(0) a').tab('show');
 			$("#customer-name-Purchase").html("<b>Proveedor:</b> " + datos[0]);
 		    $("#customer_Purchase_pay").val(datos[3]);
-			$('#Purchase-pay').html("L. " + parseFloat(datos[3]).toFixed(2));
+			$('#Purchase-pay').html("L. " + parseFloat(datos[6]).toFixed(2));
 			
 			//EFECTIVO
 			$('#formEfectivoPurchase')[0].reset();
 			$('#formEfectivoPurchase #monto_efectivoPurchase').val(datos[3]);
 			$('#formEfectivoPurchase #compras_id_efectivo').val(compras_id);
 			$('#formEfectivoPurchase #pago_efectivo').attr('disabled', true);
-			$('#formEfectivoPurchase #tipo_purchase_efectivo').val(datos[5]);
+			$('#formEfectivoPurchase #tipo_purchase_efectivo').val(tipo);
 
-			if(datos[5] == '2'){
-				//$('#bill-pay').html(saldo);
+			if(tipo == '2'){
+				//$('#Purchase-pay').html($datos[6]);
 				$('#monto_efectivo_tarjeta').attr('type','number');
 				$('#tab5Purchase').hide();
 				$('#importe_transferencia').attr('type','number');
@@ -2800,7 +2854,7 @@ function pagoCompras(compras_id,saldo){
 			$('#formTarjetaPurchase #monto_efectivoPurchase').val(datos[3]);
 			$('#formTarjetaPurchase #compras_id_tarjeta').val(compras_id);
 			$('#formTarjetaPurchase #pago_efectivo').attr('disabled', true);
-			$('#formTarjetaPurchase #tipo_purchase_efectivo').val(datos[5]);
+			$('#formTarjetaPurchase #tipo_purchase_efectivo').val(tipo);
 			
 			//mixto
 			$('#formMixtoPurchaseBill')[0].reset();
@@ -2813,11 +2867,11 @@ function pagoCompras(compras_id,saldo){
 			$('#formTransferenciaPurchase #monto_efectivoPurchase').val(datos[3]);
 			$('#formTransferenciaPurchase #compras_id_transferencia').val(compras_id);
 			$('#formTransferenciaPurchase #pago_efectivo').attr('disabled', true);	
-			$('#formTransferenciaPurchase #tipo_purchase_efectivo').val(datos[5]);
+			$('#formTransferenciaPurchase #tipo_purchase_efectivo').val(tipo);
 
 			//CHEQUE
 			$('#formChequePurchase #compras_id_cheque').val(compras_id);
-			$('#formChequePurchase #tipo_purchase_efectivo').val(datos[5]);
+			$('#formChequePurchase #tipo_purchase_efectivo').val(tipo);
 			$('#formChequePurchase #monto_efectivoPurchase').val(datos[3]);
 		
 			$('#modal_pagosPurchase').modal({
@@ -2881,14 +2935,15 @@ $(document).ready(function(){
 		var efectivo = parseFloat($("#formEfectivoPurchase #efectivo_Purchase").val()).toFixed(2);
 		var monto = parseFloat($("#formEfectivoPurchase #monto_efectivoPurchase").val()).toFixed(2);
 		var credito = $("#formEfectivoPurchase #tipo_purchase_efectivo").val();
-		var pagos_multiples = $('#pagos_multiples').val();
+		var pagos_multiples = $('#pagos_multiples_switch').val();
 		
 		if(credito == 2 ){
 			$("#formEfectivoPurchase #cambio_efectivoPurchase").val(0)
 			$("#formEfectivoPurchase #cambio_efectivoPurchase").hide();
 		}
 
-		var total = efectivo - monto;				
+		var total = efectivo - monto;
+		console.log('keyup',pagos_multiples);				
 		//Math.floor NOS PERMITE COMPARAR UN FLOAT CONVIRTIENDOLO A ENTERO CUANDO SE MULTIPLICA POR 100
 		
 		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2 || pagos_multiples == 1){	
