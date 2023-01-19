@@ -2791,25 +2791,30 @@ $(document).ready(function(){
             $('#modal_pagosPurchase .label_pagos_multiples').html("Si");
 			$('#pagos_multiples_switch').val(1);
 			$('#modal_pagosPurchase .multiple_pago').val(1);
-			//HABILITAR TEXTFIELD COMPRAS
-			$('#formEfectivoPurchase #pago_efectivo').prop('disabled', false);
-			///TARJETA
-			$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', false);
-			$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "text")
-			///TRANSFERENCIA
-			$('#formTransferenciaPurchase #importe_transferencia').prop("type", "text")
+				//HABILITAR TEXTFIELD COMPRAS
+				$('#formEfectivoPurchase #pago_efectivo').prop('disabled', false);
+				///TARJETA
+				$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', false);
+				$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "text")
+				///TRANSFERENCIA
+				$('#formTransferenciaPurchase #importe_transferencia').prop("type", "text")
+				//INPUTS CAMBIO
+				$('#grupo_cambio_compras').hide()
+
             return true;
         }else{
             $('#modal_pagosPurchase .label_pagos_multiples').html("No");
 			$('#pagos_multiples_switch').val(0);
 			$('#modal_pagosPurchase .multiple_pago').val(0);
-			//HABILITAR TEXTFIELD COMPRAS
-			$('#formEfectivoPurchase #pago_efectivo').prop('disabled', true)
-			///TARJETA
-			//--$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', true);
-			$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "hidden")
-			///TRANSFERENCIA
-			$('#formTransferenciaPurchase #importe_transferencia').prop("type", "hidden")
+				//HABILITAR TEXTFIELD COMPRAS
+				$('#formEfectivoPurchase #pago_efectivo').prop('disabled', true)
+				///TARJETA
+				//--$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', true);
+				$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "hidden")
+				///TRANSFERENCIA
+				$('#formTransferenciaPurchase #importe_transferencia').prop("type", "hidden")
+				//INPUTS CAMBIO
+				$('#grupo_cambio_compras').show()
             return false;
         }
     });		
@@ -2839,14 +2844,13 @@ function pagoCompras(compras_id,saldo,tipo){
 			$('#formEfectivoPurchase #tipo_purchase_efectivo').val(tipo);
 
 			if(tipo == '2'){
-				//$('#Purchase-pay').html($datos[6]);
 				$('#monto_efectivo_tarjeta').attr('type','number');
 				$('#tab5Purchase').hide();
 				$('#importe_transferencia').attr('type','number');
 				$('#importe_cheque').attr('type','number');
 				//
 				$("#formEfectivoBill #cambio_efectivo").val(0)
-				$("#formEfectivoPurchase #grupo_cambio_compras").hide();
+				$("#grupo_cambio_compras").hide();
 			}
 			
 			//TARJETA
