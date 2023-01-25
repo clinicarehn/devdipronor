@@ -4389,15 +4389,17 @@
 			}
 
 			$query = "SELECT
-			proveedores.nombre AS 'proveedores',
+			proveedores.nombre AS proveedores,
 			compras.compras_id,
-			compras.number AS 'factura',
+			compras.number AS factura,
 			compras.importe,
-			compras.estado,
-			compras.fecha
+			compras.fecha,
+			pagar_proveedores.saldo,
+			pagar_proveedores.estado
 			FROM
 			proveedores
 			INNER JOIN compras ON proveedores.proveedores_id = compras.proveedores_id
+			INNER JOIN pagar_proveedores ON pagar_proveedores.compras_id = compras.compras_id
 			WHERE proveedores.estado = '".$datos['estado']."'
 			$fecha
 			$proveedores_id
