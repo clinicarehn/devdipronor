@@ -56,8 +56,7 @@
 				<thead>
 					<tr>
 						<th align="center" rowspan="2" width="5%">Puesto</th>
-						<th align="center" rowspan="2" width="5%">Empleado</th>
-						<th align="center" rowspan="2" width="5%">Fecha Ingreso</th>
+						<th align="center" rowspan="2" width="10%">Empleado</th>
 						<th align="center" rowspan="2" width="5%">Salario Base</th>
 						<th align="center" rowspan="2" width="5%">Días Trabajados</th>
 						<th align="center" colspan="7" width="30%">Ingresos</th>
@@ -89,7 +88,6 @@
 								<tr>
 									<th align="center" width="5%">'.$registro_detalles["puesto"].'</th>
 									<th align="center" width="5%">'.$registro_detalles["empleado"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["fecha_ingreso"].'</th>
 									<th align="center" width="5%">'.$registro_detalles["salario"].'</th>
 									<th align="center" width="5%">'.$registro_detalles["dias_trabajados"].'</th>
 									<th align="center" width="5%">'.$registro_detalles["horas_25"].'</th>
