@@ -1220,8 +1220,8 @@ $("#formNominaDetalles #nominad_empleados").on("change", function(){
 			*/
 			var valor_dividir = 0; //ESTE ES EL VALOR QUE TRAE SEGUN EL TIPO DE PAGO PARA DIVIDIRSE CON EL SALARIO
 			if(valores[6] == 1){
-				$('#formNominaDetalles #nominad_diast').val(7);
-				valor_dividir = 7;
+				$('#formNominaDetalles #nominad_diast').val(6);
+				valor_dividir = 6;
 			}
 
 			if(valores[6] == 2){
