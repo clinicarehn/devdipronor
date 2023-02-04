@@ -80,14 +80,15 @@
 								<table id="invoiceItem">
 									<thead align="center" class="table-success">
 										<tr>
-											<th width="2%" scope="col"><input id="checkAll" class="formcontrol" type="checkbox"></th>
-											<th width="17.28%">Código</th>
-											<th width="24.28%">Descripción del Producto</th>
-											<th width="10.28%">Cantidad</th>
-											<th width="10.28%">Medida</th>
-											<th width="11.28%">Precio</th>
-											<th width="11.28%">Descuento</th>
-											<th width="11.28%">Total</th>
+											<th width="2.11%" scope="col"><input id="checkAll" class="formcontrol" type="checkbox"></th>
+											<th width="18.11%">Código</th>
+											<th width="18.11%">Descripción del Producto</th>
+											<th width="9.11%">C/Tambos</th>
+											<th width="10.11%">Cantidad</th>
+											<th width="10.11%">Medida</th>
+											<th width="11.11%">Precio</th>
+											<th width="11.11%">Descuento</th>
+											<th width="10.11%">Total</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -108,6 +109,9 @@
 											<td>
 												<input type="text" name="productName[]" id="productName_0" placeholder="Descripción del Producto" readonly class="form-control inputfield-details1" autocomplete="off">								
 											</td>
+											<td>
+												<input type="text" name="quantityTambos[]" id="quantityTambos_0" placeholder="Cantidad" class="form-control inputfield-details1" autocomplete="off">								
+											</td>											
 											<td>
 												<input type="number" name="quantity[]" id="quantity_0" placeholder="Cantidad" class="buscar_cantidad form-control inputfield-details" autocomplete="off" step="0.01">
 												<input type="hidden" name="cantidad_mayoreo[]" id="cantidad_mayoreo_0" placeholder="Cantidad Mayoreo" class="buscar_cantidad form-control inputfield-details" autocomplete="off" step="0.01">
