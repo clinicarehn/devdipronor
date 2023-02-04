@@ -2,12 +2,34 @@
 $(document).ready(function() {
 	getReporteFactura();
 	getFacturador();
+	getVendedores();
     listar_reporte_ventas();
+	total_ingreso_footer();
+	$('#form_main_ventas #tipo_factura_reporte').val(1);	
+	$('#form_main_ventas #tipo_factura_reporte').selectpicker('refresh');		
+});
+
+$('#form_main_ventas #tipo_factura_reporte').on("change", function(e){
+	listar_reporte_ventas();
 	total_ingreso_footer();
 });
 
-$('#form_main_ventas #search').on("click", function(e){
-	e.preventDefault();
+$('#form_main_ventas #facturador').on("change", function(e){
+	listar_reporte_ventas();
+	total_ingreso_footer();
+});
+
+$('#form_main_ventas #vendedor').on("change", function(e){
+	listar_reporte_ventas();
+	total_ingreso_footer();
+});
+
+$('#form_main_ventas #fechai').on("change", function(e){
+	listar_reporte_ventas();
+	total_ingreso_footer();
+});
+
+$('#form_main_ventas #fechaf').on("change", function(e){
 	listar_reporte_ventas();
 	total_ingreso_footer();
 });
@@ -24,6 +46,7 @@ var listar_reporte_ventas = function(){
 	var fechai = $("#form_main_ventas #fechai").val();
 	var fechaf = $("#form_main_ventas #fechaf").val();
 	var facturador = $("#form_main_ventas #facturador").val();
+	var vendedor = $("#form_main_ventas #vendedor").val();
 
 	var table_reporteVentas  = $("#dataTablaReporteVentas").DataTable({
 		"destroy":true,
@@ -33,6 +56,7 @@ var listar_reporte_ventas = function(){
 			"data":{
 				"tipo_factura_reporte":tipo_factura_reporte,
 				"facturador":facturador,
+				"vendedor":vendedor,
 				"fechai":fechai,
 				"fechaf":fechaf
 			}
@@ -49,7 +73,7 @@ var listar_reporte_ventas = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -67,7 +91,7 @@ var listar_reporte_ventas = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -85,7 +109,7 @@ var listar_reporte_ventas = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -103,7 +127,7 @@ var listar_reporte_ventas = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -121,7 +145,7 @@ var listar_reporte_ventas = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -132,6 +156,8 @@ var listar_reporte_ventas = function(){
                     return number;
                 },
 			},
+			{"data":"vendedor"},
+			{"data":"facturador"},
 		    {"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_reportes print_comprobante btn btn-dark ocultar'><span class='far fa-file-pdf fa-lg'></span></button>"},
 		    {"defaultContent":"<button class='table_reportes email_factura btn btn-dark ocultar'><span class='fas fa-paper-plane fa-lg'></span></button>"},
@@ -142,21 +168,6 @@ var listar_reporte_ventas = function(){
 		"bDestroy": true,
 		"language": idioma_español,//esta se encuenta en el archivo main.js
 		"dom": dom,
-		"columnDefs": [
-		  { width: "9.09%", targets: 0 },
-		  { width: "9.09%", targets: 1 },
-		  { width: "19.09%", targets: 2 },
-		  { width: "18.09%", targets: 3 },
-		  { width: "9.09%", targets: 4 },
-		  { width: "9.09%", targets: 5 },
-		  { width: "9.09%", targets: 6 },
-		  { width: "9.09%", targets: 7 },
-		  { width: "3.09%", targets: 8 },
-		  { width: "3.09%", targets: 9 },
-		  { width: "2.09%", targets: 10 },
-		  { width: "2.09%", targets: 11 }		  		  		  
-
-		],
 		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
         	$('td', nRow).addClass(aData['color']);		
 		},
@@ -314,7 +325,8 @@ function getReporteFactura(){
 	    async: true,
         success: function(data){
 		    $('#form_main_ventas #tipo_factura_reporte').html("");
-			$('#form_main_ventas #tipo_factura_reporte').html(data);		
+			$('#form_main_ventas #tipo_factura_reporte').html(data);
+			$('#form_main_ventas #tipo_factura_reporte').selectpicker('refresh');		
 		}
      });
 }
@@ -328,7 +340,24 @@ function getFacturador(){
 	    async: true,
         success: function(data){
 		    $('#form_main_ventas #facturador').html("");
-			$('#form_main_ventas #facturador').html(data);		
+			$('#form_main_ventas #facturador').html(data);
+			$('#form_main_ventas #facturador').selectpicker('refresh');			
+		}
+     });
+}
+
+function getVendedores(){
+    var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+			
+		    $('#form_main_ventas #vendedor').html("");
+			$('#form_main_ventas #vendedor').html(data);
+			$('#form_main_ventas #vendedor').selectpicker('refresh');			
 		}
      });
 }
@@ -366,61 +395,4 @@ var total_ingreso_footer = function(){
 	});
 }
 
-
-$('#form_main_ventas .consultar_facturador').on('click',function(e){
-	e.preventDefault();
-	listar_facturadores_factura_buscar();
-	$('#modal_consultar_facturadores').modal({
-		show:true,
-		keyboard: false,
-		backdrop:'static'
-	});	
-});	
-
-var listar_facturadores_factura_buscar = function(){
-	var table_facturadores_factura_buscar = $("#DatatableBusquedaConsultaFacturadores").DataTable({
-		"destroy":true,
-		"ajax":{
-			"method":"POST",
-			"url":"<?php echo SERVERURL;?>core/llenarDataTableFacturador.php"
-		},
-		"columns":[
-			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-copy'></span></button>"},
-			{"data":"nombre"},
-			{"data":"identidad"},
-		],
-        "lengthMenu": lengthMenu,
-		"stateSave": true,
-		"bDestroy": true,
-		"language": idioma_español,
-		"dom": dom,
-		"buttons":[
-			{
-				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
-				titleAttr: 'Actualizar Clientes',
-				className: 'table_actualizar btn btn-secondary ocultar',
-				action: 	function(){
-					listar_facturadores_factura_buscar();
-				}
-			}
-		],		
-		"drawCallback": function( settings ) {
-        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
-    	}
-	});
-	table_facturadores_factura_buscar.search('').draw();
-	$('#buscar').focus();
-
-	view_facturador_busqueda_factura_dataTable("#DatatableBusquedaConsultaFacturadores tbody", table_facturadores_factura_buscar);
-}
-
-var view_facturador_busqueda_factura_dataTable = function(tbody, table){
-	$(tbody).off("click", "button.table_view");
-	$(tbody).on("click", "button.table_view", function(e){
-		e.preventDefault();
-		var data = table.row( $(this).parents("tr") ).data();
-		$('#form_main_ventas #facturador').val(data.colaboradores_id);
-		$('#modal_consultar_facturadores').modal('hide');
-	});
-}
 </script>

@@ -16,7 +16,6 @@
 							<tr>
 								<th>Nombre</th>
 								<th>Código</th>	
-								<th>Tipo Cuenta</th>	
 								<th>Cuenta</th>							
 								<th>Editar</th>
 								<th>Eliminar</th>	
@@ -46,7 +45,6 @@
 			</div>
 		</div>
 	</div>	
-
 <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Configuración Medidas");
 ?>

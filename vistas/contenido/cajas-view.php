@@ -12,7 +12,7 @@
 							<div class="input-group-append">				
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
 							</div>
-							<select id="estado_cajas" name="estado_cajas" class="custom-select" data-toggle="tooltip" data-placement="top" title="Estado">
+							<select id="estado_cajas" name="estado_cajas" class="selectpicker" data-toggle="tooltip" data-placement="top" title="Estado" data-live-search="true">
 								<option value="1">Activas</option>
 								<option value="2">Cerrada</option>
 							</select>
@@ -22,22 +22,7 @@
 						<div class="input-group-append">				
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicial</span>
 						</div>
-						<input type="date" class="form-control" id="fecha_cajas" name="fecha_cajas" value="<?php 
-						$fecha = date ("Y-m-d");
-						
-						$año = date("Y", strtotime($fecha));
-						$mes = date("m", strtotime($fecha));
-						$dia = date("d", mktime(0,0,0, $mes+1, 0, $año));
-
-						$dia1 = date('d', mktime(0,0,0, $mes, 1, $año)); //PRIMER DIA DEL MES
-						$dia2 = date('d', mktime(0,0,0, $mes, $dia, $año)); // ULTIMO DIA DEL MES
-
-						$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
-						$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));						
-						
-						
-						echo $fecha_inicial;
-					?>">
+						<input type="date" class="form-control" id="fecha_cajas" name="fecha_cajas" value="<?php echo date('Y-m-d');?>">
 					</div>
 				</div>			  
 				<div class="form-group mx-sm-3 mb-1">
@@ -47,10 +32,7 @@
 						</div>
 						<input type="date" class="form-control" id="fecha_cajas_f" name="fecha_cajas_f" value="<?php echo date('Y-m-d');?>">
 					</div>
-				</div>			  
-				<div class="form-group mx-sm-2">
-					<button class="consultar btn btn-secondary" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>
-				</div> 							  
+				</div>						  
 			</form>	           
         </div>
     </div>	
@@ -99,7 +81,6 @@
 			</div>
 		</div>
 	</div>	
-
 <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Cajas");
 ?>

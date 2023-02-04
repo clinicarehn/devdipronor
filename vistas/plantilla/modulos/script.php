@@ -18,3 +18,5 @@
 <script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/vfs_fonts.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/buttons.html5.min.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/buttons.print.min.js" crossorigin="anonymous"></script>
+<script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/bootstrap-select.min.js" crossorigin="anonymous"></script>
+<script defer src="<?php echo SERVERURL; ?>ajax/js/snow.js" crossorigin="anonymous"></script>

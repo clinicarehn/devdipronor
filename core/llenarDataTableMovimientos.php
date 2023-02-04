@@ -12,7 +12,6 @@
 		"bodega" => $_POST['bodega'],
 		"producto" => $_POST['producto'],
 		"cliente" =>  $_POST['cliente'],
-
 	];	
 	
 	$result = $insMainModel->getMovimientosProductos($datos);
@@ -20,23 +19,7 @@
 	$arreglo = array();
 	$data = array();
 	
-	while($row = $result->fetch_assoc()){	
-		$entrada = 0;
-		$salida = 0;
-		$saldo = 0;
-
-		if(!empty($row['entrada'])){
-			$entrada = $row['entrada'];
-		}	
-
-		if(!empty($row['salida'])){
-			$salida = $row['salida'];
-		}	
-		
-		if(!empty($row['saldo'])){
-			$saldo = $row['saldo'];
-		}		
-
+	while($row = $result->fetch_assoc()){				
 		$data[] = array( 
 			"cliente" => $row['cliente'],
 			"comentario" => $row['comentario'],
@@ -46,9 +29,9 @@
 			"producto"=>$row['producto'],
 			"medida"=>$row['medida'],
 			"documento"=>$row['documento'],
-			"entrada"=>$entrada,
-			"salida"=>$salida,
-			"saldo"=>$saldo,
+			"entrada"=>$row['entrada'],
+			"salida"=>$row['salida'],
+			"saldo"=>$row['saldo'],
 			"bodega"=>$row['bodega'],
 			"id_bodega"=>$row['almacen_id'],
 			"productos_id"=>$row['productos_id']						
@@ -63,3 +46,4 @@
 	);
 
 	echo json_encode($arreglo);
+?>	

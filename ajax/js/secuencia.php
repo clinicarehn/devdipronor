@@ -2,28 +2,20 @@
 $(document).ready(function() {
     listar_secuencia_facturacion();
 	getEmpresaSecuencia();
-});
-
-$('#form_main_secuencia #search').on("click", function(e){
-	e.preventDefault();
-	listar_secuencia_facturacion();
+	getDocumentoSecuencia();
 });
 
 //INICIO ACCIONES FROMULARIO SECUENCIA FACTURACION
 var listar_secuencia_facturacion = function(){
-	var estado = $("#form_main_secuencia #estado").val();
-
 	var table_secuencia_facturacion  = $("#dataTableSecuencia").DataTable({
 		"destroy":true,
 		"ajax":{
 			"method":"POST",
-			"url":"<?php echo SERVERURL;?>core/llenarDataTableSecuenciaFacturacion.php",
-			"data":{
-				"estado":estado
-			}			
+			"url":"<?php echo SERVERURL;?>core/llenarDataTableSecuenciaFacturacion.php"
 		},
 		"columns":[
 			{"data":"empresa"},
+			{"data":"documento"},
 			{"data":"cai"},
 			{"data":"prefijo"},
 			{"data":"siguiente"},
@@ -39,15 +31,16 @@ var listar_secuencia_facturacion = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "22.11%", targets: 0 },
-		  { width: "19.11%", targets: 1 },
-		  { width: "10.11%", targets: 2 },
-		  { width: "8.11%", targets: 3 },
-		  { width: "11.11%", targets: 4 },
-		  { width: "11.11%", targets: 5 },
-		  { width: "11.11%", targets: 6 },
-		  { width: "2.11%", targets: 7 },
-		  { width: "2.11%", targets: 8 }
+		  { width: "16%", targets: 0 },
+		  { width: "10%", targets: 1 },
+		  { width: "21%", targets: 2 },
+		  { width: "10%", targets: 3 },
+		  { width: "5%", targets: 4 },
+		  { width: "10%", targets: 5 },
+		  { width: "10%", targets: 6 },
+		  { width: "10%", targets: 7 },
+		  { width: "2%", targets: 8 },
+		  { width: "2%", targets: 9 }		  
 		],
 		"buttons":[
 			{
@@ -59,7 +52,7 @@ var listar_secuencia_facturacion = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Secuencia de Facturación',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -130,6 +123,7 @@ var editar_secuencia_facturacion_dataTable = function(tbody, table){
 				$('#edi_secuencia').show();
 				$('#delete_secuencia').hide();
 				$('#formSecuencia #empresa_secuencia').val(valores[0]);
+				$('#formSecuencia #empresa_secuencia').selectpicker('refresh');	
 				$('#formSecuencia #cai_secuencia').val(valores[1]);
 				$('#formSecuencia #prefijo_secuencia').val(valores[2]);
 				$('#formSecuencia #relleno_secuencia').val(valores[3]);
@@ -139,12 +133,17 @@ var editar_secuencia_facturacion_dataTable = function(tbody, table){
 				$('#formSecuencia #rango_final_secuencia').val(valores[7]);
 				$('#formSecuencia #fecha_activacion_secuencia').val(valores[8]);
 				$('#formSecuencia #fecha_limite_secuencia').val(valores[9]);
+				$('#formSecuencia #documento_secuencia').val(valores[11]);
+				$('#formSecuencia #documento_secuencia').selectpicker('refresh');
 
 				if(valores[10] == 1){
 					$('#formSecuencia #estado_secuencia').attr('checked', true);
 				}else{
 					$('#formSecuencia #estado_secuencia').attr('checked', false);
 				}
+
+				//DESHABILITAR OBJETOS
+				$('#formSecuencia #documento_secuencia').attr('disabled', true);
 
 				//HABILITAR OBJETOS
 				$('#formSecuencia #empresa_secuencia').attr('disabled', false);
@@ -191,6 +190,7 @@ var eliminar_secuencia_facturacion_dataTable = function(tbody, table){
 				$('#reg_secuencia').hide();
 				$('#delete_secuencia').show();
 				$('#formSecuencia #empresa_secuencia').val(valores[0]);
+				$('#formSecuencia #empresa_secuencia').selectpicker('refresh');
 				$('#formSecuencia #cai_secuencia').val(valores[1]);
 				$('#formSecuencia #prefijo_secuencia').val(valores[2]);
 				$('#formSecuencia #relleno_secuencia').val(valores[3]);
@@ -200,6 +200,8 @@ var eliminar_secuencia_facturacion_dataTable = function(tbody, table){
 				$('#formSecuencia #rango_final_secuencia').val(valores[7]);
 				$('#formSecuencia #fecha_activacion_secuencia').val(valores[8]);
 				$('#formSecuencia #fecha_limite_secuencia').val(valores[9]);
+				$('#formSecuencia #documento_secuencia').val(valores[11]);
+				$('#formSecuencia #documento_secuencia').selectpicker('refresh');
 
 				if(valores[10] == 1){
 					$('#formSecuencia #estado_secuencia').attr('checked', true);
@@ -209,6 +211,7 @@ var eliminar_secuencia_facturacion_dataTable = function(tbody, table){
 
 				//DESHABILITAR OBJETOS
 				$('#formSecuencia #empresa_secuencia').attr('disabled', true);
+				$('#formSecuencia #documento_secuencia').attr('disabled', true);
 				$('#formSecuencia #cai_secuencia').attr('readonly', true);
 				$('#formSecuencia #prefijo_secuencia').attr('readonly', true);
 				$('#formSecuencia #relleno_secuencia').attr('readonly', true);
@@ -235,6 +238,7 @@ var eliminar_secuencia_facturacion_dataTable = function(tbody, table){
 
 /*INICIO FORMULARIO SECUENCIA DE FACTURACION*/
 function modal_secuencia_facturacion(){
+	getEmpresaSecuencia();
 	$('#formSecuencia').attr({ 'data-form': 'save' });
 	$('#formSecuencia').attr({ 'action': '<?php echo SERVERURL;?>ajax/agregarSecuenciaFacturacionAjax.php' });
 	$('#formSecuencia')[0].reset();
@@ -244,6 +248,7 @@ function modal_secuencia_facturacion(){
 
 	//HABILITAR OBJETOS
 	$('#formSecuencia #empresa_secuencia').attr('disabled', false);
+	$('#formSecuencia #documento_secuencia').attr('disabled', false);
 	$('#formSecuencia #cai_secuencia').attr('readonly', false);
 	$('#formSecuencia #prefijo_secuencia').attr('readonly', false);
 	$('#formSecuencia #relleno_secuencia').attr('readonly', false);
@@ -275,6 +280,22 @@ function getEmpresaSecuencia(){
         success: function(data){
 		    $('#formSecuencia #empresa_secuencia').html("");
 			$('#formSecuencia #empresa_secuencia').html(data);
+			$('#formSecuencia #empresa_secuencia').selectpicker('refresh');	
+		}
+     });
+}
+
+function getDocumentoSecuencia(){
+    var url = '<?php echo SERVERURL;?>core/getDocumentoSecuencia.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formSecuencia #documento_secuencia').html("");
+			$('#formSecuencia #documento_secuencia').html(data);
+			$('#formSecuencia #documento_secuencia').selectpicker('refresh');	
 		}
      });
 }
@@ -297,4 +318,5 @@ $('#formSecuencia .switch').change(function(){
         return false;
     }
 });
+
 </script>

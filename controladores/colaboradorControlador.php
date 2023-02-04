@@ -15,8 +15,11 @@
 			$apellido = mainModel::cleanStringConverterCase($_POST['apellido_colaborador']);			
 			$identidad = mainModel::cleanString($_POST['identidad_colaborador']);	
 			$telefono = mainModel::cleanString($_POST['telefono_colaborador']);				
-			$puesto = mainModel::cleanString($_POST['puesto_colaborador']);
+			$puesto = mainModel::cleanString($_POST['puesto_colaborador']);			
+			$fecha_ingreso = mainModel::cleanString($_POST['fecha_ingreso_colaborador']);
+			$fecha_egreso = mainModel::cleanString($_POST['fecha_egreso_colaborador']);
 			$empresa_id = $_SESSION['empresa_id_sd'];
+
 			$fecha_registro = date("Y-m-d H:i:s");	
 			$estado = 1;
 			
@@ -27,8 +30,11 @@
 				"telefono" => $telefono,				
 				"puesto" => $puesto,				
 				"estado" => $estado,
-				"fecha" => $fecha_registro,	
-				"empresa" => $empresa_id
+				"fecha_registro" => $fecha_registro,	
+				"empresa" => $empresa_id,
+				"fecha_registro" => $fecha_registro,
+				"fecha_ingreso" => $fecha_ingreso,	
+				"fecha_egreso" => $fecha_egreso				
 			];
 			
 			$result = colaboradorModelo::valid_colaborador_modelo($identidad);
@@ -47,7 +53,7 @@
 						"form" => "formColaboradores",
 						"id" => "proceso_colaboradores",
 						"valor" => "Registro",
-						"funcion" => "listar_colaboradores();listar_colaboradores_buscar_factura();listar_colaboradores_buscar_cotizacion();",
+						"funcion" => "listar_colaboradores();getEmpresaColaboradores();getPuestoColaboradores();listar_colaboradores_buscar_factura();listar_colaboradores_buscar_cotizacion();",
 						"modal" => "",						
 					];
 				}else{
@@ -77,6 +83,8 @@
 			$nombre = mainModel::cleanStringConverterCase($_POST['nombre_colaborador']);
 			$apellido = mainModel::cleanStringConverterCase($_POST['apellido_colaborador']);				
 			$telefono = mainModel::cleanString($_POST['telefono_colaborador']);				
+			$fecha_ingreso = mainModel::cleanString($_POST['fecha_ingreso_colaborador']);
+			$fecha_egreso = mainModel::cleanString($_POST['fecha_egreso_colaborador']);
 
 			if(isset($_POST['puesto_colaborador'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
 				if($_POST['puesto_colaborador'] == ""){
@@ -102,7 +110,9 @@
 				"apellido" => $apellido,
 				"telefono" => $telefono,				
 				"puesto" => $puesto,				
-				"estado" => $estado,	
+				"estado" => $estado,
+				"fecha_ingreso" => $fecha_ingreso,	
+				"fecha_egreso" => $fecha_egreso		
 			];
 
 			$query = colaboradorModelo::editar_colaborador_modelo($datos);
@@ -118,7 +128,7 @@
 					"form" => "formColaboradores",	
 					"id" => "proceso_colaboradores",
 					"valor" => "Editar",
-					"funcion" => "listar_colaboradores();",
+					"funcion" => "listar_colaboradores();getEmpresaColaboradores();getPuestoColaboradores();",
 					"modal" => "",	
 				];
 			}else{
@@ -162,7 +172,7 @@
 					"form" => "formColaboradores",	
 					"id" => "proceso_colaboradores",
 					"valor" => "Editar",
-					"funcion" => "listar_colaboradores();",
+					"funcion" => "listar_colaboradores();getEmpresaColaboradores();getPuestoColaboradores();",
 					"modal" => "",	
 				];
 			}else{
@@ -197,7 +207,7 @@
 						"form" => "formColaboradores",	
 						"id" => "proceso_colaboradores",
 						"valor" => "Eliminar",
-						"funcion" => "listar_colaboradores();",
+						"funcion" => "listar_colaboradores();getEmpresaColaboradores();getPuestoColaboradores();",
 						"modal" => "modal_registrar_colaboradores",
 					];
 				}else{
@@ -222,3 +232,4 @@
 			return mainModel::sweetAlert($alert);			
 		}
     }
+?>	

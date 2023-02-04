@@ -15,25 +15,33 @@
 			$facturas_id = $_POST['factura_id_efectivo'];
 			$print_comprobante = $_POST['comprobante_print'];
 			$consulta_fecha_factura = pagoFacturaModelo::consultar_factura_fecha($facturas_id)->fetch_assoc();
-			$fecha = date("Y-m-d");
+			$fecha = $_POST['fecha_efectivo'];
 			$importe = $_POST['monto_efectivo'];
 			$abono = $_POST['efectivo_bill'];
 			$efectivo = $_POST['efectivo_bill'];
-			$cambio = $_POST['cambio_efectivo'];
-			$empresa_id = $_SESSION['empresa_id_sd'];			
+			$cambio = ($_POST['cambio_efectivo'])*-1;
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$colaboradores_id = $_SESSION['colaborador_id_sd'];	
 			$tipo_pago_id = 1;//EFECTIVO		
 			$banco_id = 0;//SIN BANCO
 			$tipo_pago = $_POST['tipo_factura'];//1. CONTADO 2. CRÉDITO
 			$referencia_pago1 = "";
-			$referencia_pago2 = "";
+			$referencia_pago2 = "";//DESCRIPCION ADICIONAL QUE SE ESCRIBE EN EL MODAL
 			$referencia_pago3 = "";
-			$usuario = $_SESSION['colaborador_id_sd'];
+
+			if($_POST['usuario_efectivo'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_efectivo'];
+			}
+			
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 2;
 			$estado_factura = $_POST['tipo_factura'];//PAGADA 1 //credito 2
 			$tarjeta = 	0;			
 			
 			$datos = [
+				"multiple_pago" => isset($_POST['multiple_pago']) ? $_POST['multiple_pago'] : 0,
 				"facturas_id" => $facturas_id,
 				"fecha" => $fecha,
 				"importe" => $importe,
@@ -52,7 +60,8 @@
 				"print_comprobante" => $_POST['comprobante_print'],
 				"tipo_pago" => $tipo_pago,
 				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta							
+				"tarjeta" => $tarjeta,
+				"colaboradores_id" => $colaboradores_id						
 			];
 
 			$alert = pagoFacturaModelo::agregar_pago_factura_base($datos);
@@ -69,23 +78,29 @@
 			$facturas_id = $_POST['factura_id_tarjeta'];
 			$print_comprobante = $_POST['comprobante_print'];
 			$consulta_fecha_factura = pagoFacturaModelo::consultar_factura_fecha($facturas_id)->fetch_assoc();
-			$fecha = date("Y-m-d");
+			$fecha = $_POST['fecha_tarjeta'];
 			$importe = $_POST['importe'];
 			$cambio = 0;
-			$empresa_id = $_SESSION['empresa_id_sd'];			
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$colaboradores_id = $_SESSION['colaborador_id_sd'];			
 			$tipo_pago_id = 2;//TARJETA	
 			$banco_id = 0;//SIN BANCO	
 			$tipo_pago = $_POST['tipo_factura'];//1. CONTADO 2. CRÉDITO	3.MIXTO	
 			$efectivo = 0;
 			$tarjeta = 	$_POST['monto_efectivo'];
-			$estado_factura = $_POST['tipo_factura'];//PAGADA 1 //credito 2
+			$estado_factura = $_POST['tipo_factura'];//PAGADA 1 //CREDITO 2
 			$abono = $_POST['monto_efectivo'];		
 
 			$referencia_pago1 = mainModel::cleanStringConverterCase($_POST['cr_bill']);//TARJETA DE CREDITO
 			$referencia_pago2 = mainModel::cleanStringConverterCase($_POST['exp']);//FECHA DE EXPIRACION
 			$referencia_pago3 = mainModel::cleanStringConverterCase($_POST['cvcpwd']);//NUMERO DE APROBACIÓN
 			
-			$usuario = $_SESSION['colaborador_id_sd'];
+			if($_POST['usuario_tarjeta'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_tarjeta'];
+			}
+
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 2;
 
@@ -95,6 +110,7 @@
 			}
 			
 			$datos = [
+				"multiple_pago" => isset($_POST['multiple_pago']) ? $_POST['multiple_pago'] : 0,
 				"facturas_id" => $facturas_id,
 				"fecha" => $fecha,
 				"importe" => $importe,
@@ -113,10 +129,12 @@
 				"print_comprobante" => $_POST['comprobante_print'],
 				"tipo_pago" => $tipo_pago,
 				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta							
+				"tarjeta" => $tarjeta,
+				"colaboradores_id" => $colaboradores_id								
 			];
 
 			$alert = pagoFacturaModelo::agregar_pago_factura_base($datos);
+
 			return mainModel::sweetAlert($alert);
 			
 		}
@@ -134,8 +152,9 @@
 			$importe = $_POST['monto_efectivo'];
 			$efectivo = $_POST['efectivo_bill'];
 			$tarjeta = 	$_POST['monto_tarjeta'];	
-			$cambio = $_POST['cambio_efectivo'];
-			$empresa_id = $_SESSION['empresa_id_sd'];			
+			$cambio = ($_POST['cambio_efectivo'])*-1;
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$colaboradores_id = $_SESSION['colaborador_id_sd'];			
 			$tipo_pago_id = 5;//PAGO MIXTO		
 			$banco_id = 0;//SIN BANCO	
 			$tipo_pago = 3;//1. CONTADO 2. CRÉDITO 3.MIXTO		
@@ -145,11 +164,17 @@
 			$referencia_pago2 = mainModel::cleanStringConverterCase($_POST['exp']);//FECHA DE EXPIRACION
 			$referencia_pago3 = mainModel::cleanStringConverterCase($_POST['cvcpwd']);//NUMERO DE APROBACIÓN
 			
-			$usuario = $_SESSION['colaborador_id_sd'];
+			if($_POST['usuario_pago_mixto'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_pago_mixto'];
+			}
+
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 2;
 
 			$datos = [
+				"multiple_pago" => isset($_POST['multiple_pago']) ? $_POST['multiple_pago'] : 0,
 				"facturas_id" => $facturas_id,
 				"fecha" => $fecha,
 				"importe" => $importe,
@@ -168,7 +193,8 @@
 				"print_comprobante" => $_POST['comprobante_print'],
 				"tipo_pago" => $tipo_pago,
 				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta							
+				"tarjeta" => $tarjeta,
+				"colaboradores_id" => $colaboradores_id								
 			];
 
 			$alert = pagoFacturaModelo::agregar_pago_factura_base($datos);
@@ -189,8 +215,9 @@
 			$importe = $_POST['monto_efectivo'];
 			$cambio = 0;
 			$abono = $_POST['importe'];
-			$empresa_id = $_SESSION['empresa_id_sd'];			
-			$tipo_pago_id = $_POST['tipo_cuenta_id'];//TOMAMOS LA CUENTA ID DEL TIPO DE PAGO SELECCIONADO		
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$colaboradores_id = $_SESSION['colaborador_id_sd'];		
+			$tipo_pago_id = 3;//TRANSFERENCIA		
 			$banco_id = $_POST['bk_nm'];
 			$tipo_pago = $_POST['tipo_factura'];//1. CONTADO 2. CRÉDITO			
 			$estado_factura = $_POST['tipo_factura'];//PAGADA 1 //credito 2
@@ -201,12 +228,17 @@
 			$referencia_pago2 = "";
 			$referencia_pago3 = "";
 			
-			$usuario = $_SESSION['colaborador_id_sd'];
+			if($_POST['usuario_transferencia'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_transferencia'];
+			}
+
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 2;
 			
-
 			$datos = [
+				"multiple_pago" => isset($_POST['multiple_pago']) ? $_POST['multiple_pago'] : 0,
 				"facturas_id" => $facturas_id,
 				"fecha" => $fecha,
 				"importe" => $importe,
@@ -225,7 +257,8 @@
 				"print_comprobante" => $print_comprobante,
 				"tipo_pago" => $tipo_pago,
 				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta							
+				"tarjeta" => $tarjeta,
+				"colaboradores_id" => $colaboradores_id							
 			];
 							
 			$alert = pagoFacturaModelo::agregar_pago_factura_base($datos);
@@ -245,7 +278,8 @@
 			$fecha = date("Y-m-d");
 			$importe = $_POST['monto_efectivo'];
 			$cambio = 0;
-			$empresa_id = $_SESSION['empresa_id_sd'];			
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$colaboradores_id = $_SESSION['colaborador_id_sd'];	
 			$tipo_pago_id = 4;//CHEQUE		
 			$banco_id = $_POST['bk_nm_chk'];
 			$tipo_pago = $_POST['tipo_factura'];//1. CONTADO 2. CRÉDITO			
@@ -257,12 +291,18 @@
 			$referencia_pago2 = "";
 			$referencia_pago3 = "";
 			
-			$usuario = $_SESSION['colaborador_id_sd'];
+			if($_POST['usuario_cheque'] == 0){
+				$usuario = $_SESSION['colaborador_id_sd'];
+			}else{
+				$usuario = $_POST['usuario_cheque'];
+			}
+
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 2;
 			$abono = $_POST['importe'];
 			
 			$datos = [
+				"multiple_pago" => isset($_POST['multiple_pago']) ? $_POST['multiple_pago'] : 0,
 				"facturas_id" => $facturas_id,
 				"fecha" => $fecha,
 				"importe" => $importe,
@@ -281,7 +321,8 @@
 				"print_comprobante" => $print_comprobante,
 				"tipo_pago" => $tipo_pago,
 				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta							
+				"tarjeta" => $tarjeta,
+				"colaboradores_id" => $colaboradores_id							
 			];
 
 			$alert = pagoFacturaModelo::agregar_pago_factura_base($datos);

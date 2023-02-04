@@ -17,7 +17,7 @@
 					
 				</div>
 				<div class="col-11 text-left">
-					<center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/kireds_footer.png" style="max-width: 100%; max-height: 100%;"></center>
+					<center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/icono_clinicare.png" style="max-width: 100%; max-height: 100%;"></center>
 				</div>
 			</div>
 		</div>
@@ -26,7 +26,7 @@
 				<div class="col-1 text-right">
 				</div>
 				<div class="col-11 text-left">
-					<center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/fayad_firma.png" style="max-width: 100%; max-height: 100%;"></center>
+					<center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo_clinicare.png" style="max-width: 100%; max-height: 100%;"></center>
 				</div>
 			</div>
 		</div>

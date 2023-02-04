@@ -1,6 +1,7 @@
 <script>
 $(document).ready(function() {
     listar_productos();
+	getEmpresaProductos();	
 });
 
 //INICIO ACCIONES FROMULARIO PRODUCTOS
@@ -15,24 +16,6 @@ var listar_productos = function(){
 			{"data":"image"},
 			{"data":"barCode"},
 			{"data":"nombre"},
-			{"data":"cantidad",
-				render: function (data, type) {
-                    var number = $.fn.dataTable.render
-                        .number(',', '.', 2, '')
-                        .display(data);
- 
-                    if (type === 'display') {
-                        let color = 'black';
-                        if (data < 0) {
-                            color = 'red';
-                        } 
- 
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
- 
-                    return number;
-                },
-			},
 			{"data":"medida"},
 			{"data":"categoria"},
 			{"data":"precio_compra",
@@ -42,7 +25,7 @@ var listar_productos = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -60,7 +43,7 @@ var listar_productos = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -71,6 +54,8 @@ var listar_productos = function(){
                     return number;
                 },
 			},
+			{"data":"isv_venta"},
+			{"data":"isv_compra"},			
 			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}
 		],
@@ -98,7 +83,7 @@ var listar_productos = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Productos',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -171,36 +156,39 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#formProductos #proceso_productos').val("Editar");
 				evaluarCategoriaDetalle(datos[13]);
 				$('#formProductos #medida').val(datos[1]);
+				$('#formProductos #medida').selectpicker('refresh');
 				$('#formProductos #almacen').val(datos[0]);
+				$('#formProductos #almacen').selectpicker('refresh');
 				$('#formProductos #producto').val(datos[2]);
 				$('#formProductos #descripcion').val(datos[3]);
-				$('#formProductos #cantidad').val(datos[4]);
-				$('#formProductos #precio_compra').val(datos[5]);
-				$('#formProductos #precio_venta').val(datos[6]);
-				$('#formProductos #tipo_producto').val(datos[7]);
-				$('#formProductos #producto_empresa_id').val(datos[12]);
-				$('#formProductos #porcentaje_venta').val(datos[14]);
-				$('#formProductos #cantidad_minima').val(datos[15]);
-				$('#formProductos #cantidad_maxima').val(datos[16]);
-				$('#formProductos #producto_categoria').val(datos[17]);
-				$('#formProductos #precio_mayoreo').val(datos[18]);
-				$('#formProductos #cantidad_mayoreo').val(datos[19]);
-				$('#formProductos #bar_code_product').val(datos[20]);
-				$('#formProductos #producto_superior').val(datos[21]);
+				$('#formProductos #precio_compra').val(datos[4]);
+				$('#formProductos #precio_venta').val(datos[5]);
+				$('#formProductos #tipo_producto').val(datos[6]);
+				$('#formProductos #tipo_producto').selectpicker('refresh');
+				$('#formProductos #producto_empresa_id').val(datos[11]);
+				$('#formProductos #producto_empresa_id').selectpicker('refresh');
+				$('#formProductos #porcentaje_venta').val(datos[13]);
+				$('#formProductos #cantidad_minima').val(datos[14]);
+				$('#formProductos #cantidad_maxima').val(datos[15]);
+				$('#formProductos #producto_categoria').val(datos[16]);
+				$('#formProductos #precio_mayoreo').val(datos[17]);
+				$('#formProductos #cantidad_mayoreo').val(datos[18]);
+				$('#formProductos #bar_code_product').val(datos[19]);
+				$('#formProductos #producto_superior').val(datos[20]);
 
-				if(datos[8] == 1){
+				if(datos[7] == 1){
 					$('#formProductos #producto_isv_factura').attr('checked', true);
 				}else{
 					$('#formProductos #producto_isv_factura').attr('checked', false);
 				}
 
-				if(datos[9] == 1){
+				if(datos[8] == 1){
 					$('#formProductos #producto_isv_compra').attr('checked', true);
 				}else{
 					$('#formProductos #producto_isv_compra').attr('checked', false);
 				}
 
-				if(datos[10] == 1){
+				if(datos[9] == 1){
 					$('#formProductos #producto_activo').attr('checked', true);
 				}else{
 					$('#formProductos #producto_activo').attr('checked', false);
@@ -221,6 +209,7 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#formProductos #producto_isv_factura').attr("disabled", false);
 				$('#formProductos #producto_isv_compra').attr("disabled", false);
 				$('#formProductos #producto_activo').attr("disabled", false);
+				$('#formProductos #grupo_editar_bacode').show();
 
 				//DESHABILITAR OBJETOS
 				$('#formProductos #medida').attr("disabled", true);
@@ -233,7 +222,11 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#formProductos #cantidad').attr("disabled", true);
 				$('#formProductos #buscar_producto_empresa').hide();
 				$('#formProductos #buscar_producto_categorias').hide();	
-				$('#formProductos #estado_producto').show();				
+				$('#formProductos #estado_producto').show();
+				
+				//OCULTAR
+				$('#formProductos #cantidad').hide();
+				$('#div_cantidad_editar_producto').hide();
 
 				$('#modal_registrar_productos').modal({
 					show:true,
@@ -266,37 +259,40 @@ var eliminar_producto_dataTable = function(tbody, table){
 				$('#delete_producto').show();
 				$('#formProductos #proceso_productos').val("Eliminar");
 				$('#formProductos #medida').val(datos[0]);
+				$('#formProductos #medida').selectpicker('refresh');
 				$('#formProductos #almacen').val(datos[1]);
+				$('#formProductos #almacen').selectpicker('refresh');
 				$('#formProductos #producto').val(datos[2]);
 				$('#formProductos #descripcion').val(datos[3]);
-				$('#formProductos #cantidad').val(datos[4]);
-				$('#formProductos #precio_compra').val(datos[5]);
-				$('#formProductos #precio_venta').val(datos[6]);
-				$('#formProductos #tipo_producto').val(datos[7]);
-				$('#formProductos #producto_empresa_id').val(datos[12]);
-				$('#formProductos #porcentaje_venta').val(datos[14]);
-				$('#formProductos #cantidad_minima').val(datos[15]);
-				$('#formProductos #cantidad_maxima').val(datos[16]);
-				$('#formProductos #producto_categoria').val(datos[17]);				
-				$('#formProductos #precio_mayoreo').val(datos[18]);
-				$('#formProductos #cantidad_mayoreo').val(datos[19]);
-				$('#formProductos #bar_code_product').val(datos[20]);
+				$('#formProductos #precio_compra').val(datos[4]);
+				$('#formProductos #precio_venta').val(datos[5]);
+				$('#formProductos #tipo_producto').val(datos[6]);
+				$('#formProductos #tipo_producto').selectpicker('refresh');
+				$('#formProductos #producto_empresa_id').val(datos[11]);
+				$('#formProductos #producto_empresa_id').selectpicker('refresh');
+				$('#formProductos #porcentaje_venta').val(datos[13]);
+				$('#formProductos #cantidad_minima').val(datos[14]);
+				$('#formProductos #cantidad_maxima').val(datos[15]);
+				$('#formProductos #producto_categoria').val(datos[16]);				
+				$('#formProductos #precio_mayoreo').val(datos[17]);
+				$('#formProductos #cantidad_mayoreo').val(datos[18]);
+				$('#formProductos #bar_code_product').val(datos[19]);
 				
 				$("#formProductos #preview").attr("src", "<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png");
 
-				if(datos[8] == 1){
+				if(datos[7] == 1){
 					$('#formProductos #producto_isv_factura').attr('checked', true);
 				}else{
 					$('#formProductos #producto_isv_factura').attr('checked', false);
 				}
 
-				if(datos[9] == 1){
+				if(datos[8] == 1){
 					$('#formProductos #producto_isv_compra').attr('checked', true);
 				}else{
 					$('#formProductos #producto_isv_compra').attr('checked', false);
 				}
 
-				if(datos[10] == 1){
+				if(datos[9] == 1){
 					$('#formProductos #producto_activo').attr('checked', true);
 				}else{
 					$('#formProductos #producto_activo').attr('checked', false);
@@ -327,6 +323,7 @@ var eliminar_producto_dataTable = function(tbody, table){
 				$('#formProductos #buscar_producto_empresa').hide();
 				$('#formProductos #buscar_producto_categorias').hide();
 				$('#formProductos #estado_producto').hide();
+				$('#formProductos #grupo_editar_bacode').hide();
 
 				$('#modal_registrar_productos').modal({
 					show:true,
@@ -632,4 +629,5 @@ $('#formProductos .switch').change(function(){
         return false;
     }
 });	
+
 </script>

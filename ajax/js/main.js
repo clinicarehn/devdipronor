@@ -2,9 +2,8 @@ $('.FormularioAjax').submit(function(e){
     e.preventDefault();
 	
     var form=$(this);
-
     var tipo=form.attr('data-form');
-	
+
     var action=form.attr('action');
     var method=form.attr('method');
     var respuesta=form.children('.RespuestaAjax');
@@ -268,6 +267,28 @@ $(document).ready(function(){
     });		
 	//FIN PRINT COMPROBANTE
 });
+
+//INICIO PAGOS MULTIPLES FACTURA
+$('#modal_pagos #label_pagos_multiples').html("No");
+	
+$('#modal_pagos .switch').change(function(){    
+	if($('input[name=pagos_multiples_switch]').is(':checked')){
+		$('#modal_pagos #label_pagos_multiples').html("Si");
+		$('#pagos_multiples_switch').val(1);
+		$('#formEfectivoBill #pago_efectivo').prop('disabled', false);
+		$('.multiple_pago').val(1);
+		$('#formTarjetaBill #monto_efectivo_tarjeta').show();
+		return true;
+	}else{
+		$('#modal_pagos #label_pagos_multiples').html("No");
+		$('#pagos_multiples_switch').val(0);
+		$('.multiple_pago').val(0);
+		$('#formEfectivoBill #pago_efectivo').prop('disabled', true)
+		$('#formTarjetaBill #monto_efectivo_tarjeta').hide();
+		return false;
+	}
+});		
+//FIN PAGOS MULTIPLES FACTURA
 
 //FIN MENU FACTURAS
 

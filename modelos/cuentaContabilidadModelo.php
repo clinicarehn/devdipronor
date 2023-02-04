@@ -8,7 +8,7 @@
 	class cuentaContabilidadModelo extends mainModel{
 		protected function agregar_cuenta_contabilidad_modelo($datos){
 			$cuentas_id = mainModel::correlativo("cuentas_id", "cuentas");
-			$insert = "INSERT INTO cuentas VALUES('$cuentas_id','".$datos['tipo_cuenta_id']."','".$datos['codigo']."','".$datos['nombre']."','".$datos['estado']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO cuentas VALUES('$cuentas_id','".$datos['codigo']."','".$datos['nombre']."','".$datos['estado']."','".$datos['fecha_registro']."')";
 			
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
@@ -26,8 +26,7 @@
 			$update = "UPDATE cuentas
 			SET 
 				nombre = '".$datos['nombre']."',
-				estado = '".$datos['estado']."',
-				tipo_cuenta_id = '".$datos['tipo_cuenta_id']."'
+				estado = '".$datos['estado']."'
 			WHERE cuentas_id = '".$datos['cuentas_id']."'";
 			
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
@@ -51,3 +50,4 @@
 			return $sql;			
 		}		
 	}
+?>	

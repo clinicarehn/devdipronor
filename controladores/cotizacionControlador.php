@@ -168,18 +168,15 @@
 								$descuentos += $discount;
 
 								$isv_neto += $isv_valor;									
-
-									//echo 'INSERTAMOS LOS DE PRODUCTOS EN EL DETALLE DE LA FACTURA';
-
-									cotizacionModelo::agregar_detalle_cotizacion($datos_detalles_cotizacion);
-
+								
+								//echo 'INSERTAMOS LOS DE PRODUCTOS EN EL DETALLE DE LA FACTURA';
+								cotizacionModelo::agregar_detalle_cotizacion($datos_detalles_cotizacion);
 
 							}
 
 						}//FIN CICLO FOR
 
 						$total_despues_isv = ($total_valor + $isv_neto) - $descuentos;
-
 						
 
 						//ACTUALIZAMOS EL IMPORTE EN LA FACTURA
@@ -192,8 +189,7 @@
 
 						];
 
-						
-
+					
 						cotizacionModelo::actualizar_cotizacion_importe($datos_factura);
 
 						

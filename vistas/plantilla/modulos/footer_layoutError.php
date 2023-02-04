@@ -25,7 +25,7 @@
 			<div class="form-row">
 				<div class="col-11 text-right">
 					<small>
-						<center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo_firma_white.png" style="max-width: 100%;max-height: 100%;"></center>
+						<center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo_clinicare.png" style="max-width: 100%;max-height: 100%;"></center>
 					</small>
 				</div>
 				<div class="col-1 text-left">

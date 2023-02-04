@@ -1,10 +1,7 @@
 <script>
 $(document).ready(function() {
-	funciones();   
-	
+	funciones();   	
 		listar_movimientos();
-		
-
 });
 
 function funciones(){
@@ -13,6 +10,7 @@ function funciones(){
 	getProductoOperacion();
 	getClientes();
     getProductosMovimientos(1);
+	getAlmacen();
 }
 
 $('#form_main_movimientos #categoria_id').on('change',function(){
@@ -43,26 +41,15 @@ $('#inventario_tipo_productos_id').on('change',function(){
   listar_movimientos();
 });
 
-$('#form_main_movimientos #search').on("click", function(e){
-	e.preventDefault();
-	listar_movimientos();
-});
-
 //INICIO MOVIMIENTOS
 var listar_movimientos = function(){
 	var tipo_producto_id;
-
-	
-	  tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
-	
-
+	tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
 	var fechai = $("#form_main_movimientos #fechai").val();
 	var fechaf = $("#form_main_movimientos #fechaf").val();
 	var bodega = $("#form_main_movimientos #almacen").val();
 	var producto = $("#producto_movimiento_filtro").val();
 	var cliente = $('#cliente_movimiento_filtro').val();
-  
-
 
 	var table_movimientos  = $("#dataTablaMovimientos").DataTable({
 		"destroy":true,
@@ -76,7 +63,6 @@ var listar_movimientos = function(){
 				"bodega":bodega,
 				"producto":producto,
 				"cliente":cliente,
-				
 			}
 		},
 		"columns":[
@@ -89,11 +75,11 @@ var listar_movimientos = function(){
 			{"data":"entrada",
 				render: function (data, type) {
                     var number = $.fn.dataTable.render
-                        .number('')
+                        .number(',', '.', 2, '')
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -107,11 +93,11 @@ var listar_movimientos = function(){
 			{"data":"salida",
 				render: function (data, type) {
                     var number = $.fn.dataTable.render
-                        .number('')
+                        .number(',', '.', 2, '')
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -122,24 +108,7 @@ var listar_movimientos = function(){
                     return number;
                 },
 			},
-			{"data":"saldo",
-				render: function (data, type) {
-                    var number = $.fn.dataTable.render
-                        .number('')
-                        .display(data);
- 
-                    if (type === 'display') {
-                        let color = 'black';
-                        if (data < 0) {
-                            color = 'red';
-                        } 
- 
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
- 
-                    return number;
-                },
-			},
+			
 			{"data":"comentario"},
 			{"data":"bodega"},
 			
@@ -160,10 +129,6 @@ var listar_movimientos = function(){
 		  { width: "10.5%", targets: 7 },
 		  { width: "10.5%", targets: 8 },
 		  { width: "10.5%", targets: 9 },
-		  { width: "10.5%", targets: 10 },
-
-
-
 		],
 		"buttons":[
 			{
@@ -176,7 +141,7 @@ var listar_movimientos = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Movimientos',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -234,7 +199,6 @@ var listar_movimientos = function(){
 }
 //FOOTER MOVIMIENTOS
 var total_movimiento_footer = function(){	
-	
 	var tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
 	var fechai = $("#form_main_movimientos #fechai").val();
 	var fechaf = $("#form_main_movimientos #fechaf").val();
@@ -280,7 +244,6 @@ var inventario_transferencia = function(){
 	var fechaf = $("#form_main_movimientos #fechaf").val();
 	var bodega = $("#form_main_movimientos #almacen").val();
 
-
 	var table_movimientos  = $("#dataTablaMovimientos").DataTable({
 		"destroy":true,
 		"ajax":{
@@ -299,9 +262,72 @@ var inventario_transferencia = function(){
 			{"data":"producto"},
 			{"data":"medida"},
 			{"data":"documento"},
-			{"data":"entrada"},
-			{"data":"salida"},
-			{"data":"saldo"},
+			{"data":"entrada",
+				render: function (data, type) {
+					if(data == null){
+						data = 0;
+					}
+
+					var number = $.fn.dataTable.render
+						.number(',', '.', 2, '')
+						.display(data);
+
+					if (type === 'display') {
+						let color = 'green';
+						if (data < 0) {
+							color = 'red';
+						} 
+
+						return '<span style="color:' + color + '">' + number + '</span>';
+					}
+
+					return number;
+				},	
+			},
+			{"data":"salida",
+				render: function (data, type) {
+					if(data == null){
+						data = 0;
+					}
+
+					var number = $.fn.dataTable.render
+						.number(',', '.', 2, '')
+						.display(data);
+
+					if (type === 'display') {
+						let color = 'green';
+						if (data < 0) {
+							color = 'red';
+						} 
+
+						return '<span style="color:' + color + '">' + number + '</span>';
+					}
+
+					return number;
+				},
+			},
+			{"data":"saldo",
+				render: function (data, type) {
+					if(data == null){
+						data = 0;
+					}
+
+					var number = $.fn.dataTable.render
+						.number(',', '.', 2, '')
+						.display(data);
+
+					if (type === 'display') {
+						let color = 'green';
+						if (data < 0) {
+							color = 'red';
+						} 
+
+						return '<span style="color:' + color + '">' + number + '</span>';
+					}
+
+					return number;
+				},
+			},
 			{"data":"bodega"},
 			{"defaultContent":"<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"},
 
@@ -335,7 +361,7 @@ var inventario_transferencia = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Movimientos',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -388,19 +414,15 @@ var transferencia_producto_dataTable = function(tbody, table){
 
 	$(tbody).off("click", "button.table_transferencia");
 	$(tbody).on("click", "button.table_transferencia", function(){
-	
-		var data = table.row( $(this).parents("tr") ).data();
-		
+		var data = table.row( $(this).parents("tr") ).data();		
 		$('#formTransferencia #productos_id').val(data.productos_id);
 		$('#formTransferencia #nameProduct').html(data.producto);
-
-			
+	
 		$('#modal_transferencia_producto').modal({
 			show:true,
 			keyboard: false,
 			backdrop:'static'
 		});
-	
 	})
 
 };
@@ -429,7 +451,24 @@ $("#putEditarBodega").click(function(){
 });
 //TRANSFERIR PRODUCTO/BODEGA
 
+function getAlmacen(){
+    var url = '<?php echo SERVERURL;?>core/getAlmacen.php';
 
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#form_main_movimientos #almacen').html("");
+			$('#form_main_movimientos #almacen').html(data);
+			$('#form_main_movimientos #almacen').selectpicker('refresh');	
+			
+			$('#formMovimientos #almacen_modal').html("");
+			$('#formMovimientos #almacen_modal').html(data);
+			$('#formMovimientos #almacen_modal').selectpicker('refresh');				
+		}
+     });
+}
 
 //INIICO OBTENER EL TIPO DE PRODUCTO
 function getTipoProductos(){
@@ -442,9 +481,11 @@ function getTipoProductos(){
         success: function(data){
 		    $('#form_main_movimientos #inventario_tipo_productos_id').html("");
 			$('#form_main_movimientos #inventario_tipo_productos_id').html(data);
+			$('#form_main_movimientos #inventario_tipo_productos_id').selectpicker('refresh');
 			
 		    $('#formMovimientos #movimientos_tipo_producto_id').html("");
-			$('#formMovimientos #movimientos_tipo_producto_id').html(data);			
+			$('#formMovimientos #movimientos_tipo_producto_id').html(data);	
+			$('#formMovimientos #movimientos_tipo_producto_id').selectpicker('refresh');		
 		}
      });
 }
@@ -459,6 +500,7 @@ function getProductoOperacion(){
         success: function(data){
 		    $('#formMovimientos #movimiento_operacion').html("");
 			$('#formMovimientos #movimiento_operacion').html(data);
+			$('#formMovimientos #movimiento_operacion').selectpicker('refresh');
 		}
      });
 }
@@ -472,11 +514,25 @@ function getTipoProductosMovimientos(){
         success: function(data){
 		    $('#formMovimientos #movimientos_tipo_producto_id').html("");
 			$('#formMovimientos #movimientos_tipo_producto_id').html(data);
+			$('#formMovimientos #movimientos_tipo_producto_id').selectpicker('refresh');
 		}
      });
 }
 
 $(document).ready(function() {
+	$('#form_main_movimientos #inventario_tipo_productos_id').on('change', function(){
+		var tipo_producto_id;
+
+		if ($('#form_main_movimientos #inventario_tipo_productos_id').val() == "" || $('#form_main_movimientos #inventario_tipo_productos_id').val() == null){
+		  tipo_producto_id = 1;
+		}else{
+		  tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
+		}
+
+		getProductosMovimientos(tipo_producto_id);
+	    return false;
+    });
+
 	$('#formMovimientos #movimientos_tipo_producto_id').on('change', function(){
 		var tipo_producto_id;
 
@@ -499,8 +555,13 @@ function getProductosMovimientos(tipo_producto_id){
         url: url,
 		data:'tipo_producto_id='+tipo_producto_id,
         success: function(data){
-		    $('#formMovimientos #movimiento_producto').html("");
+		    $('#form_main_movimientos #producto_movimiento_filtro').html("");
+			$('#form_main_movimientos #producto_movimiento_filtro').html(data);
+			$('#form_main_movimientos #producto_movimiento_filtro').selectpicker('refresh');		    
+			
+			$('#formMovimientos #movimiento_producto').html("");
 			$('#formMovimientos #movimiento_producto').html(data);
+			$('#formMovimientos #movimiento_producto').selectpicker('refresh');
 		}
      });
 }
@@ -513,9 +574,13 @@ function getClientes(){
         url: url,
 	    async: true,
         success: function(data){
+			$('#form_main_movimientos #cliente_movimiento_filtro').html("");
+			$('#form_main_movimientos #cliente_movimiento_filtro').html(data);	
+			$('#form_main_movimientos #cliente_movimiento_filtro').selectpicker('refresh');
+
 		    $('#formMovimientos #cliente_movimientos').html("");
 			$('#formMovimientos #cliente_movimientos').html(data);	
-			$('#cliente_movimiento_filtro').html(data);	
+			$('#formMovimientos #cliente_movimientos').selectpicker('refresh');
 		}
      });
 }
@@ -548,67 +613,9 @@ $(document).ready(function(){
     });
 });
 
-//INICIO BUSQUEDA DE PRODUCTOS MOVIMIENTOS
 $(document).ready(function(){
-    $("#formMovimientos #buscar_productos_movimiento_form").on('click', function(e) {
-		e.preventDefault();
-		listar_productos_buscar_movimientos();
-		$('#modal_buscar_productos_movimientos').modal({
-			show:true,
-			keyboard: false,
-			backdrop:'static'
-		});		
-	});
+    $("#modal_transferencia_producto").on('shown.bs.modal', function(){
+        $(this).find('#formTransferencia #cantidad_movimiento').focus();
+    });
 });
-
-var listar_productos_buscar_movimientos = function(){
-	if ($('#form_main_movimientos #categoria_id').val() == "" || $('#form_main_movimientos #categoria_id').val() == null){
-	  categoria = 1;
-	}else{
-	  categoria = $('#form_main_movimientos #categoria_id').val();
-	}
-	
-	var table_productos_movimientos_buscar = $("#DatatableProductosBusquedaMovimientos").DataTable({
-		"destroy":true,
-		"ajax":{
-			"method":"POST",
-			"url":"<?php echo SERVERURL;?>core/llenarDataTableProductosMovimientos.php",
-			"data":{
-				"categoria":categoria
-			}			
-		},
-		"columns":[
-			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus fa-lg'></span></button>"},
-			{"data":"nombre"},
-			{"data":"cantidad"},
-			{"data":"medida"},
-			{"data":"categoria"},
-			{"data":"precio_venta"},
-			{"data":"almacen"}
-		],
-		"pageLength": 5,
-        "lengthMenu": lengthMenu,
-		"stateSave": true,
-		"bDestroy": true,
-		"language": idioma_español,
-		"drawCallback": function( settings ) {
-        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
-    	}
-	});
-	table_productos_movimientos_buscar.search('').draw();
-	$('#buscar').focus();
-
-	view_productos_busqueda_movimientos_dataTable("#DatatableProductosBusquedaMovimientos tbody", table_productos_movimientos_buscar);
-}
-
-var view_productos_busqueda_movimientos_dataTable = function(tbody, table){
-	$(tbody).off("click", "button.table_view");
-	$(tbody).on("click", "button.table_view", function(e){
-		e.preventDefault();
-		var data = table.row( $(this).parents("tr") ).data();
-		$('#formMovimientos #movimiento_producto').val(data.productos_id);
-		$('#modal_buscar_productos_movimientos').modal('hide');
-	});
-}
-//FIN BUSQUEDA DE PRODUCTOS MOVIMIENTOS
 </script>

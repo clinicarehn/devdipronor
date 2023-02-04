@@ -7,8 +7,7 @@
 	
 	class tipoPagoControlador extends tipoPagoModelo{
 		public function agregar_tipo_pago_controlador(){
-			$nombre = mainModel::cleanString($_POST['confTipoPago']);
-			$tipo_cuenta_id = $_POST['tipo_cuenta_id'];
+			$nombre = mainModel::cleanStringConverterCase($_POST['confTipoPago']);
 			
 			if (isset($_POST['confCuentaTipoPago'])){
 				$cuentas_id = $_POST['confCuentaTipoPago'];
@@ -16,13 +15,19 @@
 				$cuentas_id = 2;
 			}
 
+			if (isset($_POST['confTipoCuenta'])){
+				$tipo_cuenta = $_POST['confTipoCuenta'];
+			}else{
+				$tipo_cuenta = 0;
+			}			
+
 			$estado = 1;
 
 			$fecha_registro = date("Y-m-d H:i:s");	
 			
 			$datos = [
 				"cuentas_id" => $cuentas_id,
-				"tipo_cuenta_id" => $tipo_cuenta_id,
+				"tipo_cuenta" => $tipo_cuenta,
 				"nombre" => $nombre,
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,				
@@ -44,7 +49,7 @@
 						"form" => "formConfTipoPago",
 						"id" => "pro_tipoPago",
 						"valor" => "Registro",	
-						"funcion" => "listar_tipo_pago_contabilidad();",
+						"funcion" => "listar_tipo_pago_contabilidad();getCuentaTipoPago();getTipoCuenta();",
 						"modal" => "",
 					];
 				}else{
@@ -71,7 +76,7 @@
 		
 		public function edit_tipo_pago_controlador(){
 			$tipo_pago_id = $_POST['tipo_pago_id'];
-			$nombre = mainModel::cleanString($_POST['confTipoPago']);
+			$nombre = mainModel::cleanStringConverterCase($_POST['confTipoPago']);
 			
 			if (isset($_POST['confCuentaTipoPago'])){
 				$cuentas_id = $_POST['confCuentaTipoPago'];
@@ -95,20 +100,6 @@
 				"fecha_registro" => $fecha_registro,				
 			];
 
-			$resultTipoPagoModelo = tipoPagoModelo::valid_tipo_pago_modelo($nombre);
-
-			if($resultTipoPagoModelo->num_rows==0){
-
-			}else{
-				$alert = [
-					"alert" => "simple",
-					"title" => "Resgistro ya existe",
-					"text" => "Lo sentimos este registro ya existe",
-					"type" => "error",	
-					"btn-class" => "btn-danger",						
-				];				
-			}
-
 			$query = tipoPagoModelo::edit_tipo_pago_modelo($datos);
 			
 			if($query){				
@@ -122,7 +113,7 @@
 					"form" => "formConfTipoPago",	
 					"id" => "pro_tipoPago",
 					"valor" => "Editar",
-					"funcion" => "listar_tipo_pago_contabilidad();",
+					"funcion" => "listar_tipo_pago_contabilidad();getCuentaTipoPago();getTipoCuenta();",
 					"modal" => "",
 				];
 			}else{
@@ -157,7 +148,7 @@
 						"form" => "formConfTipoPago",	
 						"id" => "pro_tipoPago",
 						"valor" => "Eliminar",
-						"funcion" => "listar_tipo_pago_contabilidad();",
+						"funcion" => "listar_tipo_pago_contabilidad();getCuentaTipoPago();getTipoCuenta();",
 						"modal" => "modalConfTipoPago",
 					];
 				}else{
@@ -182,3 +173,4 @@
 			return mainModel::sweetAlert($alert);			
 		}
 	}
+?>	

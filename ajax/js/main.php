@@ -1,12 +1,12 @@
 <script>
 $(document).ready(function() {
-	
 	//LLAMAMOS LOS METODOS CORRESPONDIENTES AL LOS MENUS
 	getMenu(getPrivilegioUsuario());
 	getSubMenu(getPrivilegioUsuario());
 	getSubMenu1(getPrivilegioUsuario());	
 
 	validarAperturaCajaUsuario();
+	getCollaboradoresModalPagoFacturas();
 
 	//LLAMAMOS LOS METODOS QUE OBTIENEN LOS PERMISOS DE LOS USUARIOS PARA LOS ACCESOS
 	getPermisosTipoUsuarioAccesosForms(getPrivilegioTipoUsuario());
@@ -23,9 +23,17 @@ $(document).ready(function() {
     getCategoriaProductos(); 	
 	getEmpresaColaboradores();
 	getPuestoColaboradores();
+	getCollaboradoresModalPagoFacturasCompras();
+	getClientesCXC();
+	getProveedoresCXP();
+	$('.selectpicker').selectpicker();
+
+	$('#form_main_pagar_proveedores #pagar_proveedores_estado').val(1);	
+	$('#form_main_pagar_proveedores #pagar_proveedores_estado').selectpicker('refresh');	
+	
+	$('#form_main_cobrar_clientes #cobrar_clientes_estado').val(1);	
+	$('#form_main_cobrar_clientes #cobrar_clientes_estado').selectpicker('refresh');	
 });
-
-
 
 //INICIO MENUS
 function getPermisosTipoUsuarioAccesosTable(privilegio_id){
@@ -128,8 +136,10 @@ function getMenu(privilegio_id){
 				for(var i=0; i < valores_menu.length; i++){					
 					if(valores_menu[i].estado == 1){
 						$('#' + valores_menu[i].menu).show();
+						$('.' + valores_menu[i].menu).show();
 					}else{
 						$('#' + valores_menu[i].menu).hide();
+						$('.' + valores_menu[i].menu).hide();
 					}					
 				}
 			}catch(e){
@@ -153,8 +163,10 @@ function getSubMenu(privilegio_id){
 				for(var i=0; i < valores_submenu.length; i++){
 					if(valores_submenu[i].estado == 1){
 						$('#' + valores_submenu[i].submenu).show();
+						$('.' + valores_submenu[i].submenu).show();
 					}else{
 						$('#' + valores_submenu[i].submenu).hide();
+						$('.' + valores_submenu[i].submenu).hide();
 					}					
 				}
 			}catch(e){
@@ -178,8 +190,10 @@ function getSubMenu1(privilegio_id){
 				for(var i=0; i < valores_submenu.length; i++){
 					if(valores_submenu[i].estado == 1){
 						$('#' + valores_submenu[i].submenu1).show();
+						$('.' + valores_submenu[i].submenu1).show();
 					}else{
 						$('#' + valores_submenu[i].submenu1).hide();
+						$('.' + valores_submenu[i].submenu1).hide();
 					}					
 				}
 			}catch(e){
@@ -404,8 +418,6 @@ function toDataURL(src, callback, outputFormat) {
 var lengthMenu = [[5, 10, 20, 30, 50, 100, -1], [5, 10, 20, 30, 50, 100, "Todo"]];
 var lengthMenu10 = [[10, 20, 30, 50, 100, -1], [10, 20, 30, 50, 100, "Todo"]];
 var lengthMenu20 = [[20, 30, 50, 100, -1], [20, 30, 50, 100, "Todo"]];
-var lengthMenu30 = [[30, 50, 100, -1], [30, 50, 100, "Todo"]];
-var lengthMenu50 = [[50, 100, -1], [50, 100, "Todo"]];
 
 var dom = "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
 			"<'row'<'col-sm-12'tr>>" +
@@ -509,6 +521,16 @@ function modal_productos(){
 	$('#edi_producto').hide();
 	$('#delete_producto').hide();
 
+	//MOSTRAR OBJETOS
+	$('#formProductos #cantidad').show();
+	$('#div_cantidad_editar_producto').show();
+
+	$('#formProductos #producto_empresa_id').val(1);
+	$('#formProductos #producto_empresa_id').selectpicker('refresh');
+
+	$('#formProductos #tipo_producto').val(1);
+	$('#formProductos #tipo_producto').selectpicker('refresh');
+
 	//HABILITAR OBJETOS
 	$('#formProductos #producto').attr("readonly", false);
 	$('#formProductos #categoria').attr("disabled", false);
@@ -531,13 +553,15 @@ function modal_productos(){
 	$('#formProductos #cantidad_mayoreo').attr("readonly", false);	
 	$('#formProductos #producto_isv_compra').attr('checked', false);
 	$('#formProductos #cantidad').attr("disabled", false);
+	$('#formProductos #producto_superior').attr("disabled", false);
 
 	$('#formProductos #buscar_producto_empresa').show();
 	$('#formProductos #buscar_producto_categorias').show();
 	
 	$('#formProductos #producto_activo').attr('checked', true);
 	$('#formProductos #producto_isv_factura').attr('checked', true);
-	$('#formProductos #estado_producto').hide();	
+	$('#formProductos #estado_producto').hide();
+	$('#formProductos #grupo_editar_bacode').hide();	
 	
 	$("#formProductos #preview").attr("src", "<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png");
 	
@@ -549,7 +573,6 @@ function modal_productos(){
 	});
 }
 /*FIN FORMULARIO PRODUCTOS*/
-
 function getEmpresaProductos(){
     var url = '<?php echo SERVERURL;?>core/getEmpresa.php';
 
@@ -559,7 +582,8 @@ function getEmpresaProductos(){
 	    async: true,
         success: function(data){
 		    $('#formProductos #producto_empresa_id').html("");
-			$('#formProductos #producto_empresa_id').html(data);			
+			$('#formProductos #producto_empresa_id').html(data);
+			$('#formProductos #producto_empresa_id').selectpicker('refresh');		
 		}
      });
 }
@@ -574,8 +598,11 @@ function getMedida(count){
         success: function(data){
 		    $('#formProductos #medida').html("");
 			$('#formProductos #medida').html(data);
+			$('#formProductos #medida').selectpicker('refresh');
 			$('#medidaPurchase_'+count).html(data);
+			$('#medidaPurchase_'+count).selectpicker('refresh');
 			$('#medida_'+count).html(data);
+			$('#medida_'+count).selectpicker('refresh');
 		}
      });
 }
@@ -590,19 +617,32 @@ function getAlmacen(){
         success: function(data){
 		    $('#formProductos #almacen').html("");
 			$('#formProductos #almacen').html(data);
+			$('#formProductos #almacen').selectpicker('refresh');
+
+			$('#formProductos #almacen').val(1);	
+			$('#formProductos #almacen').selectpicker('refresh');				
 
 			$('#form_main_movimientos #almacen').append("");
 			$('#form_main_movimientos #almacen').append("<option value='0'>Todos</option>"+data);
+
 
 			$('#formulario_busqueda_productos_facturacion #almacen').append("");
 			$('#formulario_busqueda_productos_facturacion #almacen').append("<option value='0'>Todos</option>"+data);
 
 			$('#formTransferencia #id_bodega').html("");
 			$('#formTransferencia #id_bodega').html(data);
+			$('#formTransferencia #id_bodega').selectpicker('refresh');
+			$('#formTransferencia #id_bodega').val(1);	
+			$('#formTransferencia #id_bodega').selectpicker('refresh');				
+
+			$('#almacen_modal').html("");
+			$('#almacen_modal').html(data);
+			$('#almacen_modal').selectpicker('refresh');
+			$('#almacen_modal').val(1);	
+			$('#almacen_modal').selectpicker('refresh');				
 		}
      });
 }
-
 function getTipoProducto(){
     var url = '<?php echo SERVERURL;?>core/getTipoProducto.php';
 
@@ -613,6 +653,7 @@ function getTipoProducto(){
         success: function(data){
 		    $('#formProductos #tipo_producto').html("");
 			$('#formProductos #tipo_producto').html(data);
+			$('#formProductos #tipo_producto').selectpicker('refresh');
 		}
      });
 }
@@ -627,6 +668,7 @@ function getCategoriaProductos(){
         success: function(data){
 		    $('#formProductos #producto_categoria').html("");
 			$('#formProductos #producto_categoria').html(data);
+			$('#formProductos #producto_categoria').selectpicker('refresh');
 		}
      });
 }
@@ -640,8 +682,13 @@ function getProductos(){
 	    async: true,
         success: function(data){
 			$('#formMovimientos #movimiento_producto').html(data);
-			$('#producto_superior').html(data);
+			$('#formMovimientos #movimiento_producto').selectpicker('refresh');
+
+			$('#formProductos #producto_superior').html(data);
+			$('#formProductos #producto_superior').selectpicker('refresh');
+
 			$('#producto_movimiento_filtro').html(data);
+			$('#producto_movimiento_filtro').selectpicker('refresh');	
 		}
      });
 }
@@ -670,6 +717,7 @@ function modal_clientes(){
 	$('#formClientes #correo_clientes').attr("readonly", false);
 	$('#formClientes #clientes_activo').attr("disabled", false);
 	$('#formClientes #estado_clientes').hide();
+	$('#formClientes #grupo_editar_rtn').hide();
 
 	$('#formClientes #proceso_clientes').val("Registro");
 	$('#modal_registrar_clientes').modal({
@@ -689,6 +737,7 @@ function getDepartamentoClientes(){
         success: function(data){
 		    $('#formClientes #departamento_cliente').html("");
 			$('#formClientes #departamento_cliente').html(data);
+			$('#formClientes #departamento_cliente').selectpicker('refresh');
 		}
      });
 }
@@ -719,6 +768,7 @@ function modal_proveedores(){
 	$('#formProveedores #correo_proveedores').attr("readonly", false);
 	$('#formProveedores #proveedores_activo').attr("disabled", false);
 	$('#formProveedores #estado_proveedores').hide();
+	$('#formProveedores #grupo_editar_rtn').hide();
 
 	$('#formProveedores #proceso_proveedores').val("Registro");
 	$('#modal_registrar_proveedores').modal({
@@ -738,11 +788,12 @@ function getDepartamentoProveedores(){
         success: function(data){
 		    $('#formProveedores #departamento_proveedores').html("");
 			$('#formProveedores #departamento_proveedores').html(data);
+			$('#formProveedores #departamento_proveedores').selectpicker('refresh');
 		}
      });
 }
 
-function getMunicipiosProveedores(departamentos_id, municipios_id){
+function getMunicipiosProveedores(municipios_id){
 	var url = '<?php echo SERVERURL;?>core/getMunicipios.php';
 
 	var departamentos_id = $('#formProveedores #departamento_proveedores').val();
@@ -754,7 +805,9 @@ function getMunicipiosProveedores(departamentos_id, municipios_id){
 	   success:function(data){
 		  $('#formProveedores #municipio_proveedores').html("");
 		  $('#formProveedores #municipio_proveedores').html(data);
+		  $('#formProveedores #municipio_proveedores').selectpicker('refresh');
 		  $('#formProveedores #municipio_proveedores').val(municipios_id);
+		  $('#formProveedores #municipio_proveedores').selectpicker('refresh');
 	  }
   });
   return false;
@@ -772,6 +825,7 @@ $('#formProveedores #departamento_proveedores').on('change', function(){
 		   success:function(data){
 		      $('#formProveedores #municipio_proveedores').html("");
 			  $('#formProveedores #municipio_proveedores').html(data);
+			  $('#formProveedores #municipio_proveedores').selectpicker('refresh');
 		  }
 	  });
 	  return false;
@@ -1019,6 +1073,16 @@ function convertDate(inputFormat) {
 function today(){
     var hoy = new Date();
     return convertDate(hoy);	
+}
+
+function getMonth(){
+	const hoy = new Date()
+	return hoy.toLocaleString('default', { month: 'long' });
+}
+
+function getDay(){
+	const hoy = new Date().getDate();
+	return hoy;
 }
 //FIN FUNCIONES ADICIONALES
 
@@ -1288,6 +1352,8 @@ function modal_colaboradores(){
 	$('#formColaboradores #estado_colaborador').attr('disabled', false);
 	$('#formColaboradores #colaboradores_activo').attr('disabled', false);
 	$('#formColaboradores #colaborador_empresa_id').attr('disabled', false);
+	$('#formColaboradores #fecha_ingreso_colaborador').attr('disabled', false);
+	$('#formColaboradores #fecha_egreso_colaborador').attr('disabled', false);	
 	$('#formColaboradores #buscar_colaborador_empresa').show();
 	$('#formColaboradores #estado_colaboradores').hide();
 
@@ -1309,6 +1375,7 @@ function getPuestoColaboradores(){
         success: function(data){
 		    $('#formColaboradores #puesto_colaborador').html("");
 			$('#formColaboradores #puesto_colaborador').html(data);
+			$('#formColaboradores #puesto_colaborador').selectpicker('refresh');	
 		}
      });
 }
@@ -1322,7 +1389,8 @@ function getEmpresaColaboradores(){
 	    async: true,
         success: function(data){
 		    $('#formColaboradores #colaborador_empresa_id').html("");
-			$('#formColaboradores #colaborador_empresa_id').html(data);			
+			$('#formColaboradores #colaborador_empresa_id').html(data);
+			$('#formColaboradores #colaborador_empresa_id').selectpicker('refresh');		
 		}
      });
 }
@@ -1366,6 +1434,8 @@ $('#modificar_perfil_usuario_sistema').on('click',function(e){
 			$('#formColaboradores #puesto_colaborador').val(valores[4]);
 			$('#formColaboradores #colaborador_empresa_id').val(valores[5]);
 			$('#formColaboradores #colaborador_id').val(valores[7]);
+			$('#formColaboradores #fecha_ingreso_colaborador').val(valores[8]);
+			$('#formColaboradores #fecha_egreso_colaborador').val(valores[9]);
 
 			if(valores[6] == 1){
 				$('#formColaboradores #colaboradores_activo').attr('checked', true);
@@ -1373,17 +1443,19 @@ $('#modificar_perfil_usuario_sistema').on('click',function(e){
 				$('#formColaboradores #colaboradores_activo').attr('checked', false);
 			}
 
-			//DESHABIITAR OBJETOS
-			$('#formColaboradores #puesto_colaborador').attr('disabled', true);
-
 			//HABILITAR OBJETOS
 			$('#formColaboradores #nombre_colaborador').attr('readonly', false);
 			$('#formColaboradores #apellido_colaborador').attr('readonly', false);
 			$('#formColaboradores #identidad_colaborador').attr('readonly', false);
 			$('#formColaboradores #telefono_colaborador').attr('readonly', false);
 			$('#formColaboradores #estado_colaborador').attr('disabled', false);
-			$('#formColaboradores #colaboradores_activo').attr('disabled', true);
-			$('#formColaboradores #colaborador_empresa_id').attr('disabled', true);			
+
+			//DESHABILITAR OBJETOS
+			$('#formColaboradores #puesto_colaborador').attr('disabled', true);				
+			$('#formColaboradores #colaborador_empresa_id').attr('disabled', true);	
+
+			$('#formColaboradores #fecha_ingreso_colaborador').attr('disabled', true);
+			$('#formColaboradores #fecha_egreso_colaborador').attr('disabled', true);			
 			$('#formColaboradores #buscar_colaborador_empresa').hide();	
 
 			$('#formColaboradores #proceso_colaboradores').val("Editar");
@@ -1447,10 +1519,34 @@ function getConsultarAperturaCaja(){
 }
 
 //INICIO CUENTAS POR COBRAR CLIENTES
+$('#form_main_cobrar_clientes #cobrar_clientes_estado').on("change", function(e){
+	listar_cuentas_por_cobrar_clientes();
+});
+
+$('#form_main_cobrar_clientes #cobrar_clientes').on("change", function(e){
+	listar_cuentas_por_cobrar_clientes();
+});
+
+$('#form_main_cobrar_clientes #fechai').on("change", function(e){
+	listar_cuentas_por_cobrar_clientes();
+});
+
+$('#form_main_cobrar_clientes #fechaf').on("change", function(e){
+	listar_cuentas_por_cobrar_clientes();
+});
+
 var listar_cuentas_por_cobrar_clientes = function(){
-	var tipo_busqueda = $("#form_main_cobrar_clientes #tipo_busqueda").val();
+	var estado = "";
+	
+	if($("#form_main_cobrar_clientes #cobrar_clientes_estado").val() == "" || $("#form_main_cobrar_clientes #cobrar_clientes_estado").val() == null){
+		estado = 1;
+	}else{
+		estado = $("#form_main_cobrar_clientes #cobrar_clientes_estado").val();
+	}   
+
+	var clientes_id = $("#form_main_cobrar_clientes #cobrar_clientes").val();
 	var fechai = $("#form_main_cobrar_clientes #fechai").val();
-	var fechaf = $("#form_main_cobrar_clientes #fechaf").val();
+	var fechaf = $("#form_main_cobrar_clientes #fechaf").val();	
 	
 	var table_cuentas_por_cobrar_clientes = $("#dataTableCuentasPorCobrarClientes").DataTable({
 		"destroy":true,
@@ -1458,13 +1554,13 @@ var listar_cuentas_por_cobrar_clientes = function(){
 			"method":"POST",
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableCobrarClientes.php",
 			"data":{
-				"tipo_busqueda":tipo_busqueda,
+				"estado":estado,
+				"clientes_id":clientes_id,				
 				"fechai":fechai,
 				"fechaf":fechaf
 			}
 		},
-		"columns":[
-			
+		"columns":[			
 			{"data":"fecha"},
 			{"data":"cliente"},
 			{"data":"numero"},
@@ -1476,7 +1572,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -1494,7 +1590,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -1512,7 +1608,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
                         .display(data);
  
                     if (type === 'display') {
-                        let color = 'black';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
                         } 
@@ -1523,9 +1619,10 @@ var listar_cuentas_por_cobrar_clientes = function(){
                     return number;
                 },
 			},
+			{"data":"vendedor"},
 			{"defaultContent":"<button class='table_abono btn btn-dark'><span class='fas fa-cash-register fa-lg'></span></button>"},
-			{"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
-			{"defaultContent":"<button class='table_reportes abono_factura btn btn-dark ocultar'><span class='fa fa-money-bill-wave fa-solid'></span></button>"}
+			{"defaultContent":"<button class='table_reportes abono_factura btn btn-dark ocultar'><span class='fa fa-money-bill-wave fa-solid'></span></button>"},
+			{"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"}
 		],
 		"pageLength": 10,
         "lengthMenu": lengthMenu,
@@ -1534,14 +1631,16 @@ var listar_cuentas_por_cobrar_clientes = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "2.5%", targets: 0 },
-		  { width: "2.5%", targets: 1 },
-		  { width: "12.5%", targets: 2 },
-		  { width: "20.5%", targets: 3, className: "text-center"},
-		  { width: "24.5%", targets: 4, className: "text-center" },
-		  { width: "12.5%", targets: 5, className: "text-center" },
-		  { width: "12.5%", targets: 6 },
-		  { width: "10%", targets: 7 } 	  
+		  { width: "10%", targets: 0 },
+		  { width: "16%", targets: 1 },
+		  { width: "16%", targets: 2 },
+		  { width: "12%", targets: 3, className: "text-center"},
+		  { width: "12%", targets: 4, className: "text-center" },
+		  { width: "12%", targets: 5, className: "text-center" },
+		  { width: "16%", targets: 6 },
+		  { width: "2%", targets: 7 }, 	  
+		  { width: "2%", targets: 8 },
+		  { width: "2%", targets: 9 }
 		],		
 		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
         	$('td', nRow).addClass(aData['color']);
@@ -1569,7 +1668,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
 				titleAttr: 'Excel',
 				title: 'Reporte Cuents por Cobrar Clientes',
 				exportOptions: {
-						columns: [2,3,4,5,6,7]
+						columns: [2,3,4,5,6]
 				},
 				className: 'table_reportes btn btn-success ocultar'
 			},
@@ -1582,7 +1681,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),				
 				className: 'table_reportes btn btn-danger ocultar',
 				exportOptions: {
-						columns: [2,3,4,5,6,7]
+						columns: [2,3,4,5,6]
 				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
@@ -1602,7 +1701,6 @@ var listar_cuentas_por_cobrar_clientes = function(){
 	table_cuentas_por_cobrar_clientes.search('').draw();
 	$('#buscar').focus();
 
-	registrar_pago_clientes_dataTable("#dataTableCuentasPorCobrarClientes tbody", table_cuentas_por_cobrar_clientes);
 	registrar_abono_cxc_clientes_dataTable("#dataTableCuentasPorCobrarClientes tbody", table_cuentas_por_cobrar_clientes);
 	ver_abono_cxc_clientes_dataTable("#dataTableCuentasPorCobrarClientes tbody", table_cuentas_por_cobrar_clientes);
 	view_reporte_facturas_dataTable("#dataTableCuentasPorCobrarClientes tbody", table_cuentas_por_cobrar_clientes);
@@ -1617,19 +1715,12 @@ var view_reporte_facturas_dataTable = function(tbody, table){
 	});
 }
 
-var registrar_pago_clientes_dataTable = function(tbody, table){
-	$(tbody).off("click", "button.table_pay");
-	$(tbody).on("click", "button.table_pay", function(){
-		var data = table.row( $(this).parents("tr") ).data();
-		pago(data.facturas_id);
-	});
-}
-
 var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.table_abono");
-	$(tbody).on("click", "button.table_abono", function(){
+	$(tbody).on("click", "button.table_abono", function(e){
+		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
-		if(data.estado == 2){//no tiene acceso a la accion si la factura ya fue cancelada							
+		if(data.estado == 2 || data.saldo <= 0){//no tiene acceso a la accion si la factura ya fue cancelada							
 				swal({
 					title: 'Error', 
 					text: 'No puede realizar esta accion a las facturas canceladas!',
@@ -1637,23 +1728,91 @@ var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
 					confirmButtonClass: 'btn-danger'
 				});	
 		}else{
-			pago(data.facturas_id,data.saldo);
+			$("#GrupoPagosMultiplesFacturas").hide();
+			pago(data.facturas_id,2);
 		}
 	});
 }
 
 var ver_abono_cxc_clientes_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.abono_factura");
-	$(tbody).on("click", "button.abono_factura", function(){
+	$(tbody).on("click", "button.abono_factura", function(e){
+		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
 		$('#ver_abono_cxc').modal('show');
-		getAbonosCXC(data.facturas_id);
+		$("#formulario_ver_abono_cxc #abono_facturas_id").val(data.facturas_id);
+		listar_AbonosCXC();
 	});
 }
 
+var ver_abono_cxp_proveedor_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.abono_proveedor");
+	$(tbody).on("click", "button.abono_proveedor", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		$('#ver_abono_cxp').modal('show');
+		$("#formulario_ver_abono_cxp #abono_compras_id").val(data.compras_id);
+		listar_AbonosCXP();
+	});
+}
+
+function getClientesCXC(){
+    var url = '<?php echo SERVERURL;?>core/getClientesCXC.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#form_main_cobrar_clientes #cobrar_clientes').html("");
+			$('#form_main_cobrar_clientes #cobrar_clientes').html(data);
+			$('#form_main_cobrar_clientes #cobrar_clientes').selectpicker('refresh');
+		}
+     });
+}
+
+function getProveedoresCXP(){
+    var url = '<?php echo SERVERURL;?>core/getProveedoresCXP.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#form_main_pagar_proveedores #pagar_proveedores').html("");
+			$('#form_main_pagar_proveedores #pagar_proveedores').html(data);
+			$('#form_main_pagar_proveedores #pagar_proveedores').selectpicker('refresh');			
+		}
+     });
+}
+
 //INICIO CUENTAS POR PAGAR PROVEEDORES
+$('#form_main_pagar_proveedores #pagar_proveedores_estado').on("change", function(e){
+	listar_cuentas_por_pagar_proveedores();
+});
+
+$('#form_main_pagar_proveedores #pagar_proveedores').on("change", function(e){
+	listar_cuentas_por_pagar_proveedores();
+});
+
+$('#form_main_pagar_proveedores #fechai').on("change", function(e){
+	listar_cuentas_por_pagar_proveedores();
+});
+
+$('#form_main_pagar_proveedores #fechaf').on("change", function(e){
+	listar_cuentas_por_pagar_proveedores();
+});
+
 var listar_cuentas_por_pagar_proveedores = function(){
-	var tipo_busqueda = $("#form_main_pagar_proveedores #tipo_busqueda").val();
+	var estado = "";
+
+	if($("#form_main_pagar_proveedores #pagar_proveedores_estado").val() == "" || $("#form_main_pagar_proveedores #pagar_proveedores_estado").val() == null){
+		estado = 1;
+	}else{
+		estado = $("#form_main_pagar_proveedores #pagar_proveedores_estado").val();
+	}
+
+	var proveedores_id = $("#form_main_pagar_proveedores #pagar_proveedores").val();
 	var fechai = $("#form_main_pagar_proveedores #fechai").val();
 	var fechaf = $("#form_main_pagar_proveedores #fechaf").val();
 
@@ -1663,36 +1822,17 @@ var listar_cuentas_por_pagar_proveedores = function(){
 			"method":"POST",
 			"url":"<?php echo SERVERURL;?>core/llenarDataTablePagarProveedores.php",
 			"data":{
-				"tipo_busqueda":tipo_busqueda,
+				"estado":estado,
+				"proveedores_id":proveedores_id,
 				"fechai":fechai,
-				"fechaf":fechaf
+				"fechaf":fechaf				
 			}
 		},
 		"columns":[
-			{"defaultContent":"<button class='table_pay btn btn-dark ocultar'><span class='fas fa-hand-holding-usd fa-lg'></span></button>"},
 			{"data":"fecha"},
 			{"data":"proveedores"},
 			{"data":"factura"},
-			{
-                data: 'credito',
-                render: function (data, type) {
-                    var number = $.fn.dataTable.render
-                        .number(',', '.', 2, 'L ')
-                        .display(data);
- 
-                    if (type === 'display') {
-                        let color = 'green';
-                        if (data < 0) {
-                            color = 'red';
-                        } 
- 
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
- 
-                    return number;
-                },
-            },
-			{data: "abono",
+			{"data":"credito",
 				render: function (data, type) {
                     var number = $.fn.dataTable.render
                         .number(',', '.', 2, 'L ')
@@ -1709,6 +1849,24 @@ var listar_cuentas_por_pagar_proveedores = function(){
  
                     return number;
                 },
+			},
+			{"data":"abono",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },			
 			},
 			{data:"saldo",
 				render: function (data, type) {
@@ -1727,7 +1885,10 @@ var listar_cuentas_por_pagar_proveedores = function(){
  
                     return number;
                 },
-			}
+			},
+			{"defaultContent":"<button class='table_pay btn btn-dark ocultar'><span class='fas fa-hand-holding-usd fa-lg'></span></button>"},
+			{"defaultContent":"<button class='abono_proveedor btn btn-dark'><span class='fa fa-money-bill-wave fa-solid'></span></button>"},
+			{"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"}	
 		],
 		"pageLength": 10,
         "lengthMenu": lengthMenu,
@@ -1735,6 +1896,26 @@ var listar_cuentas_por_pagar_proveedores = function(){
 		"bDestroy": true,
 		"language": idioma_español,
 		"dom": dom,
+		"columnDefs": [
+		  { width: "12.5%", targets: 0 },
+		  { width: "10.5%", targets: 1 },
+		  { width: "12.5%", targets: 2 },
+		  { width: "20.5%", targets: 3, className: "text-center"},
+		  { width: "24.5%", targets: 4, className: "text-center" },
+		  { width: "12.5%", targets: 5, className: "text-center" },
+		  { width: "2.5%", targets: 6 },
+		  { width: "2.5%", targets: 7 } 	  
+		],		
+		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
+        	$('td', nRow).addClass(aData['color']);
+			for (let index = 0; index < aData.length; index++) {
+				console.log(aData[i]["credito"]);
+			}
+			$(row).find('td:eq(2)').css('color', 'red');
+			$('#credito-cxp').html('L. '+ aData['total_credito']);
+			$('#abono-cxp').html('L. '+ aData['total_abono']);
+			$('#total-footer-cxp').html('L. '+ aData['total_pendiente']);
+		},
 		"buttons":[
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
@@ -1785,19 +1966,41 @@ var listar_cuentas_por_pagar_proveedores = function(){
 	$('#buscar').focus();
 
 	registrar_pago_proveedores_dataTable("#dataTableCuentasPorPagarProveedores tbody", table_cuentas_por_pagar_proveedores);
+	ver_abono_cxp_proveedor_dataTable("#dataTableCuentasPorPagarProveedores tbody", table_cuentas_por_pagar_proveedores);
+	ver_reporte_facturas_cxp_proveedor_dataTable("#dataTableCuentasPorPagarProveedores tbody", table_cuentas_por_pagar_proveedores);
+}
+
+var ver_reporte_facturas_cxp_proveedor_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.print_factura");
+	$(tbody).on("click", "button.print_factura", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		printPurchase(data.compras_id);
+	});
 }
 
 var registrar_pago_proveedores_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.table_pay");
 	$(tbody).on("click", "button.table_pay", function(){
 		var data = table.row( $(this).parents("tr") ).data();
-		pagoCompras(data.compras_id);
+		console.log('saldo',data.saldo)
+		if(data.saldo <= 0){
+			swal({
+                title: "Alerta",
+                text: "Esta Factura ya fue Cancelada",
+                type: "info",
+				confirmButtonClass: "btn-primary"
+			});
+		}else{
+			$("#GrupoPagosMultiples").hide();
+			pagoCompras(data.compras_id,data.saldo,2);			
+		}
 	});
 }
 //FIN LLENAR TABLAS
 
 /*INICIO FUNCION OBTENER MUNICIPIOS*/
-function getMunicipiosClientes(departamentos_id, municipios_id){
+function getMunicipiosClientes(municipios_id){
 	var url = '<?php echo SERVERURL;?>core/getMunicipios.php';
 
 	var departamentos_id = $('#formClientes #departamento_cliente').val();
@@ -1808,8 +2011,11 @@ function getMunicipiosClientes(departamentos_id, municipios_id){
 	   data:'departamentos_id='+departamentos_id,
 	   success:function(data){
 		  $('#formClientes #municipio_cliente').html("");
-		  $('#formClientes #municipio_cliente').html(data);
+		  $('#formClientes #municipio_cliente').html(data);		  
+		  $('#formClientes #municipio_cliente').selectpicker('refresh');
+		  
 		  $('#formClientes #municipio_cliente').val(municipios_id);
+		  $('#formClientes #municipio_cliente').selectpicker('refresh');
 	  }
   });
   return false;
@@ -1827,6 +2033,7 @@ $('#formClientes #departamento_cliente').on('change', function(){
 		   success:function(data){
 		      $('#formClientes #municipio_cliente').html("");
 			  $('#formClientes #municipio_cliente').html(data);
+			  $('#formClientes #municipio_cliente').selectpicker('refresh');
 		  }
 	  });
 	  return false;
@@ -1883,7 +2090,7 @@ var listar_clientes = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 				titleAttr: 'Agregar Clientes',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -1960,7 +2167,10 @@ var editar_clientes_dataTable = function(tbody, table){
 				$('#formClientes #fecha_clientes').attr('disabled', true);
 				$('#formClientes #fecha_clientes').val(valores[2]);
 				$('#formClientes #departamento_cliente').val(valores[3]);
-				getMunicipiosClientes(valores[4], valores[4]);
+				$('#formClientes #departamento_cliente').selectpicker('refresh');
+				getMunicipiosClientes(valores[4]);
+				$('#formClientes #municipio_cliente').val(valores[4]);
+				$('#formClientes #municipio_cliente').selectpicker('refresh');
 				$('#formClientes #dirección_clientes').val(valores[5]);
 				$('#formClientes #telefono_clientes').val(valores[6]);
 				$('#formClientes #correo_clientes').val(valores[7]);
@@ -1979,6 +2189,7 @@ var editar_clientes_dataTable = function(tbody, table){
 				$('#formClientes #telefono_clientes').attr("readonly", false);
 				$('#formClientes #correo_clientes').attr("readonly", false);
 				$('#formClientes #clientes_activo').attr("disabled", false);
+				$('#formClientes #grupo_editar_rtn').show();
 
 				//DESHABILITAR
 				$('#formClientes #identidad_clientes').attr("readonly", true);
@@ -2021,7 +2232,10 @@ var eliminar_clientes_dataTable = function(tbody, table){
 				$('#formClientes #fecha_clientes').attr('disabled', true);
 				$('#formClientes #fecha_clientes').val(valores[2]);
 				$('#formClientes #departamento_cliente').val(valores[3]);
-				getMunicipiosClientes(valores[4], valores[4]);
+				$('#formClientes #departamento_cliente').selectpicker('refresh');
+				getMunicipiosClientes(valores[4]);
+				$('#formClientes #municipio_cliente').val(valores[4]);
+				$('#formClientes #municipio_cliente').selectpicker('refresh');				
 				$('#formClientes #dirección_clientes').val(valores[5]);
 				$('#formClientes #telefono_clientes').val(valores[6]);
 				$('#formClientes #correo_clientes').val(valores[7]);
@@ -2043,6 +2257,7 @@ var eliminar_clientes_dataTable = function(tbody, table){
 				$('#formClientes #correo_clientes').attr("readonly", true);
 				$('#formClientes #clientes_activo').attr("disabled", true);
 				$('#formClientes #estado_clientes').hide();
+				$('#formClientes #grupo_editar_rtn').hide();
 
 				$('#formClientes #proceso_clientes').val("Eliminar");
 				$('#modal_registrar_clientes').modal({
@@ -2167,12 +2382,53 @@ function getNombreCliente(clientes_id){
 	return nombreCliente;
 }
 //FIN EDITAR RTN CLIENTE
+
+//funcion aplicar nuevo saldo
+function saldoFactura(facturas_id){
+	//IMPORTE NUEVO EFECTIVO
+	console.log('SALDO',facturas_id)
+	var url = '<?php echo SERVERURL;?>core/getSaldoFactura.php';
+
+	$.ajax({
+		type:'POST',
+		url:url,
+		data:'facturas_id='+facturas_id,
+		success: function(saldoFactura){
+			console.log('res',saldoFactura);
+			$('#formEfectivoBill #monto_efectivo').val(saldoFactura);
+			$('#bill-pay').html(saldoFactura);	
+		}
+	});	
+}
+
+//funcion aplicar nuevo saldo compras CXP
+function saldoCompras(compras_id){
+	//IMPORTE NUEVO EFECTIVO
+	console.log('SALDO',compras_id)
+	var url = '<?php echo SERVERURL;?>core/getSaldoCompras.php';
+
+	$.ajax({
+		type:'POST',
+		url:url,
+		data:'compras_id='+compras_id,
+		success: function(saldoFactura){
+			console.log('res',saldoFactura);
+			//$('#formEfectivoBill #monto_efectivo').val(saldoFactura);
+			$('#Purchase-pay').html(saldoFactura);
+
+			
+		}
+	});	
+}
 //FIN ACCIONES FROMULARIO CLIENTES
 
 //INICIO MODAL REGSITRAR PAGO FACTURACIÓN CLIENTES
-function pago(facturas_id,saldo){
+function pago(facturas_id,tipoPago){
 	var url = '<?php echo SERVERURL;?>core/editarPagoFacturas.php';
-	
+
+	$('#pagos_multiples_switch').attr('checked', false);
+	getCollaboradoresModalPagoFacturas();
+
 	$.ajax({
 		type:'POST',
 		url:url,
@@ -2181,53 +2437,55 @@ function pago(facturas_id,saldo){
 			var datos = eval(valores);
 			$('#formEfectivoBill .border-right a:eq(0) a').tab('show');			
 			$("#customer-name-bill").html("<b>Cliente:</b> " + datos[0]);
-		    $("#customer_bill_pay").val(datos[3]);
-			$('#bill-pay').html("L. " + parseFloat(datos[3]).toFixed(2));
-
+		    $("#customer_bill_pay").val(datos[6]);
+			$('#bill-pay').html("L. " + parseFloat(datos[6]).toFixed(2));
 			
 			//EFECTIVO
 			$('#formEfectivoBill')[0].reset();			
-			$('#formEfectivoBill #monto_efectivo').val(datos[3]);
+			$('#formEfectivoBill #monto_efectivo').val(datos[6]);
 			$('#formEfectivoBill #factura_id_efectivo').val(facturas_id);
-			$('#formEfectivoBill #tipo_factura_efectivo').val(datos[5]);
+			$('#formEfectivoBill #tipo_factura_efectivo').val(tipoPago);
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
-			
-			if(datos[5] == '2'){
-				$('#bill-pay').html(saldo);
-				$('#monto_efectivo_tarjeta').attr('type','number');
-				$('#tab5').hide();
-				$('#importe_transferencia').attr('type','number');
-				$('#importe_cheque').attr('type','number');
 
+			console.log(tipoPago,'tipoPago', typeof tipoPago )
+			 if(tipoPago == 2){			
+				$('#bill-pay').html("L. " + parseFloat(datos[6]).toFixed(2));
+				$('#tab5').hide();
+				$("#formEfectivoBill #tipo_factura_efectivo").val(tipoPago);
+
+				$('#formTarjetaBill #monto_efectivo_tarjeta').show();
+				$('#formTransferenciaBill #importe_transferencia').show()
+				$('#formChequeBill #importe_cheque').show()
+				$("#formEfectivoBill #grupo_cambio_efectivo").hide();
 			}
 
 			//TARJETA
 			$('#formTarjetaBill')[0].reset();
-			$('#formTarjetaBill #monto_efectivo').val(datos[3]);
-			$('#formTarjetaBill #importe_tarjeta').val(datos[3]);
+			$('#formTarjetaBill #monto_efectivo').val(datos[6]);
+			$('#formTarjetaBill #importe_tarjeta').val(datos[6]);
 			$('#formTarjetaBill #factura_id_tarjeta').val(facturas_id);
-			$('#formTarjetaBill #tipo_factura').val(datos[5]);
+			$('#formTarjetaBill #tipo_factura').val(tipoPago);
 			$('#formTarjetaBill #pago_efectivo').attr('disabled', true);	
 
 			//MIXTO
 			$('#formMixtoBill')[0].reset();
-			$('#formMixtoBill #monto_efectivo_mixto').val(datos[3]);
+			$('#formMixtoBill #monto_efectivo_mixto').val(datos[6]);
 			$('#formMixtoBill #factura_id_mixto').val(facturas_id);
 			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', true);
 
 			//TRANSFERENCIA
 			$('#formTransferenciaBill')[0].reset();
-			$('#formTransferenciaBill #monto_efectivo').val(datos[3]);
+			$('#formTransferenciaBill #monto_efectivo').val(datos[6]);
 			$('#formTransferenciaBill #factura_id_transferencia').val(facturas_id);
-			$('#formTransferenciaBill #tipo_factura_transferencia').val(datos[5]);
+			$('#formTransferenciaBill #tipo_factura_transferencia').val(tipoPago);
 			$('#formTransferenciaBill #pago_efectivo').attr('disabled', true);
 			
 			//CHEQUES
 			$('#formChequeBill')[0].reset();
-			$('#formChequeBill #monto_efectivo').val(datos[3]);
+			$('#formChequeBill #monto_efectivo').val(datos[6]);
 			$('#formChequeBill #factura_id_cheque').val(facturas_id);
 			$('#formChequeBill #pago_efectivo').attr('disabled', true);	
-			$('#formChequeBill #tipo_factura_cheque').val(datos[5]);		
+			$('#formChequeBill #tipo_factura_cheque').val(tipoPago);		
 			
 			$('#modal_pagos').modal({
 				show:true,
@@ -2302,16 +2560,20 @@ $(document).ready(function(){
 		var efectivo = parseFloat($("#formEfectivoBill #efectivo_bill").val()).toFixed(2);
 		var monto = parseFloat($("#formEfectivoBill #monto_efectivo").val()).toFixed(2);
 		var credito = $("#formEfectivoBill #tipo_factura_efectivo").val();
+		var pagos_multiples = $('#pagos_multiples_switch').val();
+
 		if(credito == 2 ){
 			$("#formEfectivoBill #cambio_efectivo").val(0)
-			$("#formEfectivoBill #cambio_efectivo").hide();
+			$("#formEfectivoBill #grupo_cambio_efectivo").hide();
 		}
 		
 		var total = efectivo - monto;				
 		
-		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2){			
+		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2 || pagos_multiples == 1){			
 			$('#formEfectivoBill #cambio_efectivo').val(parseFloat(total).toFixed(2));
-			$('#formEfectivoBill #pago_efectivo').attr('disabled', false);				
+			$('#formEfectivoBill #pago_efectivo').attr('disabled', false);
+			
+			//aqi
 		}else{
 			$('#formEfectivoBill #cambio_efectivo').val(parseFloat(0).toFixed(2));
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
@@ -2348,26 +2610,13 @@ function getBanco(){
         success: function(data){
 		    $('#formTransferenciaBill #bk_nm').html("");
 			$('#formTransferenciaBill #bk_nm').html(data);
+			$('#formTransferenciaBill #bk_nm').selectpicker('refresh');
 
 		    $('#formChequeBill #bk_nm_chk').html("");
 			$('#formChequeBill #bk_nm_chk').html(data);
-			
-        },
+			$('#formChequeBill #bk_nm_chk').selectpicker('refresh');
+        }
 		
-     });
-}
-
-function getCuentaTipoPagoPagosBancos(){
-    var url = '<?php echo SERVERURL;?>core/getTipoCuentaBancos.php';
-
-	$.ajax({
-        type: "POST",
-        url: url,
-	    async: true,
-        success: function(data){
-		    $('#formTransferenciaBill #tipo_cuenta_id').html("");
-			$('#formTransferenciaBill #tipo_cuenta_id').html(data);			
-		}
      });
 }
 //FIN MODAL REGSITRAR PAGO FACTURACIÓN CLIENTES
@@ -2379,45 +2628,330 @@ $(document).ready(function(){
 	});
 });	
 
-function getAbonosCXC(factura_id){
-	var url = '<?php echo SERVERURL;?>core/getAbonosCXC.php';
-
-	var table_abonos_cxc = $("#table-modal-abonos").DataTable({
+var listar_AbonosCXC = function(){
+	var factura_id = $("#formulario_ver_abono_cxc #abono_facturas_id").val();
+	
+	var table_cuentas_por_cobrar_clientes = $("#table-modal-abonos").DataTable({
 		"destroy":true,
 		"ajax":{
-			"method":"POST",
-			"url":url,
-			"data":{"factura_id": factura_id},
+			"method":"POST",			
+			"url":"<?php echo SERVERURL;?>core/getAbonosCXC.php",
+			"data":{"factura_id": factura_id}
 		},
-		"columns":[
+		"columns":[			
 			{"data":"fecha"},
 			{"data":"tipo_pago"},
 			{"data":"descripcion"},
 			{"data":"abono"},
-		],	
+			{"data":"usuario"},
+		],
+		"pageLength": 10,
         "lengthMenu": lengthMenu,
 		"stateSave": true,
 		"bDestroy": true,
-		"language": idioma_español,		
+		"language": idioma_español,
+		"dom": dom,
 		"columnDefs": [
-		  { width: "25%", targets: 0 },
-		  { width: "25%", targets: 1 },
-		  { width: "25%", targets: 2 },
-		  { width: "25%", targets: 3 },
-		],
+		  { width: "10%", targets: 0 },
+		  { width: "15%", targets: 1 },
+		  { width: "35%", targets: 2 },
+		  { width: "15%", targets: 3 },
+		  { width: "50%", targets: 4 }
+		],		
 		"fnRowCallback": function( nRow, res, iDisplayIndex, iDisplayIndexFull ) {                 	
-			$('#ver_abono_cxcTitle').html('Cliente: '+ res['cliente'])
-			$('#importe-cxc').html('Valor Factura L. '+ res['importe'])
+			$('#ver_abono_cxcTitle').html('Factura: '+ res['no_factura'] + ' Cliente: '+ res['cliente'] + ' Total Factura: L. ' + res['importe'])
 			$('#total-footer-modal-cxc').html('L. '+ res['total'])
 		},
-     });
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Abonos',
+				className: 'table_actualizar btn btn-secondary ocultar',
+				action: 	function(){
+					listar_AbonosCXC();
+				}
+			},
+			{
+				extend:    'excelHtml5',
+				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
+				titleAttr: 'Excel',
+				title: 'Reporte de Abonos Cuentas por Cobrar Clientes',
+				messageTop: 'Factura: ' + getNumeroFactura(factura_id) + ' ' + getNombreClienteFactura(factura_id) + ' Total Factura: L. ' + getImporteFacturas(factura_id),
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'table_reportes btn btn-success ocultar'
+			},
+			{
+				extend:    'pdf',
+				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
+				titleAttr: 'PDF',
+				title: 'Reporte de Abonos Cuentas por Cobrar Clientes',
+				messageTop: 'Factura: ' + getNumeroFactura(factura_id) + ' ' + getNombreClienteFactura(factura_id) + ' Total Factura: L. ' + getImporteFacturas(factura_id),
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),				
+				className: 'table_reportes btn btn-danger ocultar',
+				customize: function ( doc ) {
+					doc.content.splice( 1, 0, {
+						margin: [ 0, 0, 0, 12 ],
+						alignment: 'left',
+						image: imagen,
+						width:100,
+                        height:45
+					} );
+				}
+			}
+		],
+		"drawCallback": function( settings ) {
+        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+    	}
+	});
+	table_cuentas_por_cobrar_clientes.search('').draw();
+	$('#buscar').focus();
+}
+
+function getNombreClienteFactura(factura_id){
+	var url = '<?php echo SERVERURL; ?>core/getNombreClienteFactura.php';
+    var cliente = '';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'factura_id='+factura_id,
+       success:function(data){
+            var datos = eval(data);
+            cliente = datos[0];
+      }	  
+    });
+
+	return cliente;
+}
+
+function getImporteFacturas(factura_id){
+	var url = '<?php echo SERVERURL; ?>core/getImporteFacturas.php';
+    var importe = '';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'factura_id='+factura_id,
+       success:function(data){
+            var datos = eval(data);
+            importe = datos[0];
+      }	  
+    });
+
+	return importe;
 }
 //FIN ABONO CXC
 
+//INICIO CXP PROVEEDOR
+$(document).ready(function(){
+	$("#ver_abono_cxc").on('shown.bs.modal', function(){
+		$(this).find('#formulario_ver_abono_cxc #buscar').focus();
+	});
+});	
+
+var listar_AbonosCXP = function(){
+	var compras_id = $("#formulario_ver_abono_cxp #abono_compras_id").val();
+	
+	var table_cuentas_por_cobrar_clientes = $("#table-modal-abonosCXP").DataTable({
+		"destroy":true,
+		"ajax":{
+			"method":"POST",			
+			"url":"<?php echo SERVERURL;?>core/getAbonosCXP.php",
+			"data":{"compras_id": compras_id},
+		},
+		"columns":[			
+			{"data":"fecha"},
+			{"data":"tipo_pago"},
+			{"data":"descripcion"},
+			{"data":"abono"},		
+			{"data":"usuario"},
+		],
+		"pageLength": 10,
+        "lengthMenu": lengthMenu,
+		"stateSave": true,
+		"bDestroy": true,
+		"language": idioma_español,
+		"dom": dom,
+		"columnDefs": [
+		  { width: "10%", targets: 0 },
+		  { width: "15%", targets: 1 },
+		  { width: "35%", targets: 2 },
+		  { width: "15%", targets: 3 },
+		  { width: "50%", targets: 4 }
+		],		
+		"fnRowCallback": function( nRow, res, iDisplayIndex, iDisplayIndexFull ) {  
+			$('#ver_abono_cxPTitle').html('Factura: '+ res['factura'] + ' Proveedor: '+ res['nombre'] + ' Total Factura: L. ' + res['importe'])
+			$('#total-footer-modal-cxp').html('L. '+ res['total'])
+		},
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Abonos',
+				className: 'table_actualizar btn btn-secondary ocultar',
+				action: 	function(){
+					listar_AbonosCXP();
+				}
+			},
+			{
+				extend:    'excelHtml5',
+				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
+				titleAttr: 'Excel',
+				title: 'Reporte de Abonos Cuentas por Pagar Proveedores',
+				messageTop: 'Factura: ' + getNumeroCompra(compras_id) + ' ' + getNombreClienteFacturaCompras(compras_id) + ' Total Factura: L. ' + getImporteCompras(compras_id),
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'table_reportes btn btn-success ocultar'
+			},
+			{
+				extend:    'pdf',
+				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
+				titleAttr: 'PDF',
+				title: 'Reporte de Abonos Cuentas por por Pagar Proveedores',
+				messageTop: 'Factura: ' + getNumeroCompra(compras_id) + ' ' + getNombreClienteFacturaCompras(compras_id) + ' Total Factura: L. ' + getImporteCompras(compras_id),
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),				
+				className: 'table_reportes btn btn-danger ocultar',
+				customize: function ( doc ) {
+					doc.content.splice( 1, 0, {
+						margin: [ 0, 0, 0, 12 ],
+						alignment: 'left',
+						image: imagen,
+						width:100,
+                        height:45
+					} );
+				}
+			}
+		],
+		"drawCallback": function( settings ) {
+        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+    	}
+	});
+	table_cuentas_por_cobrar_clientes.search('').draw();
+	$('#buscar').focus();
+}
+
+function getNombreClienteFacturaCompras(compras_id){
+	var url = '<?php echo SERVERURL; ?>core/getNombreClienteFacturaCompras.php';
+    var cliente = '';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'compras_id='+compras_id,
+       success:function(data){
+            var datos = eval(data);
+            cliente = datos[0];
+      }	  
+    });
+
+	return cliente;
+}
+
+function getImporteCompras(compras_id){
+	var url = '<?php echo SERVERURL; ?>core/getImporteCompras.php';
+    var importe = '';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'compras_id='+compras_id,
+       success:function(data){
+            var datos = eval(data);
+            importe = datos[0];
+      }	  
+    });
+
+	return importe;
+}
+//FIN ABONO CXP PROVEEDOR
+
 //INICIO MODAL REGSITRAR PAGO COMPRAS PROVEEDORES
-function pagoCompras(compras_id){
+$(document).ready(function(){
+		//INICIO PAGOS MULTIPLES COMPRAS
+		$('#modal_pagosPurchase .label_pagos_multiples').html("No");
+	
+    $('#modal_pagosPurchase .switch').change(function(){    
+        if($('input[name=pagos_multiples_switch]').is(':checked')){
+            $('#modal_pagosPurchase .label_pagos_multiples').html("Si");
+			$('#pagos_multiples_switch').val(1);
+			$('#modal_pagosPurchase .multiple_pago').val(1);
+				//HABILITAR TEXTFIELD COMPRAS
+				$('#formEfectivoPurchase #pago_efectivo').prop('disabled', false);
+				///TARJETA
+				$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', false);
+				$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "text")
+				///TRANSFERENCIA
+				$('#formTransferenciaPurchase #importe_transferencia').prop("type", "text")
+				//INPUTS CAMBIO
+				$('#grupo_cambio_compras').hide()
+
+            return true;
+        }else{
+            $('#modal_pagosPurchase .label_pagos_multiples').html("No");
+			$('#pagos_multiples_switch').val(0);
+			$('#modal_pagosPurchase .multiple_pago').val(0);
+				//HABILITAR TEXTFIELD COMPRAS
+				$('#formEfectivoPurchase #pago_efectivo').prop('disabled', true)
+				///TARJETA
+				//--$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', true);
+				$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "hidden")
+				///TRANSFERENCIA
+				$('#formTransferenciaPurchase #importe_transferencia').prop("type", "hidden")
+				//INPUTS CAMBIO
+				$('#grupo_cambio_compras').show()
+            return false;
+        }
+    });		
+	//FIN PAGOS MULTIPLES COMPRAS
+
+	//INCIO PAGOS MULTIPLES FACTURAS
+	$('#modal_pagos .label_pagos_multiples').html("No");
+	
+    $('#modal_pagos .switch').change(function(){    
+        if($('input[name=pagos_multiples_switch]').is(':checked')){
+            $('#modal_pagos .label_pagos_multiples').html("Si");
+			$('#pagos_multiples_switch').val(1);
+			$('#modal_pagos .multiple_pago').val(1);
+				//HABILITAR TEXTFIELD COMPRAS
+				$('#formTarjetaBill #pago_efectivo').prop('disabled', false);
+				///TARJETA
+				$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', false);
+				$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "text")
+				///TRANSFERENCIA
+				$('#formTransferenciaBill #importe_transferencia').prop("type", "text")
+				//INPUTS CAMBIO
+				$('#grupo_cambio_efectivo').hide()
+
+            return true;
+        }else{
+            $('#modal_pagos .label_pagos_multiples').html("No");
+			$('#pagos_multiples_switch').val(0);
+			$('#modal_pagos .multiple_pago').val(0);
+				//HABILITAR TEXTFIELD COMPRAS
+				$('#formTarjetaBill #pago_efectivo').prop('disabled', true)
+				///TARJETA
+				//--$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', true);
+				$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "hidden")
+				///TRANSFERENCIA
+				$('#formTransferenciaBill #importe_transferencia').prop("type", "hidden")
+				//INPUTS CAMBIO
+				$('#grupo_cambio_efectivo').show()
+            return false;
+        }
+    });	
+	//FIN PAGOS MULTIPLES FACTURAS
+});
+
+//INICIO MODAL REGSITRAR PAGO COMPRAS PROVEEDORES
+function pagoCompras(compras_id,saldo,tipo){
 	var url = '<?php echo SERVERURL;?>core/editarPagoCompras.php';
 
+	$('#pagos_multiples_switch').attr('checked', false);
+	getCollaboradoresModalPagoFacturasCompras();
+
+	console.log('tipo dato',tipo);
 	$.ajax({
 		type:'POST',
 		url:url,
@@ -2427,19 +2961,31 @@ function pagoCompras(compras_id){
 			$('#formEfectivoPurchase .border-right a:eq(0) a').tab('show');
 			$("#customer-name-Purchase").html("<b>Proveedor:</b> " + datos[0]);
 		    $("#customer_Purchase_pay").val(datos[3]);
-			$('#Purchase-pay').html("L. " + parseFloat(datos[3]).toFixed(2));
+			$('#Purchase-pay').html("L. " + parseFloat(datos[6]).toFixed(2));
 			
 			//EFECTIVO
 			$('#formEfectivoPurchase')[0].reset();
 			$('#formEfectivoPurchase #monto_efectivoPurchase').val(datos[3]);
 			$('#formEfectivoPurchase #compras_id_efectivo').val(compras_id);
 			$('#formEfectivoPurchase #pago_efectivo').attr('disabled', true);
+			$('#formEfectivoPurchase #tipo_purchase_efectivo').val(tipo);
+
+			if(tipo == '2'){
+				$('#monto_efectivo_tarjeta').attr('type','number');
+				$('#tab5Purchase').hide();
+				$('#importe_transferencia').attr('type','number');
+				$('#importe_cheque').attr('type','number');
+				//
+				$("#formEfectivoBill #cambio_efectivo").val(0)
+				$("#grupo_cambio_compras").hide();
+			}
 			
 			//TARJETA
 			$('#formTarjetaPurchase')[0].reset();
 			$('#formTarjetaPurchase #monto_efectivoPurchase').val(datos[3]);
 			$('#formTarjetaPurchase #compras_id_tarjeta').val(compras_id);
 			$('#formTarjetaPurchase #pago_efectivo').attr('disabled', true);
+			$('#formTarjetaPurchase #tipo_purchase_efectivo').val(tipo);
 			
 			//mixto
 			$('#formMixtoPurchaseBill')[0].reset();
@@ -2451,8 +2997,14 @@ function pagoCompras(compras_id){
 			$('#formTransferenciaPurchase')[0].reset();
 			$('#formTransferenciaPurchase #monto_efectivoPurchase').val(datos[3]);
 			$('#formTransferenciaPurchase #compras_id_transferencia').val(compras_id);
-			$('#formTransferenciaPurchase #pago_efectivo').attr('disabled', true);		
-			
+			$('#formTransferenciaPurchase #pago_efectivo').attr('disabled', true);	
+			$('#formTransferenciaPurchase #tipo_purchase_efectivo').val(tipo);
+
+			//CHEQUE
+			$('#formChequePurchase #compras_id_cheque').val(compras_id);
+			$('#formChequePurchase #tipo_purchase_efectivo').val(tipo);
+			$('#formChequePurchase #monto_efectivoPurchase').val(datos[3]);
+		
 			$('#modal_pagosPurchase').modal({
 				show:true,
 				keyboard: false,
@@ -2513,11 +3065,19 @@ $(document).ready(function(){
 	$("#formEfectivoPurchase #efectivo_Purchase").on("keyup", function(){				
 		var efectivo = parseFloat($("#formEfectivoPurchase #efectivo_Purchase").val()).toFixed(2);
 		var monto = parseFloat($("#formEfectivoPurchase #monto_efectivoPurchase").val()).toFixed(2);
+		var credito = $("#formEfectivoPurchase #tipo_purchase_efectivo").val();
+		var pagos_multiples = $('#pagos_multiples_switch').val();
 		
-		var total = efectivo - monto;				
+		if(credito == 2 ){
+			$("#formEfectivoPurchase #cambio_efectivoPurchase").val(0)
+			$("#formEfectivoPurchase #cambio_efectivoPurchase").hide();
+		}
+
+		var total = efectivo - monto;
+		console.log('keyup',pagos_multiples);				
 		//Math.floor NOS PERMITE COMPARAR UN FLOAT CONVIRTIENDOLO A ENTERO CUANDO SE MULTIPLICA POR 100
 		
-		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){	
+		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2 || pagos_multiples == 1){	
 			$('#formEfectivoPurchase #cambio_efectivoPurchase').val(parseFloat(total).toFixed(2));
 			$('#formEfectivoPurchase #pago_efectivo').attr('disabled', false);				
 		}else{				
@@ -2558,12 +3118,76 @@ function getBancoPurchase(){
 	    async: true,
         success: function(data){
 		    $('#formTransferenciaPurchase #bk_nm').html("");
-			$('#formTransferenciaPurchase #bk_nm').html(data);	
+			$('#formTransferenciaPurchase #bk_nm').html(data);
+			$('#formTransferenciaPurchase #bk_nm').selectpicker('refresh');
 			
 		    $('#formChequePurchase #bk_nm_chk').html("");
-			$('#formChequePurchase #bk_nm_chk').html(data);				
+			$('#formChequePurchase #bk_nm_chk').html(data);
+			$('#formChequePurchase #bk_nm_chk').selectpicker('refresh');			
         }
      });
 }
 //FIN MODAL REGSITRAR PAGO COMPRAS PROVEEDORES
+
+function getCollaboradoresModalPagoFacturas(){
+    var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formEfectivoBill #usuario_efectivo').html("");
+			$('#formEfectivoBill #usuario_efectivo').html(data);
+			$('#formEfectivoBill #usuario_efectivo').selectpicker('refresh');			
+
+		    $('#formTarjetaBill #usuario_tarjeta').html("");
+			$('#formTarjetaBill #usuario_tarjeta').html(data);
+			$('#formTarjetaBill #usuario_tarjeta').selectpicker('refresh');
+			
+		    $('#formMixtoBill #usuario_pago_mixto').html("");
+			$('#formMixtoBill #usuario_pago_mixto').html(data);
+			$('#formMixtoBill #usuario_pago_mixto').selectpicker('refresh');
+			
+		    $('#formTransferenciaBill #usuario_transferencia').html("");
+			$('#formTransferenciaBill #usuario_transferencia').html(data);
+			$('#formTransferenciaBill #usuario_transferencia').selectpicker('refresh');
+			
+			$('#formChequeBill #usuario_cheque').html("");
+			$('#formChequeBill #usuario_cheque').html(data);
+			$('#formChequeBill #usuario_cheque').selectpicker('refresh');			
+		}
+     });
+}
+
+function getCollaboradoresModalPagoFacturasCompras(){
+    var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formEfectivoPurchase #usuario_efectivo_compras').html("");
+			$('#formEfectivoPurchase #usuario_efectivo_compras').html(data);
+			$('#formEfectivoPurchase #usuario_efectivo_compras').selectpicker('refresh');			
+
+		    $('#formTarjetaPurchase #usuario_tarjeta_compras').html("");
+			$('#formTarjetaPurchase #usuario_tarjeta_compras').html(data);
+			$('#formTarjetaPurchase #usuario_tarjeta_compras').selectpicker('refresh');
+			
+		    $('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').html("");
+			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').html(data);
+			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').selectpicker('refresh');
+			
+		    $('#formTransferenciaPurchase #usuario_transferencia_compras').html("");
+			$('#formTransferenciaPurchase #usuario_transferencia_compras').html(data);
+			$('#formTransferenciaPurchase #usuario_transferencia_compras').selectpicker('refresh');
+			
+			$('#formChequePurchase #usuario_cheque_compras').html("");
+			$('#formChequePurchase #usuario_cheque_compras').html(data);
+			$('#formChequePurchase #usuario_cheque_compras').selectpicker('refresh');			
+		}
+     });
+}
 </script>

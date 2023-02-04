@@ -6,7 +6,8 @@
 	$insMainModel = new mainModel();
 	
 	$datos = [
-		"tipo_busqueda" => $_POST['tipo_busqueda'],
+		"estado" => $_POST['estado'],
+		"clientes_id" => $_POST['clientes_id'],
 		"fechai" => $_POST['fechai'],
 		"fechaf" => $_POST['fechaf'],		
 	];	
@@ -42,6 +43,8 @@
 
 		if($row['estado'] == 2){
 			$estadoColor = 'bg-c-green';
+		}else{
+			$estadoColor = 'bg-warning';
 		}
 
 		$data[] = array( 
@@ -57,7 +60,8 @@
 			"estado"=>$row['estado'],
 			"total_credito"=> number_format($totalCredito,2),
 			"total_abono"=>number_format($totalAbono,2),
-			"total_pendiente"=> number_format($totalPendiente,2)
+			"total_pendiente"=> number_format($totalPendiente,2),
+			"vendedor"=>$row['vendedor'],
 		);		
 	}
 	
@@ -69,3 +73,4 @@
 	);
 
 	echo json_encode($arreglo);
+?>	

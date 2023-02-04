@@ -5,11 +5,7 @@
 	
 	$insMainModel = new mainModel();
 	
-	$datos = [
-		"estado" => $_POST['estado']		
-	];	
-
-	$result = $insMainModel->getSecuenciaFacturacion($datos);
+	$result = $insMainModel->getSecuenciaFacturacion();
 	
 	$arreglo = array();
 	$data = array();
@@ -18,6 +14,7 @@
 		$data[] = array( 
 			"secuencia_facturacion_id"=>$row['secuencia_facturacion_id'],
 			"empresa"=>$row['empresa'],
+			"documento"=>$row['documento'],
 			"cai"=>$row['cai'],
 			"prefijo"=>$row['prefijo'],
 			"siguiente"=>$row['siguiente'],
@@ -36,3 +33,5 @@
 	);
 
 	echo json_encode($arreglo);
+	
+?>

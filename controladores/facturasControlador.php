@@ -29,7 +29,8 @@
 			}
 
 			$numero  = 0;
-			$secuenciaFacturacion = facturasModelo::secuencia_facturacion_modelo($empresa_id)->fetch_assoc();
+			$documento_id = "1";//FACTURA ELECTRONICA
+			$secuenciaFacturacion = facturasModelo::secuencia_facturacion_modelo($empresa_id, $documento_id)->fetch_assoc();
 			$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
 
 			$notas = mainModel::cleanString($_POST['notesBill']);
@@ -68,6 +69,7 @@
 
 				//SI EXITE VALORES EN LA TABLA, PROCEDEMOS ALMACENAR LA FACTURA Y EL DETALLE DE ESTA
 				if($tamano_tabla > 0){
+
 					//INICIO FACTURA CONTADO
 					if($tipo_factura == 1){	
 						$datos = [
@@ -97,7 +99,8 @@
 							$isv_neto = 0;
 							$total_despues_isv = 0;
 
-							for ($i = 0; $i < count( $_POST['productName']); $i++){//INICIO CICLO FOR
+							for ($i = 0; $i < count( $_POST['productName']); $i++){
+								//INICIO CICLO FOR
 								$discount = 0;
 								$isv_valor = 0;								
 								$referenciaProducto = $_POST['referenciaProducto'][$i];
@@ -107,6 +110,8 @@
 								$medida= $_POST['medida'][$i];
 								$price_anterior = $_POST['precio_real'][$i];
 								$price = $_POST['price'][$i];
+								$bodega = $_POST['bodega'][$i];
+
 
 								if($_POST['discount'][$i] != "" || $_POST['discount'][$i] != null){
 									$discount = $_POST['discount'][$i];
@@ -118,10 +123,10 @@
 									$isv_valor = $_POST['valor_isv'][$i];
 								}								
 							
-								if($productos_id != "" && $productName != "" && $quantity != "" && $price != "" && $discount != "" && $total != ""){
+								if($productos_id != "" && $productName != "" && $quantity != "" && $price != ""  && $total != ""){
 									//VERIFICAMOS SI NO EXISTE LA FACTURA, DE NO EXISTIR LA ACTUALIZAMOS
 									//$result_factura_detalle = facturasModelo::validDetalleFactura($facturas_id, $productos_id);	
-
+									
 									$datos_detalles_facturas = [
 										"facturas_id" => $facturas_id,
 										"productos_id" => $productos_id,
@@ -135,7 +140,7 @@
 									$total_valor += ($price * $quantity);
 									$descuentos += $discount;
 									$isv_neto += $isv_valor;									
-
+									
 									//INSERTAMOS LOS DE PRODUCTOS EN EL DETALLE DE LA FACTURA
 
 									facturasModelo::agregar_detalle_facturas_modelo($datos_detalles_facturas);
@@ -146,71 +151,136 @@
 
 									$tipo_producto = "";
 
-									if($result_tipo_producto->num_rows>0){
-							
-
+									if($result_tipo_producto->num_rows>0){						
 										$consulta_tipo_producto = $result_tipo_producto->fetch_assoc();
 										$tipo_producto = $consulta_tipo_producto["tipo_producto"];
 
 										//SI EL TIPO DE PRODUCTO, ES UN PRODUCTO PROCEDEMOS A RALIZAR LA SALIDA Y ACTUALIZAMOS LA NUEVA CANTIDAD DEL PRODUCTO, AGREGANDO TAMBIÉN EL MOVIMIENTO DE ESTE
 										if($tipo_producto == "Producto"){
-											$result_productos = facturasModelo::cantidad_producto_modelo($productos_id);			  
-
-											$cantidad_productos = "";
-									
-											if($result_productos->num_rows>0){
-												$consulta = $result_productos->fetch_assoc();
-												$cantidad_productos = $consulta['cantidad'];
-												$id_producto_superior = intval($consulta['id_producto_superior']);
-											}	
-
-												$medidaName = strtolower($medida);
-
-												if($medidaName == "ton"){ // Medida en Toneladas
-													$quantity = $quantity * 2205;
-												}
+											//ALMACENAMOS EL PRODUCTO TAL CUAL SE FACTURA
+											$documento = "Factura ".$facturas_id;	
 											
-											$cantidad = $cantidad_productos - $quantity;	
+											//OTENEMOS EL SALDO DEL PRODCUTO
+											$consultaSaldoProductoPrincipal = facturasModelo::saldo_productos_movimientos_modelo($productos_id)->fetch_assoc();
+											$saldoProductoPrincipal = doubleval($consultaSaldoProductoPrincipal['saldo']);											
 
-											if($id_producto_superior != 0 || $id_producto_superior != 'null'){
-												$productos_id = $id_producto_superior;
-											}
+											$saldoNuevoPricipal = $saldoProductoPrincipal - doubleval($quantity);
 
-											//ACTUALIZAMOS LA NUEVA CANTIDAD EN LA ENTIDAD PRODUCTOS
-											facturasModelo::actualizar_cantidad_productos_modelo($productos_id, $cantidad);
-
-											//CONSULTAMOS EL SALDO DEL PRODUCTO EN LA ENTIDAD MOVIMIENTOS
-											$result_movimientos = facturasModelo::saldo_productos_movimientos_modelo($productos_id);
-
-											$saldo_productos = 0;
-
-											if($result_movimientos->num_rows>0){
-												$consulta = $result_movimientos->fetch_assoc();
-												$saldo_productos = $consulta['saldo'];
-											}
-											
-											$saldo = $saldo_productos - $quantity;						
-																									
-											$cantidad_entrada = 0;
-											$cantidad_salida = $quantity;
-											$documento = "Factura ".$facturas_id;									
-											
 											$datos_movimientos_productos = [
 												"productos_id" => $productos_id,
 												"documento" => $documento,
-												"cantidad_entrada" => $cantidad_entrada,				
-												"cantidad_salida" => $cantidad_salida,
-												"saldo" => $saldo,
+												"cantidad_entrada" => 0,				
+												"cantidad_salida" => $quantity,
+												"saldo" => $saldoNuevoPricipal,
 												"fecha_registro" => $fecha_registro,
 												"empresa" => $empresa_id,
-												"clientes_id" => $clientes_id
+												"clientes_id" => '',
+												"almacen_id" => $bodega,
 											];	
-
+																					
 											facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
-										}								
 
+											$medidaName = strtolower($medida);
+
+											//CONSULTAMOS SI EL PRODUCTO ES UN PADRE
+											$producto_padre = facturasModelo::cantidad_producto_modelo($productos_id)->fetch_assoc();
+											$producto_padre_id = $producto_padre['id_producto_superior'];
+
+											//ES UN PRODUCTO PADRE
+											if($producto_padre_id == 0){
+												//CONSULTAMOS EL HIJO ASOCIADOS AL PRODUCTO PADRE
+												$resultTotalHijos = facturasModelo::total_hijos_segun_padre_modelo($productos_id);
+
+												if($resultTotalHijos->num_rows>0){
+													$valor = 0;
+													while($consultaTotalHijos = $resultTotalHijos->fetch_assoc()){
+														$producto_id_hijo = intval($consultaTotalHijos['productos_id']);
+														
+														if($medidaName == "ton"){ // MEDIDA EN TON DEL PADRE
+															$quantity = $quantity * 2204.623;
+														}	
+														
+														if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
+															$quantity = $quantity / 2204.623;
+														}														
+														
+														$documento = "Factura ".$facturas_id."_".$valor;	
+	
+														//OTENEMOS EL SALDO DEL PRODCUTO
+														$consultaSaldoHijos = facturasModelo::saldo_productos_movimientos_modelo($producto_id_hijo)->fetch_assoc();
+														$saldoProductoHijos = doubleval($consultaSaldoHijos['saldo']);
+	
+														$saldoNuevoHijos = $saldoProductoHijos - doubleval($quantity);
+	
+														$datos_movimientos_productos = [
+															"productos_id" => $producto_id_hijo,
+															"documento" => $documento,
+															"cantidad_entrada" => 0,				
+															"cantidad_salida" => $quantity,
+															"saldo" => $saldoNuevoHijos,
+															"fecha_registro" => $fecha_registro,
+															"empresa" => $empresa_id,
+															"clientes_id" => '',
+															"almacen_id" => $bodega,
+														];	
+																								
+														facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+													}
+												}
+
+											}else{//ES UN PRODUCTO HIJO
+												//CONSULTAMOS EL PADRE ASOCIADO AL PRODUCTO HIJO
+												$resultTotalPadre = facturasModelo::cantidad_producto_modelo($productos_id);
+
+												if($resultTotalPadre->num_rows>0){
+													$valor = 0;
+													while($consultaTotalPadre = $resultTotalPadre->fetch_assoc()){
+														$producto_id_padre = intval($consultaTotalPadre['id_producto_superior']);
+														
+														if($medidaName == "ton"){ // MEDIDA EN TON DEL PADRE
+															$quantity = $quantity * 2204.623;
+														}	
+														
+														if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
+															$quantity = $quantity / 2204.623;
+														}														
+														
+														$documento = "Factura ".$facturas_id."_".$valor;	
+	
+														//OTENEMOS EL SALDO DEL PRODCUTO
+														$consultaSaldoPadre = facturasModelo::saldo_productos_movimientos_modelo($producto_id_padre)->fetch_assoc();
+														$saldoProductoPadre = doubleval($consultaSaldoPadre['saldo']);
+	
+														$saldoNuevoPadre = $saldoProductoPadre - doubleval($quantity);
+	
+														$datos_movimientos_productos = [
+															"productos_id" => $producto_id_padre,
+															"documento" => $documento,
+															"cantidad_entrada" => 0,				
+															"cantidad_salida" => $quantity,
+															"saldo" => $saldoNuevoPadre,
+															"fecha_registro" => $fecha_registro,
+															"empresa" => $empresa_id,
+															"clientes_id" => '',
+															"almacen_id" => $bodega,
+														];	
+																								
+														facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+													}
+												}
+											}
+
+											//CONSULTAMOS SI EL PRODUCTO TIENE UN PADRE ASIGNADO
+											$resultTotalHijos = facturasModelo::cantidad_producto_modelo($productos_id);
+
+											//DEVUELVE id_producto_superior SI ES UN HIJO EL QUE TIENE ASIGNADO UN PADRE
+											$valor = 1;
+											if($resultTotalHijos->num_rows>0){
+												//RECORREMOS LA CONSULTA
+																									
+											}												
+										}
 									}
-
 
 									if($referenciaProducto != ""){
 										//ALMACENAMOS LOS DATOS DEL CAMBIO DE PRECIO DEL PRODUCTO EN LA ENTIDAD precio_factura
@@ -231,7 +301,6 @@
 											facturasModelo::agregar_precio_factura_clientes($datos_precio_factura);
 										}
 									}
-
 								}
 
 							}//FIN CICLO FOR
@@ -269,6 +338,19 @@
 								"btn-class" => "btn-danger",					
 							];				
 						}
+
+						$datos_cobrar_clientes = [
+							"clientes_id" => $clientes_id,
+							"facturas_id" => $facturas_id,
+							"fecha" => $fecha,				
+							"saldo" => $total_despues_isv,
+							"estado" => 3,//1. Pendiente de Cobrar 2. Pago Realizado 3. Efectivo con abonos
+							"usuario" => $usuario,
+							"fecha_registro" => $fecha_registro,
+							"empresa" => $empresa_id
+						];		
+						
+						facturasModelo::agregar_cuenta_por_cobrar_clientes($datos_cobrar_clientes);
 
 					//FIN FACTURA CONTADO
 					}else{//INICIO FACTURA CRÉDITO
@@ -314,6 +396,8 @@
 								$medida= $_POST['medida'][$i];
 								$price_anterior = $_POST['precio_real'][$i];
 								$price = $_POST['price'][$i];
+								$bodega = $_POST['bodega'][$i];
+
 
 								if($_POST['discount'][$i] != "" || $_POST['discount'][$i] != null){
 									$discount = $_POST['discount'][$i];
@@ -361,46 +445,118 @@
 										
 										//SI LA CATEGORIA ES PRODUCTO PROCEDEMOS A RALIZAR LA SALIDA Y ACTUALIZAMOS LA NUEVA CANTIDAD DEL PRODUCTO, AGREGANDO TAMBIÉN EL MOVIMIENTO DE ESTE
 										if($categoria_producto == "Producto"){
-											$result_productos = facturasModelo::cantidad_producto_modelo($productos_id);			  
-											$cantidad_productos = "";										
-
-											if($result_productos->num_rows>0){
-												$consulta = $result_productos->fetch_assoc();
-												$cantidad_productos = $consulta['cantidad'];
-											}	
-
-											$cantidad = $cantidad_productos - $quantity;																		
-
-											//ACTUALIZAMOS LA NUEVA CANTIDAD EN LA ENTIDAD PRODUCTOS
-											facturasModelo::actualizar_cantidad_productos_modelo($productos_id, $cantidad);
+											//ALMACENAMOS EL PRODUCTO TAL CUAL SE FACTURA
+											$documento = "Factura ".$facturas_id;	
 											
-											//CONSULTAMOS EL SALDO DEL PRODUCTO EN LA ENTIDAD MOVIMIENTOS
-											$result_movimientos = facturasModelo::saldo_productos_movimientos_modelo($productos_id);										
+											//OTENEMOS EL SALDO DEL PRODCUTO
+											$consultaSaldoProductoPrincipal = facturasModelo::saldo_productos_movimientos_modelo($productos_id)->fetch_assoc();
+											$saldoProductoPrincipal = doubleval($consultaSaldoProductoPrincipal['saldo']);											
 
-											$saldo_productos = 0;										
-
-											if($result_movimientos->num_rows>0){
-												$consulta = $result_movimientos->fetch_assoc();
-												$saldo_productos = $consulta['saldo'];
-											}
-											
-											$saldo = $saldo_productos - $quantity;																														
-											$cantidad_entrada = 0;
-											$cantidad_salida = $quantity;
-											$documento = "Factura ".$facturas_id;																			
+											$saldoNuevoPricipal = $saldoProductoPrincipal - doubleval($quantity);
 
 											$datos_movimientos_productos = [
 												"productos_id" => $productos_id,
 												"documento" => $documento,
-												"cantidad_entrada" => $cantidad_entrada,				
-												"cantidad_salida" => $cantidad_salida,
-												"saldo" => $saldo,
+												"cantidad_entrada" => 0,				
+												"cantidad_salida" => $quantity,
+												"saldo" => $saldoNuevoPricipal,
 												"fecha_registro" => $fecha_registro,
 												"empresa" => $empresa_id,
-												"clientes_id" => $clientes_id
+												"clientes_id" => '',
+												"almacen_id" => $bodega,
 											];	
-
+																					
 											facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
+
+											$medidaName = strtolower($medida);
+
+											//CONSULTAMOS SI EL PRODUCTO ES UN PADRE
+											$producto_padre = facturasModelo::cantidad_producto_modelo($productos_id)->fetch_assoc();
+											$producto_padre_id = $producto_padre['id_producto_superior'];
+
+											//ES UN PRODUCTO PADRE
+											if($producto_padre_id == 0){
+												//CONSULTAMOS EL HIJO ASOCIADOS AL PRODUCTO PADRE
+												$resultTotalHijos = facturasModelo::total_hijos_segun_padre_modelo($productos_id);
+
+												if($resultTotalHijos->num_rows>0){
+													$valor = 0;
+													while($consultaTotalHijos = $resultTotalHijos->fetch_assoc()){
+														$producto_id_hijo = intval($consultaTotalHijos['productos_id']);
+														
+														if($medidaName == "ton"){ // MEDIDA EN TON DEL PADRE
+															$quantity = $quantity * 2204.623;
+														}	
+														
+														if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
+															$quantity = $quantity / 2204.623;
+														}														
+														
+														$documento = "Factura ".$facturas_id."_".$valor;	
+	
+														//OTENEMOS EL SALDO DEL PRODCUTO
+														$consultaSaldoHijos = facturasModelo::saldo_productos_movimientos_modelo($producto_id_hijo)->fetch_assoc();
+														$saldoProductoHijos = doubleval($consultaSaldoHijos['saldo']);
+	
+														$saldoNuevoHijos = $saldoProductoHijos - doubleval($quantity);
+	
+														$datos_movimientos_productos = [
+															"productos_id" => $producto_id_hijo,
+															"documento" => $documento,
+															"cantidad_entrada" => 0,				
+															"cantidad_salida" => $quantity,
+															"saldo" => $saldoNuevoHijos,
+															"fecha_registro" => $fecha_registro,
+															"empresa" => $empresa_id,
+															"clientes_id" => '',
+															"almacen_id" => $bodega,
+														];	
+																								
+														facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+													}
+												}
+
+											}else{//ES UN PRODUCTO HIJO
+												//CONSULTAMOS EL PADRE ASOCIADO AL PRODUCTO HIJO
+												$resultTotalPadre = facturasModelo::cantidad_producto_modelo($productos_id);
+
+												if($resultTotalPadre->num_rows>0){
+													$valor = 0;
+													while($consultaTotalPadre = $resultTotalPadre->fetch_assoc()){
+														$producto_id_padre = intval($consultaTotalPadre['id_producto_superior']);
+														
+														if($medidaName == "ton"){ // MEDIDA EN TON DEL PADRE
+															$quantity = $quantity * 2204.623;
+														}	
+														
+														if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
+															$quantity = $quantity / 2204.623;
+														}														
+														
+														$documento = "Factura ".$facturas_id."_".$valor;	
+	
+														//OTENEMOS EL SALDO DEL PRODCUTO
+														$consultaSaldoPadre = facturasModelo::saldo_productos_movimientos_modelo($producto_id_padre)->fetch_assoc();
+														$saldoProductoPadre = doubleval($consultaSaldoPadre['saldo']);
+	
+														$saldoNuevoPadre = $saldoProductoPadre - doubleval($quantity);
+	
+														$datos_movimientos_productos = [
+															"productos_id" => $producto_id_padre,
+															"documento" => $documento,
+															"cantidad_entrada" => 0,				
+															"cantidad_salida" => $quantity,
+															"saldo" => $saldoNuevoPadre,
+															"fecha_registro" => $fecha_registro,
+															"empresa" => $empresa_id,
+															"clientes_id" => '',
+															"almacen_id" => $bodega,
+														];	
+																								
+														facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+													}
+												}
+											}
 										}								
 									}	
 									
@@ -430,6 +586,11 @@
 							$total_despues_isv = ($total_valor + $isv_neto) - $descuentos;
 							
 							//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
+							$secuenciaFacturacion = facturasModelo::secuencia_facturacion_modelo($empresa_id, $numero)->fetch_assoc();
+							$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+							$numero = $secuenciaFacturacion['numero'];
+							$incremento = $secuenciaFacturacion['incremento'];
+							$no_factura = $secuenciaFacturacion['prefijo']."".str_pad($secuenciaFacturacion['numero'], $secuenciaFacturacion['relleno'], "0", STR_PAD_LEFT);
 
 							$numero += $incremento;
 							facturasModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);								
@@ -437,7 +598,8 @@
 							//ACTUALIZAMOS EL IMPORTE EN LA FACTURA
 							$datos_factura = [
 								"facturas_id" => $facturas_id,
-								"importe" => $total_despues_isv		
+								"importe" => $total_despues_isv,
+								"number" => $numero,	
 							];
 							
 							facturasModelo::actualizar_factura_importe($datos_factura);						
@@ -468,7 +630,7 @@
 								"form" => "invoice-form",	
 								"id" => "proceso_factura",
 								"valor" => "Registro",
-								"funcion" => "limpiarTablaFactura();getCajero();getConsumidorFinal();getEstadoFactura();cleanFooterValueBill();resetRow();",
+								"funcion" => "limpiarTablaFactura();getCajero();printBill(".$facturas_id.");getConsumidorFinal();getEstadoFactura();cleanFooterValueBill();resetRow();",
 								"modal" => "",
 							];							
 						}else{

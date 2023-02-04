@@ -17,6 +17,7 @@
     <link href="<?php echo SERVERURL; ?>ajax/bootstrap/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous"/>
     <link href="<?php echo SERVERURL; ?>vistas/plantilla/css/styles.css" rel="stylesheet"/> 
 	<link href="<?php echo SERVERURL; ?>vistas/plantilla/css/main_cards.css" rel="stylesheet"/>
+    <link href="<?php echo SERVERURL; ?>ajax/bootstrap/css/bootstrap-select.min.css" rel="stylesheet" crossorigin="anonymous"/>
     <link rel="stylesheet" href="<?php echo SERVERURL; ?>fontawesome/css/all.min.css">
     <link rel="shortcut icon" href="<?php echo SERVERURL; ?>vistas/plantilla/img/icono.png">
     <link href="<?php echo SERVERURL; ?>ajax/sweetalert/sweetalert.css" rel="stylesheet" crossorigin="anonymous"/>				

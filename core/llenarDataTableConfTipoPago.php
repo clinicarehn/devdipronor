@@ -15,7 +15,6 @@
 			"tipo_pago_id"=>$row['tipo_pago_id'],
 			"nombre"=>$row['nombre'],
 			"codigo"=>$row['codigo'],
-			"tipo_cuenta"=>$row['tipo_cuenta'],
 			"cuenta"=>$row['cuenta']		  
 		);	
 	}
@@ -28,3 +27,4 @@
 	);
 
 	echo json_encode($arreglo);
+?>	
