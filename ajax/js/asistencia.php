@@ -26,10 +26,17 @@ var listar_asistencia = function(){
 			}			
 		},
 		"columns":[
-			{"data":"fecha"},
-			{"data":"colaborador"},
-			{"data":"estado"},
-			{"defaultContent":"<button class='table_eliminar1 btn btn-dark'><span class='fa fa-trash fa-lg'></span></button>"}
+			{"data":"empleado"},
+			{"data":"lunes"},
+			{"data":"martes"},
+			{"data":"miercoles"},
+			{"data":"jueves"},
+			{"data":"viernes"},
+			{"data":"sabado"},
+			{"data":"domingo"},
+			{"data":"total"},
+			{"data":"vale"},
+			{"data":"total_vale"},			
 		],
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -37,10 +44,17 @@ var listar_asistencia = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "36%", targets: 0 },
-		  { width: "37%", targets: 1 },
-		  { width: "25%", targets: 2 },
-		  { width: "2%", targets: 3 }
+		  { width: "17.09%", targets: 0 },
+		  { width: "8.09%", targets: 1 },
+		  { width: "8.09%", targets: 2 },
+		  { width: "8.09%", targets: 3 },
+		  { width: "8.09%", targets: 4 },
+		  { width: "8.09%", targets: 5 },
+		  { width: "8.09%", targets: 6 },
+		  { width: "8.09%", targets: 7},
+		  { width: "8.09%", targets: 8 },
+		  { width: "9.09%", targets: 9},
+		  { width: "9.09%", targets: 10 }
 		],		
 		"buttons":[
 			{
@@ -60,25 +74,37 @@ var listar_asistencia = function(){
 				}
 			},
 			{
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar Vales',
+				titleAttr: 'Agregar Vales',
+				className: 'btn btn-primary',
+				action: 	function(){
+					modal_vales();
+				}
+			},			
+			{
 				extend:    'excelHtml5',
 				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
 				titleAttr: 'Excel',
 				title: 'Reporte Asistencia',
+				messageTop: 'Semana del: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'btn btn-success',
 				exportOptions: {
-						columns: [0]
+					columns: [0,1,2,3,4,5,6,7,8,9,10]
 				},
 			},
 			{
 				extend:    'pdf',
 				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
 				titleAttr: 'PDF',
+				orientation: 'landscape',
+				pageSize: 'LETTER',	
 				title: 'Reporte Asistencia',
+				messageTop: 'Semana del: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'btn btn-danger',
 				exportOptions: {
-						columns: [0]
+						columns: [0,1,2,3,4,5,6,7,8,9,10]
 				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
@@ -113,7 +139,11 @@ function getColaboradores(){
 			
 		    $('#formAsistencia #asistencia_empleado').html("");
 			$('#formAsistencia #asistencia_empleado').html(data);
-			$('#formAsistencia #asistencia_empleado').selectpicker('refresh');				
+			$('#formAsistencia #asistencia_empleado').selectpicker('refresh');	
+			
+		    $('#formVales #asistencia_empleado').html("");
+			$('#formVales #asistencia_empleado').html(data);
+			$('#formVales #asistencia_empleado').selectpicker('refresh');				
 		}
      });
 }
@@ -124,8 +154,22 @@ function modal_asistencia(){
 	  $('#formAsistencia')[0].reset();
 	  $('#reg_asistencia').show();	
 	  $('#formAsistencia #proceso_asistencia').val("Registro");
-
+	  getColaboradores();
 	  $('#modal_registrar_asistencia').modal({
+		show:true,
+		keyboard: false,
+		backdrop:'static'
+	  });
+}
+
+function modal_vales(){
+	  $('#formVales').attr({ 'data-form': 'save' });
+	  $('#formVales').attr({ 'action': '<?php echo SERVERURL;?>ajax/addValesjax.php' });
+	  $('#formVales')[0].reset();
+	  $('#reg_vales').show();	
+	  $('#formVales #proceso_asistencia').val("Registro");
+	  getColaboradores();
+	  $('#modal_registrar_vales').modal({
 		show:true,
 		keyboard: false,
 		backdrop:'static'
@@ -146,6 +190,7 @@ function showTime(){
 	if (hours < 10) hours = 0 + hours;
 	if (minutes < 10) minutes = "0" + minutes;
 	if (seconds < 10) seconds = "0" + seconds;
+	alert(hours);
 	$('#formAsistencia #hora').val(hours+ ":" + minutes+ ":" + seconds);
 }
 </script>
