@@ -159,7 +159,6 @@
 							}		
 	
 							$datos_movimientos_productos = [
-
 								"productos_id" => $productos_id,
 								"documento" => 'Creacion de Producto',
 								"cantidad_entrada" => $cantidad,				
@@ -173,11 +172,12 @@
 
 							];
 								
-							if ($tipo_productos == "Producto" || $tipo_productos == "Insumos"){
-								productosModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
+							if(cantidad > 0){
+								if ($tipo_productos == "Producto" || $tipo_productos == "Insumos"){
+									productosModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
+								}
 							}
-							
-							
+													
 							$alert = [
 								"alert" => "save_simple",
 								"title" => "Registro almacenado",

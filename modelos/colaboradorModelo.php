@@ -33,9 +33,9 @@
 				estado = '".$datos['estado']."',
 				telefono = '".$datos['telefono']."',
 				fecha_ingreso = '".$datos['fecha_ingreso']."',
-				fecha_egreso = '".$datos['fecha_egreso']."',
+				fecha_egreso = '".$datos['fecha_egreso']."'
 			WHERE colaboradores_id  = '".$datos['colaborador_id']."'";
-			
+
 			$sql = mainModel::connection()->query($udapte) or die(mainModel::connection()->error);
 			
 			return $sql;			
