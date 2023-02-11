@@ -196,8 +196,7 @@ var editar_contratos_dataTable = function(tbody, table){
 				//HABILITAR OBJETOS				
 				$('#formContrato #contrato_tipo_contrato_id').attr('disabled', false);
 				$('#formContrato #contrato_pago_planificado_id').attr('disabled', false);
-				$('#formContrato #contrato_tipo_empleado_id').attr('disabled', false);
-				$('#formContrato #contrato_salario').attr('readonly', false);
+				$('#formContrato #contrato_tipo_empleado_id').attr('disabled', false);				
 				$('#formContrato #contrato_fecha_inicio').attr('readonly', false);
 				$('#formContrato #contrato_fecha_fin').attr('readonly', false);
 				$('#formContrato #contrato_notas').attr('readonly', false);
@@ -205,6 +204,7 @@ var editar_contratos_dataTable = function(tbody, table){
 
 				//DESHABILITATR OBJETOS
 				$('#formContrato #contrato_colaborador_id').attr('disabled', true);
+				$('#formContrato #contrato_salario').attr('readonly', true);
 				$('#formContrato #buscar_contrato_empleado').hide();
 
 				$('#formContrato #proceso_contrato').val("Editar");

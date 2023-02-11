@@ -392,6 +392,7 @@
 			return $alert;
 
 		}
+		
 		protected function agregar_pago_compras_modelo($datos){
 
 			$importe = $datos['importe'];
