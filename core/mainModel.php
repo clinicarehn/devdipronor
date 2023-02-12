@@ -1565,7 +1565,7 @@
 			$result = self::connection()->query($query);
 		
 			return $result;
-		}			
+		}					
 		/*FIN PRIVILEGIOS*/ 
 
 		public function getMunicipios($departamentos_id){
