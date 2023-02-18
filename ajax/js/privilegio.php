@@ -100,6 +100,7 @@ var accesos_privilegio_menu_dataTable = function(tbody, table){
 		var data = table.row( $(this).parents("tr") ).data();		
 		getAccesoControlMenus(data.privilegio_id, data.nombre);
 		listar_menuaccesos();
+		getMenusPrivilegios();
 
 		$('#formMenuAccesos').attr({ 'data-form': 'save' });
 		$('#formMenuAccesos').attr({ 'action': '<?php echo SERVERURL;?>ajax/addMenuAccesosAjax.php' });
@@ -118,6 +119,9 @@ var accesos_privilegio_submenu_dataTable = function(tbody, table){
 		var data = table.row( $(this).parents("tr") ).data();		
 		getAccesoControlSubMenus(data.privilegio_id, data.nombre);	
 		getMenusparaSubmenuPrivilegios(data.privilegio_id);
+		$('#formSubMenuAccesos #submenus').html("");
+		$('#formSubMenuAccesos #submenus').selectpicker('refresh');			
+		getSubMenusPrivilegios();
 		listar_submenuaccesos();
 
 		$('#formSubMenuAccesos').attr({ 'data-form': 'save' });
@@ -485,7 +489,7 @@ function getMenusparaSubmenuPrivilegios(privilegio_id){
         success: function(data){	
 		    $('#formSubMenuAccesos #menus').html("");
 			$('#formSubMenuAccesos #menus').html(data);
-			$('#formSubMenuAccesos #menus').selectpicker('refresh');				
+			$('#formSubMenuAccesos #menus').selectpicker('refresh');			
 		}
      });
 }
