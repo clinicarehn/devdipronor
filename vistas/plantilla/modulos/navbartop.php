@@ -22,12 +22,12 @@
                  <a class="dropdown-item reporteVentas" href="<?php echo SERVERURL; ?>reporteVentas/"><div class="sb-nav-link-icon"></i></div>Reporte Ventas</a>
                  <a class="dropdown-item reporteCotizacion" href="<?php echo SERVERURL; ?>reporteCotizacion/"><div class="sb-nav-link-icon"></div>Reporte Cotización</a>
                  <a class="dropdown-item reporteCompras" href="<?php echo SERVERURL; ?>reporteCompras/"><div class="sb-nav-link-icon"></div>Reporte Compras</a>
-                <a class="dropdown-item cobrarClientes" href="<?php echo SERVERURL; ?>cobrarClientes/"><div class="sb-nav-link-icon"></div>CXC Clientes</a>
-                <a class="dropdown-item pagarProveedores" href="<?php echo SERVERURL; ?>pagarProveedores/"><div class="sb-nav-link-icon"></div>CXP Proveedores</a>						
-                <a class="dropdown-item inventario" href="<?php echo SERVERURL; ?>inventario/"><div class="sb-nav-link-icon"></div>Movimientos</a>
-                <a class="dropdown-item transferencia" href="<?php echo SERVERURL; ?>transferencia/"><div class="sb-nav-link-icon"></div>Inventario</a>
-                <a class="dropdown-item nomina" href="<?php echo SERVERURL; ?>nomina/"><div class="sb-nav-link-icon"></div>Nomina</a>
-                <a class="dropdown-item asistencia" href="<?php echo SERVERURL; ?>asistencia/"><div class="sb-nav-link-icon"></div>Aistencia</a>
+                 <a class="dropdown-item cobrarClientes" href="<?php echo SERVERURL; ?>cobrarClientes/"><div class="sb-nav-link-icon"></div>CXC Clientes</a>
+                 <a class="dropdown-item pagarProveedores" href="<?php echo SERVERURL; ?>pagarProveedores/"><div class="sb-nav-link-icon"></div>CXP Proveedores</a>						
+                 <a class="dropdown-item inventario" href="<?php echo SERVERURL; ?>inventario/"><div class="sb-nav-link-icon"></div>Movimientos</a>
+                 <a class="dropdown-item transferencia" href="<?php echo SERVERURL; ?>transferencia/"><div class="sb-nav-link-icon"></div>Inventario</a>
+                 <a class="dropdown-item nomina" href="<?php echo SERVERURL; ?>nomina/"><div class="sb-nav-link-icon"></div>Nomina</a>
+                 <a class="dropdown-item asistencia" href="<?php echo SERVERURL; ?>asistencia/"><div class="sb-nav-link-icon"></div>Aistencia</a>
             </div>
         </div>  
         

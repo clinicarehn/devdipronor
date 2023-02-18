@@ -2040,7 +2040,7 @@
 			$query = "SELECT co.colaborador_id AS 'colaboradores_id', CONCAT(nombre, ' ', apellido) AS 'nombre'
 			FROM contrato AS co
 			INNER JOIN colaboradores AS c ON co.colaborador_id = c.colaboradores_id
-			WHERE co.estado = 1";
+			WHERE getNominaDetalles($datos)co.estado = 1";
 				
 			$result = self::connection()->query($query);
 		
@@ -2187,7 +2187,7 @@
 				INNER JOIN contrato AS co ON nd.colaboradores_id = co.colaborador_id
 				INNER JOIN tipo_contrato AS tp ON co.tipo_contrato_id = tp.tipo_contrato_id
 				INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
-				WHERE nd.estado = '".$datos['estado']."' AND nd.nomina_id = '".$datos['nomina_id']."'
+				WHERE nd.estado = '".$datos['estado']."' AND nd.nomina_id = '".$datos['nomina_id']."' AND co.estado = 1
 				$empleado
 				ORDER BY nd.fecha_registro DESC";
 
