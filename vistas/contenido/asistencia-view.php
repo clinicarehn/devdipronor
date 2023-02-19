@@ -65,9 +65,11 @@
 								<th>Viernes</th>
 								<th>Sabado</th>
 								<th>Domingo</th>
-								<th>Total</th>
+								<th>Total Asistencia</th>
 								<th>Vales</th>
 								<th>Valor Total</th>
+								<th>Consultar Asistencia</th>
+								<th>Eliminar Vale</th>
 							</tr>
 						</thead>
 					</table>  

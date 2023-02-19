@@ -172,7 +172,7 @@ var listar_nominas = function(){
 
 	generar_nominas_dataTable("#dataTableNomina tbody", table_nominas);
 	voucher_nominas_dataTable("#dataTableNomina tbody", table_nominas);
-	libro_saslarios_nominas_dataTable("#dataTableNomina tbody", table_nominas);
+	libro_salarios_nominas_dataTable("#dataTableNomina tbody", table_nominas);
 	crear_nominas_dataTable("#dataTableNomina tbody", table_nominas);
 	editar_nominas_dataTable("#dataTableNomina tbody", table_nominas);
 	eliminar_nominas_dataTable("#dataTableNomina tbody", table_nominas);
@@ -279,7 +279,7 @@ var voucher_nominas_dataTable = function(tbody, table){
 	});
 }
 
-var libro_saslarios_nominas_dataTable = function(tbody, table){
+var libro_salarios_nominas_dataTable = function(tbody, table){
 	$(tbody).off("click", "a.consolidado");
 	$(tbody).on("click", "a.consolidado", function(){
 		var data = table.row( $(this).parents("tr") ).data();
@@ -344,22 +344,19 @@ var editar_nominas_dataTable = function(tbody, table){
 				caracteresnotaNomina();
 
 				//HABILITAR OBJETOS								
-				$('#formNomina #nomina_pago_planificado_id').attr('disabled', false);
 				$('#formNomina #nomina_empresa_id').attr('disabled', false);
 				$('#formNomina #nomina_fecha_inicio').attr('readonly', false);
 				$('#formNomina #nomina_fecha_fin').attr('readonly', false);
 				$('#formNomina #nomina_activo').attr('disabled', false);
 				$('#formNomina #nomina_notas').attr('disabled', false);
+				$('#formNomina #nomina_detale').attr('disabled', false);
+				$('#formNomina #nomina_importe').attr('readonly', false);			
+				$('#formNomina #nomina_pago_planificado_id').attr('disabled', false);
 				$('#formNomina #search_nomina_notas_start').attr('disabled', false);	
-	 			$('#formNomina #search_nomina_notas_stop').attr('disabled', false);
-				 $('#formNomina #estado_nomina').show();				
+				$('#formNomina #search_nomina_notas_stop').attr('disabled', false);	
+				 $('#formNomina #estado_nomina').show();							 
 
-				//DESHBOIITAR OBJETOS
-				$('#formNomina #nomina_detale').attr('disabled', true);
-				$('#formNomina #nomina_importe').attr('readonly', true);			
-				$('#formNomina #nomina_pago_planificado_id').attr('readonly', true);
-				$('#formNomina #nomina_empresa_id').attr('readonly', true);				
-				$('#formNomina #nomina_activo').attr('disabled', true);	
+				//DESHBILITAR OBJETOS
 
 				$('#formNomina #proceso_nomina').val("Editar");
 
@@ -420,18 +417,16 @@ var eliminar_nominas_dataTable = function(tbody, table){
 				$('#formNomina #estado_nomina').show();				
 
 				//DESHABILITAR OBJETOS
-				$('#formNomina #nomina_pago_planificado_id').attr('disabled', true);
 				$('#formNomina #nomina_empresa_id').attr('disabled', true);
 				$('#formNomina #nomina_fecha_inicio').attr('readonly', true);
-				$('#formNomina #nomina_fecha_fin').attr('readonly', true);				
-				$('#formNomina #nomina_detale').attr('disabled', true);
-				$('#formNomina #nomina_importe').attr('readonly', true);			
-				$('#formNomina #nomina_pago_planificado_id').attr('readonly', true);
-				$('#formNomina #nomina_empresa_id').attr('readonly', true);
+				$('#formNomina #nomina_fecha_fin').attr('readonly', true);
 				$('#formNomina #nomina_activo').attr('disabled', true);
 				$('#formNomina #nomina_notas').attr('disabled', true);
+				$('#formNomina #nomina_detale').attr('disabled', true);
+				$('#formNomina #nomina_importe').attr('readonly', true);			
+				$('#formNomina #nomina_pago_planificado_id').attr('disabled', true);
 				$('#formNomina #search_nomina_notas_start').attr('disabled', true);	
-	 			$('#formNomina #search_nomina_notas_stop').attr('disabled', true);					
+				$('#formNomina #search_nomina_notas_stop').attr('disabled', true);				
 
 				$('#formNomina #proceso_nomina').val("Eliminar");
 
@@ -463,18 +458,16 @@ function modal_nominas(){
 
 	  $("#formNomina #grupo_salario").hide();
 
-	  $('#formNomina #nomina_pago_planificado_id').attr('disabled', false);
-	  $('#formNomina #nomina_empresa_id').attr('disabled', false);
-	  $('#formNomina #nomina_fecha_inicio').attr('readonly', false);
-	  $('#formNomina #nomina_fecha_fin').attr('readonly', false);
-	  $('#formNomina #nomina_activo').attr('disabled', false);
-	  $('#formNomina #nomina_notas').attr('disabled', false);
-	  $('#formNomina #nomina_detale').attr('disabled', false);
-	  $('#formNomina #nomina_importe').attr('readonly', false);			
-	  $('#formNomina #nomina_pago_planificado_id').attr('readonly', false);
-	  $('#formNomina #nomina_empresa_id').attr('readonly', false);	
-	  $('#formNomina #search_nomina_notas_start').attr('disabled', false);	
-	  $('#formNomina #search_nomina_notas_stop').attr('disabled', false);	
+	$('#formNomina #nomina_empresa_id').attr('disabled', false);
+	$('#formNomina #nomina_fecha_inicio').attr('readonly', false);
+	$('#formNomina #nomina_fecha_fin').attr('readonly', false);
+	$('#formNomina #nomina_activo').attr('disabled', false);
+	$('#formNomina #nomina_notas').attr('disabled', false);
+	$('#formNomina #nomina_detale').attr('disabled', false);
+	$('#formNomina #nomina_importe').attr('readonly', false);			
+	$('#formNomina #nomina_pago_planificado_id').attr('disabled', false);
+	$('#formNomina #search_nomina_notas_start').attr('disabled', false);	
+	$('#formNomina #search_nomina_notas_stop').attr('disabled', false);	
 	  $('#formNomina #estado_nomina').hide();
 
 	  $('#formNomina #proceso_nomina').val("Registro");
@@ -814,6 +807,9 @@ var listar_nominas_detalles = function(){
 	var estado = $("#form_main_nominas_detalles #estado_nomina_detalles").val();	
 	var empleado = $("#form_main_nominas_detalles #detalle_nomina_empleado").val();
 	var nomina_id = $("#form_main_nominas_detalles #nomina_id").val();
+	$("#nominad_neto_ingreso1").val("");
+	$("#nominad_neto_egreso1").val("");
+	$("#nominad_neto1").val("");	
 
 	var table_nominas_detalles  = $("#dataTableNominaDetalles").DataTable({
 		"destroy":true,
@@ -886,8 +882,8 @@ var listar_nominas_detalles = function(){
                 },
 			},
 			{"data":"notas"},									
-			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
-			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}
+			{"defaultContent":"<button class='table_editar nomina_detalles_editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_eliminar nomina_detalles_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}
 		],
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -987,8 +983,8 @@ var listar_nominas_detalles = function(){
 }
 
 var editar_nominas_detalles_dataTable = function(tbody, table){
-	$(tbody).off("click", "button.table_editar");
-	$(tbody).on("click", "button.table_editar", function(){
+	$(tbody).off("click", "button.nomina_detalles_editar");
+	$(tbody).on("click", "button.nomina_detalles_editar", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 		var url = '<?php echo SERVERURL;?>core/editarNominasDetalles.php';
 		$('#formNominaDetalles #nomina_detalles_id').val(data.nomina_detalles_id);
@@ -1094,8 +1090,8 @@ var editar_nominas_detalles_dataTable = function(tbody, table){
 }
 
 var eliminar_nominas_detalles_dataTable = function(tbody, table){
-	$(tbody).off("click", "button.table_eliminar");
-	$(tbody).on("click", "button.table_eliminar", function(){
+	$(tbody).off("click", "button.nomina_detalles_eliminar");
+	$(tbody).on("click", "button.nomina_detalles_eliminar", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 		var url = '<?php echo SERVERURL;?>core/editarNominasDetalles.php';
 		$('#formNominaDetalles #nomina_detalles_id').val(data.nomina_detalles_id);
@@ -1253,6 +1249,7 @@ $("#formNominaDetalles #nominad_empleados").on("change", function(){
 			$('#formNominaDetalles #nominad_fecha_ingreso').val(valores[4]);
 			$('#formNominaDetalles #nominad_sueldo_diario').val(_salario_diario);
 			$('#formNominaDetalles #nominad_sueldo_hora').val(salario_hora);
+			$('#formNominaDetalles #nominad_prestamo').val(valores[7]);
 
 			$('#formNominaDetalles #nominad_diast').val(ObtenerDiasTrabajados(colaboradores_id));
 			calculoNomina();
@@ -1298,6 +1295,7 @@ function calculoNomina(){
 	var salario = 0;
 	var salario_dia = 0;
 	var salario_hora = 0;	
+	var salario_diario = $('#formNominaDetalles #nominad_sueldo_diario').val();	
 
 	if($('#formNominaDetalles #nominad_diast').val() != "" || $('#formNominaDetalles #nominad_diast').val() != null){
 		dias_trabajadas = parseFloat($('#formNominaDetalles #nominad_diast').val());

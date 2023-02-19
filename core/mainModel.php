@@ -290,6 +290,13 @@
 			return $sql;
 		}
 
+		public function deleteAsistenciaColaborador($asistencia_id){
+			$delete = "DELETE FROM asistencia WHERE asistencia_id = '$asistencia_id'";
+
+			$sql = mainModel::connection()->query($delete) or die(mainModel::connection()->error);
+
+			return $sql;			
+		}
 
 		public function delete_bill_draft($facturas_id){
 			$delete = "DELETE FROM facturas WHERE facturas_id = '$facturas_id' AND estado = 1";
@@ -1362,6 +1369,18 @@
 			return $result;
 		}
 
+		public function ActualizarPrestamo($colaboradores_id){
+
+			$update = "UPDATE prestamo 
+				SET 
+					estado = 1
+				WHERE colaboradores_id = '".$colaboradores_id."'";
+
+			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}
+
 		public function ActualizarEstadoAsistencia($colaboradores_id){
 
 			$update = "UPDATE asistencia 
@@ -1413,19 +1432,35 @@
 				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Friday' THEN s.asistencia_id END) AS 'viernes',
 				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Saturday' THEN s.asistencia_id END) AS 'sabado',
 				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Sunday' THEN s.asistencia_id END) AS 'domingo',
-				COUNT(s.asistencia_id) AS 'total'
+				COUNT(p.monto) as 'total_vale',
+				SUM(p.monto) AS 'vale',
+				COUNT(s.asistencia_id) AS 'total', p.prestamo_id AS 'prestamo_id', s.asistencia_id AS 'asistencia_id', s.colaboradores_id AS 'colaboradores_id'
 				FROM asistencia AS s
 				INNER JOIN colaboradores AS c ON s.colaboradores_id = c.colaboradores_id
 				INNER JOIN empresa AS e ON c.empresa_id = e.empresa_id
+				LEFT JOIN prestamo AS p ON c.colaboradores_id = p.colaboradores_id
+				WHERE s.estado = '".$datos['estado']."'
 				$fecha
 				$colaboradores_id
-				GROUP BY CONCAT(c.nombre, ' ', c.apellido), s.fecha
+				GROUP BY s.colaboradores_id
 				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
 
 			$result = self::connection()->query($query);
 
 			return $result;
 		}
+
+		public function getAsistenciaConsulta($datos){
+			$query = "SELECT a.asistencia_id AS 'asistencia_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', a.fecha AS 'fecha', a.estado AS 'estado', a.colaboradores_id AS 'colaboradores_id'
+				FROM asistencia AS a
+				INNER JOIN colaboradores AS c ON a.colaboradores_id = c.colaboradores_id
+				WHERE a.colaboradores_id = '".$datos['colaboradores_id']."' AND a.estado = 0
+				ORDER BY a.fecha";
+			
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
 
 		/*INICIO PRIVILEGIOS*/ 
 		public function getMenusAcceso(){
@@ -2001,6 +2036,26 @@
 
 			return $result;
 		}
+
+		public function getEmpleadoGetVale($colaboradores_id){
+			$query = "SELECT monto
+				FROM prestamo AS c
+				WHERE colaboradores_id = '".$colaboradores_id."' AND estado = 0";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getPagoPrestamoColaborador($nomina_id){
+			$query = "SELECT colaboradores_id, prestamo
+			FROM nomina_detalles 
+			WHERE nomina_id = '".$nomina_id."'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
 		
 		public function getTotalesNominaDetalle($nomina_id){
 			$query = "SELECT SUM(nd.neto_ingresos) AS 'neto_ingresos', SUM(nd.neto_egresos) AS 'neto_egresos', SUM(nd.neto) AS 'neto'
@@ -2040,7 +2095,7 @@
 			$query = "SELECT co.colaborador_id AS 'colaboradores_id', CONCAT(nombre, ' ', apellido) AS 'nombre'
 			FROM contrato AS co
 			INNER JOIN colaboradores AS c ON co.colaborador_id = c.colaboradores_id
-			WHERE getNominaDetalles($datos)co.estado = 1";
+			WHERE co.estado = 1";
 				
 			$result = self::connection()->query($query);
 		
@@ -2197,7 +2252,7 @@
 		}
 
 		public function getNominaComprobante($nomina_id){
-			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', n.pago_planificado_id AS 'pago_planificado_id', e.rtn AS 'rtn_empresa', DATE_FORMAT(n.fecha_registro, '%d/%m/%Y') AS fecha_registro, YEAR(n.fecha_registro) AS 'ano_registro', MONTHNAME(n.fecha_registro) AS 'mes_registro'
+			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', n.pago_planificado_id AS 'pago_planificado_id', e.rtn AS 'rtn_empresa', DATE_FORMAT(n.fecha_registro, '%d/%m/%Y') AS fecha_registro, YEAR(n.fecha_registro) AS 'ano_registro', MONTHNAME(n.fecha_registro) AS 'mes_registro', n.fecha_registro AS 'fecha_registro_1'
 			FROM nomina AS n
 			INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
 			WHERE n.nomina_id = '".$nomina_id."' AND n.estado = 1
@@ -3932,27 +3987,25 @@
 
 		}
 
-
-
-		public function getAlmacenEdit($almacen_id){
-
+		public function getPrestamoEdit($prestamo_id){
 			$query = "SELECT *
-
-				FROM almacen
-
-				WHERE almacen_id = '$almacen_id'";
-
-
+				FROM prestamo
+				WHERE prestamo_id = '$prestamo_id'";
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
+		public function getAlmacenEdit($almacen_id){
+			$query = "SELECT *
+				FROM almacen
+				WHERE almacen_id = '$almacen_id'";
 
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
 
 		public function getTotalFacturasDisponiblesDB($empresa_id){
 

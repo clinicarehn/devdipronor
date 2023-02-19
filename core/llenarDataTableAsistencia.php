@@ -28,8 +28,11 @@
 			"sabado"=>$row['sabado'] == 0 ? 'No' : 'Sí',
 			"domingo"=>$row['domingo'] == 0 ? 'No' : 'Sí',
 			"total"=>$row['total'],	
-			"vale"=>"",	
-			"total_vale"=>"",						
+			"vale"=>$row['total_vale'],	
+			"total_vale"=>$row['vale'],					
+			"prestamo_id"=>$row['prestamo_id'],
+			"asistencia_id"=>$row['asistencia_id'],
+			"colaboradores_id"=>$row['colaboradores_id']
 		);		
 	}
 	

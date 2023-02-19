@@ -22,7 +22,7 @@
 			</td>			
 			<td class="info_empresa" colspan="3">
 				<div>
-					<span class="h3">Consolidado de Nomina <?php echo $insMainModel->nombremes(date("m", strtotime($consulta_registro['fecha_registro']))).", ".$consulta_registro['ano_registro']; ?></span>								
+					<span class="h3">Consolidado de Nomina <?php echo $insMainModel->nombremes(date("m", strtotime($consulta_registro['fecha_registro_1']))).", ".$consulta_registro['ano_registro']; ?></span>								
 				</div>												
 			</td>		
 		</tr>
@@ -100,9 +100,9 @@
 									<th align="center" width="5%">'.$registro_detalles["neto_ingresos"].'</th>
 									<th align="center" width="5%">'.$registro_detalles["deducciones"].'</th
 									<th align="center" width="5%">'.$registro_detalles["prestamo"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["ihss"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["isr"].'</th>
+									<th align="center" width="5%">'.$registro_detalles["ihss"].'</th>									
 									<th align="center" width="5%">'.$registro_detalles["rap"].'</th>
+									<th align="center" width="5%">'.$registro_detalles["isr"].'</th>
 									<th align="center" width="5%">'.$registro_detalles["incapacidad_ihss"].'</th>
 									<th align="center" width="5%">'.$registro_detalles["neto_egresos"].'</th>
 									<th align="center" width="5%">'.$registro_detalles["neto"].'</th>

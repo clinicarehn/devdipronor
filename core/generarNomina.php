@@ -15,6 +15,17 @@
 
 	if($query){
 		echo 1;//REGISTRO ACTUALIZADO CORRECTAMENTE
+
+		//CONSULTAMOS SI SE PAGO EL PRESTAMO PARA ESTE COLABORADOR
+		$result_pago_restamo = $insMainModel->getPagoPrestamoColaborador($nomina_id);
+
+		if($result_pago_restamo->num_rows>0){
+			while($consulta2Prestamo = $result_pago_restamo->fetch_assoc()){
+				//ATUALIZAMOS EL PRESTAMO
+				$insMainModel->ActualizarPrestamo($consulta2Prestamo['colaboradores_id']);
+			}
+		}
+
 		$insMainModel->actualizarNominaDetalles($nomina_id);
 
 		//CONSULTAMOS LOS COLABORADORE QUE ESTAN EN LA NOMINA
