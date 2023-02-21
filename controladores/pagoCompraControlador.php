@@ -81,7 +81,7 @@
 				"compras_id" =>$_POST['compras_id_tarjeta'],
 				"fecha" => $_POST['fecha_compras_tarjeta'],
 				"importe" => $_POST['monto_efectivoPurchase'],
-				"abono" => isset($_POST['monto_efectivo_tarjeta']) ? $_POST['monto_efectivo_tarjeta'] : 0,
+				"abono" => isset($_POST['monto_efectivo']) ? $_POST['monto_efectivo'] : 0,
 				"cambio" => 0,
 				"usuario" => $usuario,
 				"estado" => 1,
@@ -90,7 +90,7 @@
 				"tipo_pago" => $_POST['tipo_factura'],//1. CONTADO 2. CRÉDITO
 				"metodo_pago" => 2,//TARJETA
 				"efectivo" => 0,
-				"tarjeta" => isset($_POST['monto_efectivo_tarjeta']) ? $_POST['monto_efectivo_tarjeta'] :  $_POST['monto_efectivoPurchase'],
+				"tarjeta" => isset($_POST['monto_efectivo']) ? $_POST['monto_efectivo'] :  $_POST['monto_efectivoPurchase'],
 				"banco_id" => 0,
 				"referencia_pago1" => mainModel::cleanStringConverterCase($_POST['cr_Purchase']),//TARJETA DE CREDITO
 				"referencia_pago2" => mainModel::cleanStringConverterCase($_POST['exp']),//FECHA DE EXPIRACION
@@ -119,7 +119,7 @@
 				"compras_id" =>$_POST['compras_id_transferencia'],
 				"fecha" => $_POST['fecha_compras_transferencia'],
 				"importe" => $_POST['monto_efectivoPurchase'],
-				"abono" => isset($_POST['importe_transferencia']) ? $_POST['importe_transferencia'] : 0,
+				"abono" => isset($_POST['importe']) ? $_POST['importe'] : 0,
 				"cambio" => 0,
 				"usuario" => $usuario,
 				"estado" => 1,
@@ -128,7 +128,7 @@
 				"tipo_pago" => $_POST['tipo_factura'],//1. CONTADO 2. CRÉDITO
 				"metodo_pago" => 3,//TRASFERENCIA
 				"tarjeta" => 0,
-				"efectivo" => isset($_POST['importe_transferencia']) ? $_POST['importe_transferencia'] :  $_POST['monto_efectivoPurchase'],
+				"efectivo" => isset($_POST['importe']) ? $_POST['importe'] :  $_POST['monto_efectivoPurchase'],
 				"banco_id" => $_POST['bk_nm'],
 				"referencia_pago1" => mainModel::cleanStringConverterCase($_POST['ben_nm']),//TARJETA DE CREDITO
 				"referencia_pago2" => '',
@@ -155,8 +155,8 @@
 				"multiple_pago" => $_POST['multiple_pago'],
 				"compras_id" =>$_POST['compras_id_cheque'],
 				"fecha" => $_POST['fecha_compras_cheque'],
-				"importe" => $_POST['monto_efectivoPurchase'],
-				"abono" => isset($_POST['importe_cheque']) ? $_POST['importe_cheque'] : 0,
+				"importe" => $_POST['importe'],
+				"abono" => isset($_POST['importe']) ? $_POST['importe'] : 0,
 				"cambio" => 0,
 				"usuario" => $usuario,
 				"estado" => 1,
@@ -165,7 +165,7 @@
 				"tipo_pago" => $_POST['tipo_factura'],//1. CONTADO 2. CRÉDITO
 				"metodo_pago" => 4,//CHEQUE
 				"tarjeta" => 0,
-				"efectivo" => isset($_POST['importe_cheque']) ? $_POST['importe_cheque'] :  $_POST['monto_efectivoPurchase'],
+				"efectivo" => isset($_POST['importe']) ? $_POST['importe'] :  $_POST['monto_efectivoPurchase'],
 				"banco_id" => $_POST['bk_nm_chk'],
 				"referencia_pago1" => mainModel::cleanStringConverterCase($_POST['check_num']),
 				"referencia_pago2" => '',
@@ -173,10 +173,7 @@
 			];
 
 			$alert = pagoCompraModelo::agregar_pago_compras_base($datos);
-			return mainModel::sweetAlert($alert);
-
-			
-			
+			return mainModel::sweetAlert($alert);			
 		}				
 		
 		public function cancelar_pago_controlador(){
