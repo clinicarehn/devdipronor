@@ -563,7 +563,16 @@ function modal_productos(){
 	$('#formProductos #cantidad_mayoreo').attr("readonly", false);	
 	$('#formProductos #producto_isv_compra').attr('checked', false);
 	$('#formProductos #cantidad').attr("disabled", false);
-	$('#formProductos #producto_superior').attr("disabled", false);
+	$('#formProductos #producto_superior').attr("disabled", false);	
+	
+	$('#formProductos #almacen').val(1);	
+	$('#formProductos #almacen').selectpicker('refresh');	
+
+	$('#formProductos #producto_empresa_id').val(1);
+	$('#formProductos #producto_empresa_id').selectpicker('refresh');
+
+	$('#formProductos #tipo_producto').val(1);
+	$('#formProductos #tipo_producto').selectpicker('refresh');		
 
 	$('#formProductos #buscar_producto_empresa').show();
 	$('#formProductos #buscar_producto_categorias').show();
@@ -574,13 +583,6 @@ function modal_productos(){
 	$('#formProductos #grupo_editar_bacode').hide();	
 	
 	$("#formProductos #preview").attr("src", "<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png");
-
-
-	$('#formProductos #producto_empresa_id').val(1);
-	$('#formProductos #producto_empresa_id').selectpicker('refresh');
-
-	$('#formProductos #tipo_producto').val(1);
-	$('#formProductos #tipo_producto').selectpicker('refresh');	
 	
 	$('#formProductos #proceso_productos').val("Registro");
 	$('#modal_registrar_productos').modal({
@@ -635,9 +637,6 @@ function getAlmacen(){
 		    $('#formProductos #almacen').html("");
 			$('#formProductos #almacen').html(data);
 			$('#formProductos #almacen').selectpicker('refresh');
-
-			$('#formProductos #almacen').val(1);	
-			$('#formProductos #almacen').selectpicker('refresh');				
 
 			$('#form_main_movimientos #almacen').append("");
 			$('#form_main_movimientos #almacen').append("<option value='0'>Todos</option>"+data);
